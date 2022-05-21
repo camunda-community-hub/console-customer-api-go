@@ -1,6 +1,6 @@
 # \ClustersApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://api.cloud.camunda.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

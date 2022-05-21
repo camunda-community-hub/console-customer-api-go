@@ -6,7 +6,11 @@ info:
   title: Camunda Cloud Management API
   version: 1.3.3
 servers:
-- url: /
+- description: Camunda Cloud Api
+  url: api.cloud.camunda.io
+security:
+- oAuthConsole:
+  - get:clusters
 paths:
   /clusters/{clusterUuid}/clients:
     get:
@@ -34,7 +38,8 @@ paths:
         "404":
           description: cluster not found
       security:
-      - bearer: []
+      - oauthConsole:
+        - get:clients
       tags:
       - Clients
     post:
@@ -643,3 +648,16 @@ components:
       bearerFormat: JWT
       scheme: bearer
       type: http
+    oAuthConsole:
+      description: This API uses OAuth 2 with the client credentials flow.
+      flows:
+        clientCredentials:
+          scopes:
+            get:clusters: get clusters
+            create:clusters: create clusters
+            delete:clusters: delete clusters
+            get:clients: get cluster clients
+            create:clients: create cluster clients
+            delete:clients: delete cluster clients
+          tokenUrl: https://login.cloud.camunda.io/oauth/token
+      type: oauth2

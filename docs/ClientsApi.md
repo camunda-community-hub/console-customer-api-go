@@ -1,6 +1,6 @@
 # \ClientsApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://api.cloud.camunda.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -279,7 +279,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[bearer](../README.md#bearer)
+[oAuthConsole](../README.md#oAuthConsole)
 
 ### HTTP request headers
 
