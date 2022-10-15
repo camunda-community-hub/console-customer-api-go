@@ -105,8 +105,8 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "api.cloud.camunda.io",
-				Description: "Camunda Cloud Api",
+				URL: "",
+				Description: "No description provided",
 			},
 		},
 		OperationServers: map[string]ServerConfigurations{
