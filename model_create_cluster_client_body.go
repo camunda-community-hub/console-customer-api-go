@@ -1,7 +1,7 @@
 /*
-Camunda Cloud Management API
+Camunda Management API
 
-Manage Camunda Cloud Clusters and API Clients via API.
+Manage Camunda Clusters and API Clients via API.
 
 API version: 1.3.3
 */
@@ -14,9 +14,13 @@ import (
 	"encoding/json"
 )
 
+// checks if the CreateClusterClientBody type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateClusterClientBody{}
+
 // CreateClusterClientBody struct for CreateClusterClientBody
 type CreateClusterClientBody struct {
 	ClientName string `json:"clientName"`
+	Permissions []string `json:"permissions,omitempty"`
 }
 
 // NewCreateClusterClientBody instantiates a new CreateClusterClientBody object
@@ -50,7 +54,7 @@ func (o *CreateClusterClientBody) GetClientName() string {
 // GetClientNameOk returns a tuple with the ClientName field value
 // and a boolean to check if the value has been set.
 func (o *CreateClusterClientBody) GetClientNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ClientName, true
@@ -61,12 +65,53 @@ func (o *CreateClusterClientBody) SetClientName(v string) {
 	o.ClientName = v
 }
 
+// GetPermissions returns the Permissions field value if set, zero value otherwise.
+func (o *CreateClusterClientBody) GetPermissions() []string {
+	if o == nil || IsNil(o.Permissions) {
+		var ret []string
+		return ret
+	}
+	return o.Permissions
+}
+
+// GetPermissionsOk returns a tuple with the Permissions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateClusterClientBody) GetPermissionsOk() ([]string, bool) {
+	if o == nil || IsNil(o.Permissions) {
+		return nil, false
+	}
+	return o.Permissions, true
+}
+
+// HasPermissions returns a boolean if a field has been set.
+func (o *CreateClusterClientBody) HasPermissions() bool {
+	if o != nil && !IsNil(o.Permissions) {
+		return true
+	}
+
+	return false
+}
+
+// SetPermissions gets a reference to the given []string and assigns it to the Permissions field.
+func (o *CreateClusterClientBody) SetPermissions(v []string) {
+	o.Permissions = v
+}
+
 func (o CreateClusterClientBody) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["clientName"] = o.ClientName
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o CreateClusterClientBody) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["clientName"] = o.ClientName
+	if !IsNil(o.Permissions) {
+		toSerialize["permissions"] = o.Permissions
+	}
+	return toSerialize, nil
 }
 
 type NullableCreateClusterClientBody struct {

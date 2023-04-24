@@ -1,109 +1,109 @@
-# ParametersChannels
+# ParametersChannelsInner
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AllowedGenerations** | [**[]ParametersAllowedGenerations**](ParametersAllowedGenerations.md) |  | 
-**DefaultGeneration** | [**ParametersAllowedGenerations**](ParametersAllowedGenerations.md) |  | 
+**AllowedGenerations** | [**[]ParametersChannelsInnerAllowedGenerationsInner**](ParametersChannelsInnerAllowedGenerationsInner.md) |  | 
+**DefaultGeneration** | [**ParametersChannelsInnerAllowedGenerationsInner**](ParametersChannelsInnerAllowedGenerationsInner.md) |  | 
 **Name** | **string** |  | 
 **Uuid** | **string** |  | 
 
 ## Methods
 
-### NewParametersChannels
+### NewParametersChannelsInner
 
-`func NewParametersChannels(allowedGenerations []ParametersAllowedGenerations, defaultGeneration ParametersAllowedGenerations, name string, uuid string, ) *ParametersChannels`
+`func NewParametersChannelsInner(allowedGenerations []ParametersChannelsInnerAllowedGenerationsInner, defaultGeneration ParametersChannelsInnerAllowedGenerationsInner, name string, uuid string, ) *ParametersChannelsInner`
 
-NewParametersChannels instantiates a new ParametersChannels object
+NewParametersChannelsInner instantiates a new ParametersChannelsInner object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewParametersChannelsWithDefaults
+### NewParametersChannelsInnerWithDefaults
 
-`func NewParametersChannelsWithDefaults() *ParametersChannels`
+`func NewParametersChannelsInnerWithDefaults() *ParametersChannelsInner`
 
-NewParametersChannelsWithDefaults instantiates a new ParametersChannels object
+NewParametersChannelsInnerWithDefaults instantiates a new ParametersChannelsInner object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetAllowedGenerations
 
-`func (o *ParametersChannels) GetAllowedGenerations() []ParametersAllowedGenerations`
+`func (o *ParametersChannelsInner) GetAllowedGenerations() []ParametersChannelsInnerAllowedGenerationsInner`
 
 GetAllowedGenerations returns the AllowedGenerations field if non-nil, zero value otherwise.
 
 ### GetAllowedGenerationsOk
 
-`func (o *ParametersChannels) GetAllowedGenerationsOk() (*[]ParametersAllowedGenerations, bool)`
+`func (o *ParametersChannelsInner) GetAllowedGenerationsOk() (*[]ParametersChannelsInnerAllowedGenerationsInner, bool)`
 
 GetAllowedGenerationsOk returns a tuple with the AllowedGenerations field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAllowedGenerations
 
-`func (o *ParametersChannels) SetAllowedGenerations(v []ParametersAllowedGenerations)`
+`func (o *ParametersChannelsInner) SetAllowedGenerations(v []ParametersChannelsInnerAllowedGenerationsInner)`
 
 SetAllowedGenerations sets AllowedGenerations field to given value.
 
 
 ### GetDefaultGeneration
 
-`func (o *ParametersChannels) GetDefaultGeneration() ParametersAllowedGenerations`
+`func (o *ParametersChannelsInner) GetDefaultGeneration() ParametersChannelsInnerAllowedGenerationsInner`
 
 GetDefaultGeneration returns the DefaultGeneration field if non-nil, zero value otherwise.
 
 ### GetDefaultGenerationOk
 
-`func (o *ParametersChannels) GetDefaultGenerationOk() (*ParametersAllowedGenerations, bool)`
+`func (o *ParametersChannelsInner) GetDefaultGenerationOk() (*ParametersChannelsInnerAllowedGenerationsInner, bool)`
 
 GetDefaultGenerationOk returns a tuple with the DefaultGeneration field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDefaultGeneration
 
-`func (o *ParametersChannels) SetDefaultGeneration(v ParametersAllowedGenerations)`
+`func (o *ParametersChannelsInner) SetDefaultGeneration(v ParametersChannelsInnerAllowedGenerationsInner)`
 
 SetDefaultGeneration sets DefaultGeneration field to given value.
 
 
 ### GetName
 
-`func (o *ParametersChannels) GetName() string`
+`func (o *ParametersChannelsInner) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *ParametersChannels) GetNameOk() (*string, bool)`
+`func (o *ParametersChannelsInner) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *ParametersChannels) SetName(v string)`
+`func (o *ParametersChannelsInner) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetUuid
 
-`func (o *ParametersChannels) GetUuid() string`
+`func (o *ParametersChannelsInner) GetUuid() string`
 
 GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
 ### GetUuidOk
 
-`func (o *ParametersChannels) GetUuidOk() (*string, bool)`
+`func (o *ParametersChannelsInner) GetUuidOk() (*string, bool)`
 
 GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUuid
 
-`func (o *ParametersChannels) SetUuid(v string)`
+`func (o *ParametersChannelsInner) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
 

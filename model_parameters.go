@@ -1,7 +1,7 @@
 /*
-Camunda Cloud Management API
+Camunda Management API
 
-Manage Camunda Cloud Clusters and API Clients via API.
+Manage Camunda Clusters and API Clients via API.
 
 API version: 1.3.3
 */
@@ -14,18 +14,21 @@ import (
 	"encoding/json"
 )
 
-// Parameters Describes the different options to create a Camunda Cloud cluster.
+// checks if the Parameters type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Parameters{}
+
+// Parameters Describes the different options to create a Camunda cluster.
 type Parameters struct {
-	Channels []ParametersChannels `json:"channels"`
-	ClusterPlanTypes []ParametersClusterPlanTypes `json:"clusterPlanTypes"`
-	Regions []ParametersAllowedGenerations `json:"regions"`
+	Channels []ParametersChannelsInner `json:"channels"`
+	ClusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner `json:"clusterPlanTypes"`
+	Regions []ParametersChannelsInnerAllowedGenerationsInner `json:"regions"`
 }
 
 // NewParameters instantiates a new Parameters object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewParameters(channels []ParametersChannels, clusterPlanTypes []ParametersClusterPlanTypes, regions []ParametersAllowedGenerations) *Parameters {
+func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner, regions []ParametersChannelsInnerAllowedGenerationsInner) *Parameters {
 	this := Parameters{}
 	this.Channels = channels
 	this.ClusterPlanTypes = clusterPlanTypes
@@ -42,9 +45,9 @@ func NewParametersWithDefaults() *Parameters {
 }
 
 // GetChannels returns the Channels field value
-func (o *Parameters) GetChannels() []ParametersChannels {
+func (o *Parameters) GetChannels() []ParametersChannelsInner {
 	if o == nil {
-		var ret []ParametersChannels
+		var ret []ParametersChannelsInner
 		return ret
 	}
 
@@ -53,22 +56,22 @@ func (o *Parameters) GetChannels() []ParametersChannels {
 
 // GetChannelsOk returns a tuple with the Channels field value
 // and a boolean to check if the value has been set.
-func (o *Parameters) GetChannelsOk() ([]ParametersChannels, bool) {
-	if o == nil  {
+func (o *Parameters) GetChannelsOk() ([]ParametersChannelsInner, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return o.Channels, true
 }
 
 // SetChannels sets field value
-func (o *Parameters) SetChannels(v []ParametersChannels) {
+func (o *Parameters) SetChannels(v []ParametersChannelsInner) {
 	o.Channels = v
 }
 
 // GetClusterPlanTypes returns the ClusterPlanTypes field value
-func (o *Parameters) GetClusterPlanTypes() []ParametersClusterPlanTypes {
+func (o *Parameters) GetClusterPlanTypes() []ParametersChannelsInnerAllowedGenerationsInner {
 	if o == nil {
-		var ret []ParametersClusterPlanTypes
+		var ret []ParametersChannelsInnerAllowedGenerationsInner
 		return ret
 	}
 
@@ -77,22 +80,22 @@ func (o *Parameters) GetClusterPlanTypes() []ParametersClusterPlanTypes {
 
 // GetClusterPlanTypesOk returns a tuple with the ClusterPlanTypes field value
 // and a boolean to check if the value has been set.
-func (o *Parameters) GetClusterPlanTypesOk() ([]ParametersClusterPlanTypes, bool) {
-	if o == nil  {
+func (o *Parameters) GetClusterPlanTypesOk() ([]ParametersChannelsInnerAllowedGenerationsInner, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return o.ClusterPlanTypes, true
 }
 
 // SetClusterPlanTypes sets field value
-func (o *Parameters) SetClusterPlanTypes(v []ParametersClusterPlanTypes) {
+func (o *Parameters) SetClusterPlanTypes(v []ParametersChannelsInnerAllowedGenerationsInner) {
 	o.ClusterPlanTypes = v
 }
 
 // GetRegions returns the Regions field value
-func (o *Parameters) GetRegions() []ParametersAllowedGenerations {
+func (o *Parameters) GetRegions() []ParametersChannelsInnerAllowedGenerationsInner {
 	if o == nil {
-		var ret []ParametersAllowedGenerations
+		var ret []ParametersChannelsInnerAllowedGenerationsInner
 		return ret
 	}
 
@@ -101,30 +104,32 @@ func (o *Parameters) GetRegions() []ParametersAllowedGenerations {
 
 // GetRegionsOk returns a tuple with the Regions field value
 // and a boolean to check if the value has been set.
-func (o *Parameters) GetRegionsOk() ([]ParametersAllowedGenerations, bool) {
-	if o == nil  {
+func (o *Parameters) GetRegionsOk() ([]ParametersChannelsInnerAllowedGenerationsInner, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return o.Regions, true
 }
 
 // SetRegions sets field value
-func (o *Parameters) SetRegions(v []ParametersAllowedGenerations) {
+func (o *Parameters) SetRegions(v []ParametersChannelsInnerAllowedGenerationsInner) {
 	o.Regions = v
 }
 
 func (o Parameters) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["channels"] = o.Channels
-	}
-	if true {
-		toSerialize["clusterPlanTypes"] = o.ClusterPlanTypes
-	}
-	if true {
-		toSerialize["regions"] = o.Regions
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o Parameters) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["channels"] = o.Channels
+	toSerialize["clusterPlanTypes"] = o.ClusterPlanTypes
+	toSerialize["regions"] = o.Regions
+	return toSerialize, nil
 }
 
 type NullableParameters struct {

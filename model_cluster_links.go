@@ -1,7 +1,7 @@
 /*
-Camunda Cloud Management API
+Camunda Management API
 
-Manage Camunda Cloud Clusters and API Clients via API.
+Manage Camunda Clusters and API Clients via API.
 
 API version: 1.3.3
 */
@@ -14,8 +14,14 @@ import (
 	"encoding/json"
 )
 
-// ClusterLinks Endpoints for the components running in your Camunda Cloud cluster.
+// checks if the ClusterLinks type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ClusterLinks{}
+
+// ClusterLinks Endpoints for the components running in your Camunda cluster.
 type ClusterLinks struct {
+	Oauth *string `json:"oauth,omitempty"`
+	Connectors *string `json:"connectors,omitempty"`
+	Console *string `json:"console,omitempty"`
 	Optimize *string `json:"optimize,omitempty"`
 	Tasklist *string `json:"tasklist,omitempty"`
 	Operate *string `json:"operate,omitempty"`
@@ -39,9 +45,105 @@ func NewClusterLinksWithDefaults() *ClusterLinks {
 	return &this
 }
 
+// GetOauth returns the Oauth field value if set, zero value otherwise.
+func (o *ClusterLinks) GetOauth() string {
+	if o == nil || IsNil(o.Oauth) {
+		var ret string
+		return ret
+	}
+	return *o.Oauth
+}
+
+// GetOauthOk returns a tuple with the Oauth field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterLinks) GetOauthOk() (*string, bool) {
+	if o == nil || IsNil(o.Oauth) {
+		return nil, false
+	}
+	return o.Oauth, true
+}
+
+// HasOauth returns a boolean if a field has been set.
+func (o *ClusterLinks) HasOauth() bool {
+	if o != nil && !IsNil(o.Oauth) {
+		return true
+	}
+
+	return false
+}
+
+// SetOauth gets a reference to the given string and assigns it to the Oauth field.
+func (o *ClusterLinks) SetOauth(v string) {
+	o.Oauth = &v
+}
+
+// GetConnectors returns the Connectors field value if set, zero value otherwise.
+func (o *ClusterLinks) GetConnectors() string {
+	if o == nil || IsNil(o.Connectors) {
+		var ret string
+		return ret
+	}
+	return *o.Connectors
+}
+
+// GetConnectorsOk returns a tuple with the Connectors field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterLinks) GetConnectorsOk() (*string, bool) {
+	if o == nil || IsNil(o.Connectors) {
+		return nil, false
+	}
+	return o.Connectors, true
+}
+
+// HasConnectors returns a boolean if a field has been set.
+func (o *ClusterLinks) HasConnectors() bool {
+	if o != nil && !IsNil(o.Connectors) {
+		return true
+	}
+
+	return false
+}
+
+// SetConnectors gets a reference to the given string and assigns it to the Connectors field.
+func (o *ClusterLinks) SetConnectors(v string) {
+	o.Connectors = &v
+}
+
+// GetConsole returns the Console field value if set, zero value otherwise.
+func (o *ClusterLinks) GetConsole() string {
+	if o == nil || IsNil(o.Console) {
+		var ret string
+		return ret
+	}
+	return *o.Console
+}
+
+// GetConsoleOk returns a tuple with the Console field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterLinks) GetConsoleOk() (*string, bool) {
+	if o == nil || IsNil(o.Console) {
+		return nil, false
+	}
+	return o.Console, true
+}
+
+// HasConsole returns a boolean if a field has been set.
+func (o *ClusterLinks) HasConsole() bool {
+	if o != nil && !IsNil(o.Console) {
+		return true
+	}
+
+	return false
+}
+
+// SetConsole gets a reference to the given string and assigns it to the Console field.
+func (o *ClusterLinks) SetConsole(v string) {
+	o.Console = &v
+}
+
 // GetOptimize returns the Optimize field value if set, zero value otherwise.
 func (o *ClusterLinks) GetOptimize() string {
-	if o == nil || o.Optimize == nil {
+	if o == nil || IsNil(o.Optimize) {
 		var ret string
 		return ret
 	}
@@ -51,7 +153,7 @@ func (o *ClusterLinks) GetOptimize() string {
 // GetOptimizeOk returns a tuple with the Optimize field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClusterLinks) GetOptimizeOk() (*string, bool) {
-	if o == nil || o.Optimize == nil {
+	if o == nil || IsNil(o.Optimize) {
 		return nil, false
 	}
 	return o.Optimize, true
@@ -59,7 +161,7 @@ func (o *ClusterLinks) GetOptimizeOk() (*string, bool) {
 
 // HasOptimize returns a boolean if a field has been set.
 func (o *ClusterLinks) HasOptimize() bool {
-	if o != nil && o.Optimize != nil {
+	if o != nil && !IsNil(o.Optimize) {
 		return true
 	}
 
@@ -73,7 +175,7 @@ func (o *ClusterLinks) SetOptimize(v string) {
 
 // GetTasklist returns the Tasklist field value if set, zero value otherwise.
 func (o *ClusterLinks) GetTasklist() string {
-	if o == nil || o.Tasklist == nil {
+	if o == nil || IsNil(o.Tasklist) {
 		var ret string
 		return ret
 	}
@@ -83,7 +185,7 @@ func (o *ClusterLinks) GetTasklist() string {
 // GetTasklistOk returns a tuple with the Tasklist field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClusterLinks) GetTasklistOk() (*string, bool) {
-	if o == nil || o.Tasklist == nil {
+	if o == nil || IsNil(o.Tasklist) {
 		return nil, false
 	}
 	return o.Tasklist, true
@@ -91,7 +193,7 @@ func (o *ClusterLinks) GetTasklistOk() (*string, bool) {
 
 // HasTasklist returns a boolean if a field has been set.
 func (o *ClusterLinks) HasTasklist() bool {
-	if o != nil && o.Tasklist != nil {
+	if o != nil && !IsNil(o.Tasklist) {
 		return true
 	}
 
@@ -105,7 +207,7 @@ func (o *ClusterLinks) SetTasklist(v string) {
 
 // GetOperate returns the Operate field value if set, zero value otherwise.
 func (o *ClusterLinks) GetOperate() string {
-	if o == nil || o.Operate == nil {
+	if o == nil || IsNil(o.Operate) {
 		var ret string
 		return ret
 	}
@@ -115,7 +217,7 @@ func (o *ClusterLinks) GetOperate() string {
 // GetOperateOk returns a tuple with the Operate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClusterLinks) GetOperateOk() (*string, bool) {
-	if o == nil || o.Operate == nil {
+	if o == nil || IsNil(o.Operate) {
 		return nil, false
 	}
 	return o.Operate, true
@@ -123,7 +225,7 @@ func (o *ClusterLinks) GetOperateOk() (*string, bool) {
 
 // HasOperate returns a boolean if a field has been set.
 func (o *ClusterLinks) HasOperate() bool {
-	if o != nil && o.Operate != nil {
+	if o != nil && !IsNil(o.Operate) {
 		return true
 	}
 
@@ -137,7 +239,7 @@ func (o *ClusterLinks) SetOperate(v string) {
 
 // GetZeebe returns the Zeebe field value if set, zero value otherwise.
 func (o *ClusterLinks) GetZeebe() string {
-	if o == nil || o.Zeebe == nil {
+	if o == nil || IsNil(o.Zeebe) {
 		var ret string
 		return ret
 	}
@@ -147,7 +249,7 @@ func (o *ClusterLinks) GetZeebe() string {
 // GetZeebeOk returns a tuple with the Zeebe field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClusterLinks) GetZeebeOk() (*string, bool) {
-	if o == nil || o.Zeebe == nil {
+	if o == nil || IsNil(o.Zeebe) {
 		return nil, false
 	}
 	return o.Zeebe, true
@@ -155,7 +257,7 @@ func (o *ClusterLinks) GetZeebeOk() (*string, bool) {
 
 // HasZeebe returns a boolean if a field has been set.
 func (o *ClusterLinks) HasZeebe() bool {
-	if o != nil && o.Zeebe != nil {
+	if o != nil && !IsNil(o.Zeebe) {
 		return true
 	}
 
@@ -168,20 +270,37 @@ func (o *ClusterLinks) SetZeebe(v string) {
 }
 
 func (o ClusterLinks) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Optimize != nil {
-		toSerialize["optimize"] = o.Optimize
-	}
-	if o.Tasklist != nil {
-		toSerialize["tasklist"] = o.Tasklist
-	}
-	if o.Operate != nil {
-		toSerialize["operate"] = o.Operate
-	}
-	if o.Zeebe != nil {
-		toSerialize["zeebe"] = o.Zeebe
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o ClusterLinks) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Oauth) {
+		toSerialize["oauth"] = o.Oauth
+	}
+	if !IsNil(o.Connectors) {
+		toSerialize["connectors"] = o.Connectors
+	}
+	if !IsNil(o.Console) {
+		toSerialize["console"] = o.Console
+	}
+	if !IsNil(o.Optimize) {
+		toSerialize["optimize"] = o.Optimize
+	}
+	if !IsNil(o.Tasklist) {
+		toSerialize["tasklist"] = o.Tasklist
+	}
+	if !IsNil(o.Operate) {
+		toSerialize["operate"] = o.Operate
+	}
+	if !IsNil(o.Zeebe) {
+		toSerialize["zeebe"] = o.Zeebe
+	}
+	return toSerialize, nil
 }
 
 type NullableClusterLinks struct {

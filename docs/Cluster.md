@@ -6,19 +6,21 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Uuid** | **string** | The ID used in all further API operations referencing your cluster. | 
 **Name** | **string** |  | 
+**OwnerId** | **string** |  | 
 **Created** | **time.Time** |  | 
 **PlanType** | [**ClusterPlanType**](ClusterPlanType.md) |  | 
 **Region** | [**ClusterRegion**](ClusterRegion.md) |  | 
 **Generation** | [**ClusterGeneration**](ClusterGeneration.md) |  | 
 **Channel** | [**ClusterChannel**](ClusterChannel.md) |  | 
-**Status2** | Pointer to [**ClusterStatus2**](ClusterStatus2.md) |  | [optional] 
+**Ipwhitelist** | Pointer to [**[]ClusterIpwhitelistInner**](ClusterIpwhitelistInner.md) | the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
+**Status** | [**ClusterStatus**](ClusterStatus.md) |  | 
 **Links** | [**ClusterLinks**](ClusterLinks.md) |  | 
 
 ## Methods
 
 ### NewCluster
 
-`func NewCluster(uuid string, name string, created time.Time, planType ClusterPlanType, region ClusterRegion, generation ClusterGeneration, channel ClusterChannel, links ClusterLinks, ) *Cluster`
+`func NewCluster(uuid string, name string, ownerId string, created time.Time, planType ClusterPlanType, region ClusterRegion, generation ClusterGeneration, channel ClusterChannel, status ClusterStatus, links ClusterLinks, ) *Cluster`
 
 NewCluster instantiates a new Cluster object
 This constructor will assign default values to properties that have it defined,
@@ -71,6 +73,26 @@ and a boolean to check if the value has been set.
 `func (o *Cluster) SetName(v string)`
 
 SetName sets Name field to given value.
+
+
+### GetOwnerId
+
+`func (o *Cluster) GetOwnerId() string`
+
+GetOwnerId returns the OwnerId field if non-nil, zero value otherwise.
+
+### GetOwnerIdOk
+
+`func (o *Cluster) GetOwnerIdOk() (*string, bool)`
+
+GetOwnerIdOk returns a tuple with the OwnerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOwnerId
+
+`func (o *Cluster) SetOwnerId(v string)`
+
+SetOwnerId sets OwnerId field to given value.
 
 
 ### GetCreated
@@ -173,30 +195,50 @@ and a boolean to check if the value has been set.
 SetChannel sets Channel field to given value.
 
 
-### GetStatus2
+### GetIpwhitelist
 
-`func (o *Cluster) GetStatus2() ClusterStatus2`
+`func (o *Cluster) GetIpwhitelist() []ClusterIpwhitelistInner`
 
-GetStatus2 returns the Status2 field if non-nil, zero value otherwise.
+GetIpwhitelist returns the Ipwhitelist field if non-nil, zero value otherwise.
 
-### GetStatus2Ok
+### GetIpwhitelistOk
 
-`func (o *Cluster) GetStatus2Ok() (*ClusterStatus2, bool)`
+`func (o *Cluster) GetIpwhitelistOk() (*[]ClusterIpwhitelistInner, bool)`
 
-GetStatus2Ok returns a tuple with the Status2 field if it's non-nil, zero value otherwise
+GetIpwhitelistOk returns a tuple with the Ipwhitelist field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetStatus2
+### SetIpwhitelist
 
-`func (o *Cluster) SetStatus2(v ClusterStatus2)`
+`func (o *Cluster) SetIpwhitelist(v []ClusterIpwhitelistInner)`
 
-SetStatus2 sets Status2 field to given value.
+SetIpwhitelist sets Ipwhitelist field to given value.
 
-### HasStatus2
+### HasIpwhitelist
 
-`func (o *Cluster) HasStatus2() bool`
+`func (o *Cluster) HasIpwhitelist() bool`
 
-HasStatus2 returns a boolean if a field has been set.
+HasIpwhitelist returns a boolean if a field has been set.
+
+### GetStatus
+
+`func (o *Cluster) GetStatus() ClusterStatus`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *Cluster) GetStatusOk() (*ClusterStatus, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *Cluster) SetStatus(v ClusterStatus)`
+
+SetStatus sets Status field to given value.
+
 
 ### GetLinks
 

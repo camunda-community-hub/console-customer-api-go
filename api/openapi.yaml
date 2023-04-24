@@ -1,13 +1,140 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: Manage Camunda Cloud Clusters and API Clients via API.
-  license: {}
-  title: Camunda Cloud Management API
+  description: Manage Camunda Clusters and API Clients via API.
+  license:
+    name: ' '
+    url: ""
+  title: Camunda Management API
   version: 1.3.3
 servers:
-- url: /
+- url: https://api.cloud.camunda.io
 paths:
+  /clusters:
+    get:
+      operationId: GetClusters
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Cluster'
+                type: array
+          description: A list of all your Camunda clusters.
+      security:
+      - bearer: []
+      tags:
+      - Clusters
+    post:
+      operationId: CreateCluster
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClusterBody'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCluster_200_response'
+          description: The clusterUuid of your new cluster.
+        "400":
+          description: "Name is too long, invalid clusterPlanType, invalid region,\
+            \ no reservations left, invalid channel, or invalid generation"
+      security:
+      - bearer: []
+      tags:
+      - Clusters
+  /clusters/{clusterUuid}:
+    delete:
+      description: Irreversibly deletes a cluster identified by the given clusterUuid.
+      operationId: DeleteCluster
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
+      tags:
+      - Clusters
+    get:
+      operationId: GetCluster
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+          description: Detailed information for the given clusterUuid.
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
+      tags:
+      - Clusters
+  /clusters/parameters:
+    get:
+      description: Gets all possible options to create a Camunda cluster.
+      operationId: GetParameters
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parameters'
+          description: Ok
+      security:
+      - bearer: []
+      tags:
+      - Clusters
+  /clusters/{clusterUuid}/ipwhitelist:
+    put:
+      description: Updates the IP Whitelist rules for your cluster.
+      operationId: UpdateIpWhitelist
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IpWhiteListBody'
+        required: true
+      responses:
+        "204":
+          description: No content
+      security:
+      - bearer: []
+      tags:
+      - Clusters
   /clusters/{clusterUuid}/clients:
     get:
       operationId: GetClients
@@ -28,15 +155,15 @@ paths:
                   $ref: '#/components/schemas/ClusterClient'
                 type: array
           description: A list of all the clients currently configured for your Camunda
-            Cloud cluster.
+            cluster.
         "403":
-          description: cluster is not yours
+          description: Cluster is not yours
         "404":
-          description: cluster not found
+          description: Cluster not found
       security:
       - bearer: []
       tags:
-      - Clients
+      - Clusters
     post:
       operationId: CreateClient
       parameters:
@@ -61,15 +188,15 @@ paths:
                 $ref: '#/components/schemas/CreatedClusterClient'
           description: Ok
         "400":
-          description: client names must be unique
+          description: Client names must be unique
         "403":
-          description: maximum number of clients reached or cluster is not yours
+          description: Maximum number of clients reached or cluster is not yours
         "404":
-          description: cluster not found
+          description: Cluster not found
       security:
       - bearer: []
       tags:
-      - Clients
+      - Clusters
   /clusters/{clusterUuid}/clients/{clientId}:
     delete:
       description: Irreversibly deletes a cluster client.
@@ -93,13 +220,13 @@ paths:
         "204":
           description: No content
         "403":
-          description: cluster is not yours
+          description: Cluster is not yours
         "404":
-          description: cluster or client not found
+          description: Cluster or client not found
       security:
       - bearer: []
       tags:
-      - Clients
+      - Clusters
     get:
       operationId: GetClient
       parameters:
@@ -124,65 +251,91 @@ paths:
               schema:
                 $ref: '#/components/schemas/ClusterClientConnectionDetails'
           description: The connection parameters needed to use the client with your
-            Camunda Cloud cluster.
+            Camunda cluster.
         "403":
-          description: cluster is not yours
+          description: Cluster is not yours
         "404":
-          description: cluster or client not found
+          description: Cluster or client not found
         "412":
-          description: the cluster is not ready; please try again later
+          description: The cluster is not ready; try again later
       security:
       - bearer: []
       tags:
-      - Clients
-  /clusters:
+      - Clusters
+  /clusters/{clusterUuid}/secrets:
     get:
-      operationId: GetClusters
-      parameters: []
+      operationId: GetSecrets
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
       responses:
         "200":
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/Cluster'
-                type: array
-          description: A list of all your Camunda Cloud clusters.
+                $ref: '#/components/schemas/ClusterSecrets'
+          description: A list of all the secrets currently configured for your Camunda
+            cluster.
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
       security:
       - bearer: []
       tags:
       - Clusters
     post:
-      operationId: CreateCluster
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateClusterBody'
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
-          description: The clusterUuid of your new cluster.
-        "400":
-          description: name is too long, invalid clusterPlanType, invalid region,
-            no reservations left, invalid channel, or invalid generation
-      security:
-      - bearer: []
-      tags:
-      - Clusters
-  /clusters/{clusterUuid}:
-    delete:
-      description: Irreversibly deletes a cluster identified by the given clusterUuid.
-      operationId: DeleteCluster
+      description: Creates a new secret
+      operationId: CreateSecret
       parameters:
       - explode: false
         in: path
         name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSecretBody'
+        required: true
+      responses:
+        "204":
+          description: No content
+        "400":
+          description: Secret name must be less than 50 characters
+        "403":
+          description: Maximum number of secret reached or cluster is not yours
+        "404":
+          description: Cluster not found
+        "409":
+          description: Secret names must be unique
+      security:
+      - bearer: []
+      tags:
+      - Clusters
+  /clusters/{clusterUuid}/secrets/{secretName}:
+    delete:
+      description: Irreversibly deletes a secret
+      operationId: DeleteSecret
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: secretName
         required: true
         schema:
           type: string
@@ -190,51 +343,81 @@ paths:
       responses:
         "204":
           description: No content
-        "404":
-          description: cluster not found
+        "403":
+          description: Cluster is not yours
       security:
       - bearer: []
       tags:
       - Clusters
+  /members:
     get:
-      operationId: GetCluster
-      parameters:
-      - explode: false
-        in: path
-        name: clusterUuid
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cluster'
-          description: Detailed information for the given clusterUuid.
-        "404":
-          description: cluster not found
-      security:
-      - bearer: []
-      tags:
-      - Clusters
-  /clusters/parameters:
-    get:
-      description: Gets all possible options to create a Camunda Cloud cluster.
-      operationId: GetParameters
+      operationId: GetMembers
       parameters: []
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Parameters'
-          description: Ok
+                items:
+                  $ref: '#/components/schemas/Member'
+                type: array
+          description: the list of members and pending invites for your organization.
+        "403":
+          description: You do not have the required permissions to perform this operation.
       security:
       - bearer: []
       tags:
-      - Clusters
+      - Members
+  /members/{email}:
+    delete:
+      operationId: DeleteMember
+      parameters:
+      - explode: false
+        in: path
+        name: email
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: You do not have the required permissions to perform this operation.
+        "404":
+          description: specified user is not part of the organization
+      security:
+      - bearer: []
+      tags:
+      - Members
+    post:
+      operationId: UpdateMembers
+      parameters:
+      - explode: false
+        in: path
+        name: email
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostMemberBody'
+        required: true
+      responses:
+        "204":
+          description: No content
+        "400":
+          description: Invalid request body - e.g. invalid roles
+        "403":
+          description: You do not have the required permissions to perform this operation
+            or no open seats left
+      security:
+      - bearer: []
+      tags:
+      - Members
 components:
   examples: {}
   headers: {}
@@ -242,83 +425,7 @@ components:
   requestBodies: {}
   responses: {}
   schemas:
-    ClusterClient:
-      additionalProperties: false
-      example:
-        clientId: clientId
-        permissions:
-        - Zeebe
-        - Zeebe
-        name: name
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissions:
-          items:
-            enum:
-            - Zeebe
-            - Operate
-            - Tasklist
-            type: string
-          type: array
-      required:
-      - clientId
-      - name
-      - permissions
-      type: object
-    CreatedClusterClient:
-      additionalProperties: false
-      example:
-        clientId: clientId
-        clientSecret: clientSecret
-        uuid: uuid
-      properties:
-        uuid:
-          type: string
-        clientId:
-          type: string
-        clientSecret:
-          type: string
-      required:
-      - clientId
-      - clientSecret
-      - uuid
-      type: object
-    CreateClusterClientBody:
-      additionalProperties: false
-      example:
-        clientName: clientName
-      properties:
-        clientName:
-          type: string
-      required:
-      - clientName
-      type: object
-    ClusterClientConnectionDetails:
-      additionalProperties: false
-      example:
-        name: name
-        ZEEBE_CLIENT_ID: ZEEBE_CLIENT_ID
-        ZEEBE_ADDRESS: ZEEBE_ADDRESS
-        ZEEBE_AUTHORIZATION_SERVER_URL: ZEEBE_AUTHORIZATION_SERVER_URL
-      properties:
-        name:
-          type: string
-        ZEEBE_ADDRESS:
-          type: string
-        ZEEBE_CLIENT_ID:
-          type: string
-        ZEEBE_AUTHORIZATION_SERVER_URL:
-          type: string
-      required:
-      - ZEEBE_ADDRESS
-      - ZEEBE_AUTHORIZATION_SERVER_URL
-      - ZEEBE_CLIENT_ID
-      - name
-      type: object
-    ClusterStatus:
+    ClusterHealthStatus:
       enum:
       - Healthy
       - Unhealthy
@@ -327,8 +434,8 @@ components:
       type: string
     Cluster:
       additionalProperties: false
-      description: Describing a Camunda Cloud cluster running in your organization.
-        For reference, use the UUID.
+      description: "Describing a Camunda cluster running in your organization. For\
+        \ reference, use the UUID."
       example:
         generation:
           name: name
@@ -342,21 +449,37 @@ components:
           name: name
           uuid: uuid
         links:
+          console: console
+          connectors: connectors
           operate: operate
           optimize: optimize
           tasklist: tasklist
           zeebe: zeebe
+          oauth: oauth
+        ipwhitelist:
+        - ip: ip
+          description: description
+        - ip: ip
+          description: description
+        ownerId: ownerId
         region:
           name: name
           uuid: uuid
-        status2: {}
         uuid: uuid
+        status:
+          operateStatus: null
+          ready: null
+          tasklistStatus: null
+          optimizeStatus: null
+          zeebeStatus: null
       properties:
         uuid:
           description: The ID used in all further API operations referencing your
             cluster.
           type: string
         name:
+          type: string
+        ownerId:
           type: string
         created:
           format: date-time
@@ -369,8 +492,15 @@ components:
           $ref: '#/components/schemas/Cluster_generation'
         channel:
           $ref: '#/components/schemas/Cluster_channel'
-        status2:
-          $ref: '#/components/schemas/Cluster_status2'
+        ipwhitelist:
+          description: the IP Whitelist rules for your cluster - will only be returned
+            if your organization has the feature enabled and the client you are using
+            has the permission to see it.
+          items:
+            $ref: '#/components/schemas/Cluster_ipwhitelist_inner'
+          type: array
+        status:
+          $ref: '#/components/schemas/Cluster_status'
         links:
           $ref: '#/components/schemas/Cluster_links'
       required:
@@ -379,6 +509,7 @@ components:
       - generation
       - links
       - name
+      - ownerId
       - planType
       - region
       - status
@@ -387,7 +518,7 @@ components:
     CreateClusterBody:
       additionalProperties: false
       description: Used to create a cluster through this API. All necessary values
-        can be retrieved from the <pre>/customer-api/clusters/parameters</pre> endpoint.
+        can be retrieved from the <pre>/clusters/parameters</pre> endpoint.
       example:
         generationId: generationId
         regionId: regionId
@@ -419,7 +550,7 @@ components:
       type: object
     Parameters:
       additionalProperties: false
-      description: Describes the different options to create a Camunda Cloud cluster.
+      description: Describes the different options to create a Camunda cluster.
       example:
         regions:
         - name: name
@@ -449,34 +580,258 @@ components:
           uuid: uuid
         clusterPlanTypes:
         - name: name
-          region:
-            name: name
-            uuid: uuid
           uuid: uuid
         - name: name
-          region:
-            name: name
-            uuid: uuid
           uuid: uuid
       properties:
         channels:
           items:
-            $ref: '#/components/schemas/Parameters_channels'
+            $ref: '#/components/schemas/Parameters_channels_inner'
           type: array
         clusterPlanTypes:
           items:
-            $ref: '#/components/schemas/Parameters_clusterPlanTypes'
+            $ref: '#/components/schemas/Parameters_channels_inner_allowedGenerations_inner'
           type: array
         regions:
           items:
-            $ref: '#/components/schemas/Parameters_allowedGenerations'
+            $ref: '#/components/schemas/Parameters_channels_inner_allowedGenerations_inner'
           type: array
       required:
       - channels
       - clusterPlanTypes
       - regions
       type: object
-    inline_response_200:
+    IpWhiteListBody:
+      additionalProperties: false
+      example:
+        ipwhitelist:
+        - ip: ip
+          description: description
+        - ip: ip
+          description: description
+      properties:
+        ipwhitelist:
+          items:
+            $ref: '#/components/schemas/Cluster_ipwhitelist_inner'
+          type: array
+      required:
+      - ipwhitelist
+      type: object
+    ClusterClient:
+      additionalProperties: false
+      example:
+        clientId: clientId
+        permissions:
+        - Zeebe
+        - Zeebe
+        name: name
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissions:
+          items:
+            enum:
+            - Zeebe
+            - Operate
+            - Tasklist
+            - Optimize
+            type: string
+          type: array
+      required:
+      - clientId
+      - name
+      - permissions
+      type: object
+    CreatedClusterClient:
+      additionalProperties: false
+      example:
+        clientId: clientId
+        permissions:
+        - permissions
+        - permissions
+        name: name
+        clientSecret: clientSecret
+        links:
+          console: console
+          connectors: connectors
+          operate: operate
+          optimize: optimize
+          tasklist: tasklist
+          zeebe: zeebe
+          oauth: oauth
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+        permissions:
+          items:
+            type: string
+          type: array
+        links:
+          $ref: '#/components/schemas/CreatedClusterClient_links'
+      required:
+      - clientId
+      - clientSecret
+      - name
+      - permissions
+      - uuid
+      type: object
+    CreateClusterClientBody:
+      additionalProperties: false
+      example:
+        clientName: clientName
+        permissions:
+        - Zeebe
+        - Zeebe
+      properties:
+        clientName:
+          type: string
+        permissions:
+          items:
+            enum:
+            - Zeebe
+            - Operate
+            - Tasklist
+            - Optimize
+            type: string
+          type: array
+      required:
+      - clientName
+      type: object
+    ClusterClientConnectionDetails:
+      additionalProperties: false
+      example:
+        name: name
+        ZEEBE_CLIENT_ID: ZEEBE_CLIENT_ID
+        ZEEBE_ADDRESS: ZEEBE_ADDRESS
+        ZEEBE_AUTHORIZATION_SERVER_URL: ZEEBE_AUTHORIZATION_SERVER_URL
+      properties:
+        name:
+          type: string
+        ZEEBE_ADDRESS:
+          type: string
+        ZEEBE_CLIENT_ID:
+          type: string
+        ZEEBE_AUTHORIZATION_SERVER_URL:
+          type: string
+      required:
+      - ZEEBE_ADDRESS
+      - ZEEBE_AUTHORIZATION_SERVER_URL
+      - ZEEBE_CLIENT_ID
+      - name
+      type: object
+    ClusterSecrets:
+      additionalProperties:
+        type: string
+      properties: {}
+      type: object
+    CreateSecretBody:
+      additionalProperties: false
+      example:
+        secretName: secretName
+        secretValue: secretValue
+      properties:
+        secretName:
+          type: string
+        secretValue:
+          type: string
+      required:
+      - secretName
+      - secretValue
+      type: object
+    OrganizationRole:
+      enum:
+      - member
+      - admin
+      - owner
+      - supportagent
+      - operationsengineer
+      - taskuser
+      - analyst
+      - developer
+      - visitor
+      type: string
+    Member:
+      additionalProperties: false
+      example:
+        invitePending: true
+        roles:
+        - null
+        - null
+        name: name
+        email: email
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/OrganizationRole'
+          type: array
+        invitePending:
+          type: boolean
+      required:
+      - email
+      - invitePending
+      - name
+      - roles
+      type: object
+    OrganizationRole.ADMIN:
+      enum:
+      - admin
+      type: string
+    OrganizationRole.OPERATIONS_ENGINEER:
+      enum:
+      - operationsengineer
+      type: string
+    OrganizationRole.TASK_USER:
+      enum:
+      - taskuser
+      type: string
+    OrganizationRole.ANALYST:
+      enum:
+      - analyst
+      type: string
+    OrganizationRole.DEVELOPER:
+      enum:
+      - developer
+      type: string
+    OrganizationRole.VISITOR:
+      enum:
+      - visitor
+      type: string
+    AssignableOrganizationRoleType:
+      anyOf:
+      - $ref: '#/components/schemas/OrganizationRole.ADMIN'
+      - $ref: '#/components/schemas/OrganizationRole.OPERATIONS_ENGINEER'
+      - $ref: '#/components/schemas/OrganizationRole.TASK_USER'
+      - $ref: '#/components/schemas/OrganizationRole.ANALYST'
+      - $ref: '#/components/schemas/OrganizationRole.DEVELOPER'
+      - $ref: '#/components/schemas/OrganizationRole.VISITOR'
+    PostMemberBody:
+      additionalProperties: false
+      example:
+        orgRoles:
+        - null
+        - null
+      properties:
+        orgRoles:
+          items:
+            $ref: '#/components/schemas/AssignableOrganizationRoleType'
+          type: array
+      required:
+      - orgRoles
+      type: object
+    CreateCluster_200_response:
       example:
         clusterId: clusterId
       properties:
@@ -486,8 +841,8 @@ components:
       - clusterId
       type: object
     Cluster_planType:
-      description: Also called `ClusterPlanType`, this describes the hardware used
-        to run your Camunda Cloud cluster.
+      description: "Also called `ClusterPlanType`, this describes the hardware used\
+        \ to run your Camunda cluster."
       example:
         name: name
         uuid: uuid
@@ -501,7 +856,7 @@ components:
       - uuid
       type: object
     Cluster_region:
-      description: The data center where your Camunda Cloud cluster is running.
+      description: The data center where your Camunda cluster is running.
       example:
         name: name
         uuid: uuid
@@ -515,7 +870,7 @@ components:
       - uuid
       type: object
     Cluster_generation:
-      description: The version of Camunda Cloud running on your cluster.
+      description: The version of Camunda running on your cluster.
       example:
         name: name
         uuid: uuid
@@ -542,32 +897,59 @@ components:
       - name
       - uuid
       type: object
-    Cluster_status2:
-      description: A health indicator for your Camunda Cloud cluster. Each of the
-        components have their own state. The combined state is in the field `ready`.
-      example: {}
+    Cluster_ipwhitelist_inner:
+      example:
+        ip: ip
+        description: description
+      properties:
+        description:
+          type: string
+        ip:
+          type: string
+      required:
+      - description
+      - ip
+      type: object
+    Cluster_status:
+      description: A health indicator for your Camunda cluster. Each of the components
+        have their own state. The combined state is in the field `ready`.
+      example:
+        operateStatus: null
+        ready: null
+        tasklistStatus: null
+        optimizeStatus: null
+        zeebeStatus: null
       properties:
         optimizeStatus:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterHealthStatus'
         tasklistStatus:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterHealthStatus'
         operateStatus:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterHealthStatus'
         zeebeStatus:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterHealthStatus'
         ready:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterHealthStatus'
       required:
       - ready
       type: object
     Cluster_links:
-      description: Endpoints for the components running in your Camunda Cloud cluster.
+      description: Endpoints for the components running in your Camunda cluster.
       example:
+        console: console
+        connectors: connectors
         operate: operate
         optimize: optimize
         tasklist: tasklist
         zeebe: zeebe
+        oauth: oauth
       properties:
+        oauth:
+          type: string
+        connectors:
+          type: string
+        console:
+          type: string
         optimize:
           type: string
         tasklist:
@@ -577,7 +959,7 @@ components:
         zeebe:
           type: string
       type: object
-    Parameters_allowedGenerations:
+    Parameters_channels_inner_allowedGenerations_inner:
       example:
         name: name
         uuid: uuid
@@ -590,7 +972,7 @@ components:
       - name
       - uuid
       type: object
-    Parameters_channels:
+    Parameters_channels_inner:
       example:
         allowedGenerations:
         - name: name
@@ -605,10 +987,10 @@ components:
       properties:
         allowedGenerations:
           items:
-            $ref: '#/components/schemas/Parameters_allowedGenerations'
+            $ref: '#/components/schemas/Parameters_channels_inner_allowedGenerations_inner'
           type: array
         defaultGeneration:
-          $ref: '#/components/schemas/Parameters_allowedGenerations'
+          $ref: '#/components/schemas/Parameters_channels_inner_allowedGenerations_inner'
         name:
           type: string
         uuid:
@@ -619,24 +1001,30 @@ components:
       - name
       - uuid
       type: object
-    Parameters_clusterPlanTypes:
+    CreatedClusterClient_links:
       example:
-        name: name
-        region:
-          name: name
-          uuid: uuid
-        uuid: uuid
+        console: console
+        connectors: connectors
+        operate: operate
+        optimize: optimize
+        tasklist: tasklist
+        zeebe: zeebe
+        oauth: oauth
       properties:
-        region:
-          $ref: '#/components/schemas/Parameters_allowedGenerations'
-        name:
+        oauth:
           type: string
-        uuid:
+        console:
           type: string
-      required:
-      - name
-      - region
-      - uuid
+        connectors:
+          type: string
+        optimize:
+          type: string
+        tasklist:
+          type: string
+        operate:
+          type: string
+        zeebe:
+          type: string
       type: object
   securitySchemes:
     bearer:

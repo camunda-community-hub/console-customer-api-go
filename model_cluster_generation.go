@@ -1,7 +1,7 @@
 /*
-Camunda Cloud Management API
+Camunda Management API
 
-Manage Camunda Cloud Clusters and API Clients via API.
+Manage Camunda Clusters and API Clients via API.
 
 API version: 1.3.3
 */
@@ -14,7 +14,10 @@ import (
 	"encoding/json"
 )
 
-// ClusterGeneration The version of Camunda Cloud running on your cluster.
+// checks if the ClusterGeneration type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ClusterGeneration{}
+
+// ClusterGeneration The version of Camunda running on your cluster.
 type ClusterGeneration struct {
 	Name string `json:"name"`
 	Uuid string `json:"uuid"`
@@ -52,7 +55,7 @@ func (o *ClusterGeneration) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *ClusterGeneration) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -76,7 +79,7 @@ func (o *ClusterGeneration) GetUuid() string {
 // GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
 func (o *ClusterGeneration) GetUuidOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Uuid, true
@@ -88,14 +91,18 @@ func (o *ClusterGeneration) SetUuid(v string) {
 }
 
 func (o ClusterGeneration) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	if true {
-		toSerialize["uuid"] = o.Uuid
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o ClusterGeneration) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["name"] = o.Name
+	toSerialize["uuid"] = o.Uuid
+	return toSerialize, nil
 }
 
 type NullableClusterGeneration struct {

@@ -1,7 +1,7 @@
 /*
-Camunda Cloud Management API
+Camunda Management API
 
-Manage Camunda Cloud Clusters and API Clients via API.
+Manage Camunda Clusters and API Clients via API.
 
 API version: 1.3.3
 */
@@ -13,6 +13,9 @@ package openapi
 import (
 	"encoding/json"
 )
+
+// checks if the ClusterClientConnectionDetails type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ClusterClientConnectionDetails{}
 
 // ClusterClientConnectionDetails struct for ClusterClientConnectionDetails
 type ClusterClientConnectionDetails struct {
@@ -56,7 +59,7 @@ func (o *ClusterClientConnectionDetails) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *ClusterClientConnectionDetails) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -80,7 +83,7 @@ func (o *ClusterClientConnectionDetails) GetZEEBE_ADDRESS() string {
 // GetZEEBE_ADDRESSOk returns a tuple with the ZEEBE_ADDRESS field value
 // and a boolean to check if the value has been set.
 func (o *ClusterClientConnectionDetails) GetZEEBE_ADDRESSOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ZEEBE_ADDRESS, true
@@ -104,7 +107,7 @@ func (o *ClusterClientConnectionDetails) GetZEEBE_CLIENT_ID() string {
 // GetZEEBE_CLIENT_IDOk returns a tuple with the ZEEBE_CLIENT_ID field value
 // and a boolean to check if the value has been set.
 func (o *ClusterClientConnectionDetails) GetZEEBE_CLIENT_IDOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ZEEBE_CLIENT_ID, true
@@ -128,7 +131,7 @@ func (o *ClusterClientConnectionDetails) GetZEEBE_AUTHORIZATION_SERVER_URL() str
 // GetZEEBE_AUTHORIZATION_SERVER_URLOk returns a tuple with the ZEEBE_AUTHORIZATION_SERVER_URL field value
 // and a boolean to check if the value has been set.
 func (o *ClusterClientConnectionDetails) GetZEEBE_AUTHORIZATION_SERVER_URLOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ZEEBE_AUTHORIZATION_SERVER_URL, true
@@ -140,20 +143,20 @@ func (o *ClusterClientConnectionDetails) SetZEEBE_AUTHORIZATION_SERVER_URL(v str
 }
 
 func (o ClusterClientConnectionDetails) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	if true {
-		toSerialize["ZEEBE_ADDRESS"] = o.ZEEBE_ADDRESS
-	}
-	if true {
-		toSerialize["ZEEBE_CLIENT_ID"] = o.ZEEBE_CLIENT_ID
-	}
-	if true {
-		toSerialize["ZEEBE_AUTHORIZATION_SERVER_URL"] = o.ZEEBE_AUTHORIZATION_SERVER_URL
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o ClusterClientConnectionDetails) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["name"] = o.Name
+	toSerialize["ZEEBE_ADDRESS"] = o.ZEEBE_ADDRESS
+	toSerialize["ZEEBE_CLIENT_ID"] = o.ZEEBE_CLIENT_ID
+	toSerialize["ZEEBE_AUTHORIZATION_SERVER_URL"] = o.ZEEBE_AUTHORIZATION_SERVER_URL
+	return toSerialize, nil
 }
 
 type NullableClusterClientConnectionDetails struct {

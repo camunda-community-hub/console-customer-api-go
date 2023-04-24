@@ -4,6 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Oauth** | Pointer to **string** |  | [optional] 
+**Connectors** | Pointer to **string** |  | [optional] 
+**Console** | Pointer to **string** |  | [optional] 
 **Optimize** | Pointer to **string** |  | [optional] 
 **Tasklist** | Pointer to **string** |  | [optional] 
 **Operate** | Pointer to **string** |  | [optional] 
@@ -27,6 +30,81 @@ will change when the set of required properties is changed
 NewClusterLinksWithDefaults instantiates a new ClusterLinks object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetOauth
+
+`func (o *ClusterLinks) GetOauth() string`
+
+GetOauth returns the Oauth field if non-nil, zero value otherwise.
+
+### GetOauthOk
+
+`func (o *ClusterLinks) GetOauthOk() (*string, bool)`
+
+GetOauthOk returns a tuple with the Oauth field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOauth
+
+`func (o *ClusterLinks) SetOauth(v string)`
+
+SetOauth sets Oauth field to given value.
+
+### HasOauth
+
+`func (o *ClusterLinks) HasOauth() bool`
+
+HasOauth returns a boolean if a field has been set.
+
+### GetConnectors
+
+`func (o *ClusterLinks) GetConnectors() string`
+
+GetConnectors returns the Connectors field if non-nil, zero value otherwise.
+
+### GetConnectorsOk
+
+`func (o *ClusterLinks) GetConnectorsOk() (*string, bool)`
+
+GetConnectorsOk returns a tuple with the Connectors field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetConnectors
+
+`func (o *ClusterLinks) SetConnectors(v string)`
+
+SetConnectors sets Connectors field to given value.
+
+### HasConnectors
+
+`func (o *ClusterLinks) HasConnectors() bool`
+
+HasConnectors returns a boolean if a field has been set.
+
+### GetConsole
+
+`func (o *ClusterLinks) GetConsole() string`
+
+GetConsole returns the Console field if non-nil, zero value otherwise.
+
+### GetConsoleOk
+
+`func (o *ClusterLinks) GetConsoleOk() (*string, bool)`
+
+GetConsoleOk returns a tuple with the Console field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetConsole
+
+`func (o *ClusterLinks) SetConsole(v string)`
+
+SetConsole sets Console field to given value.
+
+### HasConsole
+
+`func (o *ClusterLinks) HasConsole() bool`
+
+HasConsole returns a boolean if a field has been set.
 
 ### GetOptimize
 

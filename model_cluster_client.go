@@ -1,7 +1,7 @@
 /*
-Camunda Cloud Management API
+Camunda Management API
 
-Manage Camunda Cloud Clusters and API Clients via API.
+Manage Camunda Clusters and API Clients via API.
 
 API version: 1.3.3
 */
@@ -13,6 +13,9 @@ package openapi
 import (
 	"encoding/json"
 )
+
+// checks if the ClusterClient type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ClusterClient{}
 
 // ClusterClient struct for ClusterClient
 type ClusterClient struct {
@@ -54,7 +57,7 @@ func (o *ClusterClient) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *ClusterClient) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -78,7 +81,7 @@ func (o *ClusterClient) GetClientId() string {
 // GetClientIdOk returns a tuple with the ClientId field value
 // and a boolean to check if the value has been set.
 func (o *ClusterClient) GetClientIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ClientId, true
@@ -102,7 +105,7 @@ func (o *ClusterClient) GetPermissions() []string {
 // GetPermissionsOk returns a tuple with the Permissions field value
 // and a boolean to check if the value has been set.
 func (o *ClusterClient) GetPermissionsOk() ([]string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Permissions, true
@@ -114,17 +117,19 @@ func (o *ClusterClient) SetPermissions(v []string) {
 }
 
 func (o ClusterClient) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	if true {
-		toSerialize["clientId"] = o.ClientId
-	}
-	if true {
-		toSerialize["permissions"] = o.Permissions
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o ClusterClient) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["name"] = o.Name
+	toSerialize["clientId"] = o.ClientId
+	toSerialize["permissions"] = o.Permissions
+	return toSerialize, nil
 }
 
 type NullableClusterClient struct {

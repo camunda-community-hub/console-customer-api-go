@@ -1,7 +1,7 @@
 /*
-Camunda Cloud Management API
+Camunda Management API
 
-Manage Camunda Cloud Clusters and API Clients via API.
+Manage Camunda Clusters and API Clients via API.
 
 API version: 1.3.3
 */
@@ -14,7 +14,10 @@ import (
 	"encoding/json"
 )
 
-// CreateClusterBody Used to create a cluster through this API. All necessary values can be retrieved from the <pre>/customer-api/clusters/parameters</pre> endpoint.
+// checks if the CreateClusterBody type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateClusterBody{}
+
+// CreateClusterBody Used to create a cluster through this API. All necessary values can be retrieved from the <pre>/clusters/parameters</pre> endpoint.
 type CreateClusterBody struct {
 	// The name of your new cluster.
 	Name string `json:"name"`
@@ -63,7 +66,7 @@ func (o *CreateClusterBody) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *CreateClusterBody) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -87,7 +90,7 @@ func (o *CreateClusterBody) GetPlanTypeId() string {
 // GetPlanTypeIdOk returns a tuple with the PlanTypeId field value
 // and a boolean to check if the value has been set.
 func (o *CreateClusterBody) GetPlanTypeIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.PlanTypeId, true
@@ -111,7 +114,7 @@ func (o *CreateClusterBody) GetChannelId() string {
 // GetChannelIdOk returns a tuple with the ChannelId field value
 // and a boolean to check if the value has been set.
 func (o *CreateClusterBody) GetChannelIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ChannelId, true
@@ -135,7 +138,7 @@ func (o *CreateClusterBody) GetGenerationId() string {
 // GetGenerationIdOk returns a tuple with the GenerationId field value
 // and a boolean to check if the value has been set.
 func (o *CreateClusterBody) GetGenerationIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.GenerationId, true
@@ -159,7 +162,7 @@ func (o *CreateClusterBody) GetRegionId() string {
 // GetRegionIdOk returns a tuple with the RegionId field value
 // and a boolean to check if the value has been set.
 func (o *CreateClusterBody) GetRegionIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.RegionId, true
@@ -171,23 +174,21 @@ func (o *CreateClusterBody) SetRegionId(v string) {
 }
 
 func (o CreateClusterBody) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	if true {
-		toSerialize["planTypeId"] = o.PlanTypeId
-	}
-	if true {
-		toSerialize["channelId"] = o.ChannelId
-	}
-	if true {
-		toSerialize["generationId"] = o.GenerationId
-	}
-	if true {
-		toSerialize["regionId"] = o.RegionId
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o CreateClusterBody) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["name"] = o.Name
+	toSerialize["planTypeId"] = o.PlanTypeId
+	toSerialize["channelId"] = o.ChannelId
+	toSerialize["generationId"] = o.GenerationId
+	toSerialize["regionId"] = o.RegionId
+	return toSerialize, nil
 }
 
 type NullableCreateClusterBody struct {

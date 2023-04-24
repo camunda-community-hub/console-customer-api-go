@@ -1,0 +1,1077 @@
+{
+  "components":
+  {
+    "examples": {},
+    "headers": {},
+    "parameters": {},
+    "requestBodies": {},
+    "responses": {},
+    "schemas":
+    {
+      "ClusterHealthStatus":
+      {
+        "type": "string",
+        "enum": ["Healthy", "Unhealthy", "Creating", "Updating"]
+      },
+      "Cluster":
+      {
+        "description": "Describing a Camunda cluster running in your organization. For reference, use the UUID.",
+        "properties":
+        {
+          "uuid":
+          {
+            "type": "string",
+            "description": "The ID used in all further API operations referencing your cluster."
+          },
+          "name": { "type": "string" },
+          "ownerId": { "type": "string" },
+          "created": { "type": "string", "format": "date-time" },
+          "planType":
+          {
+            "properties":
+            {
+              "name": { "type": "string" },
+              "uuid": { "type": "string" }
+            },
+            "required": ["name", "uuid"],
+            "type": "object",
+            "description": "Also called `ClusterPlanType`, this describes the hardware used to run your Camunda cluster."
+          },
+          "region":
+          {
+            "properties":
+            {
+              "name": { "type": "string" },
+              "uuid": { "type": "string" }
+            },
+            "required": ["name", "uuid"],
+            "type": "object",
+            "description": "The data center where your Camunda cluster is running."
+          },
+          "generation":
+          {
+            "properties":
+            {
+              "name": { "type": "string" },
+              "uuid": { "type": "string" }
+            },
+            "required": ["name", "uuid"],
+            "type": "object",
+            "description": "The version of Camunda running on your cluster."
+          },
+          "channel":
+          {
+            "properties":
+            {
+              "name": { "type": "string" },
+              "uuid": { "type": "string" }
+            },
+            "required": ["name", "uuid"],
+            "type": "object",
+            "description": "The software channel your cluster is running on."
+          },
+          "ipwhitelist":
+          {
+            "items":
+            {
+              "properties":
+              {
+                "description": { "type": "string" },
+                "ip": { "type": "string" }
+              },
+              "required": ["description", "ip"],
+              "type": "object"
+            },
+            "type": "array",
+            "description": "the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it."
+          },
+          "status":
+          {
+            "properties":
+            {
+              "optimizeStatus":
+              { "$ref": "#/components/schemas/ClusterHealthStatus" },
+              "tasklistStatus":
+              { "$ref": "#/components/schemas/ClusterHealthStatus" },
+              "operateStatus":
+              { "$ref": "#/components/schemas/ClusterHealthStatus" },
+              "zeebeStatus":
+              { "$ref": "#/components/schemas/ClusterHealthStatus" },
+              "ready":
+              { "$ref": "#/components/schemas/ClusterHealthStatus" }
+            },
+            "required": ["ready"],
+            "type": "object",
+            "description": "A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`."
+          },
+          "links":
+          {
+            "properties":
+            {
+              "oauth": { "type": "string" },
+              "connectors": { "type": "string" },
+              "console": { "type": "string" },
+              "optimize": { "type": "string" },
+              "tasklist": { "type": "string" },
+              "operate": { "type": "string" },
+              "zeebe": { "type": "string" }
+            },
+            "type": "object",
+            "description": "Endpoints for the components running in your Camunda cluster."
+          }
+        },
+        "required":
+        [
+          "uuid",
+          "name",
+          "ownerId",
+          "created",
+          "planType",
+          "region",
+          "generation",
+          "channel",
+          "status",
+          "links"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "CreateClusterBody":
+      {
+        "description": "Used to create a cluster through this API. All necessary values can be retrieved from the <pre>/clusters/parameters</pre> endpoint.",
+        "properties":
+        {
+          "name":
+          {
+            "type": "string",
+            "description": "The name of your new cluster."
+          },
+          "planTypeId":
+          {
+            "type": "string",
+            "description": "The planType (hardware spec) to use."
+          },
+          "channelId":
+          {
+            "type": "string",
+            "description": "The channel (software spec) to use."
+          },
+          "generationId":
+          {
+            "type": "string",
+            "description": "The generation (software version) to use."
+          },
+          "regionId":
+          {
+            "type": "string",
+            "description": "The data center to use."
+          }
+        },
+        "required":
+        ["name", "planTypeId", "channelId", "generationId", "regionId"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Parameters":
+      {
+        "description": "Describes the different options to create a Camunda cluster.",
+        "properties":
+        {
+          "channels":
+          {
+            "items":
+            {
+              "properties":
+              {
+                "allowedGenerations":
+                {
+                  "items":
+                  {
+                    "properties":
+                    {
+                      "name": { "type": "string" },
+                      "uuid": { "type": "string" }
+                    },
+                    "required": ["name", "uuid"],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "defaultGeneration":
+                {
+                  "properties":
+                  {
+                    "name": { "type": "string" },
+                    "uuid": { "type": "string" }
+                  },
+                  "required": ["name", "uuid"],
+                  "type": "object"
+                },
+                "name": { "type": "string" },
+                "uuid": { "type": "string" }
+              },
+              "required":
+              [
+                "allowedGenerations",
+                "defaultGeneration",
+                "name",
+                "uuid"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "clusterPlanTypes":
+          {
+            "items":
+            {
+              "properties":
+              {
+                "name": { "type": "string" },
+                "uuid": { "type": "string" }
+              },
+              "required": ["name", "uuid"],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "regions":
+          {
+            "items":
+            {
+              "properties":
+              {
+                "name": { "type": "string" },
+                "uuid": { "type": "string" }
+              },
+              "required": ["name", "uuid"],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": ["channels", "clusterPlanTypes", "regions"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "IpWhiteListBody":
+      {
+        "properties":
+        {
+          "ipwhitelist":
+          {
+            "items":
+            {
+              "properties":
+              {
+                "description": { "type": "string" },
+                "ip": { "type": "string" }
+              },
+              "required": ["description", "ip"],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": ["ipwhitelist"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ClusterClient":
+      {
+        "properties":
+        {
+          "name": { "type": "string" },
+          "clientId": { "type": "string" },
+          "permissions":
+          {
+            "items":
+            {
+              "type": "string",
+              "enum": ["Zeebe", "Operate", "Tasklist", "Optimize"]
+            },
+            "type": "array"
+          }
+        },
+        "required": ["name", "clientId", "permissions"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "CreatedClusterClient":
+      {
+        "properties":
+        {
+          "name": { "type": "string" },
+          "uuid": { "type": "string" },
+          "clientId": { "type": "string" },
+          "clientSecret": { "type": "string" },
+          "permissions":
+          { "items": { "type": "string" }, "type": "array" },
+          "links":
+          {
+            "properties":
+            {
+              "oauth": { "type": "string" },
+              "console": { "type": "string" },
+              "connectors": { "type": "string" },
+              "optimize": { "type": "string" },
+              "tasklist": { "type": "string" },
+              "operate": { "type": "string" },
+              "zeebe": { "type": "string" }
+            },
+            "type": "object"
+          }
+        },
+        "required":
+        ["name", "uuid", "clientId", "clientSecret", "permissions"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "CreateClusterClientBody":
+      {
+        "properties":
+        {
+          "clientName": { "type": "string" },
+          "permissions":
+          {
+            "items":
+            {
+              "type": "string",
+              "enum": ["Zeebe", "Operate", "Tasklist", "Optimize"]
+            },
+            "type": "array"
+          }
+        },
+        "required": ["clientName"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ClusterClientConnectionDetails":
+      {
+        "properties":
+        {
+          "name": { "type": "string" },
+          "ZEEBE_ADDRESS": { "type": "string" },
+          "ZEEBE_CLIENT_ID": { "type": "string" },
+          "ZEEBE_AUTHORIZATION_SERVER_URL": { "type": "string" }
+        },
+        "required":
+        [
+          "name",
+          "ZEEBE_ADDRESS",
+          "ZEEBE_CLIENT_ID",
+          "ZEEBE_AUTHORIZATION_SERVER_URL"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ClusterSecrets":
+      {
+        "properties": {},
+        "type": "object",
+        "additionalProperties": { "type": "string" }
+      },
+      "CreateSecretBody":
+      {
+        "properties":
+        {
+          "secretName": { "type": "string" },
+          "secretValue": { "type": "string" }
+        },
+        "required": ["secretName", "secretValue"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "OrganizationRole":
+      {
+        "enum":
+        [
+          "member",
+          "admin",
+          "owner",
+          "supportagent",
+          "operationsengineer",
+          "taskuser",
+          "analyst",
+          "developer",
+          "visitor"
+        ],
+        "type": "string"
+      },
+      "Member":
+      {
+        "properties":
+        {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "roles":
+          {
+            "items":
+            { "$ref": "#/components/schemas/OrganizationRole" },
+            "type": "array"
+          },
+          "invitePending": { "type": "boolean" }
+        },
+        "required": ["name", "email", "roles", "invitePending"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "OrganizationRole.ADMIN": { "enum": ["admin"], "type": "string" },
+      "OrganizationRole.OPERATIONS_ENGINEER":
+      { "enum": ["operationsengineer"], "type": "string" },
+      "OrganizationRole.TASK_USER":
+      { "enum": ["taskuser"], "type": "string" },
+      "OrganizationRole.ANALYST": { "enum": ["analyst"], "type": "string" },
+      "OrganizationRole.DEVELOPER":
+      { "enum": ["developer"], "type": "string" },
+      "OrganizationRole.VISITOR": { "enum": ["visitor"], "type": "string" },
+      "AssignableOrganizationRoleType":
+      {
+        "anyOf":
+        [
+          { "$ref": "#/components/schemas/OrganizationRole.ADMIN" },
+          {
+            "$ref": "#/components/schemas/OrganizationRole.OPERATIONS_ENGINEER"
+          },
+          { "$ref": "#/components/schemas/OrganizationRole.TASK_USER" },
+          { "$ref": "#/components/schemas/OrganizationRole.ANALYST" },
+          { "$ref": "#/components/schemas/OrganizationRole.DEVELOPER" },
+          { "$ref": "#/components/schemas/OrganizationRole.VISITOR" }
+        ]
+      },
+      "PostMemberBody":
+      {
+        "properties":
+        {
+          "orgRoles":
+          {
+            "items":
+            {
+              "$ref": "#/components/schemas/AssignableOrganizationRoleType"
+            },
+            "type": "array"
+          }
+        },
+        "required": ["orgRoles"],
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes":
+    {
+      "bearer":
+      { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    }
+  },
+  "info":
+  {
+    "title": "Camunda Management API",
+    "version": "1.3.3",
+    "description": "Manage Camunda Clusters and API Clients via API.",
+    "license": { "name": " ", "url": "" },
+    "contact": {}
+  },
+  "openapi": "3.0.0",
+  "paths":
+  {
+    "/clusters":
+    {
+      "get":
+      {
+        "operationId": "GetClusters",
+        "tags": [
+          "Clusters"
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "A list of all your Camunda clusters.",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                {
+                  "items":
+                  { "$ref": "#/components/schemas/Cluster" },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters": []
+      },
+      "post":
+      {
+        "operationId": "CreateCluster",
+        "tags": [
+          "Clusters"
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "The clusterUuid of your new cluster.",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                {
+                  "properties":
+                  { "clusterId": { "type": "string" } },
+                  "required": ["clusterId"],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400":
+          {
+            "description": "Name is too long, invalid clusterPlanType, invalid region, no reservations left, invalid channel, or invalid generation"
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters": [],
+        "requestBody":
+        {
+          "required": true,
+          "content":
+          {
+            "application/json":
+            {
+              "schema":
+              {
+                "$ref": "#/components/schemas/CreateClusterBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clusters/{clusterUuid}":
+    {
+      "get":
+      {
+        "operationId": "GetCluster",
+        "tags": [
+          "Clusters"
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "Detailed information for the given clusterUuid.",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                { "$ref": "#/components/schemas/Cluster" }
+              }
+            }
+          },
+          "404": { "description": "Cluster not found" }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      },
+      "delete":
+      {
+        "operationId": "DeleteCluster",
+        "tags": [
+          "Clusters"
+        ],
+        "responses":
+        {
+          "204": { "description": "No content" },
+          "404": { "description": "Cluster not found" }
+        },
+        "description": "Irreversibly deletes a cluster identified by the given clusterUuid.",
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      }
+    },
+    "/clusters/parameters":
+    {
+      "get":
+      {
+        "operationId": "GetParameters",
+        "tags": [
+          "Clusters"
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "Ok",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                { "$ref": "#/components/schemas/Parameters" }
+              }
+            }
+          }
+        },
+        "description": "Gets all possible options to create a Camunda cluster.",
+        "security": [{ "bearer": [] }],
+        "parameters": []
+      }
+    },
+    "/clusters/{clusterUuid}/ipwhitelist":
+    {
+      "put":
+      {
+        "tags": [
+          "Clusters"
+        ],
+        "operationId": "UpdateIpWhitelist",
+        "responses": { "204": { "description": "No content" } },
+        "description": "Updates the IP Whitelist rules for your cluster.",
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody":
+        {
+          "required": true,
+          "content":
+          {
+            "application/json":
+            {
+              "schema":
+              { "$ref": "#/components/schemas/IpWhiteListBody" }
+            }
+          }
+        }
+      }
+    },
+    "/clusters/{clusterUuid}/clients":
+    {
+      "get":
+      {
+        "tags": [
+          "Clusters"
+        ],
+        "operationId": "GetClients",
+        "responses":
+        {
+          "200":
+          {
+            "description": "A list of all the clients currently configured for your Camunda cluster.",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                {
+                  "items":
+                  {
+                    "$ref": "#/components/schemas/ClusterClient"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "403": { "description": "Cluster is not yours" },
+          "404": { "description": "Cluster not found" }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      },
+      "post":
+      {
+        "tags": [
+          "Clusters"
+        ],
+        "operationId": "CreateClient",
+        "responses":
+        {
+          "200":
+          {
+            "description": "Ok",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                {
+                  "$ref": "#/components/schemas/CreatedClusterClient"
+                }
+              }
+            }
+          },
+          "400": { "description": "Client names must be unique" },
+          "403":
+          {
+            "description": "Maximum number of clients reached or cluster is not yours"
+          },
+          "404": { "description": "Cluster not found" }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody":
+        {
+          "required": true,
+          "content":
+          {
+            "application/json":
+            {
+              "schema":
+              {
+                "$ref": "#/components/schemas/CreateClusterClientBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clusters/{clusterUuid}/clients/{clientId}":
+    {
+      "get":
+      {
+        "operationId": "GetClient",
+        "tags": [
+          "Clusters"
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "The connection parameters needed to use the client with your Camunda cluster.",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                {
+                  "$ref": "#/components/schemas/ClusterClientConnectionDetails"
+                }
+              }
+            }
+          },
+          "403": { "description": "Cluster is not yours" },
+          "404": { "description": "Cluster or client not found" },
+          "412":
+          {
+            "description": "The cluster is not ready; try again later"
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "path",
+            "name": "clientId",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      },
+      "delete":
+      {
+        "tags": [
+          "Clusters"
+        ],
+        "operationId": "DeleteClient",
+        "responses":
+        {
+          "204": { "description": "No content" },
+          "403": { "description": "Cluster is not yours" },
+          "404": { "description": "Cluster or client not found" }
+        },
+        "description": "Irreversibly deletes a cluster client.",
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "path",
+            "name": "clientId",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      }
+    },
+    "/clusters/{clusterUuid}/secrets":
+    {
+      "get":
+      {
+        "tags": [
+          "Clusters"
+        ],
+        "operationId": "GetSecrets",
+        "responses":
+        {
+          "200":
+          {
+            "description": "A list of all the secrets currently configured for your Camunda cluster.",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                {
+                  "$ref": "#/components/schemas/ClusterSecrets"
+                }
+              }
+            }
+          },
+          "403": { "description": "Cluster is not yours" },
+          "404": { "description": "Cluster not found" }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      },
+      "post":
+      {
+        "operationId": "CreateSecret",
+        "tags": [
+          "Clusters"
+        ],
+        "responses":
+        {
+          "204": { "description": "No content" },
+          "400":
+          {
+            "description": "Secret name must be less than 50 characters"
+          },
+          "403":
+          {
+            "description": "Maximum number of secret reached or cluster is not yours"
+          },
+          "404": { "description": "Cluster not found" },
+          "409": { "description": "Secret names must be unique" }
+        },
+        "description": "Creates a new secret",
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody":
+        {
+          "required": true,
+          "content":
+          {
+            "application/json":
+            {
+              "schema":
+              { "$ref": "#/components/schemas/CreateSecretBody" }
+            }
+          }
+        }
+      }
+    },
+    "/clusters/{clusterUuid}/secrets/{secretName}":
+    {
+      "delete":
+      {
+        "tags": [
+          "Clusters"
+        ],
+        "operationId": "DeleteSecret",
+        "responses":
+        {
+          "204": { "description": "No content" },
+          "403": { "description": "Cluster is not yours" }
+        },
+        "description": "Irreversibly deletes a secret",
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "path",
+            "name": "secretName",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      }
+    },
+    "/members":
+    {
+      "get":
+      {
+        "operationId": "GetMembers",
+        "tags": [
+          "Members"
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "the list of members and pending invites for your organization.",
+            "content":
+            {
+              "application/json":
+              {
+                "schema":
+                {
+                  "items":
+                  { "$ref": "#/components/schemas/Member" },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "403":
+          {
+            "description": "You do not have the required permissions to perform this operation."
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters": []
+      }
+    },
+    "/members/{email}":
+    {
+      "post":
+      {
+        "operationId": "UpdateMembers",
+        "tags": [
+          "Members"
+        ],
+        "responses":
+        {
+          "204": { "description": "No content" },
+          "400":
+          {
+            "description": "Invalid request body - e.g. invalid roles"
+          },
+          "403":
+          {
+            "description": "You do not have the required permissions to perform this operation or no open seats left"
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody":
+        {
+          "required": true,
+          "content":
+          {
+            "application/json":
+            {
+              "schema":
+              { "$ref": "#/components/schemas/PostMemberBody" }
+            }
+          }
+        }
+      },
+      "delete":
+      {
+        "tags": [
+          "Members"
+        ],
+        "operationId": "DeleteMember",
+        "responses":
+        {
+          "204": { "description": "No content" },
+          "403":
+          {
+            "description": "You do not have the required permissions to perform this operation."
+          },
+          "404":
+          {
+            "description": "specified user is not part of the organization"
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "parameters":
+        [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ]
+      }
+    }
+  },
+  "servers": [{ "url": "https://api.cloud.camunda.io" }]
+}
