@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
 **Email** | **string** |  | 
-**Roles** | [**[]OrganizationRole**](OrganizationRole.md) |  | 
 **InvitePending** | **bool** |  | 
+**Name** | **string** |  | 
+**Roles** | [**[]OrganizationRole**](OrganizationRole.md) |  | 
 
 ## Methods
 
 ### NewMember
 
-`func NewMember(name string, email string, roles []OrganizationRole, invitePending bool, ) *Member`
+`func NewMember(email string, invitePending bool, name string, roles []OrganizationRole, ) *Member`
 
 NewMember instantiates a new Member object
 This constructor will assign default values to properties that have it defined,
@@ -27,26 +27,6 @@ will change when the set of required properties is changed
 NewMemberWithDefaults instantiates a new Member object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetName
-
-`func (o *Member) GetName() string`
-
-GetName returns the Name field if non-nil, zero value otherwise.
-
-### GetNameOk
-
-`func (o *Member) GetNameOk() (*string, bool)`
-
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetName
-
-`func (o *Member) SetName(v string)`
-
-SetName sets Name field to given value.
-
 
 ### GetEmail
 
@@ -68,26 +48,6 @@ and a boolean to check if the value has been set.
 SetEmail sets Email field to given value.
 
 
-### GetRoles
-
-`func (o *Member) GetRoles() []OrganizationRole`
-
-GetRoles returns the Roles field if non-nil, zero value otherwise.
-
-### GetRolesOk
-
-`func (o *Member) GetRolesOk() (*[]OrganizationRole, bool)`
-
-GetRolesOk returns a tuple with the Roles field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRoles
-
-`func (o *Member) SetRoles(v []OrganizationRole)`
-
-SetRoles sets Roles field to given value.
-
-
 ### GetInvitePending
 
 `func (o *Member) GetInvitePending() bool`
@@ -106,6 +66,46 @@ and a boolean to check if the value has been set.
 `func (o *Member) SetInvitePending(v bool)`
 
 SetInvitePending sets InvitePending field to given value.
+
+
+### GetName
+
+`func (o *Member) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *Member) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *Member) SetName(v string)`
+
+SetName sets Name field to given value.
+
+
+### GetRoles
+
+`func (o *Member) GetRoles() []OrganizationRole`
+
+GetRoles returns the Roles field if non-nil, zero value otherwise.
+
+### GetRolesOk
+
+`func (o *Member) GetRolesOk() (*[]OrganizationRole, bool)`
+
+GetRolesOk returns a tuple with the Roles field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRoles
+
+`func (o *Member) SetRoles(v []OrganizationRole)`
+
+SetRoles sets Roles field to given value.
 
 
 

@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
 **ClientId** | **string** |  | 
+**Name** | **string** |  | 
 **Permissions** | **[]string** |  | 
 
 ## Methods
 
 ### NewClusterClient
 
-`func NewClusterClient(name string, clientId string, permissions []string, ) *ClusterClient`
+`func NewClusterClient(clientId string, name string, permissions []string, ) *ClusterClient`
 
 NewClusterClient instantiates a new ClusterClient object
 This constructor will assign default values to properties that have it defined,
@@ -26,26 +26,6 @@ will change when the set of required properties is changed
 NewClusterClientWithDefaults instantiates a new ClusterClient object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetName
-
-`func (o *ClusterClient) GetName() string`
-
-GetName returns the Name field if non-nil, zero value otherwise.
-
-### GetNameOk
-
-`func (o *ClusterClient) GetNameOk() (*string, bool)`
-
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetName
-
-`func (o *ClusterClient) SetName(v string)`
-
-SetName sets Name field to given value.
-
 
 ### GetClientId
 
@@ -65,6 +45,26 @@ and a boolean to check if the value has been set.
 `func (o *ClusterClient) SetClientId(v string)`
 
 SetClientId sets ClientId field to given value.
+
+
+### GetName
+
+`func (o *ClusterClient) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *ClusterClient) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *ClusterClient) SetName(v string)`
+
+SetName sets Name field to given value.
 
 
 ### GetPermissions

@@ -18,6 +18,11 @@ import (
 // OrganizationRoleVISITOR the model 'OrganizationRoleVISITOR'
 type OrganizationRoleVISITOR string
 
+// List of OrganizationRole.VISITOR
+const (
+	ORGANIZATIONROLEVISITOR_VISITOR OrganizationRoleVISITOR = "visitor"
+)
+
 // All allowed values of OrganizationRoleVISITOR enum
 var AllowedOrganizationRoleVISITOREnumValues = []OrganizationRoleVISITOR{
 	"visitor",

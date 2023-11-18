@@ -18,6 +18,11 @@ import (
 // OrganizationRoleTASKUSER the model 'OrganizationRoleTASKUSER'
 type OrganizationRoleTASKUSER string
 
+// List of OrganizationRole.TASK_USER
+const (
+	ORGANIZATIONROLETASKUSER_TASKUSER OrganizationRoleTASKUSER = "taskuser"
+)
+
 // All allowed values of OrganizationRoleTASKUSER enum
 var AllowedOrganizationRoleTASKUSEREnumValues = []OrganizationRoleTASKUSER{
 	"taskuser",

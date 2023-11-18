@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the ClusterStatus type satisfies the MappedNullable interface at compile time
@@ -19,18 +20,20 @@ var _ MappedNullable = &ClusterStatus{}
 
 // ClusterStatus A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.
 type ClusterStatus struct {
-	OptimizeStatus *ClusterHealthStatus `json:"optimizeStatus,omitempty"`
-	TasklistStatus *ClusterHealthStatus `json:"tasklistStatus,omitempty"`
-	OperateStatus  *ClusterHealthStatus `json:"operateStatus,omitempty"`
-	ZeebeStatus    *ClusterHealthStatus `json:"zeebeStatus,omitempty"`
-	Ready          ClusterHealthStatus  `json:"ready"`
+	OperateStatus  *ClusterComponentStatus `json:"operateStatus,omitempty"`
+	OptimizeStatus *ClusterComponentStatus `json:"optimizeStatus,omitempty"`
+	Ready          ClusterComponentStatus  `json:"ready"`
+	TasklistStatus *ClusterComponentStatus `json:"tasklistStatus,omitempty"`
+	ZeebeStatus    *ClusterComponentStatus `json:"zeebeStatus,omitempty"`
 }
+
+type _ClusterStatus ClusterStatus
 
 // NewClusterStatus instantiates a new ClusterStatus object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewClusterStatus(ready ClusterHealthStatus) *ClusterStatus {
+func NewClusterStatus(ready ClusterComponentStatus) *ClusterStatus {
 	this := ClusterStatus{}
 	this.Ready = ready
 	return &this
@@ -44,74 +47,10 @@ func NewClusterStatusWithDefaults() *ClusterStatus {
 	return &this
 }
 
-// GetOptimizeStatus returns the OptimizeStatus field value if set, zero value otherwise.
-func (o *ClusterStatus) GetOptimizeStatus() ClusterHealthStatus {
-	if o == nil || IsNil(o.OptimizeStatus) {
-		var ret ClusterHealthStatus
-		return ret
-	}
-	return *o.OptimizeStatus
-}
-
-// GetOptimizeStatusOk returns a tuple with the OptimizeStatus field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClusterStatus) GetOptimizeStatusOk() (*ClusterHealthStatus, bool) {
-	if o == nil || IsNil(o.OptimizeStatus) {
-		return nil, false
-	}
-	return o.OptimizeStatus, true
-}
-
-// HasOptimizeStatus returns a boolean if a field has been set.
-func (o *ClusterStatus) HasOptimizeStatus() bool {
-	if o != nil && !IsNil(o.OptimizeStatus) {
-		return true
-	}
-
-	return false
-}
-
-// SetOptimizeStatus gets a reference to the given ClusterHealthStatus and assigns it to the OptimizeStatus field.
-func (o *ClusterStatus) SetOptimizeStatus(v ClusterHealthStatus) {
-	o.OptimizeStatus = &v
-}
-
-// GetTasklistStatus returns the TasklistStatus field value if set, zero value otherwise.
-func (o *ClusterStatus) GetTasklistStatus() ClusterHealthStatus {
-	if o == nil || IsNil(o.TasklistStatus) {
-		var ret ClusterHealthStatus
-		return ret
-	}
-	return *o.TasklistStatus
-}
-
-// GetTasklistStatusOk returns a tuple with the TasklistStatus field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClusterStatus) GetTasklistStatusOk() (*ClusterHealthStatus, bool) {
-	if o == nil || IsNil(o.TasklistStatus) {
-		return nil, false
-	}
-	return o.TasklistStatus, true
-}
-
-// HasTasklistStatus returns a boolean if a field has been set.
-func (o *ClusterStatus) HasTasklistStatus() bool {
-	if o != nil && !IsNil(o.TasklistStatus) {
-		return true
-	}
-
-	return false
-}
-
-// SetTasklistStatus gets a reference to the given ClusterHealthStatus and assigns it to the TasklistStatus field.
-func (o *ClusterStatus) SetTasklistStatus(v ClusterHealthStatus) {
-	o.TasklistStatus = &v
-}
-
 // GetOperateStatus returns the OperateStatus field value if set, zero value otherwise.
-func (o *ClusterStatus) GetOperateStatus() ClusterHealthStatus {
+func (o *ClusterStatus) GetOperateStatus() ClusterComponentStatus {
 	if o == nil || IsNil(o.OperateStatus) {
-		var ret ClusterHealthStatus
+		var ret ClusterComponentStatus
 		return ret
 	}
 	return *o.OperateStatus
@@ -119,7 +58,7 @@ func (o *ClusterStatus) GetOperateStatus() ClusterHealthStatus {
 
 // GetOperateStatusOk returns a tuple with the OperateStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterStatus) GetOperateStatusOk() (*ClusterHealthStatus, bool) {
+func (o *ClusterStatus) GetOperateStatusOk() (*ClusterComponentStatus, bool) {
 	if o == nil || IsNil(o.OperateStatus) {
 		return nil, false
 	}
@@ -135,15 +74,103 @@ func (o *ClusterStatus) HasOperateStatus() bool {
 	return false
 }
 
-// SetOperateStatus gets a reference to the given ClusterHealthStatus and assigns it to the OperateStatus field.
-func (o *ClusterStatus) SetOperateStatus(v ClusterHealthStatus) {
+// SetOperateStatus gets a reference to the given ClusterComponentStatus and assigns it to the OperateStatus field.
+func (o *ClusterStatus) SetOperateStatus(v ClusterComponentStatus) {
 	o.OperateStatus = &v
 }
 
+// GetOptimizeStatus returns the OptimizeStatus field value if set, zero value otherwise.
+func (o *ClusterStatus) GetOptimizeStatus() ClusterComponentStatus {
+	if o == nil || IsNil(o.OptimizeStatus) {
+		var ret ClusterComponentStatus
+		return ret
+	}
+	return *o.OptimizeStatus
+}
+
+// GetOptimizeStatusOk returns a tuple with the OptimizeStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterStatus) GetOptimizeStatusOk() (*ClusterComponentStatus, bool) {
+	if o == nil || IsNil(o.OptimizeStatus) {
+		return nil, false
+	}
+	return o.OptimizeStatus, true
+}
+
+// HasOptimizeStatus returns a boolean if a field has been set.
+func (o *ClusterStatus) HasOptimizeStatus() bool {
+	if o != nil && !IsNil(o.OptimizeStatus) {
+		return true
+	}
+
+	return false
+}
+
+// SetOptimizeStatus gets a reference to the given ClusterComponentStatus and assigns it to the OptimizeStatus field.
+func (o *ClusterStatus) SetOptimizeStatus(v ClusterComponentStatus) {
+	o.OptimizeStatus = &v
+}
+
+// GetReady returns the Ready field value
+func (o *ClusterStatus) GetReady() ClusterComponentStatus {
+	if o == nil {
+		var ret ClusterComponentStatus
+		return ret
+	}
+
+	return o.Ready
+}
+
+// GetReadyOk returns a tuple with the Ready field value
+// and a boolean to check if the value has been set.
+func (o *ClusterStatus) GetReadyOk() (*ClusterComponentStatus, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Ready, true
+}
+
+// SetReady sets field value
+func (o *ClusterStatus) SetReady(v ClusterComponentStatus) {
+	o.Ready = v
+}
+
+// GetTasklistStatus returns the TasklistStatus field value if set, zero value otherwise.
+func (o *ClusterStatus) GetTasklistStatus() ClusterComponentStatus {
+	if o == nil || IsNil(o.TasklistStatus) {
+		var ret ClusterComponentStatus
+		return ret
+	}
+	return *o.TasklistStatus
+}
+
+// GetTasklistStatusOk returns a tuple with the TasklistStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterStatus) GetTasklistStatusOk() (*ClusterComponentStatus, bool) {
+	if o == nil || IsNil(o.TasklistStatus) {
+		return nil, false
+	}
+	return o.TasklistStatus, true
+}
+
+// HasTasklistStatus returns a boolean if a field has been set.
+func (o *ClusterStatus) HasTasklistStatus() bool {
+	if o != nil && !IsNil(o.TasklistStatus) {
+		return true
+	}
+
+	return false
+}
+
+// SetTasklistStatus gets a reference to the given ClusterComponentStatus and assigns it to the TasklistStatus field.
+func (o *ClusterStatus) SetTasklistStatus(v ClusterComponentStatus) {
+	o.TasklistStatus = &v
+}
+
 // GetZeebeStatus returns the ZeebeStatus field value if set, zero value otherwise.
-func (o *ClusterStatus) GetZeebeStatus() ClusterHealthStatus {
+func (o *ClusterStatus) GetZeebeStatus() ClusterComponentStatus {
 	if o == nil || IsNil(o.ZeebeStatus) {
-		var ret ClusterHealthStatus
+		var ret ClusterComponentStatus
 		return ret
 	}
 	return *o.ZeebeStatus
@@ -151,7 +178,7 @@ func (o *ClusterStatus) GetZeebeStatus() ClusterHealthStatus {
 
 // GetZeebeStatusOk returns a tuple with the ZeebeStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterStatus) GetZeebeStatusOk() (*ClusterHealthStatus, bool) {
+func (o *ClusterStatus) GetZeebeStatusOk() (*ClusterComponentStatus, bool) {
 	if o == nil || IsNil(o.ZeebeStatus) {
 		return nil, false
 	}
@@ -167,33 +194,9 @@ func (o *ClusterStatus) HasZeebeStatus() bool {
 	return false
 }
 
-// SetZeebeStatus gets a reference to the given ClusterHealthStatus and assigns it to the ZeebeStatus field.
-func (o *ClusterStatus) SetZeebeStatus(v ClusterHealthStatus) {
+// SetZeebeStatus gets a reference to the given ClusterComponentStatus and assigns it to the ZeebeStatus field.
+func (o *ClusterStatus) SetZeebeStatus(v ClusterComponentStatus) {
 	o.ZeebeStatus = &v
-}
-
-// GetReady returns the Ready field value
-func (o *ClusterStatus) GetReady() ClusterHealthStatus {
-	if o == nil {
-		var ret ClusterHealthStatus
-		return ret
-	}
-
-	return o.Ready
-}
-
-// GetReadyOk returns a tuple with the Ready field value
-// and a boolean to check if the value has been set.
-func (o *ClusterStatus) GetReadyOk() (*ClusterHealthStatus, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Ready, true
-}
-
-// SetReady sets field value
-func (o *ClusterStatus) SetReady(v ClusterHealthStatus) {
-	o.Ready = v
 }
 
 func (o ClusterStatus) MarshalJSON() ([]byte, error) {
@@ -206,20 +209,55 @@ func (o ClusterStatus) MarshalJSON() ([]byte, error) {
 
 func (o ClusterStatus) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.OperateStatus) {
+		toSerialize["operateStatus"] = o.OperateStatus
+	}
 	if !IsNil(o.OptimizeStatus) {
 		toSerialize["optimizeStatus"] = o.OptimizeStatus
 	}
+	toSerialize["ready"] = o.Ready
 	if !IsNil(o.TasklistStatus) {
 		toSerialize["tasklistStatus"] = o.TasklistStatus
-	}
-	if !IsNil(o.OperateStatus) {
-		toSerialize["operateStatus"] = o.OperateStatus
 	}
 	if !IsNil(o.ZeebeStatus) {
 		toSerialize["zeebeStatus"] = o.ZeebeStatus
 	}
-	toSerialize["ready"] = o.Ready
 	return toSerialize, nil
+}
+
+func (o *ClusterStatus) UnmarshalJSON(bytes []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"ready",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varClusterStatus := _ClusterStatus{}
+
+	err = json.Unmarshal(bytes, &varClusterStatus)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ClusterStatus(varClusterStatus)
+
+	return err
 }
 
 type NullableClusterStatus struct {

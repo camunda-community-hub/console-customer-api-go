@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**Uuid** | **string** |  | 
 **ClientId** | **string** |  | 
 **ClientSecret** | **string** |  | 
-**Permissions** | **[]string** |  | 
 **Links** | Pointer to [**CreatedClusterClientLinks**](CreatedClusterClientLinks.md) |  | [optional] 
+**Name** | **string** |  | 
+**Permissions** | **[]string** |  | 
+**Uuid** | **string** |  | 
 
 ## Methods
 
 ### NewCreatedClusterClient
 
-`func NewCreatedClusterClient(name string, uuid string, clientId string, clientSecret string, permissions []string, ) *CreatedClusterClient`
+`func NewCreatedClusterClient(clientId string, clientSecret string, name string, permissions []string, uuid string, ) *CreatedClusterClient`
 
 NewCreatedClusterClient instantiates a new CreatedClusterClient object
 This constructor will assign default values to properties that have it defined,
@@ -29,46 +29,6 @@ will change when the set of required properties is changed
 NewCreatedClusterClientWithDefaults instantiates a new CreatedClusterClient object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetName
-
-`func (o *CreatedClusterClient) GetName() string`
-
-GetName returns the Name field if non-nil, zero value otherwise.
-
-### GetNameOk
-
-`func (o *CreatedClusterClient) GetNameOk() (*string, bool)`
-
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetName
-
-`func (o *CreatedClusterClient) SetName(v string)`
-
-SetName sets Name field to given value.
-
-
-### GetUuid
-
-`func (o *CreatedClusterClient) GetUuid() string`
-
-GetUuid returns the Uuid field if non-nil, zero value otherwise.
-
-### GetUuidOk
-
-`func (o *CreatedClusterClient) GetUuidOk() (*string, bool)`
-
-GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUuid
-
-`func (o *CreatedClusterClient) SetUuid(v string)`
-
-SetUuid sets Uuid field to given value.
-
 
 ### GetClientId
 
@@ -110,26 +70,6 @@ and a boolean to check if the value has been set.
 SetClientSecret sets ClientSecret field to given value.
 
 
-### GetPermissions
-
-`func (o *CreatedClusterClient) GetPermissions() []string`
-
-GetPermissions returns the Permissions field if non-nil, zero value otherwise.
-
-### GetPermissionsOk
-
-`func (o *CreatedClusterClient) GetPermissionsOk() (*[]string, bool)`
-
-GetPermissionsOk returns a tuple with the Permissions field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPermissions
-
-`func (o *CreatedClusterClient) SetPermissions(v []string)`
-
-SetPermissions sets Permissions field to given value.
-
-
 ### GetLinks
 
 `func (o *CreatedClusterClient) GetLinks() CreatedClusterClientLinks`
@@ -154,6 +94,66 @@ SetLinks sets Links field to given value.
 `func (o *CreatedClusterClient) HasLinks() bool`
 
 HasLinks returns a boolean if a field has been set.
+
+### GetName
+
+`func (o *CreatedClusterClient) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *CreatedClusterClient) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *CreatedClusterClient) SetName(v string)`
+
+SetName sets Name field to given value.
+
+
+### GetPermissions
+
+`func (o *CreatedClusterClient) GetPermissions() []string`
+
+GetPermissions returns the Permissions field if non-nil, zero value otherwise.
+
+### GetPermissionsOk
+
+`func (o *CreatedClusterClient) GetPermissionsOk() (*[]string, bool)`
+
+GetPermissionsOk returns a tuple with the Permissions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPermissions
+
+`func (o *CreatedClusterClient) SetPermissions(v []string)`
+
+SetPermissions sets Permissions field to given value.
+
+
+### GetUuid
+
+`func (o *CreatedClusterClient) GetUuid() string`
+
+GetUuid returns the Uuid field if non-nil, zero value otherwise.
+
+### GetUuidOk
+
+`func (o *CreatedClusterClient) GetUuidOk() (*string, bool)`
+
+GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUuid
+
+`func (o *CreatedClusterClient) SetUuid(v string)`
+
+SetUuid sets Uuid field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

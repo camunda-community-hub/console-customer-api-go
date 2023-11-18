@@ -20,15 +20,15 @@ type OrganizationRole string
 
 // List of OrganizationRole
 const (
-	MEMBER             OrganizationRole = "member"
-	ADMIN              OrganizationRole = "admin"
-	OWNER              OrganizationRole = "owner"
-	SUPPORTAGENT       OrganizationRole = "supportagent"
-	OPERATIONSENGINEER OrganizationRole = "operationsengineer"
-	TASKUSER           OrganizationRole = "taskuser"
-	ANALYST            OrganizationRole = "analyst"
-	DEVELOPER          OrganizationRole = "developer"
-	VISITOR            OrganizationRole = "visitor"
+	ORGANIZATIONROLE_MEMBER             OrganizationRole = "member"
+	ORGANIZATIONROLE_ADMIN              OrganizationRole = "admin"
+	ORGANIZATIONROLE_OWNER              OrganizationRole = "owner"
+	ORGANIZATIONROLE_SUPPORTAGENT       OrganizationRole = "supportagent"
+	ORGANIZATIONROLE_OPERATIONSENGINEER OrganizationRole = "operationsengineer"
+	ORGANIZATIONROLE_TASKUSER           OrganizationRole = "taskuser"
+	ORGANIZATIONROLE_ANALYST            OrganizationRole = "analyst"
+	ORGANIZATIONROLE_DEVELOPER          OrganizationRole = "developer"
+	ORGANIZATIONROLE_VISITOR            OrganizationRole = "visitor"
 )
 
 // All allowed values of OrganizationRole enum

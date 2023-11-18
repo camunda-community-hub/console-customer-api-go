@@ -19,12 +19,116 @@ import (
 	"strings"
 )
 
-// ClustersApiService ClustersApi service
-type ClustersApiService service
+// DefaultAPIService DefaultAPI service
+type DefaultAPIService service
+
+type ApiCreateBackupRequest struct {
+	ctx         context.Context
+	ApiService  *DefaultAPIService
+	clusterUuid string
+}
+
+func (r ApiCreateBackupRequest) Execute() (*BackupDto, *http.Response, error) {
+	return r.ApiService.CreateBackupExecute(r)
+}
+
+/*
+CreateBackup Method for CreateBackup
+
+Creates a new backup
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiCreateBackupRequest
+*/
+func (a *DefaultAPIService) CreateBackup(ctx context.Context, clusterUuid string) ApiCreateBackupRequest {
+	return ApiCreateBackupRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+	}
+}
+
+// Execute executes the request
+//
+//	@return BackupDto
+func (a *DefaultAPIService) CreateBackupExecute(r ApiCreateBackupRequest) (*BackupDto, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupDto
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CreateBackup")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}/backups"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiCreateClientRequest struct {
 	ctx                     context.Context
-	ApiService              *ClustersApiService
+	ApiService              *DefaultAPIService
 	clusterUuid             string
 	createClusterClientBody *CreateClusterClientBody
 }
@@ -45,7 +149,7 @@ CreateClient Method for CreateClient
 	@param clusterUuid
 	@return ApiCreateClientRequest
 */
-func (a *ClustersApiService) CreateClient(ctx context.Context, clusterUuid string) ApiCreateClientRequest {
+func (a *DefaultAPIService) CreateClient(ctx context.Context, clusterUuid string) ApiCreateClientRequest {
 	return ApiCreateClientRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -56,7 +160,7 @@ func (a *ClustersApiService) CreateClient(ctx context.Context, clusterUuid strin
 // Execute executes the request
 //
 //	@return CreatedClusterClient
-func (a *ClustersApiService) CreateClientExecute(r ApiCreateClientRequest) (*CreatedClusterClient, *http.Response, error) {
+func (a *DefaultAPIService) CreateClientExecute(r ApiCreateClientRequest) (*CreatedClusterClient, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -64,7 +168,7 @@ func (a *ClustersApiService) CreateClientExecute(r ApiCreateClientRequest) (*Cre
 		localVarReturnValue *CreatedClusterClient
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.CreateClient")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CreateClient")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -137,7 +241,7 @@ func (a *ClustersApiService) CreateClientExecute(r ApiCreateClientRequest) (*Cre
 
 type ApiCreateClusterRequest struct {
 	ctx               context.Context
-	ApiService        *ClustersApiService
+	ApiService        *DefaultAPIService
 	createClusterBody *CreateClusterBody
 }
 
@@ -156,7 +260,7 @@ CreateCluster Method for CreateCluster
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiCreateClusterRequest
 */
-func (a *ClustersApiService) CreateCluster(ctx context.Context) ApiCreateClusterRequest {
+func (a *DefaultAPIService) CreateCluster(ctx context.Context) ApiCreateClusterRequest {
 	return ApiCreateClusterRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -166,7 +270,7 @@ func (a *ClustersApiService) CreateCluster(ctx context.Context) ApiCreateCluster
 // Execute executes the request
 //
 //	@return CreateCluster200Response
-func (a *ClustersApiService) CreateClusterExecute(r ApiCreateClusterRequest) (*CreateCluster200Response, *http.Response, error) {
+func (a *DefaultAPIService) CreateClusterExecute(r ApiCreateClusterRequest) (*CreateCluster200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -174,7 +278,7 @@ func (a *ClustersApiService) CreateClusterExecute(r ApiCreateClusterRequest) (*C
 		localVarReturnValue *CreateCluster200Response
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.CreateCluster")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CreateCluster")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -246,7 +350,7 @@ func (a *ClustersApiService) CreateClusterExecute(r ApiCreateClusterRequest) (*C
 
 type ApiCreateSecretRequest struct {
 	ctx              context.Context
-	ApiService       *ClustersApiService
+	ApiService       *DefaultAPIService
 	clusterUuid      string
 	createSecretBody *CreateSecretBody
 }
@@ -269,7 +373,7 @@ Creates a new secret
 	@param clusterUuid
 	@return ApiCreateSecretRequest
 */
-func (a *ClustersApiService) CreateSecret(ctx context.Context, clusterUuid string) ApiCreateSecretRequest {
+func (a *DefaultAPIService) CreateSecret(ctx context.Context, clusterUuid string) ApiCreateSecretRequest {
 	return ApiCreateSecretRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -278,14 +382,14 @@ func (a *ClustersApiService) CreateSecret(ctx context.Context, clusterUuid strin
 }
 
 // Execute executes the request
-func (a *ClustersApiService) CreateSecretExecute(r ApiCreateSecretRequest) (*http.Response, error) {
+func (a *DefaultAPIService) CreateSecretExecute(r ApiCreateSecretRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.CreateSecret")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CreateSecret")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -347,9 +451,117 @@ func (a *ClustersApiService) CreateSecretExecute(r ApiCreateSecretRequest) (*htt
 	return localVarHTTPResponse, nil
 }
 
+type ApiDeleteBackupRequest struct {
+	ctx         context.Context
+	ApiService  *DefaultAPIService
+	clusterUuid string
+	backupId    string
+}
+
+func (r ApiDeleteBackupRequest) Execute() (*BackupDto, *http.Response, error) {
+	return r.ApiService.DeleteBackupExecute(r)
+}
+
+/*
+DeleteBackup Method for DeleteBackup
+
+Irreversibly deletes a cluster
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@param backupId
+	@return ApiDeleteBackupRequest
+*/
+func (a *DefaultAPIService) DeleteBackup(ctx context.Context, clusterUuid string, backupId string) ApiDeleteBackupRequest {
+	return ApiDeleteBackupRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+		backupId:    backupId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return BackupDto
+func (a *DefaultAPIService) DeleteBackupExecute(r ApiDeleteBackupRequest) (*BackupDto, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupDto
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteBackup")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}/backups/{backupId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"backupId"+"}", url.PathEscape(parameterValueToString(r.backupId, "backupId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiDeleteClientRequest struct {
 	ctx         context.Context
-	ApiService  *ClustersApiService
+	ApiService  *DefaultAPIService
 	clusterUuid string
 	clientId    string
 }
@@ -368,7 +580,7 @@ Irreversibly deletes a cluster client.
 	@param clientId
 	@return ApiDeleteClientRequest
 */
-func (a *ClustersApiService) DeleteClient(ctx context.Context, clusterUuid string, clientId string) ApiDeleteClientRequest {
+func (a *DefaultAPIService) DeleteClient(ctx context.Context, clusterUuid string, clientId string) ApiDeleteClientRequest {
 	return ApiDeleteClientRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -378,14 +590,14 @@ func (a *ClustersApiService) DeleteClient(ctx context.Context, clusterUuid strin
 }
 
 // Execute executes the request
-func (a *ClustersApiService) DeleteClientExecute(r ApiDeleteClientRequest) (*http.Response, error) {
+func (a *DefaultAPIService) DeleteClientExecute(r ApiDeleteClientRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.DeleteClient")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteClient")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -445,7 +657,7 @@ func (a *ClustersApiService) DeleteClientExecute(r ApiDeleteClientRequest) (*htt
 
 type ApiDeleteClusterRequest struct {
 	ctx         context.Context
-	ApiService  *ClustersApiService
+	ApiService  *DefaultAPIService
 	clusterUuid string
 }
 
@@ -462,7 +674,7 @@ Irreversibly deletes a cluster identified by the given clusterUuid.
 	@param clusterUuid
 	@return ApiDeleteClusterRequest
 */
-func (a *ClustersApiService) DeleteCluster(ctx context.Context, clusterUuid string) ApiDeleteClusterRequest {
+func (a *DefaultAPIService) DeleteCluster(ctx context.Context, clusterUuid string) ApiDeleteClusterRequest {
 	return ApiDeleteClusterRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -471,14 +683,14 @@ func (a *ClustersApiService) DeleteCluster(ctx context.Context, clusterUuid stri
 }
 
 // Execute executes the request
-func (a *ClustersApiService) DeleteClusterExecute(r ApiDeleteClusterRequest) (*http.Response, error) {
+func (a *DefaultAPIService) DeleteClusterExecute(r ApiDeleteClusterRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.DeleteCluster")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteCluster")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -535,9 +747,99 @@ func (a *ClustersApiService) DeleteClusterExecute(r ApiDeleteClusterRequest) (*h
 	return localVarHTTPResponse, nil
 }
 
+type ApiDeleteMemberRequest struct {
+	ctx        context.Context
+	ApiService *DefaultAPIService
+	email      string
+}
+
+func (r ApiDeleteMemberRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteMemberExecute(r)
+}
+
+/*
+DeleteMember Method for DeleteMember
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param email
+	@return ApiDeleteMemberRequest
+*/
+func (a *DefaultAPIService) DeleteMember(ctx context.Context, email string) ApiDeleteMemberRequest {
+	return ApiDeleteMemberRequest{
+		ApiService: a,
+		ctx:        ctx,
+		email:      email,
+	}
+}
+
+// Execute executes the request
+func (a *DefaultAPIService) DeleteMemberExecute(r ApiDeleteMemberRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteMember")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/members/{email}"
+	localVarPath = strings.Replace(localVarPath, "{"+"email"+"}", url.PathEscape(parameterValueToString(r.email, "email")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiDeleteSecretRequest struct {
 	ctx         context.Context
-	ApiService  *ClustersApiService
+	ApiService  *DefaultAPIService
 	clusterUuid string
 	secretName  string
 }
@@ -556,7 +858,7 @@ Irreversibly deletes a secret
 	@param secretName
 	@return ApiDeleteSecretRequest
 */
-func (a *ClustersApiService) DeleteSecret(ctx context.Context, clusterUuid string, secretName string) ApiDeleteSecretRequest {
+func (a *DefaultAPIService) DeleteSecret(ctx context.Context, clusterUuid string, secretName string) ApiDeleteSecretRequest {
 	return ApiDeleteSecretRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -566,14 +868,14 @@ func (a *ClustersApiService) DeleteSecret(ctx context.Context, clusterUuid strin
 }
 
 // Execute executes the request
-func (a *ClustersApiService) DeleteSecretExecute(r ApiDeleteSecretRequest) (*http.Response, error) {
+func (a *DefaultAPIService) DeleteSecretExecute(r ApiDeleteSecretRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.DeleteSecret")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteSecret")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -631,9 +933,111 @@ func (a *ClustersApiService) DeleteSecretExecute(r ApiDeleteSecretRequest) (*htt
 	return localVarHTTPResponse, nil
 }
 
+type ApiGetBackupsRequest struct {
+	ctx         context.Context
+	ApiService  *DefaultAPIService
+	clusterUuid string
+}
+
+func (r ApiGetBackupsRequest) Execute() ([]BackupDto, *http.Response, error) {
+	return r.ApiService.GetBackupsExecute(r)
+}
+
+/*
+GetBackups Method for GetBackups
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiGetBackupsRequest
+*/
+func (a *DefaultAPIService) GetBackups(ctx context.Context, clusterUuid string) ApiGetBackupsRequest {
+	return ApiGetBackupsRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+	}
+}
+
+// Execute executes the request
+//
+//	@return []BackupDto
+func (a *DefaultAPIService) GetBackupsExecute(r ApiGetBackupsRequest) ([]BackupDto, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []BackupDto
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetBackups")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}/backups"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetClientRequest struct {
 	ctx         context.Context
-	ApiService  *ClustersApiService
+	ApiService  *DefaultAPIService
 	clusterUuid string
 	clientId    string
 }
@@ -650,7 +1054,7 @@ GetClient Method for GetClient
 	@param clientId
 	@return ApiGetClientRequest
 */
-func (a *ClustersApiService) GetClient(ctx context.Context, clusterUuid string, clientId string) ApiGetClientRequest {
+func (a *DefaultAPIService) GetClient(ctx context.Context, clusterUuid string, clientId string) ApiGetClientRequest {
 	return ApiGetClientRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -662,7 +1066,7 @@ func (a *ClustersApiService) GetClient(ctx context.Context, clusterUuid string, 
 // Execute executes the request
 //
 //	@return ClusterClientConnectionDetails
-func (a *ClustersApiService) GetClientExecute(r ApiGetClientRequest) (*ClusterClientConnectionDetails, *http.Response, error) {
+func (a *DefaultAPIService) GetClientExecute(r ApiGetClientRequest) (*ClusterClientConnectionDetails, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -670,7 +1074,7 @@ func (a *ClustersApiService) GetClientExecute(r ApiGetClientRequest) (*ClusterCl
 		localVarReturnValue *ClusterClientConnectionDetails
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetClient")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetClient")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -739,7 +1143,7 @@ func (a *ClustersApiService) GetClientExecute(r ApiGetClientRequest) (*ClusterCl
 
 type ApiGetClientsRequest struct {
 	ctx         context.Context
-	ApiService  *ClustersApiService
+	ApiService  *DefaultAPIService
 	clusterUuid string
 }
 
@@ -754,7 +1158,7 @@ GetClients Method for GetClients
 	@param clusterUuid
 	@return ApiGetClientsRequest
 */
-func (a *ClustersApiService) GetClients(ctx context.Context, clusterUuid string) ApiGetClientsRequest {
+func (a *DefaultAPIService) GetClients(ctx context.Context, clusterUuid string) ApiGetClientsRequest {
 	return ApiGetClientsRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -765,7 +1169,7 @@ func (a *ClustersApiService) GetClients(ctx context.Context, clusterUuid string)
 // Execute executes the request
 //
 //	@return []ClusterClient
-func (a *ClustersApiService) GetClientsExecute(r ApiGetClientsRequest) ([]ClusterClient, *http.Response, error) {
+func (a *DefaultAPIService) GetClientsExecute(r ApiGetClientsRequest) ([]ClusterClient, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -773,7 +1177,7 @@ func (a *ClustersApiService) GetClientsExecute(r ApiGetClientsRequest) ([]Cluste
 		localVarReturnValue []ClusterClient
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetClients")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetClients")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -841,7 +1245,7 @@ func (a *ClustersApiService) GetClientsExecute(r ApiGetClientsRequest) ([]Cluste
 
 type ApiGetClusterRequest struct {
 	ctx         context.Context
-	ApiService  *ClustersApiService
+	ApiService  *DefaultAPIService
 	clusterUuid string
 }
 
@@ -856,7 +1260,7 @@ GetCluster Method for GetCluster
 	@param clusterUuid
 	@return ApiGetClusterRequest
 */
-func (a *ClustersApiService) GetCluster(ctx context.Context, clusterUuid string) ApiGetClusterRequest {
+func (a *DefaultAPIService) GetCluster(ctx context.Context, clusterUuid string) ApiGetClusterRequest {
 	return ApiGetClusterRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -867,7 +1271,7 @@ func (a *ClustersApiService) GetCluster(ctx context.Context, clusterUuid string)
 // Execute executes the request
 //
 //	@return Cluster
-func (a *ClustersApiService) GetClusterExecute(r ApiGetClusterRequest) (*Cluster, *http.Response, error) {
+func (a *DefaultAPIService) GetClusterExecute(r ApiGetClusterRequest) (*Cluster, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -875,7 +1279,7 @@ func (a *ClustersApiService) GetClusterExecute(r ApiGetClusterRequest) (*Cluster
 		localVarReturnValue *Cluster
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetCluster")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetCluster")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -943,7 +1347,7 @@ func (a *ClustersApiService) GetClusterExecute(r ApiGetClusterRequest) (*Cluster
 
 type ApiGetClustersRequest struct {
 	ctx        context.Context
-	ApiService *ClustersApiService
+	ApiService *DefaultAPIService
 }
 
 func (r ApiGetClustersRequest) Execute() ([]Cluster, *http.Response, error) {
@@ -956,7 +1360,7 @@ GetClusters Method for GetClusters
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiGetClustersRequest
 */
-func (a *ClustersApiService) GetClusters(ctx context.Context) ApiGetClustersRequest {
+func (a *DefaultAPIService) GetClusters(ctx context.Context) ApiGetClustersRequest {
 	return ApiGetClustersRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -966,7 +1370,7 @@ func (a *ClustersApiService) GetClusters(ctx context.Context) ApiGetClustersRequ
 // Execute executes the request
 //
 //	@return []Cluster
-func (a *ClustersApiService) GetClustersExecute(r ApiGetClustersRequest) ([]Cluster, *http.Response, error) {
+func (a *DefaultAPIService) GetClustersExecute(r ApiGetClustersRequest) ([]Cluster, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -974,7 +1378,7 @@ func (a *ClustersApiService) GetClustersExecute(r ApiGetClustersRequest) ([]Clus
 		localVarReturnValue []Cluster
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetClusters")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetClusters")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1039,9 +1443,107 @@ func (a *ClustersApiService) GetClustersExecute(r ApiGetClustersRequest) ([]Clus
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetMembersRequest struct {
+	ctx        context.Context
+	ApiService *DefaultAPIService
+}
+
+func (r ApiGetMembersRequest) Execute() ([]Member, *http.Response, error) {
+	return r.ApiService.GetMembersExecute(r)
+}
+
+/*
+GetMembers Method for GetMembers
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetMembersRequest
+*/
+func (a *DefaultAPIService) GetMembers(ctx context.Context) ApiGetMembersRequest {
+	return ApiGetMembersRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return []Member
+func (a *DefaultAPIService) GetMembersExecute(r ApiGetMembersRequest) ([]Member, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Member
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetMembers")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/members"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetParametersRequest struct {
 	ctx        context.Context
-	ApiService *ClustersApiService
+	ApiService *DefaultAPIService
 }
 
 func (r ApiGetParametersRequest) Execute() (*Parameters, *http.Response, error) {
@@ -1056,7 +1558,7 @@ Gets all possible options to create a Camunda cluster.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiGetParametersRequest
 */
-func (a *ClustersApiService) GetParameters(ctx context.Context) ApiGetParametersRequest {
+func (a *DefaultAPIService) GetParameters(ctx context.Context) ApiGetParametersRequest {
 	return ApiGetParametersRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1066,7 +1568,7 @@ func (a *ClustersApiService) GetParameters(ctx context.Context) ApiGetParameters
 // Execute executes the request
 //
 //	@return Parameters
-func (a *ClustersApiService) GetParametersExecute(r ApiGetParametersRequest) (*Parameters, *http.Response, error) {
+func (a *DefaultAPIService) GetParametersExecute(r ApiGetParametersRequest) (*Parameters, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1074,7 +1576,7 @@ func (a *ClustersApiService) GetParametersExecute(r ApiGetParametersRequest) (*P
 		localVarReturnValue *Parameters
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetParameters")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetParameters")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1141,7 +1643,7 @@ func (a *ClustersApiService) GetParametersExecute(r ApiGetParametersRequest) (*P
 
 type ApiGetSecretsRequest struct {
 	ctx         context.Context
-	ApiService  *ClustersApiService
+	ApiService  *DefaultAPIService
 	clusterUuid string
 }
 
@@ -1156,7 +1658,7 @@ GetSecrets Method for GetSecrets
 	@param clusterUuid
 	@return ApiGetSecretsRequest
 */
-func (a *ClustersApiService) GetSecrets(ctx context.Context, clusterUuid string) ApiGetSecretsRequest {
+func (a *DefaultAPIService) GetSecrets(ctx context.Context, clusterUuid string) ApiGetSecretsRequest {
 	return ApiGetSecretsRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -1167,7 +1669,7 @@ func (a *ClustersApiService) GetSecrets(ctx context.Context, clusterUuid string)
 // Execute executes the request
 //
 //	@return map[string]string
-func (a *ClustersApiService) GetSecretsExecute(r ApiGetSecretsRequest) (map[string]string, *http.Response, error) {
+func (a *DefaultAPIService) GetSecretsExecute(r ApiGetSecretsRequest) (map[string]string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1175,7 +1677,7 @@ func (a *ClustersApiService) GetSecretsExecute(r ApiGetSecretsRequest) (map[stri
 		localVarReturnValue map[string]string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetSecrets")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetSecrets")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1243,7 +1745,7 @@ func (a *ClustersApiService) GetSecretsExecute(r ApiGetSecretsRequest) (map[stri
 
 type ApiUpdateIpWhitelistRequest struct {
 	ctx             context.Context
-	ApiService      *ClustersApiService
+	ApiService      *DefaultAPIService
 	clusterUuid     string
 	ipWhiteListBody *IpWhiteListBody
 }
@@ -1260,13 +1762,13 @@ func (r ApiUpdateIpWhitelistRequest) Execute() (*http.Response, error) {
 /*
 UpdateIpWhitelist Method for UpdateIpWhitelist
 
-Updates the IP Whitelist rules for your cluster.
+Updates the IP Whitelist rules for your cluster. Each entry in the array must be a valid comma separated list of CIDRs.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param clusterUuid
 	@return ApiUpdateIpWhitelistRequest
 */
-func (a *ClustersApiService) UpdateIpWhitelist(ctx context.Context, clusterUuid string) ApiUpdateIpWhitelistRequest {
+func (a *DefaultAPIService) UpdateIpWhitelist(ctx context.Context, clusterUuid string) ApiUpdateIpWhitelistRequest {
 	return ApiUpdateIpWhitelistRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -1275,14 +1777,14 @@ func (a *ClustersApiService) UpdateIpWhitelist(ctx context.Context, clusterUuid 
 }
 
 // Execute executes the request
-func (a *ClustersApiService) UpdateIpWhitelistExecute(r ApiUpdateIpWhitelistRequest) (*http.Response, error) {
+func (a *DefaultAPIService) UpdateIpWhitelistExecute(r ApiUpdateIpWhitelistRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPut
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.UpdateIpWhitelist")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.UpdateIpWhitelist")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1316,6 +1818,107 @@ func (a *ClustersApiService) UpdateIpWhitelistExecute(r ApiUpdateIpWhitelistRequ
 	}
 	// body params
 	localVarPostBody = r.ipWhiteListBody
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiUpdateMembersRequest struct {
+	ctx            context.Context
+	ApiService     *DefaultAPIService
+	email          string
+	postMemberBody *PostMemberBody
+}
+
+func (r ApiUpdateMembersRequest) PostMemberBody(postMemberBody PostMemberBody) ApiUpdateMembersRequest {
+	r.postMemberBody = &postMemberBody
+	return r
+}
+
+func (r ApiUpdateMembersRequest) Execute() (*http.Response, error) {
+	return r.ApiService.UpdateMembersExecute(r)
+}
+
+/*
+UpdateMembers Method for UpdateMembers
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param email
+	@return ApiUpdateMembersRequest
+*/
+func (a *DefaultAPIService) UpdateMembers(ctx context.Context, email string) ApiUpdateMembersRequest {
+	return ApiUpdateMembersRequest{
+		ApiService: a,
+		ctx:        ctx,
+		email:      email,
+	}
+}
+
+// Execute executes the request
+func (a *DefaultAPIService) UpdateMembersExecute(r ApiUpdateMembersRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.UpdateMembers")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/members/{email}"
+	localVarPath = strings.Replace(localVarPath, "{"+"email"+"}", url.PathEscape(parameterValueToString(r.email, "email")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.postMemberBody == nil {
+		return nil, reportError("postMemberBody is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.postMemberBody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err

@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Oauth** | Pointer to **string** |  | [optional] 
 **Connectors** | Pointer to **string** |  | [optional] 
 **Console** | Pointer to **string** |  | [optional] 
+**Oauth** | Pointer to **string** |  | [optional] 
+**Operate** | Pointer to **string** |  | [optional] 
 **Optimize** | Pointer to **string** |  | [optional] 
 **Tasklist** | Pointer to **string** |  | [optional] 
-**Operate** | Pointer to **string** |  | [optional] 
 **Zeebe** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -30,31 +30,6 @@ will change when the set of required properties is changed
 NewClusterLinksWithDefaults instantiates a new ClusterLinks object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetOauth
-
-`func (o *ClusterLinks) GetOauth() string`
-
-GetOauth returns the Oauth field if non-nil, zero value otherwise.
-
-### GetOauthOk
-
-`func (o *ClusterLinks) GetOauthOk() (*string, bool)`
-
-GetOauthOk returns a tuple with the Oauth field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOauth
-
-`func (o *ClusterLinks) SetOauth(v string)`
-
-SetOauth sets Oauth field to given value.
-
-### HasOauth
-
-`func (o *ClusterLinks) HasOauth() bool`
-
-HasOauth returns a boolean if a field has been set.
 
 ### GetConnectors
 
@@ -106,6 +81,56 @@ SetConsole sets Console field to given value.
 
 HasConsole returns a boolean if a field has been set.
 
+### GetOauth
+
+`func (o *ClusterLinks) GetOauth() string`
+
+GetOauth returns the Oauth field if non-nil, zero value otherwise.
+
+### GetOauthOk
+
+`func (o *ClusterLinks) GetOauthOk() (*string, bool)`
+
+GetOauthOk returns a tuple with the Oauth field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOauth
+
+`func (o *ClusterLinks) SetOauth(v string)`
+
+SetOauth sets Oauth field to given value.
+
+### HasOauth
+
+`func (o *ClusterLinks) HasOauth() bool`
+
+HasOauth returns a boolean if a field has been set.
+
+### GetOperate
+
+`func (o *ClusterLinks) GetOperate() string`
+
+GetOperate returns the Operate field if non-nil, zero value otherwise.
+
+### GetOperateOk
+
+`func (o *ClusterLinks) GetOperateOk() (*string, bool)`
+
+GetOperateOk returns a tuple with the Operate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOperate
+
+`func (o *ClusterLinks) SetOperate(v string)`
+
+SetOperate sets Operate field to given value.
+
+### HasOperate
+
+`func (o *ClusterLinks) HasOperate() bool`
+
+HasOperate returns a boolean if a field has been set.
+
 ### GetOptimize
 
 `func (o *ClusterLinks) GetOptimize() string`
@@ -155,31 +180,6 @@ SetTasklist sets Tasklist field to given value.
 `func (o *ClusterLinks) HasTasklist() bool`
 
 HasTasklist returns a boolean if a field has been set.
-
-### GetOperate
-
-`func (o *ClusterLinks) GetOperate() string`
-
-GetOperate returns the Operate field if non-nil, zero value otherwise.
-
-### GetOperateOk
-
-`func (o *ClusterLinks) GetOperateOk() (*string, bool)`
-
-GetOperateOk returns a tuple with the Operate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOperate
-
-`func (o *ClusterLinks) SetOperate(v string)`
-
-SetOperate sets Operate field to given value.
-
-### HasOperate
-
-`func (o *ClusterLinks) HasOperate() bool`
-
-HasOperate returns a boolean if a field has been set.
 
 ### GetZeebe
 

@@ -18,6 +18,11 @@ import (
 // OrganizationRoleADMIN the model 'OrganizationRoleADMIN'
 type OrganizationRoleADMIN string
 
+// List of OrganizationRole.ADMIN
+const (
+	ORGANIZATIONROLEADMIN_ADMIN OrganizationRoleADMIN = "admin"
+)
+
 // All allowed values of OrganizationRoleADMIN enum
 var AllowedOrganizationRoleADMINEnumValues = []OrganizationRoleADMIN{
 	"admin",

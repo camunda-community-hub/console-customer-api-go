@@ -4,23 +4,25 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Uuid** | **string** | The ID used in all further API operations referencing your cluster. | 
+**AutoUpdate** | **bool** | The cluster will automatically be updated by Camunda when a new C8 version is released If the cluster you want to create is running on a non-stable Channel passing this property will be ignored! | 
+**Channel** | [**ClusterChannel**](ClusterChannel.md) |  | 
+**Created** | **time.Time** |  | 
+**Generation** | [**ClusterGeneration**](ClusterGeneration.md) |  | 
+**Ipwhitelist** | Pointer to [**[]ClusterIpwhitelistInner**](ClusterIpwhitelistInner.md) | the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
+**Labels** | Pointer to **[]string** |  | [optional] 
+**Links** | [**ClusterLinks**](ClusterLinks.md) |  | 
 **Name** | **string** |  | 
 **OwnerId** | **string** |  | 
-**Created** | **time.Time** |  | 
 **PlanType** | [**ClusterPlanType**](ClusterPlanType.md) |  | 
 **Region** | [**ClusterRegion**](ClusterRegion.md) |  | 
-**Generation** | [**ClusterGeneration**](ClusterGeneration.md) |  | 
-**Channel** | [**ClusterChannel**](ClusterChannel.md) |  | 
-**Ipwhitelist** | Pointer to [**[]ClusterIpwhitelistInner**](ClusterIpwhitelistInner.md) | the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
-**Status** | [**ClusterStatus**](ClusterStatus.md) |  | 
-**Links** | [**ClusterLinks**](ClusterLinks.md) |  | 
+**Status** | [**ClusterComponentStatus**](ClusterStatus.md) |  | 
+**Uuid** | **string** | The ID used in all further API operations referencing your cluster. | 
 
 ## Methods
 
 ### NewCluster
 
-`func NewCluster(uuid string, name string, ownerId string, created time.Time, planType ClusterPlanType, region ClusterRegion, generation ClusterGeneration, channel ClusterChannel, status ClusterStatus, links ClusterLinks, ) *Cluster`
+`func NewCluster(autoUpdate bool, channel ClusterChannel, created time.Time, generation ClusterGeneration, links ClusterLinks, name string, ownerId string, planType ClusterPlanType, region ClusterRegion, status ClusterComponentStatus, uuid string, ) *Cluster`
 
 NewCluster instantiates a new Cluster object
 This constructor will assign default values to properties that have it defined,
@@ -35,24 +37,154 @@ NewClusterWithDefaults instantiates a new Cluster object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetUuid
+### GetAutoUpdate
 
-`func (o *Cluster) GetUuid() string`
+`func (o *Cluster) GetAutoUpdate() bool`
 
-GetUuid returns the Uuid field if non-nil, zero value otherwise.
+GetAutoUpdate returns the AutoUpdate field if non-nil, zero value otherwise.
 
-### GetUuidOk
+### GetAutoUpdateOk
 
-`func (o *Cluster) GetUuidOk() (*string, bool)`
+`func (o *Cluster) GetAutoUpdateOk() (*bool, bool)`
 
-GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
+GetAutoUpdateOk returns a tuple with the AutoUpdate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUuid
+### SetAutoUpdate
 
-`func (o *Cluster) SetUuid(v string)`
+`func (o *Cluster) SetAutoUpdate(v bool)`
 
-SetUuid sets Uuid field to given value.
+SetAutoUpdate sets AutoUpdate field to given value.
+
+
+### GetChannel
+
+`func (o *Cluster) GetChannel() ClusterChannel`
+
+GetChannel returns the Channel field if non-nil, zero value otherwise.
+
+### GetChannelOk
+
+`func (o *Cluster) GetChannelOk() (*ClusterChannel, bool)`
+
+GetChannelOk returns a tuple with the Channel field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetChannel
+
+`func (o *Cluster) SetChannel(v ClusterChannel)`
+
+SetChannel sets Channel field to given value.
+
+
+### GetCreated
+
+`func (o *Cluster) GetCreated() time.Time`
+
+GetCreated returns the Created field if non-nil, zero value otherwise.
+
+### GetCreatedOk
+
+`func (o *Cluster) GetCreatedOk() (*time.Time, bool)`
+
+GetCreatedOk returns a tuple with the Created field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreated
+
+`func (o *Cluster) SetCreated(v time.Time)`
+
+SetCreated sets Created field to given value.
+
+
+### GetGeneration
+
+`func (o *Cluster) GetGeneration() ClusterGeneration`
+
+GetGeneration returns the Generation field if non-nil, zero value otherwise.
+
+### GetGenerationOk
+
+`func (o *Cluster) GetGenerationOk() (*ClusterGeneration, bool)`
+
+GetGenerationOk returns a tuple with the Generation field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetGeneration
+
+`func (o *Cluster) SetGeneration(v ClusterGeneration)`
+
+SetGeneration sets Generation field to given value.
+
+
+### GetIpwhitelist
+
+`func (o *Cluster) GetIpwhitelist() []ClusterIpwhitelistInner`
+
+GetIpwhitelist returns the Ipwhitelist field if non-nil, zero value otherwise.
+
+### GetIpwhitelistOk
+
+`func (o *Cluster) GetIpwhitelistOk() (*[]ClusterIpwhitelistInner, bool)`
+
+GetIpwhitelistOk returns a tuple with the Ipwhitelist field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIpwhitelist
+
+`func (o *Cluster) SetIpwhitelist(v []ClusterIpwhitelistInner)`
+
+SetIpwhitelist sets Ipwhitelist field to given value.
+
+### HasIpwhitelist
+
+`func (o *Cluster) HasIpwhitelist() bool`
+
+HasIpwhitelist returns a boolean if a field has been set.
+
+### GetLabels
+
+`func (o *Cluster) GetLabels() []string`
+
+GetLabels returns the Labels field if non-nil, zero value otherwise.
+
+### GetLabelsOk
+
+`func (o *Cluster) GetLabelsOk() (*[]string, bool)`
+
+GetLabelsOk returns a tuple with the Labels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLabels
+
+`func (o *Cluster) SetLabels(v []string)`
+
+SetLabels sets Labels field to given value.
+
+### HasLabels
+
+`func (o *Cluster) HasLabels() bool`
+
+HasLabels returns a boolean if a field has been set.
+
+### GetLinks
+
+`func (o *Cluster) GetLinks() ClusterLinks`
+
+GetLinks returns the Links field if non-nil, zero value otherwise.
+
+### GetLinksOk
+
+`func (o *Cluster) GetLinksOk() (*ClusterLinks, bool)`
+
+GetLinksOk returns a tuple with the Links field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLinks
+
+`func (o *Cluster) SetLinks(v ClusterLinks)`
+
+SetLinks sets Links field to given value.
 
 
 ### GetName
@@ -95,26 +227,6 @@ and a boolean to check if the value has been set.
 SetOwnerId sets OwnerId field to given value.
 
 
-### GetCreated
-
-`func (o *Cluster) GetCreated() time.Time`
-
-GetCreated returns the Created field if non-nil, zero value otherwise.
-
-### GetCreatedOk
-
-`func (o *Cluster) GetCreatedOk() (*time.Time, bool)`
-
-GetCreatedOk returns a tuple with the Created field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCreated
-
-`func (o *Cluster) SetCreated(v time.Time)`
-
-SetCreated sets Created field to given value.
-
-
 ### GetPlanType
 
 `func (o *Cluster) GetPlanType() ClusterPlanType`
@@ -155,109 +267,44 @@ and a boolean to check if the value has been set.
 SetRegion sets Region field to given value.
 
 
-### GetGeneration
-
-`func (o *Cluster) GetGeneration() ClusterGeneration`
-
-GetGeneration returns the Generation field if non-nil, zero value otherwise.
-
-### GetGenerationOk
-
-`func (o *Cluster) GetGenerationOk() (*ClusterGeneration, bool)`
-
-GetGenerationOk returns a tuple with the Generation field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetGeneration
-
-`func (o *Cluster) SetGeneration(v ClusterGeneration)`
-
-SetGeneration sets Generation field to given value.
-
-
-### GetChannel
-
-`func (o *Cluster) GetChannel() ClusterChannel`
-
-GetChannel returns the Channel field if non-nil, zero value otherwise.
-
-### GetChannelOk
-
-`func (o *Cluster) GetChannelOk() (*ClusterChannel, bool)`
-
-GetChannelOk returns a tuple with the Channel field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetChannel
-
-`func (o *Cluster) SetChannel(v ClusterChannel)`
-
-SetChannel sets Channel field to given value.
-
-
-### GetIpwhitelist
-
-`func (o *Cluster) GetIpwhitelist() []ClusterIpwhitelistInner`
-
-GetIpwhitelist returns the Ipwhitelist field if non-nil, zero value otherwise.
-
-### GetIpwhitelistOk
-
-`func (o *Cluster) GetIpwhitelistOk() (*[]ClusterIpwhitelistInner, bool)`
-
-GetIpwhitelistOk returns a tuple with the Ipwhitelist field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIpwhitelist
-
-`func (o *Cluster) SetIpwhitelist(v []ClusterIpwhitelistInner)`
-
-SetIpwhitelist sets Ipwhitelist field to given value.
-
-### HasIpwhitelist
-
-`func (o *Cluster) HasIpwhitelist() bool`
-
-HasIpwhitelist returns a boolean if a field has been set.
-
 ### GetStatus
 
-`func (o *Cluster) GetStatus() ClusterStatus`
+`func (o *Cluster) GetStatus() ClusterComponentStatus`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *Cluster) GetStatusOk() (*ClusterStatus, bool)`
+`func (o *Cluster) GetStatusOk() (*ClusterComponentStatus, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *Cluster) SetStatus(v ClusterStatus)`
+`func (o *Cluster) SetStatus(v ClusterComponentStatus)`
 
 SetStatus sets Status field to given value.
 
 
-### GetLinks
+### GetUuid
 
-`func (o *Cluster) GetLinks() ClusterLinks`
+`func (o *Cluster) GetUuid() string`
 
-GetLinks returns the Links field if non-nil, zero value otherwise.
+GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
-### GetLinksOk
+### GetUuidOk
 
-`func (o *Cluster) GetLinksOk() (*ClusterLinks, bool)`
+`func (o *Cluster) GetUuidOk() (*string, bool)`
 
-GetLinksOk returns a tuple with the Links field if it's non-nil, zero value otherwise
+GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetLinks
+### SetUuid
 
-`func (o *Cluster) SetLinks(v ClusterLinks)`
+`func (o *Cluster) SetUuid(v string)`
 
-SetLinks sets Links field to given value.
+SetUuid sets Uuid field to given value.
 
 
 

@@ -28,10 +28,67 @@
           }
         ]
       },
+      "BackupDto": {
+        "additionalProperties": false,
+        "properties": {
+          "completed": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "operateStatus": {
+            "$ref": "#/components/schemas/BackupStatus"
+          },
+          "optimizeStatus": {
+            "$ref": "#/components/schemas/BackupStatus"
+          },
+          "status": {
+            "$ref": "#/components/schemas/BackupStatus"
+          },
+          "tasklistStatus": {
+            "$ref": "#/components/schemas/BackupStatus"
+          },
+          "uuid": {
+            "type": "string"
+          },
+          "zeebeStatus": {
+            "$ref": "#/components/schemas/BackupStatus"
+          }
+        },
+        "required": [
+          "uuid",
+          "name",
+          "created",
+          "completed",
+          "status",
+          "zeebeStatus",
+          "tasklistStatus",
+          "operateStatus",
+          "optimizeStatus"
+        ],
+        "type": "object"
+      },
+      "BackupStatus": {
+        "enum": [
+          "In progress",
+          "Failed",
+          "Complete",
+          "-"
+        ],
+        "type": "string"
+      },
       "Cluster": {
         "additionalProperties": false,
         "description": "Describing a Camunda cluster running in your organization. For reference, use the UUID.",
         "properties": {
+          "autoUpdate": {
+            "description": "The cluster will automatically be updated by Camunda when a new C8 version is released\nIf the cluster you want to create is running on a non-stable Channel passing this property will be ignored!",
+            "type": "boolean"
+          },
           "channel": {
             "description": "The software channel your cluster is running on.",
             "properties": {
@@ -84,6 +141,12 @@
                 "ip"
               ],
               "type": "object"
+            },
+            "type": "array"
+          },
+          "labels": {
+            "items": {
+              "type": "string"
             },
             "type": "array"
           },
@@ -156,19 +219,19 @@
             "description": "A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.",
             "properties": {
               "operateStatus": {
-                "$ref": "#/components/schemas/ClusterHealthStatus"
+                "$ref": "#/components/schemas/ClusterStatus"
               },
               "optimizeStatus": {
-                "$ref": "#/components/schemas/ClusterHealthStatus"
+                "$ref": "#/components/schemas/ClusterStatus"
               },
               "ready": {
-                "$ref": "#/components/schemas/ClusterHealthStatus"
+                "$ref": "#/components/schemas/ClusterStatus"
               },
               "tasklistStatus": {
-                "$ref": "#/components/schemas/ClusterHealthStatus"
+                "$ref": "#/components/schemas/ClusterStatus"
               },
               "zeebeStatus": {
-                "$ref": "#/components/schemas/ClusterHealthStatus"
+                "$ref": "#/components/schemas/ClusterStatus"
               }
             },
             "required": [
@@ -190,6 +253,7 @@
           "region",
           "generation",
           "channel",
+          "autoUpdate",
           "status",
           "links"
         ],
@@ -248,7 +312,14 @@
         ],
         "type": "object"
       },
-      "ClusterHealthStatus": {
+      "ClusterSecrets": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "properties": {},
+        "type": "object"
+      },
+      "ClusterStatus": {
         "enum": [
           "Healthy",
           "Unhealthy",
@@ -257,17 +328,14 @@
         ],
         "type": "string"
       },
-      "ClusterSecrets": {
-        "additionalProperties": {
-          "type": "string"
-        },
-        "properties": {},
-        "type": "object"
-      },
       "CreateClusterBody": {
         "additionalProperties": false,
         "description": "Used to create a cluster through this API. All necessary values can be retrieved from the <pre>/clusters/parameters</pre> endpoint.",
         "properties": {
+          "autoUpdate": {
+            "description": "If set to false, no automatic updates will be performed on your cluster.",
+            "type": "boolean"
+          },
           "channelId": {
             "description": "The channel (software spec) to use.",
             "type": "string"
@@ -300,6 +368,7 @@
       },
       "CreateClusterClientBody": {
         "additionalProperties": false,
+        "description": "if no permissions are passed, the client will be created with all the permissions available at the time of creation",
         "properties": {
           "clientName": {
             "type": "string"
@@ -659,9 +728,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       },
       "post": {
@@ -704,9 +770,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       }
     },
@@ -731,9 +794,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       }
     },
@@ -763,9 +823,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       },
       "get": {
@@ -799,9 +856,125 @@
           {
             "bearer": []
           }
+        ]
+      }
+    },
+    "/clusters/{clusterUuid}/backups": {
+      "get": {
+        "operationId": "GetBackups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "tags": [
-          "Clusters"
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BackupDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "A list of all the backups created for your Camunda cluster."
+          },
+          "403": {
+            "description": "Cluster is not yours"
+          },
+          "404": {
+            "description": "Cluster not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "description": "Creates a new backup",
+        "operationId": "CreateBackup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackupDto"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "404": {
+            "description": "Cluster not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/clusters/{clusterUuid}/backups/{backupId}": {
+      "delete": {
+        "description": "Irreversibly deletes a cluster",
+        "operationId": "DeleteBackup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "backupId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackupDto"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "403": {
+            "description": "Cluster is not yours"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -843,9 +1016,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       },
       "post": {
@@ -895,9 +1065,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       }
     },
@@ -938,9 +1105,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       },
       "get": {
@@ -988,15 +1152,12 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       }
     },
     "/clusters/{clusterUuid}/ipwhitelist": {
       "put": {
-        "description": "Updates the IP Whitelist rules for your cluster.",
+        "description": "Updates the IP Whitelist rules for your cluster. Each entry in the array must be a valid comma separated list of CIDRs.",
         "operationId": "UpdateIpWhitelist",
         "parameters": [
           {
@@ -1027,9 +1188,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       }
     },
@@ -1068,9 +1226,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       },
       "post": {
@@ -1117,9 +1272,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       }
     },
@@ -1157,9 +1309,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Clusters"
         ]
       }
     },
@@ -1189,9 +1338,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Members"
         ]
       }
     },
@@ -1223,9 +1369,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Members"
         ]
       },
       "post": {
@@ -1265,9 +1408,6 @@
           {
             "bearer": []
           }
-        ],
-        "tags": [
-          "Members"
         ]
       }
     }

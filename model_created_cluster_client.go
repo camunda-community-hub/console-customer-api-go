@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the CreatedClusterClient type satisfies the MappedNullable interface at compile time
@@ -19,25 +20,27 @@ var _ MappedNullable = &CreatedClusterClient{}
 
 // CreatedClusterClient struct for CreatedClusterClient
 type CreatedClusterClient struct {
-	Name         string                     `json:"name"`
-	Uuid         string                     `json:"uuid"`
 	ClientId     string                     `json:"clientId"`
 	ClientSecret string                     `json:"clientSecret"`
-	Permissions  []string                   `json:"permissions"`
 	Links        *CreatedClusterClientLinks `json:"links,omitempty"`
+	Name         string                     `json:"name"`
+	Permissions  []string                   `json:"permissions"`
+	Uuid         string                     `json:"uuid"`
 }
+
+type _CreatedClusterClient CreatedClusterClient
 
 // NewCreatedClusterClient instantiates a new CreatedClusterClient object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreatedClusterClient(name string, uuid string, clientId string, clientSecret string, permissions []string) *CreatedClusterClient {
+func NewCreatedClusterClient(clientId string, clientSecret string, name string, permissions []string, uuid string) *CreatedClusterClient {
 	this := CreatedClusterClient{}
-	this.Name = name
-	this.Uuid = uuid
 	this.ClientId = clientId
 	this.ClientSecret = clientSecret
+	this.Name = name
 	this.Permissions = permissions
+	this.Uuid = uuid
 	return &this
 }
 
@@ -47,54 +50,6 @@ func NewCreatedClusterClient(name string, uuid string, clientId string, clientSe
 func NewCreatedClusterClientWithDefaults() *CreatedClusterClient {
 	this := CreatedClusterClient{}
 	return &this
-}
-
-// GetName returns the Name field value
-func (o *CreatedClusterClient) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *CreatedClusterClient) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value
-func (o *CreatedClusterClient) SetName(v string) {
-	o.Name = v
-}
-
-// GetUuid returns the Uuid field value
-func (o *CreatedClusterClient) GetUuid() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Uuid
-}
-
-// GetUuidOk returns a tuple with the Uuid field value
-// and a boolean to check if the value has been set.
-func (o *CreatedClusterClient) GetUuidOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Uuid, true
-}
-
-// SetUuid sets field value
-func (o *CreatedClusterClient) SetUuid(v string) {
-	o.Uuid = v
 }
 
 // GetClientId returns the ClientId field value
@@ -145,30 +100,6 @@ func (o *CreatedClusterClient) SetClientSecret(v string) {
 	o.ClientSecret = v
 }
 
-// GetPermissions returns the Permissions field value
-func (o *CreatedClusterClient) GetPermissions() []string {
-	if o == nil {
-		var ret []string
-		return ret
-	}
-
-	return o.Permissions
-}
-
-// GetPermissionsOk returns a tuple with the Permissions field value
-// and a boolean to check if the value has been set.
-func (o *CreatedClusterClient) GetPermissionsOk() ([]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Permissions, true
-}
-
-// SetPermissions sets field value
-func (o *CreatedClusterClient) SetPermissions(v []string) {
-	o.Permissions = v
-}
-
 // GetLinks returns the Links field value if set, zero value otherwise.
 func (o *CreatedClusterClient) GetLinks() CreatedClusterClientLinks {
 	if o == nil || IsNil(o.Links) {
@@ -201,6 +132,78 @@ func (o *CreatedClusterClient) SetLinks(v CreatedClusterClientLinks) {
 	o.Links = &v
 }
 
+// GetName returns the Name field value
+func (o *CreatedClusterClient) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+func (o *CreatedClusterClient) GetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Name, true
+}
+
+// SetName sets field value
+func (o *CreatedClusterClient) SetName(v string) {
+	o.Name = v
+}
+
+// GetPermissions returns the Permissions field value
+func (o *CreatedClusterClient) GetPermissions() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.Permissions
+}
+
+// GetPermissionsOk returns a tuple with the Permissions field value
+// and a boolean to check if the value has been set.
+func (o *CreatedClusterClient) GetPermissionsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Permissions, true
+}
+
+// SetPermissions sets field value
+func (o *CreatedClusterClient) SetPermissions(v []string) {
+	o.Permissions = v
+}
+
+// GetUuid returns the Uuid field value
+func (o *CreatedClusterClient) GetUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Uuid
+}
+
+// GetUuidOk returns a tuple with the Uuid field value
+// and a boolean to check if the value has been set.
+func (o *CreatedClusterClient) GetUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Uuid, true
+}
+
+// SetUuid sets field value
+func (o *CreatedClusterClient) SetUuid(v string) {
+	o.Uuid = v
+}
+
 func (o CreatedClusterClient) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -211,15 +214,54 @@ func (o CreatedClusterClient) MarshalJSON() ([]byte, error) {
 
 func (o CreatedClusterClient) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["name"] = o.Name
-	toSerialize["uuid"] = o.Uuid
 	toSerialize["clientId"] = o.ClientId
 	toSerialize["clientSecret"] = o.ClientSecret
-	toSerialize["permissions"] = o.Permissions
 	if !IsNil(o.Links) {
 		toSerialize["links"] = o.Links
 	}
+	toSerialize["name"] = o.Name
+	toSerialize["permissions"] = o.Permissions
+	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
+}
+
+func (o *CreatedClusterClient) UnmarshalJSON(bytes []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"clientId",
+		"clientSecret",
+		"name",
+		"permissions",
+		"uuid",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varCreatedClusterClient := _CreatedClusterClient{}
+
+	err = json.Unmarshal(bytes, &varCreatedClusterClient)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CreatedClusterClient(varCreatedClusterClient)
+
+	return err
 }
 
 type NullableCreatedClusterClient struct {
