@@ -1,0 +1,48 @@
+name: Update Code
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.21"
+
+      - name: Regenerate code
+        run: make all
+
+      - name: Status
+        run: git status --short
+
+      - name: Diff
+        run: git diff
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update auto-generated client
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: update-client
+          delete-branch: true
+          title: Update auto-generated client
+          body: |
+            The upstream OpenAPI spec has changed!
+
+            This regenerates a new version of the client, based on the latest OpenAPI spec.
+          assignees: |
+            multani
+            sijoma
+          reviewers: |
+            multani
+            sijoma
