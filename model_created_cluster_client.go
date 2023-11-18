@@ -19,12 +19,12 @@ var _ MappedNullable = &CreatedClusterClient{}
 
 // CreatedClusterClient struct for CreatedClusterClient
 type CreatedClusterClient struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
-	ClientId string `json:"clientId"`
-	ClientSecret string `json:"clientSecret"`
-	Permissions []string `json:"permissions"`
-	Links *CreatedClusterClientLinks `json:"links,omitempty"`
+	Name         string                     `json:"name"`
+	Uuid         string                     `json:"uuid"`
+	ClientId     string                     `json:"clientId"`
+	ClientSecret string                     `json:"clientSecret"`
+	Permissions  []string                   `json:"permissions"`
+	Links        *CreatedClusterClientLinks `json:"links,omitempty"`
 }
 
 // NewCreatedClusterClient instantiates a new CreatedClusterClient object
@@ -202,7 +202,7 @@ func (o *CreatedClusterClient) SetLinks(v CreatedClusterClientLinks) {
 }
 
 func (o CreatedClusterClient) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -257,5 +257,3 @@ func (v *NullableCreatedClusterClient) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

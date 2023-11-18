@@ -19,10 +19,10 @@ var _ MappedNullable = &Member{}
 
 // Member struct for Member
 type Member struct {
-	Name string `json:"name"`
-	Email string `json:"email"`
-	Roles []OrganizationRole `json:"roles"`
-	InvitePending bool `json:"invitePending"`
+	Name          string             `json:"name"`
+	Email         string             `json:"email"`
+	Roles         []OrganizationRole `json:"roles"`
+	InvitePending bool               `json:"invitePending"`
 }
 
 // NewMember instantiates a new Member object
@@ -143,7 +143,7 @@ func (o *Member) SetInvitePending(v bool) {
 }
 
 func (o Member) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -194,5 +194,3 @@ func (v *NullableMember) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

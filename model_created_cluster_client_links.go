@@ -19,13 +19,13 @@ var _ MappedNullable = &CreatedClusterClientLinks{}
 
 // CreatedClusterClientLinks struct for CreatedClusterClientLinks
 type CreatedClusterClientLinks struct {
-	Oauth *string `json:"oauth,omitempty"`
-	Console *string `json:"console,omitempty"`
+	Oauth      *string `json:"oauth,omitempty"`
+	Console    *string `json:"console,omitempty"`
 	Connectors *string `json:"connectors,omitempty"`
-	Optimize *string `json:"optimize,omitempty"`
-	Tasklist *string `json:"tasklist,omitempty"`
-	Operate *string `json:"operate,omitempty"`
-	Zeebe *string `json:"zeebe,omitempty"`
+	Optimize   *string `json:"optimize,omitempty"`
+	Tasklist   *string `json:"tasklist,omitempty"`
+	Operate    *string `json:"operate,omitempty"`
+	Zeebe      *string `json:"zeebe,omitempty"`
 }
 
 // NewCreatedClusterClientLinks instantiates a new CreatedClusterClientLinks object
@@ -270,7 +270,7 @@ func (o *CreatedClusterClientLinks) SetZeebe(v string) {
 }
 
 func (o CreatedClusterClientLinks) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -338,5 +338,3 @@ func (v *NullableCreatedClusterClientLinks) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

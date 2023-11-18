@@ -21,9 +21,9 @@ var _ MappedNullable = &ClusterStatus{}
 type ClusterStatus struct {
 	OptimizeStatus *ClusterHealthStatus `json:"optimizeStatus,omitempty"`
 	TasklistStatus *ClusterHealthStatus `json:"tasklistStatus,omitempty"`
-	OperateStatus *ClusterHealthStatus `json:"operateStatus,omitempty"`
-	ZeebeStatus *ClusterHealthStatus `json:"zeebeStatus,omitempty"`
-	Ready ClusterHealthStatus `json:"ready"`
+	OperateStatus  *ClusterHealthStatus `json:"operateStatus,omitempty"`
+	ZeebeStatus    *ClusterHealthStatus `json:"zeebeStatus,omitempty"`
+	Ready          ClusterHealthStatus  `json:"ready"`
 }
 
 // NewClusterStatus instantiates a new ClusterStatus object
@@ -197,7 +197,7 @@ func (o *ClusterStatus) SetReady(v ClusterHealthStatus) {
 }
 
 func (o ClusterStatus) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -257,5 +257,3 @@ func (v *NullableClusterStatus) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

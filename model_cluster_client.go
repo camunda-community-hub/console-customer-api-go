@@ -19,8 +19,8 @@ var _ MappedNullable = &ClusterClient{}
 
 // ClusterClient struct for ClusterClient
 type ClusterClient struct {
-	Name string `json:"name"`
-	ClientId string `json:"clientId"`
+	Name        string   `json:"name"`
+	ClientId    string   `json:"clientId"`
 	Permissions []string `json:"permissions"`
 }
 
@@ -117,7 +117,7 @@ func (o *ClusterClient) SetPermissions(v []string) {
 }
 
 func (o ClusterClient) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -167,5 +167,3 @@ func (v *NullableClusterClient) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

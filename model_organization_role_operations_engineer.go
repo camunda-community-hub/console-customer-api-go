@@ -18,7 +18,6 @@ import (
 // OrganizationRoleOPERATIONSENGINEER the model 'OrganizationRoleOPERATIONSENGINEER'
 type OrganizationRoleOPERATIONSENGINEER string
 
-
 // All allowed values of OrganizationRoleOPERATIONSENGINEER enum
 var AllowedOrganizationRoleOPERATIONSENGINEEREnumValues = []OrganizationRoleOPERATIONSENGINEER{
 	"operationsengineer",
@@ -102,4 +101,3 @@ func (v *NullableOrganizationRoleOPERATIONSENGINEER) UnmarshalJSON(src []byte) e
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

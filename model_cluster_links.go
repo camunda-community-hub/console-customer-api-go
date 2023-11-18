@@ -19,13 +19,13 @@ var _ MappedNullable = &ClusterLinks{}
 
 // ClusterLinks Endpoints for the components running in your Camunda cluster.
 type ClusterLinks struct {
-	Oauth *string `json:"oauth,omitempty"`
+	Oauth      *string `json:"oauth,omitempty"`
 	Connectors *string `json:"connectors,omitempty"`
-	Console *string `json:"console,omitempty"`
-	Optimize *string `json:"optimize,omitempty"`
-	Tasklist *string `json:"tasklist,omitempty"`
-	Operate *string `json:"operate,omitempty"`
-	Zeebe *string `json:"zeebe,omitempty"`
+	Console    *string `json:"console,omitempty"`
+	Optimize   *string `json:"optimize,omitempty"`
+	Tasklist   *string `json:"tasklist,omitempty"`
+	Operate    *string `json:"operate,omitempty"`
+	Zeebe      *string `json:"zeebe,omitempty"`
 }
 
 // NewClusterLinks instantiates a new ClusterLinks object
@@ -270,7 +270,7 @@ func (o *ClusterLinks) SetZeebe(v string) {
 }
 
 func (o ClusterLinks) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -338,5 +338,3 @@ func (v *NullableClusterLinks) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

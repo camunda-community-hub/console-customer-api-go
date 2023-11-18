@@ -20,10 +20,10 @@ type ClusterHealthStatus string
 
 // List of ClusterHealthStatus
 const (
-	HEALTHY ClusterHealthStatus = "Healthy"
+	HEALTHY   ClusterHealthStatus = "Healthy"
 	UNHEALTHY ClusterHealthStatus = "Unhealthy"
-	CREATING ClusterHealthStatus = "Creating"
-	UPDATING ClusterHealthStatus = "Updating"
+	CREATING  ClusterHealthStatus = "Creating"
+	UPDATING  ClusterHealthStatus = "Updating"
 )
 
 // All allowed values of ClusterHealthStatus enum
@@ -112,4 +112,3 @@ func (v *NullableClusterHealthStatus) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
