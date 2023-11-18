@@ -17,19 +17,19 @@ import (
 
 // AssignableOrganizationRoleType struct for AssignableOrganizationRoleType
 type AssignableOrganizationRoleType struct {
-	OrganizationRoleADMIN *OrganizationRoleADMIN
-	OrganizationRoleANALYST *OrganizationRoleANALYST
-	OrganizationRoleDEVELOPER *OrganizationRoleDEVELOPER
+	OrganizationRoleADMIN              *OrganizationRoleADMIN
+	OrganizationRoleANALYST            *OrganizationRoleANALYST
+	OrganizationRoleDEVELOPER          *OrganizationRoleDEVELOPER
 	OrganizationRoleOPERATIONSENGINEER *OrganizationRoleOPERATIONSENGINEER
-	OrganizationRoleTASKUSER *OrganizationRoleTASKUSER
-	OrganizationRoleVISITOR *OrganizationRoleVISITOR
+	OrganizationRoleTASKUSER           *OrganizationRoleTASKUSER
+	OrganizationRoleVISITOR            *OrganizationRoleVISITOR
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *AssignableOrganizationRoleType) UnmarshalJSON(data []byte) error {
 	var err error
 	// try to unmarshal JSON data into OrganizationRoleADMIN
-	err = json.Unmarshal(data, &dst.OrganizationRoleADMIN);
+	err = json.Unmarshal(data, &dst.OrganizationRoleADMIN)
 	if err == nil {
 		jsonOrganizationRoleADMIN, _ := json.Marshal(dst.OrganizationRoleADMIN)
 		if string(jsonOrganizationRoleADMIN) == "{}" { // empty struct
@@ -42,7 +42,7 @@ func (dst *AssignableOrganizationRoleType) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into OrganizationRoleANALYST
-	err = json.Unmarshal(data, &dst.OrganizationRoleANALYST);
+	err = json.Unmarshal(data, &dst.OrganizationRoleANALYST)
 	if err == nil {
 		jsonOrganizationRoleANALYST, _ := json.Marshal(dst.OrganizationRoleANALYST)
 		if string(jsonOrganizationRoleANALYST) == "{}" { // empty struct
@@ -55,7 +55,7 @@ func (dst *AssignableOrganizationRoleType) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into OrganizationRoleDEVELOPER
-	err = json.Unmarshal(data, &dst.OrganizationRoleDEVELOPER);
+	err = json.Unmarshal(data, &dst.OrganizationRoleDEVELOPER)
 	if err == nil {
 		jsonOrganizationRoleDEVELOPER, _ := json.Marshal(dst.OrganizationRoleDEVELOPER)
 		if string(jsonOrganizationRoleDEVELOPER) == "{}" { // empty struct
@@ -68,7 +68,7 @@ func (dst *AssignableOrganizationRoleType) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into OrganizationRoleOPERATIONSENGINEER
-	err = json.Unmarshal(data, &dst.OrganizationRoleOPERATIONSENGINEER);
+	err = json.Unmarshal(data, &dst.OrganizationRoleOPERATIONSENGINEER)
 	if err == nil {
 		jsonOrganizationRoleOPERATIONSENGINEER, _ := json.Marshal(dst.OrganizationRoleOPERATIONSENGINEER)
 		if string(jsonOrganizationRoleOPERATIONSENGINEER) == "{}" { // empty struct
@@ -81,7 +81,7 @@ func (dst *AssignableOrganizationRoleType) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into OrganizationRoleTASKUSER
-	err = json.Unmarshal(data, &dst.OrganizationRoleTASKUSER);
+	err = json.Unmarshal(data, &dst.OrganizationRoleTASKUSER)
 	if err == nil {
 		jsonOrganizationRoleTASKUSER, _ := json.Marshal(dst.OrganizationRoleTASKUSER)
 		if string(jsonOrganizationRoleTASKUSER) == "{}" { // empty struct
@@ -94,7 +94,7 @@ func (dst *AssignableOrganizationRoleType) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into OrganizationRoleVISITOR
-	err = json.Unmarshal(data, &dst.OrganizationRoleVISITOR);
+	err = json.Unmarshal(data, &dst.OrganizationRoleVISITOR)
 	if err == nil {
 		jsonOrganizationRoleVISITOR, _ := json.Marshal(dst.OrganizationRoleVISITOR)
 		if string(jsonOrganizationRoleVISITOR) == "{}" { // empty struct
@@ -173,5 +173,3 @@ func (v *NullableAssignableOrganizationRoleType) UnmarshalJSON(src []byte) error
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

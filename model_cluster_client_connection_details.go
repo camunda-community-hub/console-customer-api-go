@@ -19,9 +19,9 @@ var _ MappedNullable = &ClusterClientConnectionDetails{}
 
 // ClusterClientConnectionDetails struct for ClusterClientConnectionDetails
 type ClusterClientConnectionDetails struct {
-	Name string `json:"name"`
-	ZEEBE_ADDRESS string `json:"ZEEBE_ADDRESS"`
-	ZEEBE_CLIENT_ID string `json:"ZEEBE_CLIENT_ID"`
+	Name                           string `json:"name"`
+	ZEEBE_ADDRESS                  string `json:"ZEEBE_ADDRESS"`
+	ZEEBE_CLIENT_ID                string `json:"ZEEBE_CLIENT_ID"`
 	ZEEBE_AUTHORIZATION_SERVER_URL string `json:"ZEEBE_AUTHORIZATION_SERVER_URL"`
 }
 
@@ -143,7 +143,7 @@ func (o *ClusterClientConnectionDetails) SetZEEBE_AUTHORIZATION_SERVER_URL(v str
 }
 
 func (o ClusterClientConnectionDetails) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -194,5 +194,3 @@ func (v *NullableClusterClientConnectionDetails) UnmarshalJSON(src []byte) error
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -91,7 +91,7 @@ func (o *ParametersChannelsInnerAllowedGenerationsInner) SetUuid(v string) {
 }
 
 func (o ParametersChannelsInnerAllowedGenerationsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -140,5 +140,3 @@ func (v *NullableParametersChannelsInnerAllowedGenerationsInner) UnmarshalJSON(s
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

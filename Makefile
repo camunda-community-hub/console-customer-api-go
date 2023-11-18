@@ -7,4 +7,9 @@ how-to:
 openapi.json:
 	curl https://console.cloud.camunda.io/customer-api/openapi/swagger.json | jq --sort-keys . > $@
 
-.PHONY: openapi.json
+.PHONY: openapi.json test
+
+test:
+	go build -v ./...
+	go get github.com/stretchr/testify/assert
+	go test ./...

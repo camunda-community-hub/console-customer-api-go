@@ -21,18 +21,18 @@ var _ MappedNullable = &Cluster{}
 // Cluster Describing a Camunda cluster running in your organization. For reference, use the UUID.
 type Cluster struct {
 	// The ID used in all further API operations referencing your cluster.
-	Uuid string `json:"uuid"`
-	Name string `json:"name"`
-	OwnerId string `json:"ownerId"`
-	Created time.Time `json:"created"`
-	PlanType ClusterPlanType `json:"planType"`
-	Region ClusterRegion `json:"region"`
+	Uuid       string            `json:"uuid"`
+	Name       string            `json:"name"`
+	OwnerId    string            `json:"ownerId"`
+	Created    time.Time         `json:"created"`
+	PlanType   ClusterPlanType   `json:"planType"`
+	Region     ClusterRegion     `json:"region"`
 	Generation ClusterGeneration `json:"generation"`
-	Channel ClusterChannel `json:"channel"`
+	Channel    ClusterChannel    `json:"channel"`
 	// the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
 	Ipwhitelist []ClusterIpwhitelistInner `json:"ipwhitelist,omitempty"`
-	Status ClusterStatus `json:"status"`
-	Links ClusterLinks `json:"links"`
+	Status      ClusterStatus             `json:"status"`
+	Links       ClusterLinks              `json:"links"`
 }
 
 // NewCluster instantiates a new Cluster object
@@ -335,7 +335,7 @@ func (o *Cluster) SetLinks(v ClusterLinks) {
 }
 
 func (o Cluster) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -395,5 +395,3 @@ func (v *NullableCluster) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

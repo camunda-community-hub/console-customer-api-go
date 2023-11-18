@@ -19,14 +19,13 @@ import (
 	"strings"
 )
 
-
 // ClustersApiService ClustersApi service
 type ClustersApiService service
 
 type ApiCreateClientRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
-	clusterUuid string
+	ctx                     context.Context
+	ApiService              *ClustersApiService
+	clusterUuid             string
 	createClusterClientBody *CreateClusterClientBody
 }
 
@@ -42,26 +41,27 @@ func (r ApiCreateClientRequest) Execute() (*CreatedClusterClient, *http.Response
 /*
 CreateClient Method for CreateClient
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @return ApiCreateClientRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiCreateClientRequest
 */
 func (a *ClustersApiService) CreateClient(ctx context.Context, clusterUuid string) ApiCreateClientRequest {
 	return ApiCreateClientRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
 	}
 }
 
 // Execute executes the request
-//  @return CreatedClusterClient
+//
+//	@return CreatedClusterClient
 func (a *ClustersApiService) CreateClientExecute(r ApiCreateClientRequest) (*CreatedClusterClient, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *CreatedClusterClient
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *CreatedClusterClient
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.CreateClient")
@@ -136,8 +136,8 @@ func (a *ClustersApiService) CreateClientExecute(r ApiCreateClientRequest) (*Cre
 }
 
 type ApiCreateClusterRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
+	ctx               context.Context
+	ApiService        *ClustersApiService
 	createClusterBody *CreateClusterBody
 }
 
@@ -153,24 +153,25 @@ func (r ApiCreateClusterRequest) Execute() (*CreateCluster200Response, *http.Res
 /*
 CreateCluster Method for CreateCluster
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateClusterRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateClusterRequest
 */
 func (a *ClustersApiService) CreateCluster(ctx context.Context) ApiCreateClusterRequest {
 	return ApiCreateClusterRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return CreateCluster200Response
+//
+//	@return CreateCluster200Response
 func (a *ClustersApiService) CreateClusterExecute(r ApiCreateClusterRequest) (*CreateCluster200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *CreateCluster200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *CreateCluster200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.CreateCluster")
@@ -244,9 +245,9 @@ func (a *ClustersApiService) CreateClusterExecute(r ApiCreateClusterRequest) (*C
 }
 
 type ApiCreateSecretRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
-	clusterUuid string
+	ctx              context.Context
+	ApiService       *ClustersApiService
+	clusterUuid      string
 	createSecretBody *CreateSecretBody
 }
 
@@ -264,14 +265,14 @@ CreateSecret Method for CreateSecret
 
 Creates a new secret
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @return ApiCreateSecretRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiCreateSecretRequest
 */
 func (a *ClustersApiService) CreateSecret(ctx context.Context, clusterUuid string) ApiCreateSecretRequest {
 	return ApiCreateSecretRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
 	}
 }
@@ -279,9 +280,9 @@ func (a *ClustersApiService) CreateSecret(ctx context.Context, clusterUuid strin
 // Execute executes the request
 func (a *ClustersApiService) CreateSecretExecute(r ApiCreateSecretRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.CreateSecret")
@@ -347,10 +348,10 @@ func (a *ClustersApiService) CreateSecretExecute(r ApiCreateSecretRequest) (*htt
 }
 
 type ApiDeleteClientRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
+	ctx         context.Context
+	ApiService  *ClustersApiService
 	clusterUuid string
-	clientId string
+	clientId    string
 }
 
 func (r ApiDeleteClientRequest) Execute() (*http.Response, error) {
@@ -362,26 +363,26 @@ DeleteClient Method for DeleteClient
 
 Irreversibly deletes a cluster client.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @param clientId
- @return ApiDeleteClientRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@param clientId
+	@return ApiDeleteClientRequest
 */
 func (a *ClustersApiService) DeleteClient(ctx context.Context, clusterUuid string, clientId string) ApiDeleteClientRequest {
 	return ApiDeleteClientRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
-		clientId: clientId,
+		clientId:    clientId,
 	}
 }
 
 // Execute executes the request
 func (a *ClustersApiService) DeleteClientExecute(r ApiDeleteClientRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.DeleteClient")
@@ -443,8 +444,8 @@ func (a *ClustersApiService) DeleteClientExecute(r ApiDeleteClientRequest) (*htt
 }
 
 type ApiDeleteClusterRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
+	ctx         context.Context
+	ApiService  *ClustersApiService
 	clusterUuid string
 }
 
@@ -457,14 +458,14 @@ DeleteCluster Method for DeleteCluster
 
 Irreversibly deletes a cluster identified by the given clusterUuid.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @return ApiDeleteClusterRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiDeleteClusterRequest
 */
 func (a *ClustersApiService) DeleteCluster(ctx context.Context, clusterUuid string) ApiDeleteClusterRequest {
 	return ApiDeleteClusterRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
 	}
 }
@@ -472,9 +473,9 @@ func (a *ClustersApiService) DeleteCluster(ctx context.Context, clusterUuid stri
 // Execute executes the request
 func (a *ClustersApiService) DeleteClusterExecute(r ApiDeleteClusterRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.DeleteCluster")
@@ -535,10 +536,10 @@ func (a *ClustersApiService) DeleteClusterExecute(r ApiDeleteClusterRequest) (*h
 }
 
 type ApiDeleteSecretRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
+	ctx         context.Context
+	ApiService  *ClustersApiService
 	clusterUuid string
-	secretName string
+	secretName  string
 }
 
 func (r ApiDeleteSecretRequest) Execute() (*http.Response, error) {
@@ -550,26 +551,26 @@ DeleteSecret Method for DeleteSecret
 
 Irreversibly deletes a secret
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @param secretName
- @return ApiDeleteSecretRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@param secretName
+	@return ApiDeleteSecretRequest
 */
 func (a *ClustersApiService) DeleteSecret(ctx context.Context, clusterUuid string, secretName string) ApiDeleteSecretRequest {
 	return ApiDeleteSecretRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
-		secretName: secretName,
+		secretName:  secretName,
 	}
 }
 
 // Execute executes the request
 func (a *ClustersApiService) DeleteSecretExecute(r ApiDeleteSecretRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.DeleteSecret")
@@ -631,10 +632,10 @@ func (a *ClustersApiService) DeleteSecretExecute(r ApiDeleteSecretRequest) (*htt
 }
 
 type ApiGetClientRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
+	ctx         context.Context
+	ApiService  *ClustersApiService
 	clusterUuid string
-	clientId string
+	clientId    string
 }
 
 func (r ApiGetClientRequest) Execute() (*ClusterClientConnectionDetails, *http.Response, error) {
@@ -644,28 +645,29 @@ func (r ApiGetClientRequest) Execute() (*ClusterClientConnectionDetails, *http.R
 /*
 GetClient Method for GetClient
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @param clientId
- @return ApiGetClientRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@param clientId
+	@return ApiGetClientRequest
 */
 func (a *ClustersApiService) GetClient(ctx context.Context, clusterUuid string, clientId string) ApiGetClientRequest {
 	return ApiGetClientRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
-		clientId: clientId,
+		clientId:    clientId,
 	}
 }
 
 // Execute executes the request
-//  @return ClusterClientConnectionDetails
+//
+//	@return ClusterClientConnectionDetails
 func (a *ClustersApiService) GetClientExecute(r ApiGetClientRequest) (*ClusterClientConnectionDetails, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ClusterClientConnectionDetails
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ClusterClientConnectionDetails
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetClient")
@@ -736,8 +738,8 @@ func (a *ClustersApiService) GetClientExecute(r ApiGetClientRequest) (*ClusterCl
 }
 
 type ApiGetClientsRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
+	ctx         context.Context
+	ApiService  *ClustersApiService
 	clusterUuid string
 }
 
@@ -748,26 +750,27 @@ func (r ApiGetClientsRequest) Execute() ([]ClusterClient, *http.Response, error)
 /*
 GetClients Method for GetClients
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @return ApiGetClientsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiGetClientsRequest
 */
 func (a *ClustersApiService) GetClients(ctx context.Context, clusterUuid string) ApiGetClientsRequest {
 	return ApiGetClientsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
 	}
 }
 
 // Execute executes the request
-//  @return []ClusterClient
+//
+//	@return []ClusterClient
 func (a *ClustersApiService) GetClientsExecute(r ApiGetClientsRequest) ([]ClusterClient, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []ClusterClient
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []ClusterClient
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetClients")
@@ -837,8 +840,8 @@ func (a *ClustersApiService) GetClientsExecute(r ApiGetClientsRequest) ([]Cluste
 }
 
 type ApiGetClusterRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
+	ctx         context.Context
+	ApiService  *ClustersApiService
 	clusterUuid string
 }
 
@@ -849,26 +852,27 @@ func (r ApiGetClusterRequest) Execute() (*Cluster, *http.Response, error) {
 /*
 GetCluster Method for GetCluster
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @return ApiGetClusterRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiGetClusterRequest
 */
 func (a *ClustersApiService) GetCluster(ctx context.Context, clusterUuid string) ApiGetClusterRequest {
 	return ApiGetClusterRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
 	}
 }
 
 // Execute executes the request
-//  @return Cluster
+//
+//	@return Cluster
 func (a *ClustersApiService) GetClusterExecute(r ApiGetClusterRequest) (*Cluster, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Cluster
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Cluster
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetCluster")
@@ -938,7 +942,7 @@ func (a *ClustersApiService) GetClusterExecute(r ApiGetClusterRequest) (*Cluster
 }
 
 type ApiGetClustersRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *ClustersApiService
 }
 
@@ -949,24 +953,25 @@ func (r ApiGetClustersRequest) Execute() ([]Cluster, *http.Response, error) {
 /*
 GetClusters Method for GetClusters
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetClustersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetClustersRequest
 */
 func (a *ClustersApiService) GetClusters(ctx context.Context) ApiGetClustersRequest {
 	return ApiGetClustersRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []Cluster
+//
+//	@return []Cluster
 func (a *ClustersApiService) GetClustersExecute(r ApiGetClustersRequest) ([]Cluster, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Cluster
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Cluster
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetClusters")
@@ -1035,7 +1040,7 @@ func (a *ClustersApiService) GetClustersExecute(r ApiGetClustersRequest) ([]Clus
 }
 
 type ApiGetParametersRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *ClustersApiService
 }
 
@@ -1048,24 +1053,25 @@ GetParameters Method for GetParameters
 
 Gets all possible options to create a Camunda cluster.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetParametersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetParametersRequest
 */
 func (a *ClustersApiService) GetParameters(ctx context.Context) ApiGetParametersRequest {
 	return ApiGetParametersRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return Parameters
+//
+//	@return Parameters
 func (a *ClustersApiService) GetParametersExecute(r ApiGetParametersRequest) (*Parameters, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Parameters
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Parameters
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetParameters")
@@ -1134,8 +1140,8 @@ func (a *ClustersApiService) GetParametersExecute(r ApiGetParametersRequest) (*P
 }
 
 type ApiGetSecretsRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
+	ctx         context.Context
+	ApiService  *ClustersApiService
 	clusterUuid string
 }
 
@@ -1146,26 +1152,27 @@ func (r ApiGetSecretsRequest) Execute() (map[string]string, *http.Response, erro
 /*
 GetSecrets Method for GetSecrets
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @return ApiGetSecretsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiGetSecretsRequest
 */
 func (a *ClustersApiService) GetSecrets(ctx context.Context, clusterUuid string) ApiGetSecretsRequest {
 	return ApiGetSecretsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
 	}
 }
 
 // Execute executes the request
-//  @return map[string]string
+//
+//	@return map[string]string
 func (a *ClustersApiService) GetSecretsExecute(r ApiGetSecretsRequest) (map[string]string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  map[string]string
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue map[string]string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.GetSecrets")
@@ -1235,9 +1242,9 @@ func (a *ClustersApiService) GetSecretsExecute(r ApiGetSecretsRequest) (map[stri
 }
 
 type ApiUpdateIpWhitelistRequest struct {
-	ctx context.Context
-	ApiService *ClustersApiService
-	clusterUuid string
+	ctx             context.Context
+	ApiService      *ClustersApiService
+	clusterUuid     string
 	ipWhiteListBody *IpWhiteListBody
 }
 
@@ -1255,14 +1262,14 @@ UpdateIpWhitelist Method for UpdateIpWhitelist
 
 Updates the IP Whitelist rules for your cluster.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterUuid
- @return ApiUpdateIpWhitelistRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiUpdateIpWhitelistRequest
 */
 func (a *ClustersApiService) UpdateIpWhitelist(ctx context.Context, clusterUuid string) ApiUpdateIpWhitelistRequest {
 	return ApiUpdateIpWhitelistRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		clusterUuid: clusterUuid,
 	}
 }
@@ -1270,9 +1277,9 @@ func (a *ClustersApiService) UpdateIpWhitelist(ctx context.Context, clusterUuid 
 // Execute executes the request
 func (a *ClustersApiService) UpdateIpWhitelistExecute(r ApiUpdateIpWhitelistRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClustersApiService.UpdateIpWhitelist")

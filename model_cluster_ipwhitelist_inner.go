@@ -20,7 +20,7 @@ var _ MappedNullable = &ClusterIpwhitelistInner{}
 // ClusterIpwhitelistInner struct for ClusterIpwhitelistInner
 type ClusterIpwhitelistInner struct {
 	Description string `json:"description"`
-	Ip string `json:"ip"`
+	Ip          string `json:"ip"`
 }
 
 // NewClusterIpwhitelistInner instantiates a new ClusterIpwhitelistInner object
@@ -91,7 +91,7 @@ func (o *ClusterIpwhitelistInner) SetIp(v string) {
 }
 
 func (o ClusterIpwhitelistInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -140,5 +140,3 @@ func (v *NullableClusterIpwhitelistInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

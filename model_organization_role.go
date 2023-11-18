@@ -20,15 +20,15 @@ type OrganizationRole string
 
 // List of OrganizationRole
 const (
-	MEMBER OrganizationRole = "member"
-	ADMIN OrganizationRole = "admin"
-	OWNER OrganizationRole = "owner"
-	SUPPORTAGENT OrganizationRole = "supportagent"
+	MEMBER             OrganizationRole = "member"
+	ADMIN              OrganizationRole = "admin"
+	OWNER              OrganizationRole = "owner"
+	SUPPORTAGENT       OrganizationRole = "supportagent"
 	OPERATIONSENGINEER OrganizationRole = "operationsengineer"
-	TASKUSER OrganizationRole = "taskuser"
-	ANALYST OrganizationRole = "analyst"
-	DEVELOPER OrganizationRole = "developer"
-	VISITOR OrganizationRole = "visitor"
+	TASKUSER           OrganizationRole = "taskuser"
+	ANALYST            OrganizationRole = "analyst"
+	DEVELOPER          OrganizationRole = "developer"
+	VISITOR            OrganizationRole = "visitor"
 )
 
 // All allowed values of OrganizationRole enum
@@ -122,4 +122,3 @@ func (v *NullableOrganizationRole) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

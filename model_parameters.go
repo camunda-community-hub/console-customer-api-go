@@ -19,9 +19,9 @@ var _ MappedNullable = &Parameters{}
 
 // Parameters Describes the different options to create a Camunda cluster.
 type Parameters struct {
-	Channels []ParametersChannelsInner `json:"channels"`
+	Channels         []ParametersChannelsInner                        `json:"channels"`
 	ClusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner `json:"clusterPlanTypes"`
-	Regions []ParametersChannelsInnerAllowedGenerationsInner `json:"regions"`
+	Regions          []ParametersChannelsInnerAllowedGenerationsInner `json:"regions"`
 }
 
 // NewParameters instantiates a new Parameters object
@@ -117,7 +117,7 @@ func (o *Parameters) SetRegions(v []ParametersChannelsInnerAllowedGenerationsInn
 }
 
 func (o Parameters) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -167,5 +167,3 @@ func (v *NullableParameters) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
