@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the CreateSecretBody type satisfies the MappedNullable interface at compile time
@@ -22,6 +23,8 @@ type CreateSecretBody struct {
 	SecretName  string `json:"secretName"`
 	SecretValue string `json:"secretValue"`
 }
+
+type _CreateSecretBody CreateSecretBody
 
 // NewCreateSecretBody instantiates a new CreateSecretBody object
 // This constructor will assign default values to properties that have it defined,
@@ -103,6 +106,42 @@ func (o CreateSecretBody) ToMap() (map[string]interface{}, error) {
 	toSerialize["secretName"] = o.SecretName
 	toSerialize["secretValue"] = o.SecretValue
 	return toSerialize, nil
+}
+
+func (o *CreateSecretBody) UnmarshalJSON(bytes []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"secretName",
+		"secretValue",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varCreateSecretBody := _CreateSecretBody{}
+
+	err = json.Unmarshal(bytes, &varCreateSecretBody)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CreateSecretBody(varCreateSecretBody)
+
+	return err
 }
 
 type NullableCreateSecretBody struct {

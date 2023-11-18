@@ -18,6 +18,11 @@ import (
 // OrganizationRoleDEVELOPER the model 'OrganizationRoleDEVELOPER'
 type OrganizationRoleDEVELOPER string
 
+// List of OrganizationRole.DEVELOPER
+const (
+	ORGANIZATIONROLEDEVELOPER_DEVELOPER OrganizationRoleDEVELOPER = "developer"
+)
+
 // All allowed values of OrganizationRoleDEVELOPER enum
 var AllowedOrganizationRoleDEVELOPEREnumValues = []OrganizationRoleDEVELOPER{
 	"developer",

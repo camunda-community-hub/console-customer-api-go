@@ -1,15 +1,15 @@
-# ClusterHealthStatus
+# BackupStatus
 
 ## Enum
 
 
-* `HEALTHY` (value: `"Healthy"`)
+* `IN_PROGRESS` (value: `"In progress"`)
 
-* `UNHEALTHY` (value: `"Unhealthy"`)
+* `FAILED` (value: `"Failed"`)
 
-* `CREATING` (value: `"Creating"`)
+* `COMPLETE` (value: `"Complete"`)
 
-* `UPDATING` (value: `"Updating"`)
+* `MINUS` (value: `"-"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the PostMemberBody type satisfies the MappedNullable interface at compile time
@@ -21,6 +22,8 @@ var _ MappedNullable = &PostMemberBody{}
 type PostMemberBody struct {
 	OrgRoles []AssignableOrganizationRoleType `json:"orgRoles"`
 }
+
+type _PostMemberBody PostMemberBody
 
 // NewPostMemberBody instantiates a new PostMemberBody object
 // This constructor will assign default values to properties that have it defined,
@@ -76,6 +79,41 @@ func (o PostMemberBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["orgRoles"] = o.OrgRoles
 	return toSerialize, nil
+}
+
+func (o *PostMemberBody) UnmarshalJSON(bytes []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"orgRoles",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varPostMemberBody := _PostMemberBody{}
+
+	err = json.Unmarshal(bytes, &varPostMemberBody)
+
+	if err != nil {
+		return err
+	}
+
+	*o = PostMemberBody(varPostMemberBody)
+
+	return err
 }
 
 type NullablePostMemberBody struct {
