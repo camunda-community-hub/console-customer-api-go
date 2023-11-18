@@ -12,16 +12,19 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the CreateClusterClientBody type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CreateClusterClientBody{}
 
-// CreateClusterClientBody struct for CreateClusterClientBody
+// CreateClusterClientBody if no permissions are passed, the client will be created with all the permissions available at the time of creation
 type CreateClusterClientBody struct {
 	ClientName string `json:"clientName"`
 	Permissions []string `json:"permissions,omitempty"`
 }
+
+type _CreateClusterClientBody CreateClusterClientBody
 
 // NewCreateClusterClientBody instantiates a new CreateClusterClientBody object
 // This constructor will assign default values to properties that have it defined,
@@ -112,6 +115,41 @@ func (o CreateClusterClientBody) ToMap() (map[string]interface{}, error) {
 		toSerialize["permissions"] = o.Permissions
 	}
 	return toSerialize, nil
+}
+
+func (o *CreateClusterClientBody) UnmarshalJSON(bytes []byte) (err error) {
+    // This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"clientName",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varCreateClusterClientBody := _CreateClusterClientBody{}
+
+	err = json.Unmarshal(bytes, &varCreateClusterClientBody)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CreateClusterClientBody(varCreateClusterClientBody)
+
+	return err
 }
 
 type NullableCreateClusterClientBody struct {

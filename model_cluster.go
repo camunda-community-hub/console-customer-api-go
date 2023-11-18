@@ -13,6 +13,7 @@ package openapi
 import (
 	"encoding/json"
 	"time"
+	"fmt"
 )
 
 // checks if the Cluster type satisfies the MappedNullable interface at compile time
@@ -20,37 +21,43 @@ var _ MappedNullable = &Cluster{}
 
 // Cluster Describing a Camunda cluster running in your organization. For reference, use the UUID.
 type Cluster struct {
-	// The ID used in all further API operations referencing your cluster.
-	Uuid string `json:"uuid"`
-	Name string `json:"name"`
-	OwnerId string `json:"ownerId"`
-	Created time.Time `json:"created"`
-	PlanType ClusterPlanType `json:"planType"`
-	Region ClusterRegion `json:"region"`
-	Generation ClusterGeneration `json:"generation"`
+	// The cluster will automatically be updated by Camunda when a new C8 version is released If the cluster you want to create is running on a non-stable Channel passing this property will be ignored!
+	AutoUpdate bool `json:"autoUpdate"`
 	Channel ClusterChannel `json:"channel"`
+	Created time.Time `json:"created"`
+	Generation ClusterGeneration `json:"generation"`
 	// the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
 	Ipwhitelist []ClusterIpwhitelistInner `json:"ipwhitelist,omitempty"`
-	Status ClusterStatus `json:"status"`
+	Labels []string `json:"labels,omitempty"`
 	Links ClusterLinks `json:"links"`
+	Name string `json:"name"`
+	OwnerId string `json:"ownerId"`
+	PlanType ClusterPlanType `json:"planType"`
+	Region ClusterRegion `json:"region"`
+	Status ClusterStatus `json:"status"`
+	// The ID used in all further API operations referencing your cluster.
+	Uuid string `json:"uuid"`
 }
+
+type _Cluster Cluster
 
 // NewCluster instantiates a new Cluster object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCluster(uuid string, name string, ownerId string, created time.Time, planType ClusterPlanType, region ClusterRegion, generation ClusterGeneration, channel ClusterChannel, status ClusterStatus, links ClusterLinks) *Cluster {
+func NewCluster(autoUpdate bool, channel ClusterChannel, created time.Time, generation ClusterGeneration, links ClusterLinks, name string, ownerId string, planType ClusterPlanType, region ClusterRegion, status ClusterStatus, uuid string) *Cluster {
 	this := Cluster{}
-	this.Uuid = uuid
+	this.AutoUpdate = autoUpdate
+	this.Channel = channel
+	this.Created = created
+	this.Generation = generation
+	this.Links = links
 	this.Name = name
 	this.OwnerId = ownerId
-	this.Created = created
 	this.PlanType = planType
 	this.Region = region
-	this.Generation = generation
-	this.Channel = channel
 	this.Status = status
-	this.Links = links
+	this.Uuid = uuid
 	return &this
 }
 
@@ -62,28 +69,188 @@ func NewClusterWithDefaults() *Cluster {
 	return &this
 }
 
-// GetUuid returns the Uuid field value
-func (o *Cluster) GetUuid() string {
+// GetAutoUpdate returns the AutoUpdate field value
+func (o *Cluster) GetAutoUpdate() bool {
 	if o == nil {
-		var ret string
+		var ret bool
 		return ret
 	}
 
-	return o.Uuid
+	return o.AutoUpdate
 }
 
-// GetUuidOk returns a tuple with the Uuid field value
+// GetAutoUpdateOk returns a tuple with the AutoUpdate field value
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetUuidOk() (*string, bool) {
+func (o *Cluster) GetAutoUpdateOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Uuid, true
+	return &o.AutoUpdate, true
 }
 
-// SetUuid sets field value
-func (o *Cluster) SetUuid(v string) {
-	o.Uuid = v
+// SetAutoUpdate sets field value
+func (o *Cluster) SetAutoUpdate(v bool) {
+	o.AutoUpdate = v
+}
+
+// GetChannel returns the Channel field value
+func (o *Cluster) GetChannel() ClusterChannel {
+	if o == nil {
+		var ret ClusterChannel
+		return ret
+	}
+
+	return o.Channel
+}
+
+// GetChannelOk returns a tuple with the Channel field value
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetChannelOk() (*ClusterChannel, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Channel, true
+}
+
+// SetChannel sets field value
+func (o *Cluster) SetChannel(v ClusterChannel) {
+	o.Channel = v
+}
+
+// GetCreated returns the Created field value
+func (o *Cluster) GetCreated() time.Time {
+	if o == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return o.Created
+}
+
+// GetCreatedOk returns a tuple with the Created field value
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetCreatedOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Created, true
+}
+
+// SetCreated sets field value
+func (o *Cluster) SetCreated(v time.Time) {
+	o.Created = v
+}
+
+// GetGeneration returns the Generation field value
+func (o *Cluster) GetGeneration() ClusterGeneration {
+	if o == nil {
+		var ret ClusterGeneration
+		return ret
+	}
+
+	return o.Generation
+}
+
+// GetGenerationOk returns a tuple with the Generation field value
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetGenerationOk() (*ClusterGeneration, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Generation, true
+}
+
+// SetGeneration sets field value
+func (o *Cluster) SetGeneration(v ClusterGeneration) {
+	o.Generation = v
+}
+
+// GetIpwhitelist returns the Ipwhitelist field value if set, zero value otherwise.
+func (o *Cluster) GetIpwhitelist() []ClusterIpwhitelistInner {
+	if o == nil || IsNil(o.Ipwhitelist) {
+		var ret []ClusterIpwhitelistInner
+		return ret
+	}
+	return o.Ipwhitelist
+}
+
+// GetIpwhitelistOk returns a tuple with the Ipwhitelist field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetIpwhitelistOk() ([]ClusterIpwhitelistInner, bool) {
+	if o == nil || IsNil(o.Ipwhitelist) {
+		return nil, false
+	}
+	return o.Ipwhitelist, true
+}
+
+// HasIpwhitelist returns a boolean if a field has been set.
+func (o *Cluster) HasIpwhitelist() bool {
+	if o != nil && !IsNil(o.Ipwhitelist) {
+		return true
+	}
+
+	return false
+}
+
+// SetIpwhitelist gets a reference to the given []ClusterIpwhitelistInner and assigns it to the Ipwhitelist field.
+func (o *Cluster) SetIpwhitelist(v []ClusterIpwhitelistInner) {
+	o.Ipwhitelist = v
+}
+
+// GetLabels returns the Labels field value if set, zero value otherwise.
+func (o *Cluster) GetLabels() []string {
+	if o == nil || IsNil(o.Labels) {
+		var ret []string
+		return ret
+	}
+	return o.Labels
+}
+
+// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetLabelsOk() ([]string, bool) {
+	if o == nil || IsNil(o.Labels) {
+		return nil, false
+	}
+	return o.Labels, true
+}
+
+// HasLabels returns a boolean if a field has been set.
+func (o *Cluster) HasLabels() bool {
+	if o != nil && !IsNil(o.Labels) {
+		return true
+	}
+
+	return false
+}
+
+// SetLabels gets a reference to the given []string and assigns it to the Labels field.
+func (o *Cluster) SetLabels(v []string) {
+	o.Labels = v
+}
+
+// GetLinks returns the Links field value
+func (o *Cluster) GetLinks() ClusterLinks {
+	if o == nil {
+		var ret ClusterLinks
+		return ret
+	}
+
+	return o.Links
+}
+
+// GetLinksOk returns a tuple with the Links field value
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetLinksOk() (*ClusterLinks, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Links, true
+}
+
+// SetLinks sets field value
+func (o *Cluster) SetLinks(v ClusterLinks) {
+	o.Links = v
 }
 
 // GetName returns the Name field value
@@ -134,30 +301,6 @@ func (o *Cluster) SetOwnerId(v string) {
 	o.OwnerId = v
 }
 
-// GetCreated returns the Created field value
-func (o *Cluster) GetCreated() time.Time {
-	if o == nil {
-		var ret time.Time
-		return ret
-	}
-
-	return o.Created
-}
-
-// GetCreatedOk returns a tuple with the Created field value
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetCreatedOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Created, true
-}
-
-// SetCreated sets field value
-func (o *Cluster) SetCreated(v time.Time) {
-	o.Created = v
-}
-
 // GetPlanType returns the PlanType field value
 func (o *Cluster) GetPlanType() ClusterPlanType {
 	if o == nil {
@@ -206,86 +349,6 @@ func (o *Cluster) SetRegion(v ClusterRegion) {
 	o.Region = v
 }
 
-// GetGeneration returns the Generation field value
-func (o *Cluster) GetGeneration() ClusterGeneration {
-	if o == nil {
-		var ret ClusterGeneration
-		return ret
-	}
-
-	return o.Generation
-}
-
-// GetGenerationOk returns a tuple with the Generation field value
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetGenerationOk() (*ClusterGeneration, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Generation, true
-}
-
-// SetGeneration sets field value
-func (o *Cluster) SetGeneration(v ClusterGeneration) {
-	o.Generation = v
-}
-
-// GetChannel returns the Channel field value
-func (o *Cluster) GetChannel() ClusterChannel {
-	if o == nil {
-		var ret ClusterChannel
-		return ret
-	}
-
-	return o.Channel
-}
-
-// GetChannelOk returns a tuple with the Channel field value
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetChannelOk() (*ClusterChannel, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Channel, true
-}
-
-// SetChannel sets field value
-func (o *Cluster) SetChannel(v ClusterChannel) {
-	o.Channel = v
-}
-
-// GetIpwhitelist returns the Ipwhitelist field value if set, zero value otherwise.
-func (o *Cluster) GetIpwhitelist() []ClusterIpwhitelistInner {
-	if o == nil || IsNil(o.Ipwhitelist) {
-		var ret []ClusterIpwhitelistInner
-		return ret
-	}
-	return o.Ipwhitelist
-}
-
-// GetIpwhitelistOk returns a tuple with the Ipwhitelist field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetIpwhitelistOk() ([]ClusterIpwhitelistInner, bool) {
-	if o == nil || IsNil(o.Ipwhitelist) {
-		return nil, false
-	}
-	return o.Ipwhitelist, true
-}
-
-// HasIpwhitelist returns a boolean if a field has been set.
-func (o *Cluster) HasIpwhitelist() bool {
-	if o != nil && !IsNil(o.Ipwhitelist) {
-		return true
-	}
-
-	return false
-}
-
-// SetIpwhitelist gets a reference to the given []ClusterIpwhitelistInner and assigns it to the Ipwhitelist field.
-func (o *Cluster) SetIpwhitelist(v []ClusterIpwhitelistInner) {
-	o.Ipwhitelist = v
-}
-
 // GetStatus returns the Status field value
 func (o *Cluster) GetStatus() ClusterStatus {
 	if o == nil {
@@ -310,28 +373,28 @@ func (o *Cluster) SetStatus(v ClusterStatus) {
 	o.Status = v
 }
 
-// GetLinks returns the Links field value
-func (o *Cluster) GetLinks() ClusterLinks {
+// GetUuid returns the Uuid field value
+func (o *Cluster) GetUuid() string {
 	if o == nil {
-		var ret ClusterLinks
+		var ret string
 		return ret
 	}
 
-	return o.Links
+	return o.Uuid
 }
 
-// GetLinksOk returns a tuple with the Links field value
+// GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetLinksOk() (*ClusterLinks, bool) {
+func (o *Cluster) GetUuidOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Links, true
+	return &o.Uuid, true
 }
 
-// SetLinks sets field value
-func (o *Cluster) SetLinks(v ClusterLinks) {
-	o.Links = v
+// SetUuid sets field value
+func (o *Cluster) SetUuid(v string) {
+	o.Uuid = v
 }
 
 func (o Cluster) MarshalJSON() ([]byte, error) {
@@ -344,20 +407,69 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 
 func (o Cluster) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["uuid"] = o.Uuid
-	toSerialize["name"] = o.Name
-	toSerialize["ownerId"] = o.OwnerId
-	toSerialize["created"] = o.Created
-	toSerialize["planType"] = o.PlanType
-	toSerialize["region"] = o.Region
-	toSerialize["generation"] = o.Generation
+	toSerialize["autoUpdate"] = o.AutoUpdate
 	toSerialize["channel"] = o.Channel
+	toSerialize["created"] = o.Created
+	toSerialize["generation"] = o.Generation
 	if !IsNil(o.Ipwhitelist) {
 		toSerialize["ipwhitelist"] = o.Ipwhitelist
 	}
-	toSerialize["status"] = o.Status
+	if !IsNil(o.Labels) {
+		toSerialize["labels"] = o.Labels
+	}
 	toSerialize["links"] = o.Links
+	toSerialize["name"] = o.Name
+	toSerialize["ownerId"] = o.OwnerId
+	toSerialize["planType"] = o.PlanType
+	toSerialize["region"] = o.Region
+	toSerialize["status"] = o.Status
+	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
+}
+
+func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
+    // This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"autoUpdate",
+		"channel",
+		"created",
+		"generation",
+		"links",
+		"name",
+		"ownerId",
+		"planType",
+		"region",
+		"status",
+		"uuid",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varCluster := _Cluster{}
+
+	err = json.Unmarshal(bytes, &varCluster)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Cluster(varCluster)
+
+	return err
 }
 
 type NullableCluster struct {

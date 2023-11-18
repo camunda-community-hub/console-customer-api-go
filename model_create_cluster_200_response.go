@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the CreateCluster200Response type satisfies the MappedNullable interface at compile time
@@ -21,6 +22,8 @@ var _ MappedNullable = &CreateCluster200Response{}
 type CreateCluster200Response struct {
 	ClusterId string `json:"clusterId"`
 }
+
+type _CreateCluster200Response CreateCluster200Response
 
 // NewCreateCluster200Response instantiates a new CreateCluster200Response object
 // This constructor will assign default values to properties that have it defined,
@@ -76,6 +79,41 @@ func (o CreateCluster200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["clusterId"] = o.ClusterId
 	return toSerialize, nil
+}
+
+func (o *CreateCluster200Response) UnmarshalJSON(bytes []byte) (err error) {
+    // This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"clusterId",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varCreateCluster200Response := _CreateCluster200Response{}
+
+	err = json.Unmarshal(bytes, &varCreateCluster200Response)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CreateCluster200Response(varCreateCluster200Response)
+
+	return err
 }
 
 type NullableCreateCluster200Response struct {

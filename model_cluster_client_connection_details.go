@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the ClusterClientConnectionDetails type satisfies the MappedNullable interface at compile time
@@ -19,22 +20,24 @@ var _ MappedNullable = &ClusterClientConnectionDetails{}
 
 // ClusterClientConnectionDetails struct for ClusterClientConnectionDetails
 type ClusterClientConnectionDetails struct {
-	Name string `json:"name"`
 	ZEEBE_ADDRESS string `json:"ZEEBE_ADDRESS"`
-	ZEEBE_CLIENT_ID string `json:"ZEEBE_CLIENT_ID"`
 	ZEEBE_AUTHORIZATION_SERVER_URL string `json:"ZEEBE_AUTHORIZATION_SERVER_URL"`
+	ZEEBE_CLIENT_ID string `json:"ZEEBE_CLIENT_ID"`
+	Name string `json:"name"`
 }
+
+type _ClusterClientConnectionDetails ClusterClientConnectionDetails
 
 // NewClusterClientConnectionDetails instantiates a new ClusterClientConnectionDetails object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewClusterClientConnectionDetails(name string, zEEBEADDRESS string, zEEBECLIENTID string, zEEBEAUTHORIZATIONSERVERURL string) *ClusterClientConnectionDetails {
+func NewClusterClientConnectionDetails(zEEBEADDRESS string, zEEBEAUTHORIZATIONSERVERURL string, zEEBECLIENTID string, name string) *ClusterClientConnectionDetails {
 	this := ClusterClientConnectionDetails{}
-	this.Name = name
 	this.ZEEBE_ADDRESS = zEEBEADDRESS
-	this.ZEEBE_CLIENT_ID = zEEBECLIENTID
 	this.ZEEBE_AUTHORIZATION_SERVER_URL = zEEBEAUTHORIZATIONSERVERURL
+	this.ZEEBE_CLIENT_ID = zEEBECLIENTID
+	this.Name = name
 	return &this
 }
 
@@ -44,30 +47,6 @@ func NewClusterClientConnectionDetails(name string, zEEBEADDRESS string, zEEBECL
 func NewClusterClientConnectionDetailsWithDefaults() *ClusterClientConnectionDetails {
 	this := ClusterClientConnectionDetails{}
 	return &this
-}
-
-// GetName returns the Name field value
-func (o *ClusterClientConnectionDetails) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *ClusterClientConnectionDetails) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value
-func (o *ClusterClientConnectionDetails) SetName(v string) {
-	o.Name = v
 }
 
 // GetZEEBE_ADDRESS returns the ZEEBE_ADDRESS field value
@@ -94,30 +73,6 @@ func (o *ClusterClientConnectionDetails) SetZEEBE_ADDRESS(v string) {
 	o.ZEEBE_ADDRESS = v
 }
 
-// GetZEEBE_CLIENT_ID returns the ZEEBE_CLIENT_ID field value
-func (o *ClusterClientConnectionDetails) GetZEEBE_CLIENT_ID() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.ZEEBE_CLIENT_ID
-}
-
-// GetZEEBE_CLIENT_IDOk returns a tuple with the ZEEBE_CLIENT_ID field value
-// and a boolean to check if the value has been set.
-func (o *ClusterClientConnectionDetails) GetZEEBE_CLIENT_IDOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ZEEBE_CLIENT_ID, true
-}
-
-// SetZEEBE_CLIENT_ID sets field value
-func (o *ClusterClientConnectionDetails) SetZEEBE_CLIENT_ID(v string) {
-	o.ZEEBE_CLIENT_ID = v
-}
-
 // GetZEEBE_AUTHORIZATION_SERVER_URL returns the ZEEBE_AUTHORIZATION_SERVER_URL field value
 func (o *ClusterClientConnectionDetails) GetZEEBE_AUTHORIZATION_SERVER_URL() string {
 	if o == nil {
@@ -142,6 +97,54 @@ func (o *ClusterClientConnectionDetails) SetZEEBE_AUTHORIZATION_SERVER_URL(v str
 	o.ZEEBE_AUTHORIZATION_SERVER_URL = v
 }
 
+// GetZEEBE_CLIENT_ID returns the ZEEBE_CLIENT_ID field value
+func (o *ClusterClientConnectionDetails) GetZEEBE_CLIENT_ID() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ZEEBE_CLIENT_ID
+}
+
+// GetZEEBE_CLIENT_IDOk returns a tuple with the ZEEBE_CLIENT_ID field value
+// and a boolean to check if the value has been set.
+func (o *ClusterClientConnectionDetails) GetZEEBE_CLIENT_IDOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ZEEBE_CLIENT_ID, true
+}
+
+// SetZEEBE_CLIENT_ID sets field value
+func (o *ClusterClientConnectionDetails) SetZEEBE_CLIENT_ID(v string) {
+	o.ZEEBE_CLIENT_ID = v
+}
+
+// GetName returns the Name field value
+func (o *ClusterClientConnectionDetails) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+func (o *ClusterClientConnectionDetails) GetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Name, true
+}
+
+// SetName sets field value
+func (o *ClusterClientConnectionDetails) SetName(v string) {
+	o.Name = v
+}
+
 func (o ClusterClientConnectionDetails) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -152,11 +155,49 @@ func (o ClusterClientConnectionDetails) MarshalJSON() ([]byte, error) {
 
 func (o ClusterClientConnectionDetails) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["name"] = o.Name
 	toSerialize["ZEEBE_ADDRESS"] = o.ZEEBE_ADDRESS
-	toSerialize["ZEEBE_CLIENT_ID"] = o.ZEEBE_CLIENT_ID
 	toSerialize["ZEEBE_AUTHORIZATION_SERVER_URL"] = o.ZEEBE_AUTHORIZATION_SERVER_URL
+	toSerialize["ZEEBE_CLIENT_ID"] = o.ZEEBE_CLIENT_ID
+	toSerialize["name"] = o.Name
 	return toSerialize, nil
+}
+
+func (o *ClusterClientConnectionDetails) UnmarshalJSON(bytes []byte) (err error) {
+    // This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"ZEEBE_ADDRESS",
+		"ZEEBE_AUTHORIZATION_SERVER_URL",
+		"ZEEBE_CLIENT_ID",
+		"name",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varClusterClientConnectionDetails := _ClusterClientConnectionDetails{}
+
+	err = json.Unmarshal(bytes, &varClusterClientConnectionDetails)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ClusterClientConnectionDetails(varClusterClientConnectionDetails)
+
+	return err
 }
 
 type NullableClusterClientConnectionDetails struct {

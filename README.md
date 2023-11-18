@@ -21,7 +21,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import openapi "github.com/GIT_USER_ID/GIT_REPO_ID"
+import openapi "github.com/sijoma/console-customer-api-go"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -36,7 +36,7 @@ Default configuration comes with `Servers` field that contains server objects as
 
 ### Select Server Configuration
 
-For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
+For using other server than the one defined on index 0 set context value `openapi.ContextServerIndex` of type `int`.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextServerIndex, 1)
@@ -44,7 +44,7 @@ ctx := context.WithValue(context.Background(), openapi.ContextServerIndex, 1)
 
 ### Templated Server URL
 
-Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
+Templated server URL is formatted using default variables from configuration or from context value `openapi.ContextServerVariables` of type `map[string]string`.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextServerVariables, map[string]string{
@@ -58,7 +58,7 @@ Note, enum values are always validated and all unused variables are silently ign
 
 Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
-Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
+Similar rules for overriding default operation server index and variables applies by using `openapi.ContextOperationServerIndices` and `openapi.ContextOperationServerVariables` context maps.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextOperationServerIndices, map[string]int{
@@ -77,33 +77,37 @@ All URIs are relative to *https://api.cloud.camunda.io*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ClustersApi* | [**CreateClient**](docs/ClustersApi.md#createclient) | **Post** /clusters/{clusterUuid}/clients | 
-*ClustersApi* | [**CreateCluster**](docs/ClustersApi.md#createcluster) | **Post** /clusters | 
-*ClustersApi* | [**CreateSecret**](docs/ClustersApi.md#createsecret) | **Post** /clusters/{clusterUuid}/secrets | 
-*ClustersApi* | [**DeleteClient**](docs/ClustersApi.md#deleteclient) | **Delete** /clusters/{clusterUuid}/clients/{clientId} | 
-*ClustersApi* | [**DeleteCluster**](docs/ClustersApi.md#deletecluster) | **Delete** /clusters/{clusterUuid} | 
-*ClustersApi* | [**DeleteSecret**](docs/ClustersApi.md#deletesecret) | **Delete** /clusters/{clusterUuid}/secrets/{secretName} | 
-*ClustersApi* | [**GetClient**](docs/ClustersApi.md#getclient) | **Get** /clusters/{clusterUuid}/clients/{clientId} | 
-*ClustersApi* | [**GetClients**](docs/ClustersApi.md#getclients) | **Get** /clusters/{clusterUuid}/clients | 
-*ClustersApi* | [**GetCluster**](docs/ClustersApi.md#getcluster) | **Get** /clusters/{clusterUuid} | 
-*ClustersApi* | [**GetClusters**](docs/ClustersApi.md#getclusters) | **Get** /clusters | 
-*ClustersApi* | [**GetParameters**](docs/ClustersApi.md#getparameters) | **Get** /clusters/parameters | 
-*ClustersApi* | [**GetSecrets**](docs/ClustersApi.md#getsecrets) | **Get** /clusters/{clusterUuid}/secrets | 
-*ClustersApi* | [**UpdateIpWhitelist**](docs/ClustersApi.md#updateipwhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
-*MembersApi* | [**DeleteMember**](docs/MembersApi.md#deletemember) | **Delete** /members/{email} | 
-*MembersApi* | [**GetMembers**](docs/MembersApi.md#getmembers) | **Get** /members | 
-*MembersApi* | [**UpdateMembers**](docs/MembersApi.md#updatemembers) | **Post** /members/{email} | 
+*DefaultAPI* | [**CreateBackup**](docs/DefaultAPI.md#createbackup) | **Post** /clusters/{clusterUuid}/backups | 
+*DefaultAPI* | [**CreateClient**](docs/DefaultAPI.md#createclient) | **Post** /clusters/{clusterUuid}/clients | 
+*DefaultAPI* | [**CreateCluster**](docs/DefaultAPI.md#createcluster) | **Post** /clusters | 
+*DefaultAPI* | [**CreateSecret**](docs/DefaultAPI.md#createsecret) | **Post** /clusters/{clusterUuid}/secrets | 
+*DefaultAPI* | [**DeleteBackup**](docs/DefaultAPI.md#deletebackup) | **Delete** /clusters/{clusterUuid}/backups/{backupId} | 
+*DefaultAPI* | [**DeleteClient**](docs/DefaultAPI.md#deleteclient) | **Delete** /clusters/{clusterUuid}/clients/{clientId} | 
+*DefaultAPI* | [**DeleteCluster**](docs/DefaultAPI.md#deletecluster) | **Delete** /clusters/{clusterUuid} | 
+*DefaultAPI* | [**DeleteMember**](docs/DefaultAPI.md#deletemember) | **Delete** /members/{email} | 
+*DefaultAPI* | [**DeleteSecret**](docs/DefaultAPI.md#deletesecret) | **Delete** /clusters/{clusterUuid}/secrets/{secretName} | 
+*DefaultAPI* | [**GetBackups**](docs/DefaultAPI.md#getbackups) | **Get** /clusters/{clusterUuid}/backups | 
+*DefaultAPI* | [**GetClient**](docs/DefaultAPI.md#getclient) | **Get** /clusters/{clusterUuid}/clients/{clientId} | 
+*DefaultAPI* | [**GetClients**](docs/DefaultAPI.md#getclients) | **Get** /clusters/{clusterUuid}/clients | 
+*DefaultAPI* | [**GetCluster**](docs/DefaultAPI.md#getcluster) | **Get** /clusters/{clusterUuid} | 
+*DefaultAPI* | [**GetClusters**](docs/DefaultAPI.md#getclusters) | **Get** /clusters | 
+*DefaultAPI* | [**GetMembers**](docs/DefaultAPI.md#getmembers) | **Get** /members | 
+*DefaultAPI* | [**GetParameters**](docs/DefaultAPI.md#getparameters) | **Get** /clusters/parameters | 
+*DefaultAPI* | [**GetSecrets**](docs/DefaultAPI.md#getsecrets) | **Get** /clusters/{clusterUuid}/secrets | 
+*DefaultAPI* | [**UpdateIpWhitelist**](docs/DefaultAPI.md#updateipwhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
+*DefaultAPI* | [**UpdateMembers**](docs/DefaultAPI.md#updatemembers) | **Post** /members/{email} | 
 
 
 ## Documentation For Models
 
  - [AssignableOrganizationRoleType](docs/AssignableOrganizationRoleType.md)
+ - [BackupDto](docs/BackupDto.md)
+ - [BackupStatus](docs/BackupStatus.md)
  - [Cluster](docs/Cluster.md)
  - [ClusterChannel](docs/ClusterChannel.md)
  - [ClusterClient](docs/ClusterClient.md)
  - [ClusterClientConnectionDetails](docs/ClusterClientConnectionDetails.md)
  - [ClusterGeneration](docs/ClusterGeneration.md)
- - [ClusterHealthStatus](docs/ClusterHealthStatus.md)
  - [ClusterIpwhitelistInner](docs/ClusterIpwhitelistInner.md)
  - [ClusterLinks](docs/ClusterLinks.md)
  - [ClusterPlanType](docs/ClusterPlanType.md)
@@ -133,7 +137,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-
+Authentication schemes defined for the API:
 ### bearer
 
 - **Type**: HTTP Bearer token authentication
@@ -141,7 +145,7 @@ Class | Method | HTTP request | Description
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARER_TOKEN_STRING")
+auth := context.WithValue(context.Background(), openapi.ContextAccessToken, "BEARER_TOKEN_STRING")
 r, err := client.Service.Operation(auth, args)
 ```
 

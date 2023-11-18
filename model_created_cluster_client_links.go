@@ -19,12 +19,12 @@ var _ MappedNullable = &CreatedClusterClientLinks{}
 
 // CreatedClusterClientLinks struct for CreatedClusterClientLinks
 type CreatedClusterClientLinks struct {
-	Oauth *string `json:"oauth,omitempty"`
-	Console *string `json:"console,omitempty"`
 	Connectors *string `json:"connectors,omitempty"`
+	Console *string `json:"console,omitempty"`
+	Oauth *string `json:"oauth,omitempty"`
+	Operate *string `json:"operate,omitempty"`
 	Optimize *string `json:"optimize,omitempty"`
 	Tasklist *string `json:"tasklist,omitempty"`
-	Operate *string `json:"operate,omitempty"`
 	Zeebe *string `json:"zeebe,omitempty"`
 }
 
@@ -45,36 +45,36 @@ func NewCreatedClusterClientLinksWithDefaults() *CreatedClusterClientLinks {
 	return &this
 }
 
-// GetOauth returns the Oauth field value if set, zero value otherwise.
-func (o *CreatedClusterClientLinks) GetOauth() string {
-	if o == nil || IsNil(o.Oauth) {
+// GetConnectors returns the Connectors field value if set, zero value otherwise.
+func (o *CreatedClusterClientLinks) GetConnectors() string {
+	if o == nil || IsNil(o.Connectors) {
 		var ret string
 		return ret
 	}
-	return *o.Oauth
+	return *o.Connectors
 }
 
-// GetOauthOk returns a tuple with the Oauth field value if set, nil otherwise
+// GetConnectorsOk returns a tuple with the Connectors field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreatedClusterClientLinks) GetOauthOk() (*string, bool) {
-	if o == nil || IsNil(o.Oauth) {
+func (o *CreatedClusterClientLinks) GetConnectorsOk() (*string, bool) {
+	if o == nil || IsNil(o.Connectors) {
 		return nil, false
 	}
-	return o.Oauth, true
+	return o.Connectors, true
 }
 
-// HasOauth returns a boolean if a field has been set.
-func (o *CreatedClusterClientLinks) HasOauth() bool {
-	if o != nil && !IsNil(o.Oauth) {
+// HasConnectors returns a boolean if a field has been set.
+func (o *CreatedClusterClientLinks) HasConnectors() bool {
+	if o != nil && !IsNil(o.Connectors) {
 		return true
 	}
 
 	return false
 }
 
-// SetOauth gets a reference to the given string and assigns it to the Oauth field.
-func (o *CreatedClusterClientLinks) SetOauth(v string) {
-	o.Oauth = &v
+// SetConnectors gets a reference to the given string and assigns it to the Connectors field.
+func (o *CreatedClusterClientLinks) SetConnectors(v string) {
+	o.Connectors = &v
 }
 
 // GetConsole returns the Console field value if set, zero value otherwise.
@@ -109,36 +109,68 @@ func (o *CreatedClusterClientLinks) SetConsole(v string) {
 	o.Console = &v
 }
 
-// GetConnectors returns the Connectors field value if set, zero value otherwise.
-func (o *CreatedClusterClientLinks) GetConnectors() string {
-	if o == nil || IsNil(o.Connectors) {
+// GetOauth returns the Oauth field value if set, zero value otherwise.
+func (o *CreatedClusterClientLinks) GetOauth() string {
+	if o == nil || IsNil(o.Oauth) {
 		var ret string
 		return ret
 	}
-	return *o.Connectors
+	return *o.Oauth
 }
 
-// GetConnectorsOk returns a tuple with the Connectors field value if set, nil otherwise
+// GetOauthOk returns a tuple with the Oauth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreatedClusterClientLinks) GetConnectorsOk() (*string, bool) {
-	if o == nil || IsNil(o.Connectors) {
+func (o *CreatedClusterClientLinks) GetOauthOk() (*string, bool) {
+	if o == nil || IsNil(o.Oauth) {
 		return nil, false
 	}
-	return o.Connectors, true
+	return o.Oauth, true
 }
 
-// HasConnectors returns a boolean if a field has been set.
-func (o *CreatedClusterClientLinks) HasConnectors() bool {
-	if o != nil && !IsNil(o.Connectors) {
+// HasOauth returns a boolean if a field has been set.
+func (o *CreatedClusterClientLinks) HasOauth() bool {
+	if o != nil && !IsNil(o.Oauth) {
 		return true
 	}
 
 	return false
 }
 
-// SetConnectors gets a reference to the given string and assigns it to the Connectors field.
-func (o *CreatedClusterClientLinks) SetConnectors(v string) {
-	o.Connectors = &v
+// SetOauth gets a reference to the given string and assigns it to the Oauth field.
+func (o *CreatedClusterClientLinks) SetOauth(v string) {
+	o.Oauth = &v
+}
+
+// GetOperate returns the Operate field value if set, zero value otherwise.
+func (o *CreatedClusterClientLinks) GetOperate() string {
+	if o == nil || IsNil(o.Operate) {
+		var ret string
+		return ret
+	}
+	return *o.Operate
+}
+
+// GetOperateOk returns a tuple with the Operate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreatedClusterClientLinks) GetOperateOk() (*string, bool) {
+	if o == nil || IsNil(o.Operate) {
+		return nil, false
+	}
+	return o.Operate, true
+}
+
+// HasOperate returns a boolean if a field has been set.
+func (o *CreatedClusterClientLinks) HasOperate() bool {
+	if o != nil && !IsNil(o.Operate) {
+		return true
+	}
+
+	return false
+}
+
+// SetOperate gets a reference to the given string and assigns it to the Operate field.
+func (o *CreatedClusterClientLinks) SetOperate(v string) {
+	o.Operate = &v
 }
 
 // GetOptimize returns the Optimize field value if set, zero value otherwise.
@@ -205,38 +237,6 @@ func (o *CreatedClusterClientLinks) SetTasklist(v string) {
 	o.Tasklist = &v
 }
 
-// GetOperate returns the Operate field value if set, zero value otherwise.
-func (o *CreatedClusterClientLinks) GetOperate() string {
-	if o == nil || IsNil(o.Operate) {
-		var ret string
-		return ret
-	}
-	return *o.Operate
-}
-
-// GetOperateOk returns a tuple with the Operate field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CreatedClusterClientLinks) GetOperateOk() (*string, bool) {
-	if o == nil || IsNil(o.Operate) {
-		return nil, false
-	}
-	return o.Operate, true
-}
-
-// HasOperate returns a boolean if a field has been set.
-func (o *CreatedClusterClientLinks) HasOperate() bool {
-	if o != nil && !IsNil(o.Operate) {
-		return true
-	}
-
-	return false
-}
-
-// SetOperate gets a reference to the given string and assigns it to the Operate field.
-func (o *CreatedClusterClientLinks) SetOperate(v string) {
-	o.Operate = &v
-}
-
 // GetZeebe returns the Zeebe field value if set, zero value otherwise.
 func (o *CreatedClusterClientLinks) GetZeebe() string {
 	if o == nil || IsNil(o.Zeebe) {
@@ -279,23 +279,23 @@ func (o CreatedClusterClientLinks) MarshalJSON() ([]byte, error) {
 
 func (o CreatedClusterClientLinks) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Oauth) {
-		toSerialize["oauth"] = o.Oauth
+	if !IsNil(o.Connectors) {
+		toSerialize["connectors"] = o.Connectors
 	}
 	if !IsNil(o.Console) {
 		toSerialize["console"] = o.Console
 	}
-	if !IsNil(o.Connectors) {
-		toSerialize["connectors"] = o.Connectors
+	if !IsNil(o.Oauth) {
+		toSerialize["oauth"] = o.Oauth
+	}
+	if !IsNil(o.Operate) {
+		toSerialize["operate"] = o.Operate
 	}
 	if !IsNil(o.Optimize) {
 		toSerialize["optimize"] = o.Optimize
 	}
 	if !IsNil(o.Tasklist) {
 		toSerialize["tasklist"] = o.Tasklist
-	}
-	if !IsNil(o.Operate) {
-		toSerialize["operate"] = o.Operate
 	}
 	if !IsNil(o.Zeebe) {
 		toSerialize["zeebe"] = o.Zeebe

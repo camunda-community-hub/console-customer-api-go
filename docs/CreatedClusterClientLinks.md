@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Oauth** | Pointer to **string** |  | [optional] 
-**Console** | Pointer to **string** |  | [optional] 
 **Connectors** | Pointer to **string** |  | [optional] 
+**Console** | Pointer to **string** |  | [optional] 
+**Oauth** | Pointer to **string** |  | [optional] 
+**Operate** | Pointer to **string** |  | [optional] 
 **Optimize** | Pointer to **string** |  | [optional] 
 **Tasklist** | Pointer to **string** |  | [optional] 
-**Operate** | Pointer to **string** |  | [optional] 
 **Zeebe** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -31,30 +31,30 @@ NewCreatedClusterClientLinksWithDefaults instantiates a new CreatedClusterClient
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetOauth
+### GetConnectors
 
-`func (o *CreatedClusterClientLinks) GetOauth() string`
+`func (o *CreatedClusterClientLinks) GetConnectors() string`
 
-GetOauth returns the Oauth field if non-nil, zero value otherwise.
+GetConnectors returns the Connectors field if non-nil, zero value otherwise.
 
-### GetOauthOk
+### GetConnectorsOk
 
-`func (o *CreatedClusterClientLinks) GetOauthOk() (*string, bool)`
+`func (o *CreatedClusterClientLinks) GetConnectorsOk() (*string, bool)`
 
-GetOauthOk returns a tuple with the Oauth field if it's non-nil, zero value otherwise
+GetConnectorsOk returns a tuple with the Connectors field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetOauth
+### SetConnectors
 
-`func (o *CreatedClusterClientLinks) SetOauth(v string)`
+`func (o *CreatedClusterClientLinks) SetConnectors(v string)`
 
-SetOauth sets Oauth field to given value.
+SetConnectors sets Connectors field to given value.
 
-### HasOauth
+### HasConnectors
 
-`func (o *CreatedClusterClientLinks) HasOauth() bool`
+`func (o *CreatedClusterClientLinks) HasConnectors() bool`
 
-HasOauth returns a boolean if a field has been set.
+HasConnectors returns a boolean if a field has been set.
 
 ### GetConsole
 
@@ -81,30 +81,55 @@ SetConsole sets Console field to given value.
 
 HasConsole returns a boolean if a field has been set.
 
-### GetConnectors
+### GetOauth
 
-`func (o *CreatedClusterClientLinks) GetConnectors() string`
+`func (o *CreatedClusterClientLinks) GetOauth() string`
 
-GetConnectors returns the Connectors field if non-nil, zero value otherwise.
+GetOauth returns the Oauth field if non-nil, zero value otherwise.
 
-### GetConnectorsOk
+### GetOauthOk
 
-`func (o *CreatedClusterClientLinks) GetConnectorsOk() (*string, bool)`
+`func (o *CreatedClusterClientLinks) GetOauthOk() (*string, bool)`
 
-GetConnectorsOk returns a tuple with the Connectors field if it's non-nil, zero value otherwise
+GetOauthOk returns a tuple with the Oauth field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetConnectors
+### SetOauth
 
-`func (o *CreatedClusterClientLinks) SetConnectors(v string)`
+`func (o *CreatedClusterClientLinks) SetOauth(v string)`
 
-SetConnectors sets Connectors field to given value.
+SetOauth sets Oauth field to given value.
 
-### HasConnectors
+### HasOauth
 
-`func (o *CreatedClusterClientLinks) HasConnectors() bool`
+`func (o *CreatedClusterClientLinks) HasOauth() bool`
 
-HasConnectors returns a boolean if a field has been set.
+HasOauth returns a boolean if a field has been set.
+
+### GetOperate
+
+`func (o *CreatedClusterClientLinks) GetOperate() string`
+
+GetOperate returns the Operate field if non-nil, zero value otherwise.
+
+### GetOperateOk
+
+`func (o *CreatedClusterClientLinks) GetOperateOk() (*string, bool)`
+
+GetOperateOk returns a tuple with the Operate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOperate
+
+`func (o *CreatedClusterClientLinks) SetOperate(v string)`
+
+SetOperate sets Operate field to given value.
+
+### HasOperate
+
+`func (o *CreatedClusterClientLinks) HasOperate() bool`
+
+HasOperate returns a boolean if a field has been set.
 
 ### GetOptimize
 
@@ -155,31 +180,6 @@ SetTasklist sets Tasklist field to given value.
 `func (o *CreatedClusterClientLinks) HasTasklist() bool`
 
 HasTasklist returns a boolean if a field has been set.
-
-### GetOperate
-
-`func (o *CreatedClusterClientLinks) GetOperate() string`
-
-GetOperate returns the Operate field if non-nil, zero value otherwise.
-
-### GetOperateOk
-
-`func (o *CreatedClusterClientLinks) GetOperateOk() (*string, bool)`
-
-GetOperateOk returns a tuple with the Operate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOperate
-
-`func (o *CreatedClusterClientLinks) SetOperate(v string)`
-
-SetOperate sets Operate field to given value.
-
-### HasOperate
-
-`func (o *CreatedClusterClientLinks) HasOperate() bool`
-
-HasOperate returns a boolean if a field has been set.
 
 ### GetZeebe
 

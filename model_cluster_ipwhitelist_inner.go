@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the ClusterIpwhitelistInner type satisfies the MappedNullable interface at compile time
@@ -22,6 +23,8 @@ type ClusterIpwhitelistInner struct {
 	Description string `json:"description"`
 	Ip string `json:"ip"`
 }
+
+type _ClusterIpwhitelistInner ClusterIpwhitelistInner
 
 // NewClusterIpwhitelistInner instantiates a new ClusterIpwhitelistInner object
 // This constructor will assign default values to properties that have it defined,
@@ -103,6 +106,42 @@ func (o ClusterIpwhitelistInner) ToMap() (map[string]interface{}, error) {
 	toSerialize["description"] = o.Description
 	toSerialize["ip"] = o.Ip
 	return toSerialize, nil
+}
+
+func (o *ClusterIpwhitelistInner) UnmarshalJSON(bytes []byte) (err error) {
+    // This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"description",
+		"ip",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varClusterIpwhitelistInner := _ClusterIpwhitelistInner{}
+
+	err = json.Unmarshal(bytes, &varClusterIpwhitelistInner)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ClusterIpwhitelistInner(varClusterIpwhitelistInner)
+
+	return err
 }
 
 type NullableClusterIpwhitelistInner struct {

@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the Member type satisfies the MappedNullable interface at compile time
@@ -19,22 +20,24 @@ var _ MappedNullable = &Member{}
 
 // Member struct for Member
 type Member struct {
-	Name string `json:"name"`
 	Email string `json:"email"`
-	Roles []OrganizationRole `json:"roles"`
 	InvitePending bool `json:"invitePending"`
+	Name string `json:"name"`
+	Roles []OrganizationRole `json:"roles"`
 }
+
+type _Member Member
 
 // NewMember instantiates a new Member object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMember(name string, email string, roles []OrganizationRole, invitePending bool) *Member {
+func NewMember(email string, invitePending bool, name string, roles []OrganizationRole) *Member {
 	this := Member{}
-	this.Name = name
 	this.Email = email
-	this.Roles = roles
 	this.InvitePending = invitePending
+	this.Name = name
+	this.Roles = roles
 	return &this
 }
 
@@ -44,30 +47,6 @@ func NewMember(name string, email string, roles []OrganizationRole, invitePendin
 func NewMemberWithDefaults() *Member {
 	this := Member{}
 	return &this
-}
-
-// GetName returns the Name field value
-func (o *Member) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *Member) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value
-func (o *Member) SetName(v string) {
-	o.Name = v
 }
 
 // GetEmail returns the Email field value
@@ -94,30 +73,6 @@ func (o *Member) SetEmail(v string) {
 	o.Email = v
 }
 
-// GetRoles returns the Roles field value
-func (o *Member) GetRoles() []OrganizationRole {
-	if o == nil {
-		var ret []OrganizationRole
-		return ret
-	}
-
-	return o.Roles
-}
-
-// GetRolesOk returns a tuple with the Roles field value
-// and a boolean to check if the value has been set.
-func (o *Member) GetRolesOk() ([]OrganizationRole, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Roles, true
-}
-
-// SetRoles sets field value
-func (o *Member) SetRoles(v []OrganizationRole) {
-	o.Roles = v
-}
-
 // GetInvitePending returns the InvitePending field value
 func (o *Member) GetInvitePending() bool {
 	if o == nil {
@@ -142,6 +97,54 @@ func (o *Member) SetInvitePending(v bool) {
 	o.InvitePending = v
 }
 
+// GetName returns the Name field value
+func (o *Member) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+func (o *Member) GetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Name, true
+}
+
+// SetName sets field value
+func (o *Member) SetName(v string) {
+	o.Name = v
+}
+
+// GetRoles returns the Roles field value
+func (o *Member) GetRoles() []OrganizationRole {
+	if o == nil {
+		var ret []OrganizationRole
+		return ret
+	}
+
+	return o.Roles
+}
+
+// GetRolesOk returns a tuple with the Roles field value
+// and a boolean to check if the value has been set.
+func (o *Member) GetRolesOk() ([]OrganizationRole, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Roles, true
+}
+
+// SetRoles sets field value
+func (o *Member) SetRoles(v []OrganizationRole) {
+	o.Roles = v
+}
+
 func (o Member) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -152,11 +155,49 @@ func (o Member) MarshalJSON() ([]byte, error) {
 
 func (o Member) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["name"] = o.Name
 	toSerialize["email"] = o.Email
-	toSerialize["roles"] = o.Roles
 	toSerialize["invitePending"] = o.InvitePending
+	toSerialize["name"] = o.Name
+	toSerialize["roles"] = o.Roles
 	return toSerialize, nil
+}
+
+func (o *Member) UnmarshalJSON(bytes []byte) (err error) {
+    // This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"email",
+		"invitePending",
+		"name",
+		"roles",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varMember := _Member{}
+
+	err = json.Unmarshal(bytes, &varMember)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Member(varMember)
+
+	return err
 }
 
 type NullableMember struct {

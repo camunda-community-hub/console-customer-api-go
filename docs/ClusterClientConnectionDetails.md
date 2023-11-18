@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
 **ZEEBE_ADDRESS** | **string** |  | 
-**ZEEBE_CLIENT_ID** | **string** |  | 
 **ZEEBE_AUTHORIZATION_SERVER_URL** | **string** |  | 
+**ZEEBE_CLIENT_ID** | **string** |  | 
+**Name** | **string** |  | 
 
 ## Methods
 
 ### NewClusterClientConnectionDetails
 
-`func NewClusterClientConnectionDetails(name string, zEEBEADDRESS string, zEEBECLIENTID string, zEEBEAUTHORIZATIONSERVERURL string, ) *ClusterClientConnectionDetails`
+`func NewClusterClientConnectionDetails(zEEBEADDRESS string, zEEBEAUTHORIZATIONSERVERURL string, zEEBECLIENTID string, name string, ) *ClusterClientConnectionDetails`
 
 NewClusterClientConnectionDetails instantiates a new ClusterClientConnectionDetails object
 This constructor will assign default values to properties that have it defined,
@@ -27,26 +27,6 @@ will change when the set of required properties is changed
 NewClusterClientConnectionDetailsWithDefaults instantiates a new ClusterClientConnectionDetails object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetName
-
-`func (o *ClusterClientConnectionDetails) GetName() string`
-
-GetName returns the Name field if non-nil, zero value otherwise.
-
-### GetNameOk
-
-`func (o *ClusterClientConnectionDetails) GetNameOk() (*string, bool)`
-
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetName
-
-`func (o *ClusterClientConnectionDetails) SetName(v string)`
-
-SetName sets Name field to given value.
-
 
 ### GetZEEBE_ADDRESS
 
@@ -66,6 +46,26 @@ and a boolean to check if the value has been set.
 `func (o *ClusterClientConnectionDetails) SetZEEBE_ADDRESS(v string)`
 
 SetZEEBE_ADDRESS sets ZEEBE_ADDRESS field to given value.
+
+
+### GetZEEBE_AUTHORIZATION_SERVER_URL
+
+`func (o *ClusterClientConnectionDetails) GetZEEBE_AUTHORIZATION_SERVER_URL() string`
+
+GetZEEBE_AUTHORIZATION_SERVER_URL returns the ZEEBE_AUTHORIZATION_SERVER_URL field if non-nil, zero value otherwise.
+
+### GetZEEBE_AUTHORIZATION_SERVER_URLOk
+
+`func (o *ClusterClientConnectionDetails) GetZEEBE_AUTHORIZATION_SERVER_URLOk() (*string, bool)`
+
+GetZEEBE_AUTHORIZATION_SERVER_URLOk returns a tuple with the ZEEBE_AUTHORIZATION_SERVER_URL field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZEEBE_AUTHORIZATION_SERVER_URL
+
+`func (o *ClusterClientConnectionDetails) SetZEEBE_AUTHORIZATION_SERVER_URL(v string)`
+
+SetZEEBE_AUTHORIZATION_SERVER_URL sets ZEEBE_AUTHORIZATION_SERVER_URL field to given value.
 
 
 ### GetZEEBE_CLIENT_ID
@@ -88,24 +88,24 @@ and a boolean to check if the value has been set.
 SetZEEBE_CLIENT_ID sets ZEEBE_CLIENT_ID field to given value.
 
 
-### GetZEEBE_AUTHORIZATION_SERVER_URL
+### GetName
 
-`func (o *ClusterClientConnectionDetails) GetZEEBE_AUTHORIZATION_SERVER_URL() string`
+`func (o *ClusterClientConnectionDetails) GetName() string`
 
-GetZEEBE_AUTHORIZATION_SERVER_URL returns the ZEEBE_AUTHORIZATION_SERVER_URL field if non-nil, zero value otherwise.
+GetName returns the Name field if non-nil, zero value otherwise.
 
-### GetZEEBE_AUTHORIZATION_SERVER_URLOk
+### GetNameOk
 
-`func (o *ClusterClientConnectionDetails) GetZEEBE_AUTHORIZATION_SERVER_URLOk() (*string, bool)`
+`func (o *ClusterClientConnectionDetails) GetNameOk() (*string, bool)`
 
-GetZEEBE_AUTHORIZATION_SERVER_URLOk returns a tuple with the ZEEBE_AUTHORIZATION_SERVER_URL field if it's non-nil, zero value otherwise
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetZEEBE_AUTHORIZATION_SERVER_URL
+### SetName
 
-`func (o *ClusterClientConnectionDetails) SetZEEBE_AUTHORIZATION_SERVER_URL(v string)`
+`func (o *ClusterClientConnectionDetails) SetName(v string)`
 
-SetZEEBE_AUTHORIZATION_SERVER_URL sets ZEEBE_AUTHORIZATION_SERVER_URL field to given value.
+SetName sets Name field to given value.
 
 
 

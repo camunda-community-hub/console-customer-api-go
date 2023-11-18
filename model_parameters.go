@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the Parameters type satisfies the MappedNullable interface at compile time
@@ -23,6 +24,8 @@ type Parameters struct {
 	ClusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner `json:"clusterPlanTypes"`
 	Regions []ParametersChannelsInnerAllowedGenerationsInner `json:"regions"`
 }
+
+type _Parameters Parameters
 
 // NewParameters instantiates a new Parameters object
 // This constructor will assign default values to properties that have it defined,
@@ -130,6 +133,43 @@ func (o Parameters) ToMap() (map[string]interface{}, error) {
 	toSerialize["clusterPlanTypes"] = o.ClusterPlanTypes
 	toSerialize["regions"] = o.Regions
 	return toSerialize, nil
+}
+
+func (o *Parameters) UnmarshalJSON(bytes []byte) (err error) {
+    // This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"channels",
+		"clusterPlanTypes",
+		"regions",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varParameters := _Parameters{}
+
+	err = json.Unmarshal(bytes, &varParameters)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Parameters(varParameters)
+
+	return err
 }
 
 type NullableParameters struct {

@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the CreateClusterBody type satisfies the MappedNullable interface at compile time
@@ -19,28 +20,32 @@ var _ MappedNullable = &CreateClusterBody{}
 
 // CreateClusterBody Used to create a cluster through this API. All necessary values can be retrieved from the <pre>/clusters/parameters</pre> endpoint.
 type CreateClusterBody struct {
-	// The name of your new cluster.
-	Name string `json:"name"`
-	// The planType (hardware spec) to use.
-	PlanTypeId string `json:"planTypeId"`
+	// If set to false, no automatic updates will be performed on your cluster.
+	AutoUpdate *bool `json:"autoUpdate,omitempty"`
 	// The channel (software spec) to use.
 	ChannelId string `json:"channelId"`
 	// The generation (software version) to use.
 	GenerationId string `json:"generationId"`
+	// The name of your new cluster.
+	Name string `json:"name"`
+	// The planType (hardware spec) to use.
+	PlanTypeId string `json:"planTypeId"`
 	// The data center to use.
 	RegionId string `json:"regionId"`
 }
+
+type _CreateClusterBody CreateClusterBody
 
 // NewCreateClusterBody instantiates a new CreateClusterBody object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateClusterBody(name string, planTypeId string, channelId string, generationId string, regionId string) *CreateClusterBody {
+func NewCreateClusterBody(channelId string, generationId string, name string, planTypeId string, regionId string) *CreateClusterBody {
 	this := CreateClusterBody{}
-	this.Name = name
-	this.PlanTypeId = planTypeId
 	this.ChannelId = channelId
 	this.GenerationId = generationId
+	this.Name = name
+	this.PlanTypeId = planTypeId
 	this.RegionId = regionId
 	return &this
 }
@@ -53,52 +58,36 @@ func NewCreateClusterBodyWithDefaults() *CreateClusterBody {
 	return &this
 }
 
-// GetName returns the Name field value
-func (o *CreateClusterBody) GetName() string {
-	if o == nil {
-		var ret string
+// GetAutoUpdate returns the AutoUpdate field value if set, zero value otherwise.
+func (o *CreateClusterBody) GetAutoUpdate() bool {
+	if o == nil || IsNil(o.AutoUpdate) {
+		var ret bool
 		return ret
 	}
-
-	return o.Name
+	return *o.AutoUpdate
 }
 
-// GetNameOk returns a tuple with the Name field value
+// GetAutoUpdateOk returns a tuple with the AutoUpdate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateClusterBody) GetNameOk() (*string, bool) {
-	if o == nil {
+func (o *CreateClusterBody) GetAutoUpdateOk() (*bool, bool) {
+	if o == nil || IsNil(o.AutoUpdate) {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.AutoUpdate, true
 }
 
-// SetName sets field value
-func (o *CreateClusterBody) SetName(v string) {
-	o.Name = v
-}
-
-// GetPlanTypeId returns the PlanTypeId field value
-func (o *CreateClusterBody) GetPlanTypeId() string {
-	if o == nil {
-		var ret string
-		return ret
+// HasAutoUpdate returns a boolean if a field has been set.
+func (o *CreateClusterBody) HasAutoUpdate() bool {
+	if o != nil && !IsNil(o.AutoUpdate) {
+		return true
 	}
 
-	return o.PlanTypeId
+	return false
 }
 
-// GetPlanTypeIdOk returns a tuple with the PlanTypeId field value
-// and a boolean to check if the value has been set.
-func (o *CreateClusterBody) GetPlanTypeIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.PlanTypeId, true
-}
-
-// SetPlanTypeId sets field value
-func (o *CreateClusterBody) SetPlanTypeId(v string) {
-	o.PlanTypeId = v
+// SetAutoUpdate gets a reference to the given bool and assigns it to the AutoUpdate field.
+func (o *CreateClusterBody) SetAutoUpdate(v bool) {
+	o.AutoUpdate = &v
 }
 
 // GetChannelId returns the ChannelId field value
@@ -149,6 +138,54 @@ func (o *CreateClusterBody) SetGenerationId(v string) {
 	o.GenerationId = v
 }
 
+// GetName returns the Name field value
+func (o *CreateClusterBody) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+func (o *CreateClusterBody) GetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Name, true
+}
+
+// SetName sets field value
+func (o *CreateClusterBody) SetName(v string) {
+	o.Name = v
+}
+
+// GetPlanTypeId returns the PlanTypeId field value
+func (o *CreateClusterBody) GetPlanTypeId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.PlanTypeId
+}
+
+// GetPlanTypeIdOk returns a tuple with the PlanTypeId field value
+// and a boolean to check if the value has been set.
+func (o *CreateClusterBody) GetPlanTypeIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.PlanTypeId, true
+}
+
+// SetPlanTypeId sets field value
+func (o *CreateClusterBody) SetPlanTypeId(v string) {
+	o.PlanTypeId = v
+}
+
 // GetRegionId returns the RegionId field value
 func (o *CreateClusterBody) GetRegionId() string {
 	if o == nil {
@@ -183,12 +220,54 @@ func (o CreateClusterBody) MarshalJSON() ([]byte, error) {
 
 func (o CreateClusterBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["name"] = o.Name
-	toSerialize["planTypeId"] = o.PlanTypeId
+	if !IsNil(o.AutoUpdate) {
+		toSerialize["autoUpdate"] = o.AutoUpdate
+	}
 	toSerialize["channelId"] = o.ChannelId
 	toSerialize["generationId"] = o.GenerationId
+	toSerialize["name"] = o.Name
+	toSerialize["planTypeId"] = o.PlanTypeId
 	toSerialize["regionId"] = o.RegionId
 	return toSerialize, nil
+}
+
+func (o *CreateClusterBody) UnmarshalJSON(bytes []byte) (err error) {
+    // This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"channelId",
+		"generationId",
+		"name",
+		"planTypeId",
+		"regionId",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varCreateClusterBody := _CreateClusterBody{}
+
+	err = json.Unmarshal(bytes, &varCreateClusterBody)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CreateClusterBody(varCreateClusterBody)
+
+	return err
 }
 
 type NullableCreateClusterBody struct {

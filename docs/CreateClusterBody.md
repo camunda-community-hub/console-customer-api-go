@@ -4,17 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of your new cluster. | 
-**PlanTypeId** | **string** | The planType (hardware spec) to use. | 
+**AutoUpdate** | Pointer to **bool** | If set to false, no automatic updates will be performed on your cluster. | [optional] 
 **ChannelId** | **string** | The channel (software spec) to use. | 
 **GenerationId** | **string** | The generation (software version) to use. | 
+**Name** | **string** | The name of your new cluster. | 
+**PlanTypeId** | **string** | The planType (hardware spec) to use. | 
 **RegionId** | **string** | The data center to use. | 
 
 ## Methods
 
 ### NewCreateClusterBody
 
-`func NewCreateClusterBody(name string, planTypeId string, channelId string, generationId string, regionId string, ) *CreateClusterBody`
+`func NewCreateClusterBody(channelId string, generationId string, name string, planTypeId string, regionId string, ) *CreateClusterBody`
 
 NewCreateClusterBody instantiates a new CreateClusterBody object
 This constructor will assign default values to properties that have it defined,
@@ -29,45 +30,30 @@ NewCreateClusterBodyWithDefaults instantiates a new CreateClusterBody object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetName
+### GetAutoUpdate
 
-`func (o *CreateClusterBody) GetName() string`
+`func (o *CreateClusterBody) GetAutoUpdate() bool`
 
-GetName returns the Name field if non-nil, zero value otherwise.
+GetAutoUpdate returns the AutoUpdate field if non-nil, zero value otherwise.
 
-### GetNameOk
+### GetAutoUpdateOk
 
-`func (o *CreateClusterBody) GetNameOk() (*string, bool)`
+`func (o *CreateClusterBody) GetAutoUpdateOk() (*bool, bool)`
 
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+GetAutoUpdateOk returns a tuple with the AutoUpdate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetName
+### SetAutoUpdate
 
-`func (o *CreateClusterBody) SetName(v string)`
+`func (o *CreateClusterBody) SetAutoUpdate(v bool)`
 
-SetName sets Name field to given value.
+SetAutoUpdate sets AutoUpdate field to given value.
 
+### HasAutoUpdate
 
-### GetPlanTypeId
+`func (o *CreateClusterBody) HasAutoUpdate() bool`
 
-`func (o *CreateClusterBody) GetPlanTypeId() string`
-
-GetPlanTypeId returns the PlanTypeId field if non-nil, zero value otherwise.
-
-### GetPlanTypeIdOk
-
-`func (o *CreateClusterBody) GetPlanTypeIdOk() (*string, bool)`
-
-GetPlanTypeIdOk returns a tuple with the PlanTypeId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPlanTypeId
-
-`func (o *CreateClusterBody) SetPlanTypeId(v string)`
-
-SetPlanTypeId sets PlanTypeId field to given value.
-
+HasAutoUpdate returns a boolean if a field has been set.
 
 ### GetChannelId
 
@@ -107,6 +93,46 @@ and a boolean to check if the value has been set.
 `func (o *CreateClusterBody) SetGenerationId(v string)`
 
 SetGenerationId sets GenerationId field to given value.
+
+
+### GetName
+
+`func (o *CreateClusterBody) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *CreateClusterBody) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *CreateClusterBody) SetName(v string)`
+
+SetName sets Name field to given value.
+
+
+### GetPlanTypeId
+
+`func (o *CreateClusterBody) GetPlanTypeId() string`
+
+GetPlanTypeId returns the PlanTypeId field if non-nil, zero value otherwise.
+
+### GetPlanTypeIdOk
+
+`func (o *CreateClusterBody) GetPlanTypeIdOk() (*string, bool)`
+
+GetPlanTypeIdOk returns a tuple with the PlanTypeId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPlanTypeId
+
+`func (o *CreateClusterBody) SetPlanTypeId(v string)`
+
+SetPlanTypeId sets PlanTypeId field to given value.
 
 
 ### GetRegionId
