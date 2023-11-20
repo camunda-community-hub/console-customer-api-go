@@ -18,7 +18,7 @@ import (
 // ClusterComponentStatus the model 'ClusterComponentStatus'
 type ClusterComponentStatus string
 
-// List of ClusterStatus
+// List of ClusterComponentStatus
 const (
 	CLUSTERCOMPONENTSTATUS_HEALTHY   ClusterComponentStatus = "Healthy"
 	CLUSTERCOMPONENTSTATUS_UNHEALTHY ClusterComponentStatus = "Unhealthy"
@@ -72,7 +72,7 @@ func (v ClusterComponentStatus) IsValid() bool {
 	return false
 }
 
-// Ptr returns reference to ClusterStatus value
+// Ptr returns reference to ClusterComponentStatus value
 func (v ClusterComponentStatus) Ptr() *ClusterComponentStatus {
 	return &v
 }

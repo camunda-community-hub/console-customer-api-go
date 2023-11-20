@@ -15,14 +15,14 @@ Name | Type | Description | Notes
 **OwnerId** | **string** |  | 
 **PlanType** | [**ClusterPlanType**](ClusterPlanType.md) |  | 
 **Region** | [**ClusterRegion**](ClusterRegion.md) |  | 
-**Status** | [**ClusterComponentStatus**](ClusterStatus.md) |  | 
+**Status** | [**ClusterStatus**](ClusterStatus.md) |  | 
 **Uuid** | **string** | The ID used in all further API operations referencing your cluster. | 
 
 ## Methods
 
 ### NewCluster
 
-`func NewCluster(autoUpdate bool, channel ClusterChannel, created time.Time, generation ClusterGeneration, links ClusterLinks, name string, ownerId string, planType ClusterPlanType, region ClusterRegion, status ClusterComponentStatus, uuid string, ) *Cluster`
+`func NewCluster(autoUpdate bool, channel ClusterChannel, created time.Time, generation ClusterGeneration, links ClusterLinks, name string, ownerId string, planType ClusterPlanType, region ClusterRegion, status ClusterStatus, uuid string, ) *Cluster`
 
 NewCluster instantiates a new Cluster object
 This constructor will assign default values to properties that have it defined,
@@ -269,20 +269,20 @@ SetRegion sets Region field to given value.
 
 ### GetStatus
 
-`func (o *Cluster) GetStatus() ClusterComponentStatus`
+`func (o *Cluster) GetStatus() ClusterStatus`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *Cluster) GetStatusOk() (*ClusterComponentStatus, bool)`
+`func (o *Cluster) GetStatusOk() (*ClusterStatus, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *Cluster) SetStatus(v ClusterComponentStatus)`
+`func (o *Cluster) SetStatus(v ClusterStatus)`
 
 SetStatus sets Status field to given value.
 
