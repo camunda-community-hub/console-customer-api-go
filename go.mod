@@ -1,4 +1,4 @@
-module github.com/sijoma/console-customer-api-go
+module github.com/camunda-community-hub/console-customer-api-go
 
 go 1.18
 

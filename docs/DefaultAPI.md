@@ -43,7 +43,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -111,7 +111,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -181,7 +181,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -247,7 +247,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -317,7 +317,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -390,7 +390,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -461,7 +461,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -527,7 +527,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -595,7 +595,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -664,7 +664,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -732,7 +732,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -803,7 +803,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -871,7 +871,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -939,7 +939,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -998,7 +998,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -1059,7 +1059,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -1118,7 +1118,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -1188,7 +1188,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
@@ -1256,7 +1256,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/sijoma/console-customer-api-go"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func main() {
