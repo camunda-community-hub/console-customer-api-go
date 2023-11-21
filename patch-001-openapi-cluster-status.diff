@@ -1,0 +1,38 @@
+diff --git openapi.json openapi.json
+index 7bf6d0c..0e33b74 100644
+--- openapi.json
++++ openapi.json
+@@ -219,19 +219,19 @@
+             "description": "A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.",
+             "properties": {
+               "operateStatus": {
+-                "$ref": "#/components/schemas/ClusterStatus"
++                "$ref": "#/components/schemas/ClusterComponentStatus"
+               },
+               "optimizeStatus": {
+-                "$ref": "#/components/schemas/ClusterStatus"
++                "$ref": "#/components/schemas/ClusterComponentStatus"
+               },
+               "ready": {
+-                "$ref": "#/components/schemas/ClusterStatus"
++                "$ref": "#/components/schemas/ClusterComponentStatus"
+               },
+               "tasklistStatus": {
+-                "$ref": "#/components/schemas/ClusterStatus"
++                "$ref": "#/components/schemas/ClusterComponentStatus"
+               },
+               "zeebeStatus": {
+-                "$ref": "#/components/schemas/ClusterStatus"
++                "$ref": "#/components/schemas/ClusterComponentStatus"
+               }
+             },
+             "required": [
+@@ -319,7 +319,7 @@
+         "properties": {},
+         "type": "object"
+       },
+-      "ClusterStatus": {
++      "ClusterComponentStatus": {
+         "enum": [
+           "Healthy",
+           "Unhealthy",

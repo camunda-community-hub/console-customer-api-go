@@ -680,7 +680,7 @@ components:
         type: string
       properties: {}
       type: object
-    ClusterStatus:
+    ClusterComponentStatus:
       enum:
       - Healthy
       - Unhealthy
@@ -1064,15 +1064,15 @@ components:
         zeebeStatus: null
       properties:
         operateStatus:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterComponentStatus'
         optimizeStatus:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterComponentStatus'
         ready:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterComponentStatus'
         tasklistStatus:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterComponentStatus'
         zeebeStatus:
-          $ref: '#/components/schemas/ClusterStatus'
+          $ref: '#/components/schemas/ClusterComponentStatus'
       required:
       - ready
       type: object

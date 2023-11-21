@@ -34,7 +34,7 @@ type Cluster struct {
 	OwnerId     string                    `json:"ownerId"`
 	PlanType    ClusterPlanType           `json:"planType"`
 	Region      ClusterRegion             `json:"region"`
-	Status      ClusterComponentStatus    `json:"status"`
+	Status      ClusterStatus             `json:"status"`
 	// The ID used in all further API operations referencing your cluster.
 	Uuid string `json:"uuid"`
 }
@@ -45,7 +45,7 @@ type _Cluster Cluster
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCluster(autoUpdate bool, channel ClusterChannel, created time.Time, generation ClusterGeneration, links ClusterLinks, name string, ownerId string, planType ClusterPlanType, region ClusterRegion, status ClusterComponentStatus, uuid string) *Cluster {
+func NewCluster(autoUpdate bool, channel ClusterChannel, created time.Time, generation ClusterGeneration, links ClusterLinks, name string, ownerId string, planType ClusterPlanType, region ClusterRegion, status ClusterStatus, uuid string) *Cluster {
 	this := Cluster{}
 	this.AutoUpdate = autoUpdate
 	this.Channel = channel
@@ -350,9 +350,9 @@ func (o *Cluster) SetRegion(v ClusterRegion) {
 }
 
 // GetStatus returns the Status field value
-func (o *Cluster) GetStatus() ClusterComponentStatus {
+func (o *Cluster) GetStatus() ClusterStatus {
 	if o == nil {
-		var ret ClusterComponentStatus
+		var ret ClusterStatus
 		return ret
 	}
 
@@ -361,7 +361,7 @@ func (o *Cluster) GetStatus() ClusterComponentStatus {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetStatusOk() (*ClusterComponentStatus, bool) {
+func (o *Cluster) GetStatusOk() (*ClusterStatus, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -369,7 +369,7 @@ func (o *Cluster) GetStatusOk() (*ClusterComponentStatus, bool) {
 }
 
 // SetStatus sets field value
-func (o *Cluster) SetStatus(v ClusterComponentStatus) {
+func (o *Cluster) SetStatus(v ClusterStatus) {
 	o.Status = v
 }
 

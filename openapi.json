@@ -219,19 +219,19 @@
             "description": "A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.",
             "properties": {
               "operateStatus": {
-                "$ref": "#/components/schemas/ClusterStatus"
+                "$ref": "#/components/schemas/ClusterComponentStatus"
               },
               "optimizeStatus": {
-                "$ref": "#/components/schemas/ClusterStatus"
+                "$ref": "#/components/schemas/ClusterComponentStatus"
               },
               "ready": {
-                "$ref": "#/components/schemas/ClusterStatus"
+                "$ref": "#/components/schemas/ClusterComponentStatus"
               },
               "tasklistStatus": {
-                "$ref": "#/components/schemas/ClusterStatus"
+                "$ref": "#/components/schemas/ClusterComponentStatus"
               },
               "zeebeStatus": {
-                "$ref": "#/components/schemas/ClusterStatus"
+                "$ref": "#/components/schemas/ClusterComponentStatus"
               }
             },
             "required": [
@@ -319,7 +319,7 @@
         "properties": {},
         "type": "object"
       },
-      "ClusterStatus": {
+      "ClusterComponentStatus": {
         "enum": [
           "Healthy",
           "Unhealthy",

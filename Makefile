@@ -8,6 +8,7 @@ all:
 
 $(OPENAPI_SPEC_FILE):
 	curl https://console.cloud.camunda.io/customer-api/openapi/swagger.json | jq --sort-keys . > $@
+	patch < patch-001-openapi-cluster-status.diff
 
 clean:
 	cat .openapi-generator/FILES | xargs rm -f

@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -77,5 +76,4 @@ model_parameters_channels_inner.go
 model_parameters_channels_inner_allowed_generations_inner.go
 model_post_member_body.go
 response.go
-test/api_default_test.go
 utils.go
