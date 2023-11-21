@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/sijoma/console-customer-api-go"
+	openapiclient "github.com/camunda-community-hub/console-customer-api-go"
 )
 
 func Test_openapi_DefaultAPIService(t *testing.T) {

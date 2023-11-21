@@ -21,7 +21,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import openapi "github.com/sijoma/console-customer-api-go"
+import openapi "github.com/camunda-community-hub/console-customer-api-go"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:

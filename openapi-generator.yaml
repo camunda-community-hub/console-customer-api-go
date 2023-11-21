@@ -3,7 +3,7 @@ output: ./
 
 generatorName: go
 
-gitUserId: sijoma
+gitUserId: camunda-community-hub
 gitRepoId: console-customer-api-go
 
 validateSpec: false
