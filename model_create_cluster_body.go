@@ -22,6 +22,8 @@ var _ MappedNullable = &CreateClusterBody{}
 type CreateClusterBody struct {
 	// If set to false, no automatic updates will be performed on your cluster.
 	AutoUpdate *bool `json:"autoUpdate,omitempty"`
+	// The backup region to choose. Only available if the Sales Plan supports this. (Enterprise)
+	BackupRegionId *string `json:"backupRegionId,omitempty"`
 	// The channel (software spec) to use.
 	ChannelId string `json:"channelId"`
 	// The generation (software version) to use.
@@ -31,7 +33,8 @@ type CreateClusterBody struct {
 	// The planType (hardware spec) to use.
 	PlanTypeId string `json:"planTypeId"`
 	// The data center to use.
-	RegionId string `json:"regionId"`
+	RegionId   string               `json:"regionId"`
+	StageLabel *CamundaClusterStage `json:"stageLabel,omitempty"`
 }
 
 type _CreateClusterBody CreateClusterBody
@@ -88,6 +91,38 @@ func (o *CreateClusterBody) HasAutoUpdate() bool {
 // SetAutoUpdate gets a reference to the given bool and assigns it to the AutoUpdate field.
 func (o *CreateClusterBody) SetAutoUpdate(v bool) {
 	o.AutoUpdate = &v
+}
+
+// GetBackupRegionId returns the BackupRegionId field value if set, zero value otherwise.
+func (o *CreateClusterBody) GetBackupRegionId() string {
+	if o == nil || IsNil(o.BackupRegionId) {
+		var ret string
+		return ret
+	}
+	return *o.BackupRegionId
+}
+
+// GetBackupRegionIdOk returns a tuple with the BackupRegionId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateClusterBody) GetBackupRegionIdOk() (*string, bool) {
+	if o == nil || IsNil(o.BackupRegionId) {
+		return nil, false
+	}
+	return o.BackupRegionId, true
+}
+
+// HasBackupRegionId returns a boolean if a field has been set.
+func (o *CreateClusterBody) HasBackupRegionId() bool {
+	if o != nil && !IsNil(o.BackupRegionId) {
+		return true
+	}
+
+	return false
+}
+
+// SetBackupRegionId gets a reference to the given string and assigns it to the BackupRegionId field.
+func (o *CreateClusterBody) SetBackupRegionId(v string) {
+	o.BackupRegionId = &v
 }
 
 // GetChannelId returns the ChannelId field value
@@ -210,6 +245,38 @@ func (o *CreateClusterBody) SetRegionId(v string) {
 	o.RegionId = v
 }
 
+// GetStageLabel returns the StageLabel field value if set, zero value otherwise.
+func (o *CreateClusterBody) GetStageLabel() CamundaClusterStage {
+	if o == nil || IsNil(o.StageLabel) {
+		var ret CamundaClusterStage
+		return ret
+	}
+	return *o.StageLabel
+}
+
+// GetStageLabelOk returns a tuple with the StageLabel field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateClusterBody) GetStageLabelOk() (*CamundaClusterStage, bool) {
+	if o == nil || IsNil(o.StageLabel) {
+		return nil, false
+	}
+	return o.StageLabel, true
+}
+
+// HasStageLabel returns a boolean if a field has been set.
+func (o *CreateClusterBody) HasStageLabel() bool {
+	if o != nil && !IsNil(o.StageLabel) {
+		return true
+	}
+
+	return false
+}
+
+// SetStageLabel gets a reference to the given CamundaClusterStage and assigns it to the StageLabel field.
+func (o *CreateClusterBody) SetStageLabel(v CamundaClusterStage) {
+	o.StageLabel = &v
+}
+
 func (o CreateClusterBody) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -223,11 +290,17 @@ func (o CreateClusterBody) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AutoUpdate) {
 		toSerialize["autoUpdate"] = o.AutoUpdate
 	}
+	if !IsNil(o.BackupRegionId) {
+		toSerialize["backupRegionId"] = o.BackupRegionId
+	}
 	toSerialize["channelId"] = o.ChannelId
 	toSerialize["generationId"] = o.GenerationId
 	toSerialize["name"] = o.Name
 	toSerialize["planTypeId"] = o.PlanTypeId
 	toSerialize["regionId"] = o.RegionId
+	if !IsNil(o.StageLabel) {
+		toSerialize["stageLabel"] = o.StageLabel
+	}
 	return toSerialize, nil
 }
 

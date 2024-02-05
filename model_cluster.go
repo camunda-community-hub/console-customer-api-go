@@ -22,12 +22,15 @@ var _ MappedNullable = &Cluster{}
 // Cluster Describing a Camunda cluster running in your organization. For reference, use the UUID.
 type Cluster struct {
 	// The cluster will automatically be updated by Camunda when a new C8 version is released If the cluster you want to create is running on a non-stable Channel passing this property will be ignored!
-	AutoUpdate bool              `json:"autoUpdate"`
-	Channel    ClusterChannel    `json:"channel"`
-	Created    time.Time         `json:"created"`
-	Generation ClusterGeneration `json:"generation"`
-	// the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
-	Ipwhitelist []ClusterIpwhitelistInner `json:"ipwhitelist,omitempty"`
+	AutoUpdate   bool                 `json:"autoUpdate"`
+	BackupRegion *ClusterBackupRegion `json:"backupRegion,omitempty"`
+	Channel      ClusterChannel       `json:"channel"`
+	Created      time.Time            `json:"created"`
+	Generation   ClusterGeneration    `json:"generation"`
+	// the IP Allowlist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
+	Ipallowlist []ClusterIpallowlistInner `json:"ipallowlist,omitempty"`
+	// DEPRECATED: this field is going to be removed in June 2025, please use ipallowlist instead  the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
+	Ipwhitelist []ClusterIpallowlistInner `json:"ipwhitelist,omitempty"`
 	Labels      []string                  `json:"labels,omitempty"`
 	Links       ClusterLinks              `json:"links"`
 	Name        string                    `json:"name"`
@@ -91,6 +94,38 @@ func (o *Cluster) GetAutoUpdateOk() (*bool, bool) {
 // SetAutoUpdate sets field value
 func (o *Cluster) SetAutoUpdate(v bool) {
 	o.AutoUpdate = v
+}
+
+// GetBackupRegion returns the BackupRegion field value if set, zero value otherwise.
+func (o *Cluster) GetBackupRegion() ClusterBackupRegion {
+	if o == nil || IsNil(o.BackupRegion) {
+		var ret ClusterBackupRegion
+		return ret
+	}
+	return *o.BackupRegion
+}
+
+// GetBackupRegionOk returns a tuple with the BackupRegion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetBackupRegionOk() (*ClusterBackupRegion, bool) {
+	if o == nil || IsNil(o.BackupRegion) {
+		return nil, false
+	}
+	return o.BackupRegion, true
+}
+
+// HasBackupRegion returns a boolean if a field has been set.
+func (o *Cluster) HasBackupRegion() bool {
+	if o != nil && !IsNil(o.BackupRegion) {
+		return true
+	}
+
+	return false
+}
+
+// SetBackupRegion gets a reference to the given ClusterBackupRegion and assigns it to the BackupRegion field.
+func (o *Cluster) SetBackupRegion(v ClusterBackupRegion) {
+	o.BackupRegion = &v
 }
 
 // GetChannel returns the Channel field value
@@ -165,10 +200,42 @@ func (o *Cluster) SetGeneration(v ClusterGeneration) {
 	o.Generation = v
 }
 
+// GetIpallowlist returns the Ipallowlist field value if set, zero value otherwise.
+func (o *Cluster) GetIpallowlist() []ClusterIpallowlistInner {
+	if o == nil || IsNil(o.Ipallowlist) {
+		var ret []ClusterIpallowlistInner
+		return ret
+	}
+	return o.Ipallowlist
+}
+
+// GetIpallowlistOk returns a tuple with the Ipallowlist field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetIpallowlistOk() ([]ClusterIpallowlistInner, bool) {
+	if o == nil || IsNil(o.Ipallowlist) {
+		return nil, false
+	}
+	return o.Ipallowlist, true
+}
+
+// HasIpallowlist returns a boolean if a field has been set.
+func (o *Cluster) HasIpallowlist() bool {
+	if o != nil && !IsNil(o.Ipallowlist) {
+		return true
+	}
+
+	return false
+}
+
+// SetIpallowlist gets a reference to the given []ClusterIpallowlistInner and assigns it to the Ipallowlist field.
+func (o *Cluster) SetIpallowlist(v []ClusterIpallowlistInner) {
+	o.Ipallowlist = v
+}
+
 // GetIpwhitelist returns the Ipwhitelist field value if set, zero value otherwise.
-func (o *Cluster) GetIpwhitelist() []ClusterIpwhitelistInner {
+func (o *Cluster) GetIpwhitelist() []ClusterIpallowlistInner {
 	if o == nil || IsNil(o.Ipwhitelist) {
-		var ret []ClusterIpwhitelistInner
+		var ret []ClusterIpallowlistInner
 		return ret
 	}
 	return o.Ipwhitelist
@@ -176,7 +243,7 @@ func (o *Cluster) GetIpwhitelist() []ClusterIpwhitelistInner {
 
 // GetIpwhitelistOk returns a tuple with the Ipwhitelist field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetIpwhitelistOk() ([]ClusterIpwhitelistInner, bool) {
+func (o *Cluster) GetIpwhitelistOk() ([]ClusterIpallowlistInner, bool) {
 	if o == nil || IsNil(o.Ipwhitelist) {
 		return nil, false
 	}
@@ -192,8 +259,8 @@ func (o *Cluster) HasIpwhitelist() bool {
 	return false
 }
 
-// SetIpwhitelist gets a reference to the given []ClusterIpwhitelistInner and assigns it to the Ipwhitelist field.
-func (o *Cluster) SetIpwhitelist(v []ClusterIpwhitelistInner) {
+// SetIpwhitelist gets a reference to the given []ClusterIpallowlistInner and assigns it to the Ipwhitelist field.
+func (o *Cluster) SetIpwhitelist(v []ClusterIpallowlistInner) {
 	o.Ipwhitelist = v
 }
 
@@ -408,9 +475,15 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 func (o Cluster) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["autoUpdate"] = o.AutoUpdate
+	if !IsNil(o.BackupRegion) {
+		toSerialize["backupRegion"] = o.BackupRegion
+	}
 	toSerialize["channel"] = o.Channel
 	toSerialize["created"] = o.Created
 	toSerialize["generation"] = o.Generation
+	if !IsNil(o.Ipallowlist) {
+		toSerialize["ipallowlist"] = o.Ipallowlist
+	}
 	if !IsNil(o.Ipwhitelist) {
 		toSerialize["ipwhitelist"] = o.Ipwhitelist
 	}

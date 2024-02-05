@@ -1743,6 +1743,212 @@ func (a *DefaultAPIService) GetSecretsExecute(r ApiGetSecretsRequest) (map[strin
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiUpdateClusterRequest struct {
+	ctx                  context.Context
+	ApiService           *DefaultAPIService
+	clusterUuid          string
+	updateClusterRequest *UpdateClusterRequest
+}
+
+func (r ApiUpdateClusterRequest) UpdateClusterRequest(updateClusterRequest UpdateClusterRequest) ApiUpdateClusterRequest {
+	r.updateClusterRequest = &updateClusterRequest
+	return r
+}
+
+func (r ApiUpdateClusterRequest) Execute() (*http.Response, error) {
+	return r.ApiService.UpdateClusterExecute(r)
+}
+
+/*
+UpdateCluster Method for UpdateCluster
+
+Updates name or labels of a cluster identified by the given clusterUuid.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiUpdateClusterRequest
+*/
+func (a *DefaultAPIService) UpdateCluster(ctx context.Context, clusterUuid string) ApiUpdateClusterRequest {
+	return ApiUpdateClusterRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+	}
+}
+
+// Execute executes the request
+func (a *DefaultAPIService) UpdateClusterExecute(r ApiUpdateClusterRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodPatch
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.UpdateCluster")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.updateClusterRequest == nil {
+		return nil, reportError("updateClusterRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.updateClusterRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiUpdateIpAllowlistRequest struct {
+	ctx             context.Context
+	ApiService      *DefaultAPIService
+	clusterUuid     string
+	ipAllowListBody *IpAllowListBody
+}
+
+func (r ApiUpdateIpAllowlistRequest) IpAllowListBody(ipAllowListBody IpAllowListBody) ApiUpdateIpAllowlistRequest {
+	r.ipAllowListBody = &ipAllowListBody
+	return r
+}
+
+func (r ApiUpdateIpAllowlistRequest) Execute() (*http.Response, error) {
+	return r.ApiService.UpdateIpAllowlistExecute(r)
+}
+
+/*
+UpdateIpAllowlist Method for UpdateIpAllowlist
+
+Updates the IP Allowlist rules for your cluster. Each entry in the array must be a valid comma separated list of CIDRs.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiUpdateIpAllowlistRequest
+*/
+func (a *DefaultAPIService) UpdateIpAllowlist(ctx context.Context, clusterUuid string) ApiUpdateIpAllowlistRequest {
+	return ApiUpdateIpAllowlistRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+	}
+}
+
+// Execute executes the request
+func (a *DefaultAPIService) UpdateIpAllowlistExecute(r ApiUpdateIpAllowlistRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.UpdateIpAllowlist")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}/ipallowlist"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.ipAllowListBody == nil {
+		return nil, reportError("ipAllowListBody is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.ipAllowListBody
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiUpdateIpWhitelistRequest struct {
 	ctx             context.Context
 	ApiService      *DefaultAPIService
@@ -1763,10 +1969,13 @@ func (r ApiUpdateIpWhitelistRequest) Execute() (*http.Response, error) {
 UpdateIpWhitelist Method for UpdateIpWhitelist
 
 Updates the IP Whitelist rules for your cluster. Each entry in the array must be a valid comma separated list of CIDRs.
+THIS IS DEPRECATED AND WILL BE REMOVED FROM THE API IN JUNE 2025. USE /clusters/:clusterUuid/ipallowlist INSTEAD.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param clusterUuid
 	@return ApiUpdateIpWhitelistRequest
+
+Deprecated
 */
 func (a *DefaultAPIService) UpdateIpWhitelist(ctx context.Context, clusterUuid string) ApiUpdateIpWhitelistRequest {
 	return ApiUpdateIpWhitelistRequest{
@@ -1777,6 +1986,7 @@ func (a *DefaultAPIService) UpdateIpWhitelist(ctx context.Context, clusterUuid s
 }
 
 // Execute executes the request
+// Deprecated
 func (a *DefaultAPIService) UpdateIpWhitelistExecute(r ApiUpdateIpWhitelistRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPut
@@ -1919,6 +2129,98 @@ func (a *DefaultAPIService) UpdateMembersExecute(r ApiUpdateMembersRequest) (*ht
 	}
 	// body params
 	localVarPostBody = r.postMemberBody
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiWakeRequest struct {
+	ctx         context.Context
+	ApiService  *DefaultAPIService
+	clusterUuid string
+}
+
+func (r ApiWakeRequest) Execute() (*http.Response, error) {
+	return r.ApiService.WakeExecute(r)
+}
+
+/*
+Wake Method for Wake
+
+Resumes a 'Suspended' Cluster.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@return ApiWakeRequest
+*/
+func (a *DefaultAPIService) Wake(ctx context.Context, clusterUuid string) ApiWakeRequest {
+	return ApiWakeRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+	}
+}
+
+// Execute executes the request
+func (a *DefaultAPIService) WakeExecute(r ApiWakeRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.Wake")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}/wake"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err

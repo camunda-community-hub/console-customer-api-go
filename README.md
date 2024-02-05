@@ -94,8 +94,11 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**GetMembers**](docs/DefaultAPI.md#getmembers) | **Get** /members | 
 *DefaultAPI* | [**GetParameters**](docs/DefaultAPI.md#getparameters) | **Get** /clusters/parameters | 
 *DefaultAPI* | [**GetSecrets**](docs/DefaultAPI.md#getsecrets) | **Get** /clusters/{clusterUuid}/secrets | 
+*DefaultAPI* | [**UpdateCluster**](docs/DefaultAPI.md#updatecluster) | **Patch** /clusters/{clusterUuid} | 
+*DefaultAPI* | [**UpdateIpAllowlist**](docs/DefaultAPI.md#updateipallowlist) | **Put** /clusters/{clusterUuid}/ipallowlist | 
 *DefaultAPI* | [**UpdateIpWhitelist**](docs/DefaultAPI.md#updateipwhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
 *DefaultAPI* | [**UpdateMembers**](docs/DefaultAPI.md#updatemembers) | **Post** /members/{email} | 
+*DefaultAPI* | [**Wake**](docs/DefaultAPI.md#wake) | **Put** /clusters/{clusterUuid}/wake | 
 
 
 ## Documentation For Models
@@ -103,13 +106,15 @@ Class | Method | HTTP request | Description
  - [AssignableOrganizationRoleType](docs/AssignableOrganizationRoleType.md)
  - [BackupDto](docs/BackupDto.md)
  - [BackupStatus](docs/BackupStatus.md)
+ - [CamundaClusterStage](docs/CamundaClusterStage.md)
  - [Cluster](docs/Cluster.md)
+ - [ClusterBackupRegion](docs/ClusterBackupRegion.md)
  - [ClusterChannel](docs/ClusterChannel.md)
  - [ClusterClient](docs/ClusterClient.md)
  - [ClusterClientConnectionDetails](docs/ClusterClientConnectionDetails.md)
  - [ClusterComponentStatus](docs/ClusterComponentStatus.md)
  - [ClusterGeneration](docs/ClusterGeneration.md)
- - [ClusterIpwhitelistInner](docs/ClusterIpwhitelistInner.md)
+ - [ClusterIpallowlistInner](docs/ClusterIpallowlistInner.md)
  - [ClusterLinks](docs/ClusterLinks.md)
  - [ClusterPlanType](docs/ClusterPlanType.md)
  - [ClusterRegion](docs/ClusterRegion.md)
@@ -120,6 +125,7 @@ Class | Method | HTTP request | Description
  - [CreateSecretBody](docs/CreateSecretBody.md)
  - [CreatedClusterClient](docs/CreatedClusterClient.md)
  - [CreatedClusterClientLinks](docs/CreatedClusterClientLinks.md)
+ - [IpAllowListBody](docs/IpAllowListBody.md)
  - [IpWhiteListBody](docs/IpWhiteListBody.md)
  - [Member](docs/Member.md)
  - [OrganizationRole](docs/OrganizationRole.md)
@@ -132,7 +138,11 @@ Class | Method | HTTP request | Description
  - [Parameters](docs/Parameters.md)
  - [ParametersChannelsInner](docs/ParametersChannelsInner.md)
  - [ParametersChannelsInnerAllowedGenerationsInner](docs/ParametersChannelsInnerAllowedGenerationsInner.md)
+ - [ParametersRegionsInner](docs/ParametersRegionsInner.md)
+ - [ParametersRegionsInnerBackupsInner](docs/ParametersRegionsInnerBackupsInner.md)
+ - [ParametersRegionsInnerBackupsInnerRegionsInner](docs/ParametersRegionsInnerBackupsInnerRegionsInner.md)
  - [PostMemberBody](docs/PostMemberBody.md)
+ - [UpdateClusterRequest](docs/UpdateClusterRequest.md)
 
 
 ## Documentation For Authorization

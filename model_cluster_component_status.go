@@ -24,6 +24,8 @@ const (
 	CLUSTERCOMPONENTSTATUS_UNHEALTHY ClusterComponentStatus = "Unhealthy"
 	CLUSTERCOMPONENTSTATUS_CREATING  ClusterComponentStatus = "Creating"
 	CLUSTERCOMPONENTSTATUS_UPDATING  ClusterComponentStatus = "Updating"
+	CLUSTERCOMPONENTSTATUS_SUSPENDED ClusterComponentStatus = "Suspended"
+	CLUSTERCOMPONENTSTATUS_RESUMING  ClusterComponentStatus = "Resuming"
 )
 
 // All allowed values of ClusterComponentStatus enum
@@ -32,6 +34,8 @@ var AllowedClusterComponentStatusEnumValues = []ClusterComponentStatus{
 	"Unhealthy",
 	"Creating",
 	"Updating",
+	"Suspended",
+	"Resuming",
 }
 
 func (v *ClusterComponentStatus) UnmarshalJSON(src []byte) error {

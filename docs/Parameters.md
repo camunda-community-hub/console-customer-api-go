@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Channels** | [**[]ParametersChannelsInner**](ParametersChannelsInner.md) |  | 
 **ClusterPlanTypes** | [**[]ParametersChannelsInnerAllowedGenerationsInner**](ParametersChannelsInnerAllowedGenerationsInner.md) |  | 
-**Regions** | [**[]ParametersChannelsInnerAllowedGenerationsInner**](ParametersChannelsInnerAllowedGenerationsInner.md) |  | 
+**Regions** | [**[]ParametersRegionsInner**](ParametersRegionsInner.md) |  | 
 
 ## Methods
 
 ### NewParameters
 
-`func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner, regions []ParametersChannelsInnerAllowedGenerationsInner, ) *Parameters`
+`func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner, regions []ParametersRegionsInner, ) *Parameters`
 
 NewParameters instantiates a new Parameters object
 This constructor will assign default values to properties that have it defined,
@@ -69,20 +69,20 @@ SetClusterPlanTypes sets ClusterPlanTypes field to given value.
 
 ### GetRegions
 
-`func (o *Parameters) GetRegions() []ParametersChannelsInnerAllowedGenerationsInner`
+`func (o *Parameters) GetRegions() []ParametersRegionsInner`
 
 GetRegions returns the Regions field if non-nil, zero value otherwise.
 
 ### GetRegionsOk
 
-`func (o *Parameters) GetRegionsOk() (*[]ParametersChannelsInnerAllowedGenerationsInner, bool)`
+`func (o *Parameters) GetRegionsOk() (*[]ParametersRegionsInner, bool)`
 
 GetRegionsOk returns a tuple with the Regions field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRegions
 
-`func (o *Parameters) SetRegions(v []ParametersChannelsInnerAllowedGenerationsInner)`
+`func (o *Parameters) SetRegions(v []ParametersRegionsInner)`
 
 SetRegions sets Regions field to given value.
 
