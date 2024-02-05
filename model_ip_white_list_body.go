@@ -20,7 +20,7 @@ var _ MappedNullable = &IpWhiteListBody{}
 
 // IpWhiteListBody struct for IpWhiteListBody
 type IpWhiteListBody struct {
-	Ipwhitelist []ClusterIpwhitelistInner `json:"ipwhitelist"`
+	Ipwhitelist []ClusterIpallowlistInner `json:"ipwhitelist"`
 }
 
 type _IpWhiteListBody IpWhiteListBody
@@ -29,7 +29,7 @@ type _IpWhiteListBody IpWhiteListBody
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewIpWhiteListBody(ipwhitelist []ClusterIpwhitelistInner) *IpWhiteListBody {
+func NewIpWhiteListBody(ipwhitelist []ClusterIpallowlistInner) *IpWhiteListBody {
 	this := IpWhiteListBody{}
 	this.Ipwhitelist = ipwhitelist
 	return &this
@@ -44,9 +44,9 @@ func NewIpWhiteListBodyWithDefaults() *IpWhiteListBody {
 }
 
 // GetIpwhitelist returns the Ipwhitelist field value
-func (o *IpWhiteListBody) GetIpwhitelist() []ClusterIpwhitelistInner {
+func (o *IpWhiteListBody) GetIpwhitelist() []ClusterIpallowlistInner {
 	if o == nil {
-		var ret []ClusterIpwhitelistInner
+		var ret []ClusterIpallowlistInner
 		return ret
 	}
 
@@ -55,7 +55,7 @@ func (o *IpWhiteListBody) GetIpwhitelist() []ClusterIpwhitelistInner {
 
 // GetIpwhitelistOk returns a tuple with the Ipwhitelist field value
 // and a boolean to check if the value has been set.
-func (o *IpWhiteListBody) GetIpwhitelistOk() ([]ClusterIpwhitelistInner, bool) {
+func (o *IpWhiteListBody) GetIpwhitelistOk() ([]ClusterIpallowlistInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -63,7 +63,7 @@ func (o *IpWhiteListBody) GetIpwhitelistOk() ([]ClusterIpwhitelistInner, bool) {
 }
 
 // SetIpwhitelist sets field value
-func (o *IpWhiteListBody) SetIpwhitelist(v []ClusterIpwhitelistInner) {
+func (o *IpWhiteListBody) SetIpwhitelist(v []ClusterIpallowlistInner) {
 	o.Ipwhitelist = v
 }
 

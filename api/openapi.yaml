@@ -100,6 +100,30 @@ paths:
           description: Cluster not found
       security:
       - bearer: []
+    patch:
+      description: Updates name or labels of a cluster identified by the given clusterUuid.
+      operationId: UpdateCluster
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCluster_request'
+        required: true
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
   /clusters/{clusterUuid}/backups:
     get:
       operationId: GetBackups
@@ -297,10 +321,36 @@ paths:
           description: The cluster is not ready; try again later
       security:
       - bearer: []
+  /clusters/{clusterUuid}/ipallowlist:
+    put:
+      description: Updates the IP Allowlist rules for your cluster. Each entry in
+        the array must be a valid comma separated list of CIDRs.
+      operationId: UpdateIpAllowlist
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IpAllowListBody'
+        required: true
+      responses:
+        "204":
+          description: No content
+      security:
+      - bearer: []
   /clusters/{clusterUuid}/ipwhitelist:
     put:
-      description: Updates the IP Whitelist rules for your cluster. Each entry in
-        the array must be a valid comma separated list of CIDRs.
+      deprecated: true
+      description: |-
+        Updates the IP Whitelist rules for your cluster. Each entry in the array must be a valid comma separated list of CIDRs.
+        THIS IS DEPRECATED AND WILL BE REMOVED FROM THE API IN JUNE 2025. USE /clusters/:clusterUuid/ipallowlist INSTEAD.
       operationId: UpdateIpWhitelist
       parameters:
       - explode: false
@@ -400,6 +450,23 @@ paths:
           description: No content
         "403":
           description: Cluster is not yours
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/wake:
+    put:
+      description: Resumes a 'Suspended' Cluster.
+      operationId: Wake
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
       security:
       - bearer: []
   /members:
@@ -529,6 +596,14 @@ components:
       - Complete
       - "-"
       type: string
+    CamundaClusterStage:
+      enum:
+      - dev
+      - test
+      - stage
+      - prod
+      nullable: false
+      type: string
     Cluster:
       additionalProperties: false
       description: "Describing a Camunda cluster running in your organization. For\
@@ -542,7 +617,15 @@ components:
           name: name
           uuid: uuid
         created: 2000-01-23T04:56:07.000+00:00
+        ipallowlist:
+        - ip: ip
+          description: description
+        - ip: ip
+          description: description
         channel:
+          name: name
+          uuid: uuid
+        backupRegion:
           name: name
           uuid: uuid
         ownerId: ownerId
@@ -579,6 +662,8 @@ components:
             The cluster will automatically be updated by Camunda when a new C8 version is released
             If the cluster you want to create is running on a non-stable Channel passing this property will be ignored!
           type: boolean
+        backupRegion:
+          $ref: '#/components/schemas/Cluster_backupRegion'
         channel:
           $ref: '#/components/schemas/Cluster_channel'
         created:
@@ -586,12 +671,20 @@ components:
           type: string
         generation:
           $ref: '#/components/schemas/Cluster_generation'
-        ipwhitelist:
-          description: the IP Whitelist rules for your cluster - will only be returned
+        ipallowlist:
+          description: the IP Allowlist rules for your cluster - will only be returned
             if your organization has the feature enabled and the client you are using
             has the permission to see it.
           items:
-            $ref: '#/components/schemas/Cluster_ipwhitelist_inner'
+            $ref: '#/components/schemas/Cluster_ipallowlist_inner'
+          type: array
+        ipwhitelist:
+          description: |-
+            DEPRECATED: this field is going to be removed in June 2025, please use ipallowlist instead
+
+            the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
+          items:
+            $ref: '#/components/schemas/Cluster_ipallowlist_inner'
           type: array
         labels:
           items:
@@ -686,6 +779,8 @@ components:
       - Unhealthy
       - Creating
       - Updating
+      - Suspended
+      - Resuming
       type: string
     CreateClusterBody:
       additionalProperties: false
@@ -697,12 +792,18 @@ components:
         regionId: regionId
         name: name
         planTypeId: planTypeId
+        backupRegionId: backupRegionId
         channelId: channelId
+        stageLabel: null
       properties:
         autoUpdate:
           description: "If set to false, no automatic updates will be performed on\
             \ your cluster."
           type: boolean
+        backupRegionId:
+          description: The backup region to choose. Only available if the Sales Plan
+            supports this. (Enterprise)
+          type: string
         channelId:
           description: The channel (software spec) to use.
           type: string
@@ -718,6 +819,8 @@ components:
         regionId:
           description: The data center to use.
           type: string
+        stageLabel:
+          $ref: '#/components/schemas/CamundaClusterStage'
       required:
       - channelId
       - generationId
@@ -803,6 +906,22 @@ components:
       - permissions
       - uuid
       type: object
+    IpAllowListBody:
+      additionalProperties: false
+      example:
+        ipallowlist:
+        - ip: ip
+          description: description
+        - ip: ip
+          description: description
+      properties:
+        ipallowlist:
+          items:
+            $ref: '#/components/schemas/Cluster_ipallowlist_inner'
+          type: array
+      required:
+      - ipallowlist
+      type: object
     IpWhiteListBody:
       additionalProperties: false
       example:
@@ -814,7 +933,7 @@ components:
       properties:
         ipwhitelist:
           items:
-            $ref: '#/components/schemas/Cluster_ipwhitelist_inner'
+            $ref: '#/components/schemas/Cluster_ipallowlist_inner'
           type: array
       required:
       - ipwhitelist
@@ -888,8 +1007,34 @@ components:
         regions:
         - name: name
           uuid: uuid
+          backups:
+          - regions:
+            - id: id
+              label: label
+            - id: id
+              label: label
+            uuid: uuid
+          - regions:
+            - id: id
+              label: label
+            - id: id
+              label: label
+            uuid: uuid
         - name: name
           uuid: uuid
+          backups:
+          - regions:
+            - id: id
+              label: label
+            - id: id
+              label: label
+            uuid: uuid
+          - regions:
+            - id: id
+              label: label
+            - id: id
+              label: label
+            uuid: uuid
         channels:
         - allowedGenerations:
           - name: name
@@ -927,7 +1072,7 @@ components:
           type: array
         regions:
           items:
-            $ref: '#/components/schemas/Parameters_channels_inner_allowedGenerations_inner'
+            $ref: '#/components/schemas/Parameters_regions_inner'
           type: array
       required:
       - channels
@@ -957,6 +1102,28 @@ components:
       required:
       - clusterId
       type: object
+    UpdateCluster_request:
+      properties:
+        name:
+          type: string
+        stageLabel:
+          $ref: '#/components/schemas/CamundaClusterStage'
+      type: object
+    Cluster_backupRegion:
+      description: The data center where your backups are stored. Only available if
+        the Sales Plan supports this. (Enterprise)
+      example:
+        name: name
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
     Cluster_channel:
       description: The software channel your cluster is running on.
       example:
@@ -985,7 +1152,7 @@ components:
       - name
       - uuid
       type: object
-    Cluster_ipwhitelist_inner:
+    Cluster_ipallowlist_inner:
       example:
         ip: ip
         description: description
@@ -1140,6 +1307,68 @@ components:
       required:
       - allowedGenerations
       - defaultGeneration
+      - name
+      - uuid
+      type: object
+    Parameters_regions_inner_backups_inner_regions_inner:
+      example:
+        id: id
+        label: label
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+      required:
+      - id
+      - label
+      type: object
+    Parameters_regions_inner_backups_inner:
+      example:
+        regions:
+        - id: id
+          label: label
+        - id: id
+          label: label
+        uuid: uuid
+      properties:
+        regions:
+          items:
+            $ref: '#/components/schemas/Parameters_regions_inner_backups_inner_regions_inner'
+          type: array
+        uuid:
+          type: string
+      required:
+      - regions
+      - uuid
+      type: object
+    Parameters_regions_inner:
+      example:
+        name: name
+        uuid: uuid
+        backups:
+        - regions:
+          - id: id
+            label: label
+          - id: id
+            label: label
+          uuid: uuid
+        - regions:
+          - id: id
+            label: label
+          - id: id
+            label: label
+          uuid: uuid
+      properties:
+        backups:
+          items:
+            $ref: '#/components/schemas/Parameters_regions_inner_backups_inner'
+          type: array
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
       - name
       - uuid
       type: object

@@ -22,7 +22,7 @@ var _ MappedNullable = &Parameters{}
 type Parameters struct {
 	Channels         []ParametersChannelsInner                        `json:"channels"`
 	ClusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner `json:"clusterPlanTypes"`
-	Regions          []ParametersChannelsInnerAllowedGenerationsInner `json:"regions"`
+	Regions          []ParametersRegionsInner                         `json:"regions"`
 }
 
 type _Parameters Parameters
@@ -31,7 +31,7 @@ type _Parameters Parameters
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner, regions []ParametersChannelsInnerAllowedGenerationsInner) *Parameters {
+func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner, regions []ParametersRegionsInner) *Parameters {
 	this := Parameters{}
 	this.Channels = channels
 	this.ClusterPlanTypes = clusterPlanTypes
@@ -96,9 +96,9 @@ func (o *Parameters) SetClusterPlanTypes(v []ParametersChannelsInnerAllowedGener
 }
 
 // GetRegions returns the Regions field value
-func (o *Parameters) GetRegions() []ParametersChannelsInnerAllowedGenerationsInner {
+func (o *Parameters) GetRegions() []ParametersRegionsInner {
 	if o == nil {
-		var ret []ParametersChannelsInnerAllowedGenerationsInner
+		var ret []ParametersRegionsInner
 		return ret
 	}
 
@@ -107,7 +107,7 @@ func (o *Parameters) GetRegions() []ParametersChannelsInnerAllowedGenerationsInn
 
 // GetRegionsOk returns a tuple with the Regions field value
 // and a boolean to check if the value has been set.
-func (o *Parameters) GetRegionsOk() ([]ParametersChannelsInnerAllowedGenerationsInner, bool) {
+func (o *Parameters) GetRegionsOk() ([]ParametersRegionsInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -115,7 +115,7 @@ func (o *Parameters) GetRegionsOk() ([]ParametersChannelsInnerAllowedGenerations
 }
 
 // SetRegions sets field value
-func (o *Parameters) SetRegions(v []ParametersChannelsInnerAllowedGenerationsInner) {
+func (o *Parameters) SetRegions(v []ParametersRegionsInner) {
 	o.Regions = v
 }
 

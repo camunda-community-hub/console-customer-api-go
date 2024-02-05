@@ -21,8 +21,11 @@ Method | HTTP request | Description
 [**GetMembers**](DefaultAPI.md#GetMembers) | **Get** /members | 
 [**GetParameters**](DefaultAPI.md#GetParameters) | **Get** /clusters/parameters | 
 [**GetSecrets**](DefaultAPI.md#GetSecrets) | **Get** /clusters/{clusterUuid}/secrets | 
+[**UpdateCluster**](DefaultAPI.md#UpdateCluster) | **Patch** /clusters/{clusterUuid} | 
+[**UpdateIpAllowlist**](DefaultAPI.md#UpdateIpAllowlist) | **Put** /clusters/{clusterUuid}/ipallowlist | 
 [**UpdateIpWhitelist**](DefaultAPI.md#UpdateIpWhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
 [**UpdateMembers**](DefaultAPI.md#UpdateMembers) | **Post** /members/{email} | 
+[**Wake**](DefaultAPI.md#Wake) | **Put** /clusters/{clusterUuid}/wake | 
 
 
 
@@ -1171,6 +1174,146 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## UpdateCluster
+
+> UpdateCluster(ctx, clusterUuid).UpdateClusterRequest(updateClusterRequest).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+    clusterUuid := "clusterUuid_example" // string | 
+    updateClusterRequest := *openapiclient.NewUpdateClusterRequest() // UpdateClusterRequest | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.DefaultAPI.UpdateCluster(context.Background(), clusterUuid).UpdateClusterRequest(updateClusterRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UpdateCluster``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateClusterRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **updateClusterRequest** | [**UpdateClusterRequest**](UpdateClusterRequest.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateIpAllowlist
+
+> UpdateIpAllowlist(ctx, clusterUuid).IpAllowListBody(ipAllowListBody).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+    clusterUuid := "clusterUuid_example" // string | 
+    ipAllowListBody := *openapiclient.NewIpAllowListBody([]openapiclient.ClusterIpallowlistInner{*openapiclient.NewClusterIpallowlistInner("Description_example", "Ip_example")}) // IpAllowListBody | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.DefaultAPI.UpdateIpAllowlist(context.Background(), clusterUuid).IpAllowListBody(ipAllowListBody).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UpdateIpAllowlist``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateIpAllowlistRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **ipAllowListBody** | [**IpAllowListBody**](IpAllowListBody.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## UpdateIpWhitelist
 
 > UpdateIpWhitelist(ctx, clusterUuid).IpWhiteListBody(ipWhiteListBody).Execute()
@@ -1193,7 +1336,7 @@ import (
 
 func main() {
     clusterUuid := "clusterUuid_example" // string | 
-    ipWhiteListBody := *openapiclient.NewIpWhiteListBody([]openapiclient.ClusterIpwhitelistInner{*openapiclient.NewClusterIpwhitelistInner("Description_example", "Ip_example")}) // IpWhiteListBody | 
+    ipWhiteListBody := *openapiclient.NewIpWhiteListBody([]openapiclient.ClusterIpallowlistInner{*openapiclient.NewClusterIpallowlistInner("Description_example", "Ip_example")}) // IpWhiteListBody | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -1302,6 +1445,74 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## Wake
+
+> Wake(ctx, clusterUuid).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+    clusterUuid := "clusterUuid_example" // string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.DefaultAPI.Wake(context.Background(), clusterUuid).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.Wake``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiWakeRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

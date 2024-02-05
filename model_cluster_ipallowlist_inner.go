@@ -15,38 +15,38 @@ import (
 	"fmt"
 )
 
-// checks if the ClusterIpwhitelistInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &ClusterIpwhitelistInner{}
+// checks if the ClusterIpallowlistInner type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ClusterIpallowlistInner{}
 
-// ClusterIpwhitelistInner struct for ClusterIpwhitelistInner
-type ClusterIpwhitelistInner struct {
+// ClusterIpallowlistInner struct for ClusterIpallowlistInner
+type ClusterIpallowlistInner struct {
 	Description string `json:"description"`
 	Ip          string `json:"ip"`
 }
 
-type _ClusterIpwhitelistInner ClusterIpwhitelistInner
+type _ClusterIpallowlistInner ClusterIpallowlistInner
 
-// NewClusterIpwhitelistInner instantiates a new ClusterIpwhitelistInner object
+// NewClusterIpallowlistInner instantiates a new ClusterIpallowlistInner object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewClusterIpwhitelistInner(description string, ip string) *ClusterIpwhitelistInner {
-	this := ClusterIpwhitelistInner{}
+func NewClusterIpallowlistInner(description string, ip string) *ClusterIpallowlistInner {
+	this := ClusterIpallowlistInner{}
 	this.Description = description
 	this.Ip = ip
 	return &this
 }
 
-// NewClusterIpwhitelistInnerWithDefaults instantiates a new ClusterIpwhitelistInner object
+// NewClusterIpallowlistInnerWithDefaults instantiates a new ClusterIpallowlistInner object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewClusterIpwhitelistInnerWithDefaults() *ClusterIpwhitelistInner {
-	this := ClusterIpwhitelistInner{}
+func NewClusterIpallowlistInnerWithDefaults() *ClusterIpallowlistInner {
+	this := ClusterIpallowlistInner{}
 	return &this
 }
 
 // GetDescription returns the Description field value
-func (o *ClusterIpwhitelistInner) GetDescription() string {
+func (o *ClusterIpallowlistInner) GetDescription() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -57,7 +57,7 @@ func (o *ClusterIpwhitelistInner) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
-func (o *ClusterIpwhitelistInner) GetDescriptionOk() (*string, bool) {
+func (o *ClusterIpallowlistInner) GetDescriptionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,12 +65,12 @@ func (o *ClusterIpwhitelistInner) GetDescriptionOk() (*string, bool) {
 }
 
 // SetDescription sets field value
-func (o *ClusterIpwhitelistInner) SetDescription(v string) {
+func (o *ClusterIpallowlistInner) SetDescription(v string) {
 	o.Description = v
 }
 
 // GetIp returns the Ip field value
-func (o *ClusterIpwhitelistInner) GetIp() string {
+func (o *ClusterIpallowlistInner) GetIp() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -81,7 +81,7 @@ func (o *ClusterIpwhitelistInner) GetIp() string {
 
 // GetIpOk returns a tuple with the Ip field value
 // and a boolean to check if the value has been set.
-func (o *ClusterIpwhitelistInner) GetIpOk() (*string, bool) {
+func (o *ClusterIpallowlistInner) GetIpOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -89,11 +89,11 @@ func (o *ClusterIpwhitelistInner) GetIpOk() (*string, bool) {
 }
 
 // SetIp sets field value
-func (o *ClusterIpwhitelistInner) SetIp(v string) {
+func (o *ClusterIpallowlistInner) SetIp(v string) {
 	o.Ip = v
 }
 
-func (o ClusterIpwhitelistInner) MarshalJSON() ([]byte, error) {
+func (o ClusterIpallowlistInner) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -101,14 +101,14 @@ func (o ClusterIpwhitelistInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o ClusterIpwhitelistInner) ToMap() (map[string]interface{}, error) {
+func (o ClusterIpallowlistInner) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["description"] = o.Description
 	toSerialize["ip"] = o.Ip
 	return toSerialize, nil
 }
 
-func (o *ClusterIpwhitelistInner) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterIpallowlistInner) UnmarshalJSON(bytes []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -131,51 +131,51 @@ func (o *ClusterIpwhitelistInner) UnmarshalJSON(bytes []byte) (err error) {
 		}
 	}
 
-	varClusterIpwhitelistInner := _ClusterIpwhitelistInner{}
+	varClusterIpallowlistInner := _ClusterIpallowlistInner{}
 
-	err = json.Unmarshal(bytes, &varClusterIpwhitelistInner)
+	err = json.Unmarshal(bytes, &varClusterIpallowlistInner)
 
 	if err != nil {
 		return err
 	}
 
-	*o = ClusterIpwhitelistInner(varClusterIpwhitelistInner)
+	*o = ClusterIpallowlistInner(varClusterIpallowlistInner)
 
 	return err
 }
 
-type NullableClusterIpwhitelistInner struct {
-	value *ClusterIpwhitelistInner
+type NullableClusterIpallowlistInner struct {
+	value *ClusterIpallowlistInner
 	isSet bool
 }
 
-func (v NullableClusterIpwhitelistInner) Get() *ClusterIpwhitelistInner {
+func (v NullableClusterIpallowlistInner) Get() *ClusterIpallowlistInner {
 	return v.value
 }
 
-func (v *NullableClusterIpwhitelistInner) Set(val *ClusterIpwhitelistInner) {
+func (v *NullableClusterIpallowlistInner) Set(val *ClusterIpallowlistInner) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableClusterIpwhitelistInner) IsSet() bool {
+func (v NullableClusterIpallowlistInner) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableClusterIpwhitelistInner) Unset() {
+func (v *NullableClusterIpallowlistInner) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableClusterIpwhitelistInner(val *ClusterIpwhitelistInner) *NullableClusterIpwhitelistInner {
-	return &NullableClusterIpwhitelistInner{value: val, isSet: true}
+func NewNullableClusterIpallowlistInner(val *ClusterIpallowlistInner) *NullableClusterIpallowlistInner {
+	return &NullableClusterIpallowlistInner{value: val, isSet: true}
 }
 
-func (v NullableClusterIpwhitelistInner) MarshalJSON() ([]byte, error) {
+func (v NullableClusterIpallowlistInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableClusterIpwhitelistInner) UnmarshalJSON(src []byte) error {
+func (v *NullableClusterIpallowlistInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -5,10 +5,12 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AutoUpdate** | **bool** | The cluster will automatically be updated by Camunda when a new C8 version is released If the cluster you want to create is running on a non-stable Channel passing this property will be ignored! | 
+**BackupRegion** | Pointer to [**ClusterBackupRegion**](ClusterBackupRegion.md) |  | [optional] 
 **Channel** | [**ClusterChannel**](ClusterChannel.md) |  | 
 **Created** | **time.Time** |  | 
 **Generation** | [**ClusterGeneration**](ClusterGeneration.md) |  | 
-**Ipwhitelist** | Pointer to [**[]ClusterIpwhitelistInner**](ClusterIpwhitelistInner.md) | the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
+**Ipallowlist** | Pointer to [**[]ClusterIpallowlistInner**](ClusterIpallowlistInner.md) | the IP Allowlist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
+**Ipwhitelist** | Pointer to [**[]ClusterIpallowlistInner**](ClusterIpallowlistInner.md) | DEPRECATED: this field is going to be removed in June 2025, please use ipallowlist instead  the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
 **Labels** | Pointer to **[]string** |  | [optional] 
 **Links** | [**ClusterLinks**](ClusterLinks.md) |  | 
 **Name** | **string** |  | 
@@ -56,6 +58,31 @@ and a boolean to check if the value has been set.
 
 SetAutoUpdate sets AutoUpdate field to given value.
 
+
+### GetBackupRegion
+
+`func (o *Cluster) GetBackupRegion() ClusterBackupRegion`
+
+GetBackupRegion returns the BackupRegion field if non-nil, zero value otherwise.
+
+### GetBackupRegionOk
+
+`func (o *Cluster) GetBackupRegionOk() (*ClusterBackupRegion, bool)`
+
+GetBackupRegionOk returns a tuple with the BackupRegion field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBackupRegion
+
+`func (o *Cluster) SetBackupRegion(v ClusterBackupRegion)`
+
+SetBackupRegion sets BackupRegion field to given value.
+
+### HasBackupRegion
+
+`func (o *Cluster) HasBackupRegion() bool`
+
+HasBackupRegion returns a boolean if a field has been set.
 
 ### GetChannel
 
@@ -117,22 +144,47 @@ and a boolean to check if the value has been set.
 SetGeneration sets Generation field to given value.
 
 
+### GetIpallowlist
+
+`func (o *Cluster) GetIpallowlist() []ClusterIpallowlistInner`
+
+GetIpallowlist returns the Ipallowlist field if non-nil, zero value otherwise.
+
+### GetIpallowlistOk
+
+`func (o *Cluster) GetIpallowlistOk() (*[]ClusterIpallowlistInner, bool)`
+
+GetIpallowlistOk returns a tuple with the Ipallowlist field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIpallowlist
+
+`func (o *Cluster) SetIpallowlist(v []ClusterIpallowlistInner)`
+
+SetIpallowlist sets Ipallowlist field to given value.
+
+### HasIpallowlist
+
+`func (o *Cluster) HasIpallowlist() bool`
+
+HasIpallowlist returns a boolean if a field has been set.
+
 ### GetIpwhitelist
 
-`func (o *Cluster) GetIpwhitelist() []ClusterIpwhitelistInner`
+`func (o *Cluster) GetIpwhitelist() []ClusterIpallowlistInner`
 
 GetIpwhitelist returns the Ipwhitelist field if non-nil, zero value otherwise.
 
 ### GetIpwhitelistOk
 
-`func (o *Cluster) GetIpwhitelistOk() (*[]ClusterIpwhitelistInner, bool)`
+`func (o *Cluster) GetIpwhitelistOk() (*[]ClusterIpallowlistInner, bool)`
 
 GetIpwhitelistOk returns a tuple with the Ipwhitelist field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIpwhitelist
 
-`func (o *Cluster) SetIpwhitelist(v []ClusterIpwhitelistInner)`
+`func (o *Cluster) SetIpwhitelist(v []ClusterIpallowlistInner)`
 
 SetIpwhitelist sets Ipwhitelist field to given value.
 
