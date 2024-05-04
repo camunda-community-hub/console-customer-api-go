@@ -547,6 +547,7 @@ components:
       - $ref: '#/components/schemas/OrganizationRole.ANALYST'
       - $ref: '#/components/schemas/OrganizationRole.DEVELOPER'
       - $ref: '#/components/schemas/OrganizationRole.VISITOR'
+      - $ref: '#/components/schemas/OrganizationRole.MODELER'
     BackupDto:
       additionalProperties: false
       example:
@@ -739,6 +740,7 @@ components:
             - Operate
             - Tasklist
             - Optimize
+            - Secrets
             type: string
           type: array
       required:
@@ -847,6 +849,7 @@ components:
             - Operate
             - Tasklist
             - Optimize
+            - Secrets
             type: string
           type: array
       required:
@@ -975,6 +978,7 @@ components:
       - analyst
       - developer
       - visitor
+      - modeler
       type: string
     OrganizationRole.ADMIN:
       enum:
@@ -987,6 +991,10 @@ components:
     OrganizationRole.DEVELOPER:
       enum:
       - developer
+      type: string
+    OrganizationRole.MODELER:
+      enum:
+      - modeler
       type: string
     OrganizationRole.OPERATIONS_ENGINEER:
       enum:

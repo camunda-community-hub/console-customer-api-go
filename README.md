@@ -132,6 +132,7 @@ Class | Method | HTTP request | Description
  - [OrganizationRoleADMIN](docs/OrganizationRoleADMIN.md)
  - [OrganizationRoleANALYST](docs/OrganizationRoleANALYST.md)
  - [OrganizationRoleDEVELOPER](docs/OrganizationRoleDEVELOPER.md)
+ - [OrganizationRoleMODELER](docs/OrganizationRoleMODELER.md)
  - [OrganizationRoleOPERATIONSENGINEER](docs/OrganizationRoleOPERATIONSENGINEER.md)
  - [OrganizationRoleTASKUSER](docs/OrganizationRoleTASKUSER.md)
  - [OrganizationRoleVISITOR](docs/OrganizationRoleVISITOR.md)

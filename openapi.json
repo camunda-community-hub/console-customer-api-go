@@ -25,6 +25,9 @@
           },
           {
             "$ref": "#/components/schemas/OrganizationRole.VISITOR"
+          },
+          {
+            "$ref": "#/components/schemas/OrganizationRole.MODELER"
           }
         ]
       },
@@ -319,7 +322,8 @@
                 "Zeebe",
                 "Operate",
                 "Tasklist",
-                "Optimize"
+                "Optimize",
+                "Secrets"
               ],
               "type": "string"
             },
@@ -434,7 +438,8 @@
                 "Zeebe",
                 "Operate",
                 "Tasklist",
-                "Optimize"
+                "Optimize",
+                "Secrets"
               ],
               "type": "string"
             },
@@ -610,7 +615,8 @@
           "taskuser",
           "analyst",
           "developer",
-          "visitor"
+          "visitor",
+          "modeler"
         ],
         "type": "string"
       },
@@ -629,6 +635,12 @@
       "OrganizationRole.DEVELOPER": {
         "enum": [
           "developer"
+        ],
+        "type": "string"
+      },
+      "OrganizationRole.MODELER": {
+        "enum": [
+          "modeler"
         ],
         "type": "string"
       },

@@ -35,6 +35,7 @@ docs/OrganizationRole.md
 docs/OrganizationRoleADMIN.md
 docs/OrganizationRoleANALYST.md
 docs/OrganizationRoleDEVELOPER.md
+docs/OrganizationRoleMODELER.md
 docs/OrganizationRoleOPERATIONSENGINEER.md
 docs/OrganizationRoleTASKUSER.md
 docs/OrganizationRoleVISITOR.md
@@ -78,6 +79,7 @@ model_organization_role.go
 model_organization_role_admin.go
 model_organization_role_analyst.go
 model_organization_role_developer.go
+model_organization_role_modeler.go
 model_organization_role_operations_engineer.go
 model_organization_role_task_user.go
 model_organization_role_visitor.go
