@@ -29,6 +29,7 @@ const (
 	ORGANIZATIONROLE_ANALYST            OrganizationRole = "analyst"
 	ORGANIZATIONROLE_DEVELOPER          OrganizationRole = "developer"
 	ORGANIZATIONROLE_VISITOR            OrganizationRole = "visitor"
+	ORGANIZATIONROLE_MODELER            OrganizationRole = "modeler"
 )
 
 // All allowed values of OrganizationRole enum
@@ -42,6 +43,7 @@ var AllowedOrganizationRoleEnumValues = []OrganizationRole{
 	"analyst",
 	"developer",
 	"visitor",
+	"modeler",
 }
 
 func (v *OrganizationRole) UnmarshalJSON(src []byte) error {

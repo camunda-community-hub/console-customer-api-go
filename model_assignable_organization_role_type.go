@@ -20,6 +20,7 @@ type AssignableOrganizationRoleType struct {
 	OrganizationRoleADMIN              *OrganizationRoleADMIN
 	OrganizationRoleANALYST            *OrganizationRoleANALYST
 	OrganizationRoleDEVELOPER          *OrganizationRoleDEVELOPER
+	OrganizationRoleMODELER            *OrganizationRoleMODELER
 	OrganizationRoleOPERATIONSENGINEER *OrganizationRoleOPERATIONSENGINEER
 	OrganizationRoleTASKUSER           *OrganizationRoleTASKUSER
 	OrganizationRoleVISITOR            *OrganizationRoleVISITOR
@@ -65,6 +66,19 @@ func (dst *AssignableOrganizationRoleType) UnmarshalJSON(data []byte) error {
 		}
 	} else {
 		dst.OrganizationRoleDEVELOPER = nil
+	}
+
+	// try to unmarshal JSON data into OrganizationRoleMODELER
+	err = json.Unmarshal(data, &dst.OrganizationRoleMODELER)
+	if err == nil {
+		jsonOrganizationRoleMODELER, _ := json.Marshal(dst.OrganizationRoleMODELER)
+		if string(jsonOrganizationRoleMODELER) == "{}" { // empty struct
+			dst.OrganizationRoleMODELER = nil
+		} else {
+			return nil // data stored in dst.OrganizationRoleMODELER, return on the first match
+		}
+	} else {
+		dst.OrganizationRoleMODELER = nil
 	}
 
 	// try to unmarshal JSON data into OrganizationRoleOPERATIONSENGINEER
@@ -121,6 +135,10 @@ func (src *AssignableOrganizationRoleType) MarshalJSON() ([]byte, error) {
 
 	if src.OrganizationRoleDEVELOPER != nil {
 		return json.Marshal(&src.OrganizationRoleDEVELOPER)
+	}
+
+	if src.OrganizationRoleMODELER != nil {
+		return json.Marshal(&src.OrganizationRoleMODELER)
 	}
 
 	if src.OrganizationRoleOPERATIONSENGINEER != nil {
