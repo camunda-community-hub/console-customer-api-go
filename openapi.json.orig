@@ -207,6 +207,9 @@
               "console": {
                 "type": "string"
               },
+              "identity": {
+                "type": "string"
+              },
               "oauth": {
                 "type": "string"
               },
@@ -266,6 +269,9 @@
           "status": {
             "description": "A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.",
             "properties": {
+              "identityStatus": {
+                "$ref": "#/components/schemas/ClusterStatus"
+              },
               "operateStatus": {
                 "$ref": "#/components/schemas/ClusterStatus"
               },
@@ -361,6 +367,14 @@
         ],
         "type": "object"
       },
+      "ClusterEncryptionKey": {
+        "enum": [
+          "Software",
+          "Hardware",
+          "Provider"
+        ],
+        "type": "string"
+      },
       "ClusterSecrets": {
         "additionalProperties": {
           "type": "string"
@@ -370,12 +384,12 @@
       },
       "ClusterStatus": {
         "enum": [
+          "Creating",
           "Healthy",
           "Unhealthy",
-          "Creating",
           "Updating",
-          "Suspended",
-          "Resuming"
+          "Resuming",
+          "Suspended"
         ],
         "type": "string"
       },
@@ -395,9 +409,18 @@
             "description": "The channel (software spec) to use.",
             "type": "string"
           },
+          "encryption": {
+            "$ref": "#/components/schemas/ClusterEncryptionKey",
+            "description": "Optional encryption key, defaults to 'Provider'."
+          },
           "generationId": {
             "description": "The generation (software version) to use.",
             "type": "string"
+          },
+          "hardwarePackages": {
+            "description": "Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.",
+            "format": "double",
+            "type": "number"
           },
           "name": {
             "description": "The name of your new cluster.",
@@ -609,6 +632,8 @@
         "enum": [
           "member",
           "admin",
+          "organizationadmin",
+          "organizationowner",
           "owner",
           "supportagent",
           "operationsengineer",
@@ -776,11 +801,15 @@
                 "name": {
                   "type": "string"
                 },
+                "provider": {
+                  "type": "string"
+                },
                 "uuid": {
                   "type": "string"
                 }
               },
               "required": [
+                "provider",
                 "name",
                 "uuid"
               ],
@@ -1005,6 +1034,10 @@
                 "properties": {
                   "name": {
                     "type": "string"
+                  },
+                  "numberOfAllocatedHwPackages": {
+                    "format": "double",
+                    "type": "number"
                   },
                   "stageLabel": {
                     "$ref": "#/components/schemas/CamundaClusterStage"

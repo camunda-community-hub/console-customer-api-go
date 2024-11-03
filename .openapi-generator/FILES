@@ -15,6 +15,7 @@ docs/ClusterChannel.md
 docs/ClusterClient.md
 docs/ClusterClientConnectionDetails.md
 docs/ClusterComponentStatus.md
+docs/ClusterEncryptionKey.md
 docs/ClusterGeneration.md
 docs/ClusterIpallowlistInner.md
 docs/ClusterLinks.md
@@ -60,6 +61,7 @@ model_cluster_channel.go
 model_cluster_client.go
 model_cluster_client_connection_details.go
 model_cluster_component_status.go
+model_cluster_encryption_key.go
 model_cluster_generation.go
 model_cluster_ipallowlist_inner.go
 model_cluster_links.go

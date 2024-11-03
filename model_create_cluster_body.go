@@ -25,9 +25,12 @@ type CreateClusterBody struct {
 	// The backup region to choose. Only available if the Sales Plan supports this. (Enterprise)
 	BackupRegionId *string `json:"backupRegionId,omitempty"`
 	// The channel (software spec) to use.
-	ChannelId string `json:"channelId"`
+	ChannelId  string                `json:"channelId"`
+	Encryption *ClusterEncryptionKey `json:"encryption,omitempty"`
 	// The generation (software version) to use.
 	GenerationId string `json:"generationId"`
+	// Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.
+	HardwarePackages *float64 `json:"hardwarePackages,omitempty"`
 	// The name of your new cluster.
 	Name string `json:"name"`
 	// The planType (hardware spec) to use.
@@ -149,6 +152,38 @@ func (o *CreateClusterBody) SetChannelId(v string) {
 	o.ChannelId = v
 }
 
+// GetEncryption returns the Encryption field value if set, zero value otherwise.
+func (o *CreateClusterBody) GetEncryption() ClusterEncryptionKey {
+	if o == nil || IsNil(o.Encryption) {
+		var ret ClusterEncryptionKey
+		return ret
+	}
+	return *o.Encryption
+}
+
+// GetEncryptionOk returns a tuple with the Encryption field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateClusterBody) GetEncryptionOk() (*ClusterEncryptionKey, bool) {
+	if o == nil || IsNil(o.Encryption) {
+		return nil, false
+	}
+	return o.Encryption, true
+}
+
+// HasEncryption returns a boolean if a field has been set.
+func (o *CreateClusterBody) HasEncryption() bool {
+	if o != nil && !IsNil(o.Encryption) {
+		return true
+	}
+
+	return false
+}
+
+// SetEncryption gets a reference to the given ClusterEncryptionKey and assigns it to the Encryption field.
+func (o *CreateClusterBody) SetEncryption(v ClusterEncryptionKey) {
+	o.Encryption = &v
+}
+
 // GetGenerationId returns the GenerationId field value
 func (o *CreateClusterBody) GetGenerationId() string {
 	if o == nil {
@@ -171,6 +206,38 @@ func (o *CreateClusterBody) GetGenerationIdOk() (*string, bool) {
 // SetGenerationId sets field value
 func (o *CreateClusterBody) SetGenerationId(v string) {
 	o.GenerationId = v
+}
+
+// GetHardwarePackages returns the HardwarePackages field value if set, zero value otherwise.
+func (o *CreateClusterBody) GetHardwarePackages() float64 {
+	if o == nil || IsNil(o.HardwarePackages) {
+		var ret float64
+		return ret
+	}
+	return *o.HardwarePackages
+}
+
+// GetHardwarePackagesOk returns a tuple with the HardwarePackages field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateClusterBody) GetHardwarePackagesOk() (*float64, bool) {
+	if o == nil || IsNil(o.HardwarePackages) {
+		return nil, false
+	}
+	return o.HardwarePackages, true
+}
+
+// HasHardwarePackages returns a boolean if a field has been set.
+func (o *CreateClusterBody) HasHardwarePackages() bool {
+	if o != nil && !IsNil(o.HardwarePackages) {
+		return true
+	}
+
+	return false
+}
+
+// SetHardwarePackages gets a reference to the given float64 and assigns it to the HardwarePackages field.
+func (o *CreateClusterBody) SetHardwarePackages(v float64) {
+	o.HardwarePackages = &v
 }
 
 // GetName returns the Name field value
@@ -294,7 +361,13 @@ func (o CreateClusterBody) ToMap() (map[string]interface{}, error) {
 		toSerialize["backupRegionId"] = o.BackupRegionId
 	}
 	toSerialize["channelId"] = o.ChannelId
+	if !IsNil(o.Encryption) {
+		toSerialize["encryption"] = o.Encryption
+	}
 	toSerialize["generationId"] = o.GenerationId
+	if !IsNil(o.HardwarePackages) {
+		toSerialize["hardwarePackages"] = o.HardwarePackages
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["planTypeId"] = o.PlanTypeId
 	toSerialize["regionId"] = o.RegionId

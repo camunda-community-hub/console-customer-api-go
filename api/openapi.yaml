@@ -640,6 +640,7 @@ components:
           connectors: connectors
           operate: operate
           optimize: optimize
+          identity: identity
           tasklist: tasklist
           zeebe: zeebe
           oauth: oauth
@@ -654,6 +655,7 @@ components:
         status:
           operateStatus: null
           ready: null
+          identityStatus: "{}"
           tasklistStatus: null
           optimizeStatus: null
           zeebeStatus: null
@@ -770,6 +772,12 @@ components:
       - ZEEBE_CLIENT_ID
       - name
       type: object
+    ClusterEncryptionKey:
+      enum:
+      - Software
+      - Hardware
+      - Provider
+      type: string
     ClusterSecrets:
       additionalProperties:
         type: string
@@ -777,12 +785,12 @@ components:
       type: object
     ClusterComponentStatus:
       enum:
+      - Creating
       - Healthy
       - Unhealthy
-      - Creating
       - Updating
-      - Suspended
       - Resuming
+      - Suspended
       type: string
     CreateClusterBody:
       additionalProperties: false
@@ -791,7 +799,9 @@ components:
       example:
         generationId: generationId
         autoUpdate: true
+        encryption: null
         regionId: regionId
+        hardwarePackages: 0.8008281904610115
         name: name
         planTypeId: planTypeId
         backupRegionId: backupRegionId
@@ -809,9 +819,16 @@ components:
         channelId:
           description: The channel (software spec) to use.
           type: string
+        encryption:
+          $ref: '#/components/schemas/ClusterEncryptionKey'
         generationId:
           description: The generation (software version) to use.
           type: string
+        hardwarePackages:
+          description: "Optional number uf hardware packages, defaults to 1. Only\
+            \ availabe on request and for Advanced offering cluster types."
+          format: double
+          type: number
         name:
           description: The name of your new cluster.
           type: string
@@ -971,6 +988,8 @@ components:
       enum:
       - member
       - admin
+      - organizationadmin
+      - organizationowner
       - owner
       - supportagent
       - operationsengineer
@@ -1013,7 +1032,8 @@ components:
       description: Describes the different options to create a Camunda cluster.
       example:
         regions:
-        - name: name
+        - provider: provider
+          name: name
           uuid: uuid
           backups:
           - regions:
@@ -1028,7 +1048,8 @@ components:
             - id: id
               label: label
             uuid: uuid
-        - name: name
+        - provider: provider
+          name: name
           uuid: uuid
           backups:
           - regions:
@@ -1114,6 +1135,9 @@ components:
       properties:
         name:
           type: string
+        numberOfAllocatedHwPackages:
+          format: double
+          type: number
         stageLabel:
           $ref: '#/components/schemas/CamundaClusterStage'
       type: object
@@ -1180,6 +1204,7 @@ components:
         connectors: connectors
         operate: operate
         optimize: optimize
+        identity: identity
         tasklist: tasklist
         zeebe: zeebe
         oauth: oauth
@@ -1187,6 +1212,8 @@ components:
         connectors:
           type: string
         console:
+          type: string
+        identity:
           type: string
         oauth:
           type: string
@@ -1234,10 +1261,13 @@ components:
       example:
         operateStatus: null
         ready: null
+        identityStatus: "{}"
         tasklistStatus: null
         optimizeStatus: null
         zeebeStatus: null
       properties:
+        identityStatus:
+          $ref: '#/components/schemas/ClusterStatus'
         operateStatus:
           $ref: '#/components/schemas/ClusterComponentStatus'
         optimizeStatus:
@@ -1352,6 +1382,7 @@ components:
       type: object
     Parameters_regions_inner:
       example:
+        provider: provider
         name: name
         uuid: uuid
         backups:
@@ -1374,10 +1405,13 @@ components:
           type: array
         name:
           type: string
+        provider:
+          type: string
         uuid:
           type: string
       required:
       - name
+      - provider
       - uuid
       type: object
   securitySchemes:
