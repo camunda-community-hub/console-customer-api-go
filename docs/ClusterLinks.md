@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Connectors** | Pointer to **string** |  | [optional] 
 **Console** | Pointer to **string** |  | [optional] 
+**Identity** | Pointer to **string** |  | [optional] 
 **Oauth** | Pointer to **string** |  | [optional] 
 **Operate** | Pointer to **string** |  | [optional] 
 **Optimize** | Pointer to **string** |  | [optional] 
@@ -80,6 +81,31 @@ SetConsole sets Console field to given value.
 `func (o *ClusterLinks) HasConsole() bool`
 
 HasConsole returns a boolean if a field has been set.
+
+### GetIdentity
+
+`func (o *ClusterLinks) GetIdentity() string`
+
+GetIdentity returns the Identity field if non-nil, zero value otherwise.
+
+### GetIdentityOk
+
+`func (o *ClusterLinks) GetIdentityOk() (*string, bool)`
+
+GetIdentityOk returns a tuple with the Identity field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIdentity
+
+`func (o *ClusterLinks) SetIdentity(v string)`
+
+SetIdentity sets Identity field to given value.
+
+### HasIdentity
+
+`func (o *ClusterLinks) HasIdentity() bool`
+
+HasIdentity returns a boolean if a field has been set.
 
 ### GetOauth
 

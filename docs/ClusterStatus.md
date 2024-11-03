@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**IdentityStatus** | Pointer to [**ClusterStatus**](ClusterStatus.md) |  | [optional] 
 **OperateStatus** | Pointer to [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | [optional] 
 **OptimizeStatus** | Pointer to [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | [optional] 
 **Ready** | [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | 
@@ -28,6 +29,31 @@ will change when the set of required properties is changed
 NewClusterStatusWithDefaults instantiates a new ClusterStatus object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetIdentityStatus
+
+`func (o *ClusterStatus) GetIdentityStatus() ClusterStatus`
+
+GetIdentityStatus returns the IdentityStatus field if non-nil, zero value otherwise.
+
+### GetIdentityStatusOk
+
+`func (o *ClusterStatus) GetIdentityStatusOk() (*ClusterStatus, bool)`
+
+GetIdentityStatusOk returns a tuple with the IdentityStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIdentityStatus
+
+`func (o *ClusterStatus) SetIdentityStatus(v ClusterStatus)`
+
+SetIdentityStatus sets IdentityStatus field to given value.
+
+### HasIdentityStatus
+
+`func (o *ClusterStatus) HasIdentityStatus() bool`
+
+HasIdentityStatus returns a boolean if a field has been set.
 
 ### GetOperateStatus
 

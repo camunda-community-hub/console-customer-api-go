@@ -113,6 +113,7 @@ Class | Method | HTTP request | Description
  - [ClusterClient](docs/ClusterClient.md)
  - [ClusterClientConnectionDetails](docs/ClusterClientConnectionDetails.md)
  - [ClusterComponentStatus](docs/ClusterComponentStatus.md)
+ - [ClusterEncryptionKey](docs/ClusterEncryptionKey.md)
  - [ClusterGeneration](docs/ClusterGeneration.md)
  - [ClusterIpallowlistInner](docs/ClusterIpallowlistInner.md)
  - [ClusterLinks](docs/ClusterLinks.md)

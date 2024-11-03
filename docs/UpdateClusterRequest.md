@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | Pointer to **string** |  | [optional] 
+**NumberOfAllocatedHwPackages** | Pointer to **float64** |  | [optional] 
 **StageLabel** | Pointer to [**CamundaClusterStage**](CamundaClusterStage.md) |  | [optional] 
 
 ## Methods
@@ -50,6 +51,31 @@ SetName sets Name field to given value.
 `func (o *UpdateClusterRequest) HasName() bool`
 
 HasName returns a boolean if a field has been set.
+
+### GetNumberOfAllocatedHwPackages
+
+`func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackages() float64`
+
+GetNumberOfAllocatedHwPackages returns the NumberOfAllocatedHwPackages field if non-nil, zero value otherwise.
+
+### GetNumberOfAllocatedHwPackagesOk
+
+`func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackagesOk() (*float64, bool)`
+
+GetNumberOfAllocatedHwPackagesOk returns a tuple with the NumberOfAllocatedHwPackages field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNumberOfAllocatedHwPackages
+
+`func (o *UpdateClusterRequest) SetNumberOfAllocatedHwPackages(v float64)`
+
+SetNumberOfAllocatedHwPackages sets NumberOfAllocatedHwPackages field to given value.
+
+### HasNumberOfAllocatedHwPackages
+
+`func (o *UpdateClusterRequest) HasNumberOfAllocatedHwPackages() bool`
+
+HasNumberOfAllocatedHwPackages returns a boolean if a field has been set.
 
 ### GetStageLabel
 

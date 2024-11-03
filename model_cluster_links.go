@@ -21,6 +21,7 @@ var _ MappedNullable = &ClusterLinks{}
 type ClusterLinks struct {
 	Connectors *string `json:"connectors,omitempty"`
 	Console    *string `json:"console,omitempty"`
+	Identity   *string `json:"identity,omitempty"`
 	Oauth      *string `json:"oauth,omitempty"`
 	Operate    *string `json:"operate,omitempty"`
 	Optimize   *string `json:"optimize,omitempty"`
@@ -107,6 +108,38 @@ func (o *ClusterLinks) HasConsole() bool {
 // SetConsole gets a reference to the given string and assigns it to the Console field.
 func (o *ClusterLinks) SetConsole(v string) {
 	o.Console = &v
+}
+
+// GetIdentity returns the Identity field value if set, zero value otherwise.
+func (o *ClusterLinks) GetIdentity() string {
+	if o == nil || IsNil(o.Identity) {
+		var ret string
+		return ret
+	}
+	return *o.Identity
+}
+
+// GetIdentityOk returns a tuple with the Identity field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterLinks) GetIdentityOk() (*string, bool) {
+	if o == nil || IsNil(o.Identity) {
+		return nil, false
+	}
+	return o.Identity, true
+}
+
+// HasIdentity returns a boolean if a field has been set.
+func (o *ClusterLinks) HasIdentity() bool {
+	if o != nil && !IsNil(o.Identity) {
+		return true
+	}
+
+	return false
+}
+
+// SetIdentity gets a reference to the given string and assigns it to the Identity field.
+func (o *ClusterLinks) SetIdentity(v string) {
+	o.Identity = &v
 }
 
 // GetOauth returns the Oauth field value if set, zero value otherwise.
@@ -284,6 +317,9 @@ func (o ClusterLinks) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Console) {
 		toSerialize["console"] = o.Console
+	}
+	if !IsNil(o.Identity) {
+		toSerialize["identity"] = o.Identity
 	}
 	if !IsNil(o.Oauth) {
 		toSerialize["oauth"] = o.Oauth

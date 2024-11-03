@@ -20,9 +20,10 @@ var _ MappedNullable = &ParametersRegionsInner{}
 
 // ParametersRegionsInner struct for ParametersRegionsInner
 type ParametersRegionsInner struct {
-	Backups []ParametersRegionsInnerBackupsInner `json:"backups,omitempty"`
-	Name    string                               `json:"name"`
-	Uuid    string                               `json:"uuid"`
+	Backups  []ParametersRegionsInnerBackupsInner `json:"backups,omitempty"`
+	Name     string                               `json:"name"`
+	Provider string                               `json:"provider"`
+	Uuid     string                               `json:"uuid"`
 }
 
 type _ParametersRegionsInner ParametersRegionsInner
@@ -31,9 +32,10 @@ type _ParametersRegionsInner ParametersRegionsInner
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewParametersRegionsInner(name string, uuid string) *ParametersRegionsInner {
+func NewParametersRegionsInner(name string, provider string, uuid string) *ParametersRegionsInner {
 	this := ParametersRegionsInner{}
 	this.Name = name
+	this.Provider = provider
 	this.Uuid = uuid
 	return &this
 }
@@ -102,6 +104,30 @@ func (o *ParametersRegionsInner) SetName(v string) {
 	o.Name = v
 }
 
+// GetProvider returns the Provider field value
+func (o *ParametersRegionsInner) GetProvider() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Provider
+}
+
+// GetProviderOk returns a tuple with the Provider field value
+// and a boolean to check if the value has been set.
+func (o *ParametersRegionsInner) GetProviderOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Provider, true
+}
+
+// SetProvider sets field value
+func (o *ParametersRegionsInner) SetProvider(v string) {
+	o.Provider = v
+}
+
 // GetUuid returns the Uuid field value
 func (o *ParametersRegionsInner) GetUuid() string {
 	if o == nil {
@@ -140,6 +166,7 @@ func (o ParametersRegionsInner) ToMap() (map[string]interface{}, error) {
 		toSerialize["backups"] = o.Backups
 	}
 	toSerialize["name"] = o.Name
+	toSerialize["provider"] = o.Provider
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
 }
@@ -150,6 +177,7 @@ func (o *ParametersRegionsInner) UnmarshalJSON(bytes []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"name",
+		"provider",
 		"uuid",
 	}
 

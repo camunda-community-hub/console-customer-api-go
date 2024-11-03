@@ -7,7 +7,9 @@ Name | Type | Description | Notes
 **AutoUpdate** | Pointer to **bool** | If set to false, no automatic updates will be performed on your cluster. | [optional] 
 **BackupRegionId** | Pointer to **string** | The backup region to choose. Only available if the Sales Plan supports this. (Enterprise) | [optional] 
 **ChannelId** | **string** | The channel (software spec) to use. | 
+**Encryption** | Pointer to [**ClusterEncryptionKey**](ClusterEncryptionKey.md) |  | [optional] 
 **GenerationId** | **string** | The generation (software version) to use. | 
+**HardwarePackages** | Pointer to **float64** | Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types. | [optional] 
 **Name** | **string** | The name of your new cluster. | 
 **PlanTypeId** | **string** | The planType (hardware spec) to use. | 
 **RegionId** | **string** | The data center to use. | 
@@ -102,6 +104,31 @@ and a boolean to check if the value has been set.
 SetChannelId sets ChannelId field to given value.
 
 
+### GetEncryption
+
+`func (o *CreateClusterBody) GetEncryption() ClusterEncryptionKey`
+
+GetEncryption returns the Encryption field if non-nil, zero value otherwise.
+
+### GetEncryptionOk
+
+`func (o *CreateClusterBody) GetEncryptionOk() (*ClusterEncryptionKey, bool)`
+
+GetEncryptionOk returns a tuple with the Encryption field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEncryption
+
+`func (o *CreateClusterBody) SetEncryption(v ClusterEncryptionKey)`
+
+SetEncryption sets Encryption field to given value.
+
+### HasEncryption
+
+`func (o *CreateClusterBody) HasEncryption() bool`
+
+HasEncryption returns a boolean if a field has been set.
+
 ### GetGenerationId
 
 `func (o *CreateClusterBody) GetGenerationId() string`
@@ -121,6 +148,31 @@ and a boolean to check if the value has been set.
 
 SetGenerationId sets GenerationId field to given value.
 
+
+### GetHardwarePackages
+
+`func (o *CreateClusterBody) GetHardwarePackages() float64`
+
+GetHardwarePackages returns the HardwarePackages field if non-nil, zero value otherwise.
+
+### GetHardwarePackagesOk
+
+`func (o *CreateClusterBody) GetHardwarePackagesOk() (*float64, bool)`
+
+GetHardwarePackagesOk returns a tuple with the HardwarePackages field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHardwarePackages
+
+`func (o *CreateClusterBody) SetHardwarePackages(v float64)`
+
+SetHardwarePackages sets HardwarePackages field to given value.
+
+### HasHardwarePackages
+
+`func (o *CreateClusterBody) HasHardwarePackages() bool`
+
+HasHardwarePackages returns a boolean if a field has been set.
 
 ### GetName
 

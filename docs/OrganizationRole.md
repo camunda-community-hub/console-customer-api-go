@@ -7,6 +7,10 @@
 
 * `ADMIN` (value: `"admin"`)
 
+* `ORGANIZATIONADMIN` (value: `"organizationadmin"`)
+
+* `ORGANIZATIONOWNER` (value: `"organizationowner"`)
+
 * `OWNER` (value: `"owner"`)
 
 * `SUPPORTAGENT` (value: `"supportagent"`)

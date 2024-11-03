@@ -19,8 +19,9 @@ var _ MappedNullable = &UpdateClusterRequest{}
 
 // UpdateClusterRequest struct for UpdateClusterRequest
 type UpdateClusterRequest struct {
-	Name       *string              `json:"name,omitempty"`
-	StageLabel *CamundaClusterStage `json:"stageLabel,omitempty"`
+	Name                        *string              `json:"name,omitempty"`
+	NumberOfAllocatedHwPackages *float64             `json:"numberOfAllocatedHwPackages,omitempty"`
+	StageLabel                  *CamundaClusterStage `json:"stageLabel,omitempty"`
 }
 
 // NewUpdateClusterRequest instantiates a new UpdateClusterRequest object
@@ -72,6 +73,38 @@ func (o *UpdateClusterRequest) SetName(v string) {
 	o.Name = &v
 }
 
+// GetNumberOfAllocatedHwPackages returns the NumberOfAllocatedHwPackages field value if set, zero value otherwise.
+func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackages() float64 {
+	if o == nil || IsNil(o.NumberOfAllocatedHwPackages) {
+		var ret float64
+		return ret
+	}
+	return *o.NumberOfAllocatedHwPackages
+}
+
+// GetNumberOfAllocatedHwPackagesOk returns a tuple with the NumberOfAllocatedHwPackages field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackagesOk() (*float64, bool) {
+	if o == nil || IsNil(o.NumberOfAllocatedHwPackages) {
+		return nil, false
+	}
+	return o.NumberOfAllocatedHwPackages, true
+}
+
+// HasNumberOfAllocatedHwPackages returns a boolean if a field has been set.
+func (o *UpdateClusterRequest) HasNumberOfAllocatedHwPackages() bool {
+	if o != nil && !IsNil(o.NumberOfAllocatedHwPackages) {
+		return true
+	}
+
+	return false
+}
+
+// SetNumberOfAllocatedHwPackages gets a reference to the given float64 and assigns it to the NumberOfAllocatedHwPackages field.
+func (o *UpdateClusterRequest) SetNumberOfAllocatedHwPackages(v float64) {
+	o.NumberOfAllocatedHwPackages = &v
+}
+
 // GetStageLabel returns the StageLabel field value if set, zero value otherwise.
 func (o *UpdateClusterRequest) GetStageLabel() CamundaClusterStage {
 	if o == nil || IsNil(o.StageLabel) {
@@ -116,6 +149,9 @@ func (o UpdateClusterRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
+	}
+	if !IsNil(o.NumberOfAllocatedHwPackages) {
+		toSerialize["numberOfAllocatedHwPackages"] = o.NumberOfAllocatedHwPackages
 	}
 	if !IsNil(o.StageLabel) {
 		toSerialize["stageLabel"] = o.StageLabel
