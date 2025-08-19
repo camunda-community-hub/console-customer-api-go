@@ -6,6 +6,7 @@ api_default.go
 client.go
 configuration.go
 docs/AssignableOrganizationRoleType.md
+docs/AuditDto.md
 docs/BackupDto.md
 docs/BackupStatus.md
 docs/CamundaClusterStage.md
@@ -29,6 +30,8 @@ docs/CreateSecretBody.md
 docs/CreatedClusterClient.md
 docs/CreatedClusterClientLinks.md
 docs/DefaultAPI.md
+docs/GenerationUpgradeForClusterDto.md
+docs/GenerationUpgradeForClusterDtoCluster.md
 docs/IpAllowListBody.md
 docs/IpWhiteListBody.md
 docs/Member.md
@@ -47,11 +50,13 @@ docs/ParametersRegionsInner.md
 docs/ParametersRegionsInnerBackupsInner.md
 docs/ParametersRegionsInnerBackupsInnerRegionsInner.md
 docs/PostMemberBody.md
-docs/UpdateClusterRequest.md
+docs/UpdateClusterBody.md
+docs/UpdateSecretBody.md
 git_push.sh
 go.mod
 go.sum
 model_assignable_organization_role_type.go
+model_audit_dto.go
 model_backup_dto.go
 model_backup_status.go
 model_camunda_cluster_stage.go
@@ -74,6 +79,8 @@ model_create_cluster_client_body.go
 model_create_secret_body.go
 model_created_cluster_client.go
 model_created_cluster_client_links.go
+model_generation_upgrade_for_cluster_dto.go
+model_generation_upgrade_for_cluster_dto_cluster.go
 model_ip_allow_list_body.go
 model_ip_white_list_body.go
 model_member.go
@@ -92,6 +99,7 @@ model_parameters_regions_inner.go
 model_parameters_regions_inner_backups_inner.go
 model_parameters_regions_inner_backups_inner_regions_inner.go
 model_post_member_body.go
-model_update_cluster_request.go
+model_update_cluster_body.go
+model_update_secret_body.go
 response.go
 utils.go

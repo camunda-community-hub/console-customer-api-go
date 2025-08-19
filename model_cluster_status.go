@@ -20,7 +20,6 @@ var _ MappedNullable = &ClusterStatus{}
 
 // ClusterStatus A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.
 type ClusterStatus struct {
-	IdentityStatus *ClusterStatus          `json:"identityStatus,omitempty"`
 	OperateStatus  *ClusterComponentStatus `json:"operateStatus,omitempty"`
 	OptimizeStatus *ClusterComponentStatus `json:"optimizeStatus,omitempty"`
 	Ready          ClusterComponentStatus  `json:"ready"`
@@ -46,38 +45,6 @@ func NewClusterStatus(ready ClusterComponentStatus) *ClusterStatus {
 func NewClusterStatusWithDefaults() *ClusterStatus {
 	this := ClusterStatus{}
 	return &this
-}
-
-// GetIdentityStatus returns the IdentityStatus field value if set, zero value otherwise.
-func (o *ClusterStatus) GetIdentityStatus() ClusterStatus {
-	if o == nil || IsNil(o.IdentityStatus) {
-		var ret ClusterStatus
-		return ret
-	}
-	return *o.IdentityStatus
-}
-
-// GetIdentityStatusOk returns a tuple with the IdentityStatus field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClusterStatus) GetIdentityStatusOk() (*ClusterStatus, bool) {
-	if o == nil || IsNil(o.IdentityStatus) {
-		return nil, false
-	}
-	return o.IdentityStatus, true
-}
-
-// HasIdentityStatus returns a boolean if a field has been set.
-func (o *ClusterStatus) HasIdentityStatus() bool {
-	if o != nil && !IsNil(o.IdentityStatus) {
-		return true
-	}
-
-	return false
-}
-
-// SetIdentityStatus gets a reference to the given ClusterStatus and assigns it to the IdentityStatus field.
-func (o *ClusterStatus) SetIdentityStatus(v ClusterStatus) {
-	o.IdentityStatus = &v
 }
 
 // GetOperateStatus returns the OperateStatus field value if set, zero value otherwise.
@@ -242,9 +209,6 @@ func (o ClusterStatus) MarshalJSON() ([]byte, error) {
 
 func (o ClusterStatus) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.IdentityStatus) {
-		toSerialize["identityStatus"] = o.IdentityStatus
-	}
 	if !IsNil(o.OperateStatus) {
 		toSerialize["operateStatus"] = o.OperateStatus
 	}

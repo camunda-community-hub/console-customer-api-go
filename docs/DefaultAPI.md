@@ -18,6 +18,8 @@ Method | HTTP request | Description
 [**GetClients**](DefaultAPI.md#GetClients) | **Get** /clusters/{clusterUuid}/clients | 
 [**GetCluster**](DefaultAPI.md#GetCluster) | **Get** /clusters/{clusterUuid} | 
 [**GetClusters**](DefaultAPI.md#GetClusters) | **Get** /clusters | 
+[**GetCsv**](DefaultAPI.md#GetCsv) | **Get** /activity/csv | 
+[**GetJson**](DefaultAPI.md#GetJson) | **Get** /activity/json | 
 [**GetMembers**](DefaultAPI.md#GetMembers) | **Get** /members | 
 [**GetParameters**](DefaultAPI.md#GetParameters) | **Get** /clusters/parameters | 
 [**GetSecrets**](DefaultAPI.md#GetSecrets) | **Get** /clusters/{clusterUuid}/secrets | 
@@ -25,6 +27,8 @@ Method | HTTP request | Description
 [**UpdateIpAllowlist**](DefaultAPI.md#UpdateIpAllowlist) | **Put** /clusters/{clusterUuid}/ipallowlist | 
 [**UpdateIpWhitelist**](DefaultAPI.md#UpdateIpWhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
 [**UpdateMembers**](DefaultAPI.md#UpdateMembers) | **Post** /members/{email} | 
+[**UpdateSecret**](DefaultAPI.md#UpdateSecret) | **Put** /clusters/{clusterUuid}/secrets/{secretName} | 
+[**UpgradeCluster**](DefaultAPI.md#UpgradeCluster) | **Put** /clusters/{clusterUuid}/upgrade | 
 [**Wake**](DefaultAPI.md#Wake) | **Put** /clusters/{clusterUuid}/wake | 
 
 
@@ -986,6 +990,124 @@ Other parameters are passed through a pointer to a apiGetClustersRequest struct 
 [[Back to README]](../README.md)
 
 
+## GetCsv
+
+> string GetCsv(ctx).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.DefaultAPI.GetCsv(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetCsv``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetCsv`: string
+    fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetCsv`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetCsvRequest struct via the builder pattern
+
+
+### Return type
+
+**string**
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetJson
+
+> []AuditDto GetJson(ctx).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.DefaultAPI.GetJson(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetJson``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetJson`: []AuditDto
+    fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetJson`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetJsonRequest struct via the builder pattern
+
+
+### Return type
+
+[**[]AuditDto**](AuditDto.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetMembers
 
 > []Member GetMembers(ctx).Execute()
@@ -1176,7 +1298,7 @@ Name | Type | Description  | Notes
 
 ## UpdateCluster
 
-> UpdateCluster(ctx, clusterUuid).UpdateClusterRequest(updateClusterRequest).Execute()
+> UpdateCluster(ctx, clusterUuid).UpdateClusterBody(updateClusterBody).Execute()
 
 
 
@@ -1196,11 +1318,11 @@ import (
 
 func main() {
     clusterUuid := "clusterUuid_example" // string | 
-    updateClusterRequest := *openapiclient.NewUpdateClusterRequest() // UpdateClusterRequest | 
+    updateClusterBody := *openapiclient.NewUpdateClusterBody() // UpdateClusterBody | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.DefaultAPI.UpdateCluster(context.Background(), clusterUuid).UpdateClusterRequest(updateClusterRequest).Execute()
+    r, err := apiClient.DefaultAPI.UpdateCluster(context.Background(), clusterUuid).UpdateClusterBody(updateClusterBody).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UpdateCluster``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1224,7 +1346,7 @@ Other parameters are passed through a pointer to a apiUpdateClusterRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **updateClusterRequest** | [**UpdateClusterRequest**](UpdateClusterRequest.md) |  | 
+ **updateClusterBody** | [**UpdateClusterBody**](UpdateClusterBody.md) |  | 
 
 ### Return type
 
@@ -1446,6 +1568,149 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateSecret
+
+> UpdateSecret(ctx, clusterUuid, secretName).UpdateSecretBody(updateSecretBody).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+    clusterUuid := "clusterUuid_example" // string | 
+    secretName := "secretName_example" // string | 
+    updateSecretBody := *openapiclient.NewUpdateSecretBody("SecretValue_example") // UpdateSecretBody | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.DefaultAPI.UpdateSecret(context.Background(), clusterUuid, secretName).UpdateSecretBody(updateSecretBody).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UpdateSecret``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+**secretName** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateSecretRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **updateSecretBody** | [**UpdateSecretBody**](UpdateSecretBody.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpgradeCluster
+
+> GenerationUpgradeForClusterDto UpgradeCluster(ctx, clusterUuid).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+    clusterUuid := "clusterUuid_example" // string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.DefaultAPI.UpgradeCluster(context.Background(), clusterUuid).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UpgradeCluster``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpgradeCluster`: GenerationUpgradeForClusterDto
+    fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.UpgradeCluster`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpgradeClusterRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**GenerationUpgradeForClusterDto**](GenerationUpgradeForClusterDto.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

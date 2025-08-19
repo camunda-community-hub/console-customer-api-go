@@ -91,6 +91,8 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**GetClients**](docs/DefaultAPI.md#getclients) | **Get** /clusters/{clusterUuid}/clients | 
 *DefaultAPI* | [**GetCluster**](docs/DefaultAPI.md#getcluster) | **Get** /clusters/{clusterUuid} | 
 *DefaultAPI* | [**GetClusters**](docs/DefaultAPI.md#getclusters) | **Get** /clusters | 
+*DefaultAPI* | [**GetCsv**](docs/DefaultAPI.md#getcsv) | **Get** /activity/csv | 
+*DefaultAPI* | [**GetJson**](docs/DefaultAPI.md#getjson) | **Get** /activity/json | 
 *DefaultAPI* | [**GetMembers**](docs/DefaultAPI.md#getmembers) | **Get** /members | 
 *DefaultAPI* | [**GetParameters**](docs/DefaultAPI.md#getparameters) | **Get** /clusters/parameters | 
 *DefaultAPI* | [**GetSecrets**](docs/DefaultAPI.md#getsecrets) | **Get** /clusters/{clusterUuid}/secrets | 
@@ -98,12 +100,15 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**UpdateIpAllowlist**](docs/DefaultAPI.md#updateipallowlist) | **Put** /clusters/{clusterUuid}/ipallowlist | 
 *DefaultAPI* | [**UpdateIpWhitelist**](docs/DefaultAPI.md#updateipwhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
 *DefaultAPI* | [**UpdateMembers**](docs/DefaultAPI.md#updatemembers) | **Post** /members/{email} | 
+*DefaultAPI* | [**UpdateSecret**](docs/DefaultAPI.md#updatesecret) | **Put** /clusters/{clusterUuid}/secrets/{secretName} | 
+*DefaultAPI* | [**UpgradeCluster**](docs/DefaultAPI.md#upgradecluster) | **Put** /clusters/{clusterUuid}/upgrade | 
 *DefaultAPI* | [**Wake**](docs/DefaultAPI.md#wake) | **Put** /clusters/{clusterUuid}/wake | 
 
 
 ## Documentation For Models
 
  - [AssignableOrganizationRoleType](docs/AssignableOrganizationRoleType.md)
+ - [AuditDto](docs/AuditDto.md)
  - [BackupDto](docs/BackupDto.md)
  - [BackupStatus](docs/BackupStatus.md)
  - [CamundaClusterStage](docs/CamundaClusterStage.md)
@@ -126,6 +131,8 @@ Class | Method | HTTP request | Description
  - [CreateSecretBody](docs/CreateSecretBody.md)
  - [CreatedClusterClient](docs/CreatedClusterClient.md)
  - [CreatedClusterClientLinks](docs/CreatedClusterClientLinks.md)
+ - [GenerationUpgradeForClusterDto](docs/GenerationUpgradeForClusterDto.md)
+ - [GenerationUpgradeForClusterDtoCluster](docs/GenerationUpgradeForClusterDtoCluster.md)
  - [IpAllowListBody](docs/IpAllowListBody.md)
  - [IpWhiteListBody](docs/IpWhiteListBody.md)
  - [Member](docs/Member.md)
@@ -144,7 +151,8 @@ Class | Method | HTTP request | Description
  - [ParametersRegionsInnerBackupsInner](docs/ParametersRegionsInnerBackupsInner.md)
  - [ParametersRegionsInnerBackupsInnerRegionsInner](docs/ParametersRegionsInnerBackupsInnerRegionsInner.md)
  - [PostMemberBody](docs/PostMemberBody.md)
- - [UpdateClusterRequest](docs/UpdateClusterRequest.md)
+ - [UpdateClusterBody](docs/UpdateClusterBody.md)
+ - [UpdateSecretBody](docs/UpdateSecretBody.md)
 
 
 ## Documentation For Authorization
