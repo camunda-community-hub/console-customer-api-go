@@ -31,6 +31,67 @@
           }
         ]
       },
+      "AuditDto": {
+        "additionalProperties": false,
+        "properties": {
+          "audit": {
+            "type": "string"
+          },
+          "auditType": {
+            "enum": [
+              "c",
+              "r",
+              "u",
+              "d"
+            ],
+            "type": "string"
+          },
+          "entity": {
+            "type": "string"
+          },
+          "entityAttribute": {
+            "type": "string"
+          },
+          "entityAttributeValueFrom": {
+            "type": "string"
+          },
+          "entityAttributeValueTo": {
+            "type": "string"
+          },
+          "entityId": {
+            "type": "string"
+          },
+          "orgId": {
+            "type": "string"
+          },
+          "parentEntity": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "timestamp": {
+            "format": "double",
+            "type": "number"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "service",
+          "orgId",
+          "audit",
+          "auditType",
+          "entity",
+          "entityId",
+          "userId"
+        ],
+        "type": "object"
+      },
       "BackupDto": {
         "additionalProperties": false,
         "properties": {
@@ -269,9 +330,6 @@
           "status": {
             "description": "A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.",
             "properties": {
-              "identityStatus": {
-                "$ref": "#/components/schemas/ClusterStatus"
-              },
               "operateStatus": {
                 "$ref": "#/components/schemas/ClusterStatus"
               },
@@ -544,6 +602,66 @@
           "clientId",
           "clientSecret",
           "permissions"
+        ],
+        "type": "object"
+      },
+      "GenerationUpgradeForClusterDto": {
+        "additionalProperties": false,
+        "properties": {
+          "cluster": {
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ],
+            "type": "object"
+          },
+          "newGeneration": {
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ],
+            "type": "object"
+          },
+          "oldGeneration": {
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ],
+            "type": "object"
+          },
+          "orgId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "cluster",
+          "oldGeneration",
+          "newGeneration",
+          "orgId"
         ],
         "type": "object"
       },
@@ -839,6 +957,38 @@
           "orgRoles"
         ],
         "type": "object"
+      },
+      "UpdateClusterBody": {
+        "additionalProperties": false,
+        "description": "Used to update a cluster through this API.",
+        "properties": {
+          "name": {
+            "description": "The name of your cluster.",
+            "type": "string"
+          },
+          "numberOfAllocatedHwPackages": {
+            "description": "Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.",
+            "format": "double",
+            "type": "number"
+          },
+          "stageLabel": {
+            "$ref": "#/components/schemas/CamundaClusterStage",
+            "description": "Optional stage label."
+          }
+        },
+        "type": "object"
+      },
+      "UpdateSecretBody": {
+        "additionalProperties": false,
+        "properties": {
+          "secretValue": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "secretValue"
+        ],
+        "type": "object"
       }
     },
     "securitySchemes": {
@@ -861,6 +1011,61 @@
   },
   "openapi": "3.0.0",
   "paths": {
+    "/activity/csv": {
+      "get": {
+        "operationId": "GetCsv",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "fetches all activity events as CSV."
+          },
+          "403": {
+            "description": "You do not have the required permissions to perform this operation."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/activity/json": {
+      "get": {
+        "operationId": "GetJson",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AuditDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "fetches all activity events as JSON."
+          },
+          "403": {
+            "description": "You do not have the required permissions to perform this operation."
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/clusters": {
       "get": {
         "operationId": "GetClusters",
@@ -1031,19 +1236,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "numberOfAllocatedHwPackages": {
-                    "format": "double",
-                    "type": "number"
-                  },
-                  "stageLabel": {
-                    "$ref": "#/components/schemas/CamundaClusterStage"
-                  }
-                },
-                "type": "object"
+                "$ref": "#/components/schemas/UpdateClusterBody"
               }
             }
           },
@@ -1545,6 +1738,96 @@
           },
           "403": {
             "description": "Cluster is not yours"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Updates a secret",
+        "operationId": "UpdateSecret",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "secretName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSecretBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "403": {
+            "description": "Cluster is not yours"
+          },
+          "404": {
+            "description": "Cluster not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/clusters/{clusterUuid}/upgrade": {
+      "put": {
+        "description": "upgrades a cluster identified by the given clusterUuid to the latest generation available.",
+        "operationId": "UpgradeCluster",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerationUpgradeForClusterDto"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "400": {
+            "description": "no upgrade available"
+          },
+          "404": {
+            "description": ""
+          },
+          "412": {
+            "description": "cluster is not ready for upgrade"
           }
         },
         "security": [

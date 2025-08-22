@@ -14,35 +14,37 @@ import (
 	"encoding/json"
 )
 
-// checks if the UpdateClusterRequest type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &UpdateClusterRequest{}
+// checks if the UpdateClusterBody type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UpdateClusterBody{}
 
-// UpdateClusterRequest struct for UpdateClusterRequest
-type UpdateClusterRequest struct {
-	Name                        *string              `json:"name,omitempty"`
+// UpdateClusterBody Used to update a cluster through this API.
+type UpdateClusterBody struct {
+	// The name of your cluster.
+	Name *string `json:"name,omitempty"`
+	// Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.
 	NumberOfAllocatedHwPackages *float64             `json:"numberOfAllocatedHwPackages,omitempty"`
 	StageLabel                  *CamundaClusterStage `json:"stageLabel,omitempty"`
 }
 
-// NewUpdateClusterRequest instantiates a new UpdateClusterRequest object
+// NewUpdateClusterBody instantiates a new UpdateClusterBody object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateClusterRequest() *UpdateClusterRequest {
-	this := UpdateClusterRequest{}
+func NewUpdateClusterBody() *UpdateClusterBody {
+	this := UpdateClusterBody{}
 	return &this
 }
 
-// NewUpdateClusterRequestWithDefaults instantiates a new UpdateClusterRequest object
+// NewUpdateClusterBodyWithDefaults instantiates a new UpdateClusterBody object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewUpdateClusterRequestWithDefaults() *UpdateClusterRequest {
-	this := UpdateClusterRequest{}
+func NewUpdateClusterBodyWithDefaults() *UpdateClusterBody {
+	this := UpdateClusterBody{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *UpdateClusterRequest) GetName() string {
+func (o *UpdateClusterBody) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -52,7 +54,7 @@ func (o *UpdateClusterRequest) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateClusterRequest) GetNameOk() (*string, bool) {
+func (o *UpdateClusterBody) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -60,7 +62,7 @@ func (o *UpdateClusterRequest) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *UpdateClusterRequest) HasName() bool {
+func (o *UpdateClusterBody) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -69,12 +71,12 @@ func (o *UpdateClusterRequest) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *UpdateClusterRequest) SetName(v string) {
+func (o *UpdateClusterBody) SetName(v string) {
 	o.Name = &v
 }
 
 // GetNumberOfAllocatedHwPackages returns the NumberOfAllocatedHwPackages field value if set, zero value otherwise.
-func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackages() float64 {
+func (o *UpdateClusterBody) GetNumberOfAllocatedHwPackages() float64 {
 	if o == nil || IsNil(o.NumberOfAllocatedHwPackages) {
 		var ret float64
 		return ret
@@ -84,7 +86,7 @@ func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackages() float64 {
 
 // GetNumberOfAllocatedHwPackagesOk returns a tuple with the NumberOfAllocatedHwPackages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackagesOk() (*float64, bool) {
+func (o *UpdateClusterBody) GetNumberOfAllocatedHwPackagesOk() (*float64, bool) {
 	if o == nil || IsNil(o.NumberOfAllocatedHwPackages) {
 		return nil, false
 	}
@@ -92,7 +94,7 @@ func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackagesOk() (*float64, boo
 }
 
 // HasNumberOfAllocatedHwPackages returns a boolean if a field has been set.
-func (o *UpdateClusterRequest) HasNumberOfAllocatedHwPackages() bool {
+func (o *UpdateClusterBody) HasNumberOfAllocatedHwPackages() bool {
 	if o != nil && !IsNil(o.NumberOfAllocatedHwPackages) {
 		return true
 	}
@@ -101,12 +103,12 @@ func (o *UpdateClusterRequest) HasNumberOfAllocatedHwPackages() bool {
 }
 
 // SetNumberOfAllocatedHwPackages gets a reference to the given float64 and assigns it to the NumberOfAllocatedHwPackages field.
-func (o *UpdateClusterRequest) SetNumberOfAllocatedHwPackages(v float64) {
+func (o *UpdateClusterBody) SetNumberOfAllocatedHwPackages(v float64) {
 	o.NumberOfAllocatedHwPackages = &v
 }
 
 // GetStageLabel returns the StageLabel field value if set, zero value otherwise.
-func (o *UpdateClusterRequest) GetStageLabel() CamundaClusterStage {
+func (o *UpdateClusterBody) GetStageLabel() CamundaClusterStage {
 	if o == nil || IsNil(o.StageLabel) {
 		var ret CamundaClusterStage
 		return ret
@@ -116,7 +118,7 @@ func (o *UpdateClusterRequest) GetStageLabel() CamundaClusterStage {
 
 // GetStageLabelOk returns a tuple with the StageLabel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateClusterRequest) GetStageLabelOk() (*CamundaClusterStage, bool) {
+func (o *UpdateClusterBody) GetStageLabelOk() (*CamundaClusterStage, bool) {
 	if o == nil || IsNil(o.StageLabel) {
 		return nil, false
 	}
@@ -124,7 +126,7 @@ func (o *UpdateClusterRequest) GetStageLabelOk() (*CamundaClusterStage, bool) {
 }
 
 // HasStageLabel returns a boolean if a field has been set.
-func (o *UpdateClusterRequest) HasStageLabel() bool {
+func (o *UpdateClusterBody) HasStageLabel() bool {
 	if o != nil && !IsNil(o.StageLabel) {
 		return true
 	}
@@ -133,11 +135,11 @@ func (o *UpdateClusterRequest) HasStageLabel() bool {
 }
 
 // SetStageLabel gets a reference to the given CamundaClusterStage and assigns it to the StageLabel field.
-func (o *UpdateClusterRequest) SetStageLabel(v CamundaClusterStage) {
+func (o *UpdateClusterBody) SetStageLabel(v CamundaClusterStage) {
 	o.StageLabel = &v
 }
 
-func (o UpdateClusterRequest) MarshalJSON() ([]byte, error) {
+func (o UpdateClusterBody) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -145,7 +147,7 @@ func (o UpdateClusterRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o UpdateClusterRequest) ToMap() (map[string]interface{}, error) {
+func (o UpdateClusterBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
@@ -159,38 +161,38 @@ func (o UpdateClusterRequest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableUpdateClusterRequest struct {
-	value *UpdateClusterRequest
+type NullableUpdateClusterBody struct {
+	value *UpdateClusterBody
 	isSet bool
 }
 
-func (v NullableUpdateClusterRequest) Get() *UpdateClusterRequest {
+func (v NullableUpdateClusterBody) Get() *UpdateClusterBody {
 	return v.value
 }
 
-func (v *NullableUpdateClusterRequest) Set(val *UpdateClusterRequest) {
+func (v *NullableUpdateClusterBody) Set(val *UpdateClusterBody) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableUpdateClusterRequest) IsSet() bool {
+func (v NullableUpdateClusterBody) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableUpdateClusterRequest) Unset() {
+func (v *NullableUpdateClusterBody) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableUpdateClusterRequest(val *UpdateClusterRequest) *NullableUpdateClusterRequest {
-	return &NullableUpdateClusterRequest{value: val, isSet: true}
+func NewNullableUpdateClusterBody(val *UpdateClusterBody) *NullableUpdateClusterBody {
+	return &NullableUpdateClusterBody{value: val, isSet: true}
 }
 
-func (v NullableUpdateClusterRequest) MarshalJSON() ([]byte, error) {
+func (v NullableUpdateClusterBody) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableUpdateClusterRequest) UnmarshalJSON(src []byte) error {
+func (v *NullableUpdateClusterBody) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

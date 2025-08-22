@@ -1,104 +1,104 @@
-# UpdateClusterRequest
+# UpdateClusterBody
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **string** |  | [optional] 
-**NumberOfAllocatedHwPackages** | Pointer to **float64** |  | [optional] 
+**Name** | Pointer to **string** | The name of your cluster. | [optional] 
+**NumberOfAllocatedHwPackages** | Pointer to **float64** | Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types. | [optional] 
 **StageLabel** | Pointer to [**CamundaClusterStage**](CamundaClusterStage.md) |  | [optional] 
 
 ## Methods
 
-### NewUpdateClusterRequest
+### NewUpdateClusterBody
 
-`func NewUpdateClusterRequest() *UpdateClusterRequest`
+`func NewUpdateClusterBody() *UpdateClusterBody`
 
-NewUpdateClusterRequest instantiates a new UpdateClusterRequest object
+NewUpdateClusterBody instantiates a new UpdateClusterBody object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewUpdateClusterRequestWithDefaults
+### NewUpdateClusterBodyWithDefaults
 
-`func NewUpdateClusterRequestWithDefaults() *UpdateClusterRequest`
+`func NewUpdateClusterBodyWithDefaults() *UpdateClusterBody`
 
-NewUpdateClusterRequestWithDefaults instantiates a new UpdateClusterRequest object
+NewUpdateClusterBodyWithDefaults instantiates a new UpdateClusterBody object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *UpdateClusterRequest) GetName() string`
+`func (o *UpdateClusterBody) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *UpdateClusterRequest) GetNameOk() (*string, bool)`
+`func (o *UpdateClusterBody) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *UpdateClusterRequest) SetName(v string)`
+`func (o *UpdateClusterBody) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *UpdateClusterRequest) HasName() bool`
+`func (o *UpdateClusterBody) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### GetNumberOfAllocatedHwPackages
 
-`func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackages() float64`
+`func (o *UpdateClusterBody) GetNumberOfAllocatedHwPackages() float64`
 
 GetNumberOfAllocatedHwPackages returns the NumberOfAllocatedHwPackages field if non-nil, zero value otherwise.
 
 ### GetNumberOfAllocatedHwPackagesOk
 
-`func (o *UpdateClusterRequest) GetNumberOfAllocatedHwPackagesOk() (*float64, bool)`
+`func (o *UpdateClusterBody) GetNumberOfAllocatedHwPackagesOk() (*float64, bool)`
 
 GetNumberOfAllocatedHwPackagesOk returns a tuple with the NumberOfAllocatedHwPackages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNumberOfAllocatedHwPackages
 
-`func (o *UpdateClusterRequest) SetNumberOfAllocatedHwPackages(v float64)`
+`func (o *UpdateClusterBody) SetNumberOfAllocatedHwPackages(v float64)`
 
 SetNumberOfAllocatedHwPackages sets NumberOfAllocatedHwPackages field to given value.
 
 ### HasNumberOfAllocatedHwPackages
 
-`func (o *UpdateClusterRequest) HasNumberOfAllocatedHwPackages() bool`
+`func (o *UpdateClusterBody) HasNumberOfAllocatedHwPackages() bool`
 
 HasNumberOfAllocatedHwPackages returns a boolean if a field has been set.
 
 ### GetStageLabel
 
-`func (o *UpdateClusterRequest) GetStageLabel() CamundaClusterStage`
+`func (o *UpdateClusterBody) GetStageLabel() CamundaClusterStage`
 
 GetStageLabel returns the StageLabel field if non-nil, zero value otherwise.
 
 ### GetStageLabelOk
 
-`func (o *UpdateClusterRequest) GetStageLabelOk() (*CamundaClusterStage, bool)`
+`func (o *UpdateClusterBody) GetStageLabelOk() (*CamundaClusterStage, bool)`
 
 GetStageLabelOk returns a tuple with the StageLabel field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStageLabel
 
-`func (o *UpdateClusterRequest) SetStageLabel(v CamundaClusterStage)`
+`func (o *UpdateClusterBody) SetStageLabel(v CamundaClusterStage)`
 
 SetStageLabel sets StageLabel field to given value.
 
 ### HasStageLabel
 
-`func (o *UpdateClusterRequest) HasStageLabel() bool`
+`func (o *UpdateClusterBody) HasStageLabel() bool`
 
 HasStageLabel returns a boolean if a field has been set.
 

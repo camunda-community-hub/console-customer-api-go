@@ -10,6 +10,38 @@ info:
 servers:
 - url: https://api.cloud.camunda.io
 paths:
+  /activity/csv:
+    get:
+      operationId: GetCsv
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: fetches all activity events as CSV.
+        "403":
+          description: You do not have the required permissions to perform this operation.
+      security:
+      - bearer: []
+  /activity/json:
+    get:
+      operationId: GetJson
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AuditDto'
+                type: array
+          description: fetches all activity events as JSON.
+        "403":
+          description: You do not have the required permissions to perform this operation.
+      security:
+      - bearer: []
   /clusters:
     get:
       operationId: GetClusters
@@ -115,7 +147,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateCluster_request'
+              $ref: '#/components/schemas/UpdateClusterBody'
         required: true
       responses:
         "204":
@@ -452,6 +484,67 @@ paths:
           description: Cluster is not yours
       security:
       - bearer: []
+    put:
+      description: Updates a secret
+      operationId: UpdateSecret
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: secretName
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSecretBody'
+        required: true
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/upgrade:
+    put:
+      description: upgrades a cluster identified by the given clusterUuid to the latest
+        generation available.
+      operationId: UpgradeCluster
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerationUpgradeForClusterDto'
+          description: Ok
+        "400":
+          description: no upgrade available
+        "404":
+          description: ""
+        "412":
+          description: cluster is not ready for upgrade
+      security:
+      - bearer: []
   /clusters/{clusterUuid}/wake:
     put:
       description: Resumes a 'Suspended' Cluster.
@@ -548,6 +641,64 @@ components:
       - $ref: '#/components/schemas/OrganizationRole.DEVELOPER'
       - $ref: '#/components/schemas/OrganizationRole.VISITOR'
       - $ref: '#/components/schemas/OrganizationRole.MODELER'
+    AuditDto:
+      additionalProperties: false
+      example:
+        entityAttributeValueFrom: entityAttributeValueFrom
+        parentEntity: parentEntity
+        entityId: entityId
+        auditType: c
+        parentEntityId: parentEntityId
+        entityAttributeValueTo: entityAttributeValueTo
+        userId: userId
+        orgId: orgId
+        entityAttribute: entityAttribute
+        audit: audit
+        service: service
+        entity: entity
+        timestamp: 0.8008281904610115
+      properties:
+        audit:
+          type: string
+        auditType:
+          enum:
+          - c
+          - r
+          - u
+          - d
+          type: string
+        entity:
+          type: string
+        entityAttribute:
+          type: string
+        entityAttributeValueFrom:
+          type: string
+        entityAttributeValueTo:
+          type: string
+        entityId:
+          type: string
+        orgId:
+          type: string
+        parentEntity:
+          type: string
+        parentEntityId:
+          type: string
+        service:
+          type: string
+        timestamp:
+          format: double
+          type: number
+        userId:
+          type: string
+      required:
+      - audit
+      - auditType
+      - entity
+      - entityId
+      - orgId
+      - service
+      - userId
+      type: object
     BackupDto:
       additionalProperties: false
       example:
@@ -655,7 +806,6 @@ components:
         status:
           operateStatus: null
           ready: null
-          identityStatus: "{}"
           tasklistStatus: null
           optimizeStatus: null
           zeebeStatus: null
@@ -926,6 +1076,34 @@ components:
       - permissions
       - uuid
       type: object
+    GenerationUpgradeForClusterDto:
+      additionalProperties: false
+      example:
+        cluster:
+          name: name
+          id: id
+        newGeneration:
+          name: name
+          id: id
+        oldGeneration:
+          name: name
+          id: id
+        orgId: orgId
+      properties:
+        cluster:
+          $ref: '#/components/schemas/GenerationUpgradeForClusterDto_cluster'
+        newGeneration:
+          $ref: '#/components/schemas/GenerationUpgradeForClusterDto_cluster'
+        oldGeneration:
+          $ref: '#/components/schemas/GenerationUpgradeForClusterDto_cluster'
+        orgId:
+          type: string
+      required:
+      - cluster
+      - newGeneration
+      - oldGeneration
+      - orgId
+      type: object
     IpAllowListBody:
       additionalProperties: false
       example:
@@ -1122,6 +1300,35 @@ components:
       required:
       - orgRoles
       type: object
+    UpdateClusterBody:
+      additionalProperties: false
+      description: Used to update a cluster through this API.
+      example:
+        name: name
+        numberOfAllocatedHwPackages: 0.8008281904610115
+        stageLabel: null
+      properties:
+        name:
+          description: The name of your cluster.
+          type: string
+        numberOfAllocatedHwPackages:
+          description: "Optional number uf hardware packages, defaults to 1. Only\
+            \ availabe on request and for Advanced offering cluster types."
+          format: double
+          type: number
+        stageLabel:
+          $ref: '#/components/schemas/CamundaClusterStage'
+      type: object
+    UpdateSecretBody:
+      additionalProperties: false
+      example:
+        secretValue: secretValue
+      properties:
+        secretValue:
+          type: string
+      required:
+      - secretValue
+      type: object
     CreateCluster_200_response:
       example:
         clusterId: clusterId
@@ -1130,16 +1337,6 @@ components:
           type: string
       required:
       - clusterId
-      type: object
-    UpdateCluster_request:
-      properties:
-        name:
-          type: string
-        numberOfAllocatedHwPackages:
-          format: double
-          type: number
-        stageLabel:
-          $ref: '#/components/schemas/CamundaClusterStage'
       type: object
     Cluster_backupRegion:
       description: The data center where your backups are stored. Only available if
@@ -1261,13 +1458,10 @@ components:
       example:
         operateStatus: null
         ready: null
-        identityStatus: "{}"
         tasklistStatus: null
         optimizeStatus: null
         zeebeStatus: null
       properties:
-        identityStatus:
-          $ref: '#/components/schemas/ClusterStatus'
         operateStatus:
           $ref: '#/components/schemas/ClusterComponentStatus'
         optimizeStatus:
@@ -1305,6 +1499,19 @@ components:
           type: string
         zeebe:
           type: string
+      type: object
+    GenerationUpgradeForClusterDto_cluster:
+      example:
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - name
       type: object
     Parameters_channels_inner_allowedGenerations_inner:
       example:
