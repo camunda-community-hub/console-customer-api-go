@@ -19,6 +19,8 @@ var _ MappedNullable = &UpdateClusterBody{}
 
 // UpdateClusterBody Used to update a cluster through this API.
 type UpdateClusterBody struct {
+	// Optional description for the cluster (max 150 characters).
+	Description *string `json:"description,omitempty"`
 	// The name of your cluster.
 	Name *string `json:"name,omitempty"`
 	// Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.
@@ -41,6 +43,38 @@ func NewUpdateClusterBody() *UpdateClusterBody {
 func NewUpdateClusterBodyWithDefaults() *UpdateClusterBody {
 	this := UpdateClusterBody{}
 	return &this
+}
+
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *UpdateClusterBody) GetDescription() string {
+	if o == nil || IsNil(o.Description) {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UpdateClusterBody) GetDescriptionOk() (*string, bool) {
+	if o == nil || IsNil(o.Description) {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *UpdateClusterBody) HasDescription() bool {
+	if o != nil && !IsNil(o.Description) {
+		return true
+	}
+
+	return false
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *UpdateClusterBody) SetDescription(v string) {
+	o.Description = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -149,6 +183,9 @@ func (o UpdateClusterBody) MarshalJSON() ([]byte, error) {
 
 func (o UpdateClusterBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Description) {
+		toSerialize["description"] = o.Description
+	}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}

@@ -1,28 +1,21 @@
 # AssignableOrganizationRoleType
 
-## Properties
+## Enum
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
 
-## Methods
+* `ADMIN` (value: `"admin"`)
 
-### NewAssignableOrganizationRoleType
+* `OPERATIONSENGINEER` (value: `"operationsengineer"`)
 
-`func NewAssignableOrganizationRoleType() *AssignableOrganizationRoleType`
+* `TASKUSER` (value: `"taskuser"`)
 
-NewAssignableOrganizationRoleType instantiates a new AssignableOrganizationRoleType object
-This constructor will assign default values to properties that have it defined,
-and makes sure properties required by API are set, but the set of arguments
-will change when the set of required properties is changed
+* `ANALYST` (value: `"analyst"`)
 
-### NewAssignableOrganizationRoleTypeWithDefaults
+* `DEVELOPER` (value: `"developer"`)
 
-`func NewAssignableOrganizationRoleTypeWithDefaults() *AssignableOrganizationRoleType`
+* `VISITOR` (value: `"visitor"`)
 
-NewAssignableOrganizationRoleTypeWithDefaults instantiates a new AssignableOrganizationRoleType object
-This constructor will only assign default values to properties that have it defined,
-but it doesn't guarantee that properties required by API are set
+* `MODELER` (value: `"modeler"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

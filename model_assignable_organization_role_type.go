@@ -15,145 +15,72 @@ import (
 	"fmt"
 )
 
-// AssignableOrganizationRoleType struct for AssignableOrganizationRoleType
-type AssignableOrganizationRoleType struct {
-	OrganizationRoleADMIN              *OrganizationRoleADMIN
-	OrganizationRoleANALYST            *OrganizationRoleANALYST
-	OrganizationRoleDEVELOPER          *OrganizationRoleDEVELOPER
-	OrganizationRoleMODELER            *OrganizationRoleMODELER
-	OrganizationRoleOPERATIONSENGINEER *OrganizationRoleOPERATIONSENGINEER
-	OrganizationRoleTASKUSER           *OrganizationRoleTASKUSER
-	OrganizationRoleVISITOR            *OrganizationRoleVISITOR
+// AssignableOrganizationRoleType the model 'AssignableOrganizationRoleType'
+type AssignableOrganizationRoleType string
+
+// List of AssignableOrganizationRoleType
+const (
+	ASSIGNABLEORGANIZATIONROLETYPE_ADMIN              AssignableOrganizationRoleType = "admin"
+	ASSIGNABLEORGANIZATIONROLETYPE_OPERATIONSENGINEER AssignableOrganizationRoleType = "operationsengineer"
+	ASSIGNABLEORGANIZATIONROLETYPE_TASKUSER           AssignableOrganizationRoleType = "taskuser"
+	ASSIGNABLEORGANIZATIONROLETYPE_ANALYST            AssignableOrganizationRoleType = "analyst"
+	ASSIGNABLEORGANIZATIONROLETYPE_DEVELOPER          AssignableOrganizationRoleType = "developer"
+	ASSIGNABLEORGANIZATIONROLETYPE_VISITOR            AssignableOrganizationRoleType = "visitor"
+	ASSIGNABLEORGANIZATIONROLETYPE_MODELER            AssignableOrganizationRoleType = "modeler"
+)
+
+// All allowed values of AssignableOrganizationRoleType enum
+var AllowedAssignableOrganizationRoleTypeEnumValues = []AssignableOrganizationRoleType{
+	"admin",
+	"operationsengineer",
+	"taskuser",
+	"analyst",
+	"developer",
+	"visitor",
+	"modeler",
 }
 
-// Unmarshal JSON data into any of the pointers in the struct
-func (dst *AssignableOrganizationRoleType) UnmarshalJSON(data []byte) error {
-	var err error
-	// try to unmarshal JSON data into OrganizationRoleADMIN
-	err = json.Unmarshal(data, &dst.OrganizationRoleADMIN)
-	if err == nil {
-		jsonOrganizationRoleADMIN, _ := json.Marshal(dst.OrganizationRoleADMIN)
-		if string(jsonOrganizationRoleADMIN) == "{}" { // empty struct
-			dst.OrganizationRoleADMIN = nil
-		} else {
-			return nil // data stored in dst.OrganizationRoleADMIN, return on the first match
+func (v *AssignableOrganizationRoleType) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := AssignableOrganizationRoleType(value)
+	for _, existing := range AllowedAssignableOrganizationRoleTypeEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
 		}
-	} else {
-		dst.OrganizationRoleADMIN = nil
 	}
 
-	// try to unmarshal JSON data into OrganizationRoleANALYST
-	err = json.Unmarshal(data, &dst.OrganizationRoleANALYST)
-	if err == nil {
-		jsonOrganizationRoleANALYST, _ := json.Marshal(dst.OrganizationRoleANALYST)
-		if string(jsonOrganizationRoleANALYST) == "{}" { // empty struct
-			dst.OrganizationRoleANALYST = nil
-		} else {
-			return nil // data stored in dst.OrganizationRoleANALYST, return on the first match
-		}
-	} else {
-		dst.OrganizationRoleANALYST = nil
-	}
-
-	// try to unmarshal JSON data into OrganizationRoleDEVELOPER
-	err = json.Unmarshal(data, &dst.OrganizationRoleDEVELOPER)
-	if err == nil {
-		jsonOrganizationRoleDEVELOPER, _ := json.Marshal(dst.OrganizationRoleDEVELOPER)
-		if string(jsonOrganizationRoleDEVELOPER) == "{}" { // empty struct
-			dst.OrganizationRoleDEVELOPER = nil
-		} else {
-			return nil // data stored in dst.OrganizationRoleDEVELOPER, return on the first match
-		}
-	} else {
-		dst.OrganizationRoleDEVELOPER = nil
-	}
-
-	// try to unmarshal JSON data into OrganizationRoleMODELER
-	err = json.Unmarshal(data, &dst.OrganizationRoleMODELER)
-	if err == nil {
-		jsonOrganizationRoleMODELER, _ := json.Marshal(dst.OrganizationRoleMODELER)
-		if string(jsonOrganizationRoleMODELER) == "{}" { // empty struct
-			dst.OrganizationRoleMODELER = nil
-		} else {
-			return nil // data stored in dst.OrganizationRoleMODELER, return on the first match
-		}
-	} else {
-		dst.OrganizationRoleMODELER = nil
-	}
-
-	// try to unmarshal JSON data into OrganizationRoleOPERATIONSENGINEER
-	err = json.Unmarshal(data, &dst.OrganizationRoleOPERATIONSENGINEER)
-	if err == nil {
-		jsonOrganizationRoleOPERATIONSENGINEER, _ := json.Marshal(dst.OrganizationRoleOPERATIONSENGINEER)
-		if string(jsonOrganizationRoleOPERATIONSENGINEER) == "{}" { // empty struct
-			dst.OrganizationRoleOPERATIONSENGINEER = nil
-		} else {
-			return nil // data stored in dst.OrganizationRoleOPERATIONSENGINEER, return on the first match
-		}
-	} else {
-		dst.OrganizationRoleOPERATIONSENGINEER = nil
-	}
-
-	// try to unmarshal JSON data into OrganizationRoleTASKUSER
-	err = json.Unmarshal(data, &dst.OrganizationRoleTASKUSER)
-	if err == nil {
-		jsonOrganizationRoleTASKUSER, _ := json.Marshal(dst.OrganizationRoleTASKUSER)
-		if string(jsonOrganizationRoleTASKUSER) == "{}" { // empty struct
-			dst.OrganizationRoleTASKUSER = nil
-		} else {
-			return nil // data stored in dst.OrganizationRoleTASKUSER, return on the first match
-		}
-	} else {
-		dst.OrganizationRoleTASKUSER = nil
-	}
-
-	// try to unmarshal JSON data into OrganizationRoleVISITOR
-	err = json.Unmarshal(data, &dst.OrganizationRoleVISITOR)
-	if err == nil {
-		jsonOrganizationRoleVISITOR, _ := json.Marshal(dst.OrganizationRoleVISITOR)
-		if string(jsonOrganizationRoleVISITOR) == "{}" { // empty struct
-			dst.OrganizationRoleVISITOR = nil
-		} else {
-			return nil // data stored in dst.OrganizationRoleVISITOR, return on the first match
-		}
-	} else {
-		dst.OrganizationRoleVISITOR = nil
-	}
-
-	return fmt.Errorf("data failed to match schemas in anyOf(AssignableOrganizationRoleType)")
+	return fmt.Errorf("%+v is not a valid AssignableOrganizationRoleType", value)
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src *AssignableOrganizationRoleType) MarshalJSON() ([]byte, error) {
-	if src.OrganizationRoleADMIN != nil {
-		return json.Marshal(&src.OrganizationRoleADMIN)
+// NewAssignableOrganizationRoleTypeFromValue returns a pointer to a valid AssignableOrganizationRoleType
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewAssignableOrganizationRoleTypeFromValue(v string) (*AssignableOrganizationRoleType, error) {
+	ev := AssignableOrganizationRoleType(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for AssignableOrganizationRoleType: valid values are %v", v, AllowedAssignableOrganizationRoleTypeEnumValues)
 	}
+}
 
-	if src.OrganizationRoleANALYST != nil {
-		return json.Marshal(&src.OrganizationRoleANALYST)
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v AssignableOrganizationRoleType) IsValid() bool {
+	for _, existing := range AllowedAssignableOrganizationRoleTypeEnumValues {
+		if existing == v {
+			return true
+		}
 	}
+	return false
+}
 
-	if src.OrganizationRoleDEVELOPER != nil {
-		return json.Marshal(&src.OrganizationRoleDEVELOPER)
-	}
-
-	if src.OrganizationRoleMODELER != nil {
-		return json.Marshal(&src.OrganizationRoleMODELER)
-	}
-
-	if src.OrganizationRoleOPERATIONSENGINEER != nil {
-		return json.Marshal(&src.OrganizationRoleOPERATIONSENGINEER)
-	}
-
-	if src.OrganizationRoleTASKUSER != nil {
-		return json.Marshal(&src.OrganizationRoleTASKUSER)
-	}
-
-	if src.OrganizationRoleVISITOR != nil {
-		return json.Marshal(&src.OrganizationRoleVISITOR)
-	}
-
-	return nil, nil // no data in anyOf schemas
+// Ptr returns reference to AssignableOrganizationRoleType value
+func (v AssignableOrganizationRoleType) Ptr() *AssignableOrganizationRoleType {
+	return &v
 }
 
 type NullableAssignableOrganizationRoleType struct {

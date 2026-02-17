@@ -11,6 +11,7 @@ API version: 1.3.3
 package openapi
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -26,7 +27,9 @@ type Cluster struct {
 	BackupRegion *ClusterBackupRegion `json:"backupRegion,omitempty"`
 	Channel      ClusterChannel       `json:"channel"`
 	Created      time.Time            `json:"created"`
-	Generation   ClusterGeneration    `json:"generation"`
+	// Optional description for the cluster (max 150 characters).
+	Description *string           `json:"description,omitempty"`
+	Generation  ClusterGeneration `json:"generation"`
 	// the IP Allowlist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
 	Ipallowlist []ClusterIpallowlistInner `json:"ipallowlist,omitempty"`
 	// DEPRECATED: this field is going to be removed in June 2025, please use ipallowlist instead  the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
@@ -174,6 +177,38 @@ func (o *Cluster) GetCreatedOk() (*time.Time, bool) {
 // SetCreated sets field value
 func (o *Cluster) SetCreated(v time.Time) {
 	o.Created = v
+}
+
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *Cluster) GetDescription() string {
+	if o == nil || IsNil(o.Description) {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetDescriptionOk() (*string, bool) {
+	if o == nil || IsNil(o.Description) {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *Cluster) HasDescription() bool {
+	if o != nil && !IsNil(o.Description) {
+		return true
+	}
+
+	return false
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *Cluster) SetDescription(v string) {
+	o.Description = &v
 }
 
 // GetGeneration returns the Generation field value
@@ -480,6 +515,9 @@ func (o Cluster) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["channel"] = o.Channel
 	toSerialize["created"] = o.Created
+	if !IsNil(o.Description) {
+		toSerialize["description"] = o.Description
+	}
 	toSerialize["generation"] = o.Generation
 	if !IsNil(o.Ipallowlist) {
 		toSerialize["ipallowlist"] = o.Ipallowlist
@@ -500,7 +538,7 @@ func (o Cluster) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Cluster) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -520,7 +558,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 
 	allProperties := make(map[string]interface{})
 
-	err = json.Unmarshal(bytes, &allProperties)
+	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
 		return err
@@ -534,7 +572,9 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 
 	varCluster := _Cluster{}
 
-	err = json.Unmarshal(bytes, &varCluster)
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varCluster)
 
 	if err != nil {
 		return err

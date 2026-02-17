@@ -25,6 +25,10 @@ index 7bf6d0c..0e33b74 100644
 -                "$ref": "#/components/schemas/ClusterStatus"
 +                "$ref": "#/components/schemas/ClusterComponentStatus"
                }
+               "connectorStatus": {
+                 "$ref": "#/components/schemas/ClusterStatus"
+                 "$ref": "#/components/schemas/ClusterComponentStatus"
+               }
              },
              "required": [
 @@ -319,7 +319,7 @@

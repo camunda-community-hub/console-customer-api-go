@@ -1,4 +1,4 @@
-OPENAPI_GENERATOR_IMAGE = openapitools/openapi-generator-cli:v7.1.0
+OPENAPI_GENERATOR_IMAGE = openapitools/openapi-generator-cli:v7.20.0
 OPENAPI_SPEC_FILE = openapi.json
 
 .PHONY: all $(OPENAPI_SPEC_FILE) clean generate test
