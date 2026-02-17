@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info:
-  contact: {}
+  contact:
+    name: Camunda
   description: Manage Camunda Clusters and API Clients via API.
   license:
     name: ' '
@@ -35,7 +36,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/AuditDto'
+                  $ref: "#/components/schemas/AuditDto"
                 type: array
           description: fetches all activity events as JSON.
         "403":
@@ -52,7 +53,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Cluster'
+                  $ref: "#/components/schemas/Cluster"
                 type: array
           description: A list of all your Camunda clusters.
       security:
@@ -64,14 +65,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateClusterBody'
+              $ref: "#/components/schemas/CreateCluster_request"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateCluster_200_response'
+                $ref: "#/components/schemas/CreateCluster_200_response"
           description: The clusterUuid of your new cluster.
         "400":
           description: "Name is too long, invalid clusterPlanType, invalid region,\
@@ -88,7 +89,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Parameters'
+                $ref: "#/components/schemas/Parameters"
           description: Ok
       security:
       - bearer: []
@@ -126,7 +127,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Cluster'
+                $ref: "#/components/schemas/Cluster"
           description: Detailed information for the given clusterUuid.
         "404":
           description: Cluster not found
@@ -147,7 +148,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateClusterBody'
+              $ref: "#/components/schemas/UpdateClusterBody"
         required: true
       responses:
         "204":
@@ -173,7 +174,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/BackupDto'
+                  $ref: "#/components/schemas/BackupDto"
                 type: array
           description: A list of all the backups created for your Camunda cluster.
         "403":
@@ -198,7 +199,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BackupDto'
+                $ref: "#/components/schemas/BackupDto"
           description: Ok
         "404":
           description: Cluster not found
@@ -228,7 +229,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BackupDto'
+                $ref: "#/components/schemas/BackupDto"
           description: Ok
         "403":
           description: Cluster is not yours
@@ -251,7 +252,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/ClusterClient'
+                  $ref: "#/components/schemas/ClusterClient"
                 type: array
           description: A list of all the clients currently configured for your Camunda
             cluster.
@@ -275,14 +276,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateClusterClientBody'
+              $ref: "#/components/schemas/CreateClusterClientBody"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreatedClusterClient'
+                $ref: "#/components/schemas/CreatedClusterClient"
           description: Ok
         "400":
           description: Client names must be unique
@@ -342,7 +343,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClusterClientConnectionDetails'
+                $ref: "#/components/schemas/ClusterClientConnectionDetails"
           description: The connection parameters needed to use the client with your
             Camunda cluster.
         "403":
@@ -370,7 +371,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IpAllowListBody'
+              $ref: "#/components/schemas/IpAllowListBody"
         required: true
       responses:
         "204":
@@ -396,11 +397,170 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IpWhiteListBody'
+              $ref: "#/components/schemas/IpWhiteListBody"
         required: true
       responses:
         "204":
           description: No content
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/monitoring:
+    delete:
+      description: Deactivates External Monitoring for a cluster
+      operationId: DeactivateMonitoring
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+        "409":
+          description: External Monitoring not activated
+      security:
+      - bearer: []
+    post:
+      description: Activates External Monitoring for a cluster
+      operationId: ActivateMonitoring
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+        "409":
+          description: External Monitoring already activated
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/monitoring/clients:
+    get:
+      description: Get all External Monitoring clients for a cluster
+      operationId: GetMonitoringClients
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetMonitoringClients_200_response"
+          description: A list of all External Monitoring clients and the monitoring
+            status for your Camunda cluster.
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
+    post:
+      description: Creates a new External Monitoring client
+      operationId: CreateMonitoringClient
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMonitoringClient_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateMonitoringClient_200_response"
+          description: Ok
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/monitoring/clients/{clientUuid}:
+    delete:
+      description: Deletes an External Monitoring client
+      operationId: DeleteMonitoringClient
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: clientUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Client not found
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/monitoring/clients/{clientUuid}/rotate:
+    post:
+      description: Rotates the password for an External Monitoring client
+      operationId: RotateMonitoringClientPassword
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: clientUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateMonitoringClient_200_response"
+          description: Ok
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Client not found
       security:
       - bearer: []
   /clusters/{clusterUuid}/secrets:
@@ -419,7 +579,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClusterSecrets'
+                $ref: "#/components/schemas/ClusterSecrets"
           description: A list of all the secrets currently configured for your Camunda
             cluster.
         "403":
@@ -443,7 +603,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateSecretBody'
+              $ref: "#/components/schemas/CreateSecretBody"
         required: true
       responses:
         "204":
@@ -506,7 +666,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateSecretBody'
+              $ref: "#/components/schemas/UpdateSecretBody"
         required: true
       responses:
         "204":
@@ -515,6 +675,81 @@ paths:
           description: Cluster is not yours
         "404":
           description: Cluster not found
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/secure-connectivity:
+    delete:
+      description: Deactivates Secure Connectivity for a cluster
+      operationId: DeactivateSecureConnectivity
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+        "409":
+          description: Secure Connectivity not activated
+      security:
+      - bearer: []
+    get:
+      description: Get Secure Connectivity status for a cluster
+      operationId: GetSecureConnectivityStatus
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetSecureConnectivityStatus_200_response"
+          description: The secure connectivity status for your Camunda cluster.
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
+    post:
+      description: Activates Secure Connectivity for a cluster
+      operationId: ActivateSecureConnectivity
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ActivateSecureConnectivity_request"
+        required: true
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+        "409":
+          description: Secure Connectivity already activated
       security:
       - bearer: []
   /clusters/{clusterUuid}/upgrade:
@@ -535,7 +770,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GenerationUpgradeForClusterDto'
+                $ref: "#/components/schemas/GenerationUpgradeForClusterDto"
           description: Ok
         "400":
           description: no upgrade available
@@ -572,7 +807,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Member'
+                  $ref: "#/components/schemas/Member"
                 type: array
           description: the list of members and pending invites for your organization.
         "403":
@@ -613,7 +848,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostMemberBody'
+              $ref: "#/components/schemas/PostMemberBody"
         required: true
       responses:
         "204":
@@ -625,6 +860,23 @@ paths:
             or no open seats left
       security:
       - bearer: []
+  /meta/ip-ranges:
+    get:
+      description: |-
+        This endpoint only exposes egress IP addresses for the related services.
+        Expected changes will be published through the API at least 24 hours in advance.
+        We expect interested customers to periodically read this list from the API and reflect the changes in their systems.
+        In case of emergency, we may have to update these addresses faster than 24 hours and we may not be able to pre-announce the changes in advance.
+      operationId: GetMeta
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetaDto"
+          description: A list of all the IP ranges for Camunda SaaS products.
+      security: []
 components:
   examples: {}
   headers: {}
@@ -633,14 +885,15 @@ components:
   responses: {}
   schemas:
     AssignableOrganizationRoleType:
-      anyOf:
-      - $ref: '#/components/schemas/OrganizationRole.ADMIN'
-      - $ref: '#/components/schemas/OrganizationRole.OPERATIONS_ENGINEER'
-      - $ref: '#/components/schemas/OrganizationRole.TASK_USER'
-      - $ref: '#/components/schemas/OrganizationRole.ANALYST'
-      - $ref: '#/components/schemas/OrganizationRole.DEVELOPER'
-      - $ref: '#/components/schemas/OrganizationRole.VISITOR'
-      - $ref: '#/components/schemas/OrganizationRole.MODELER'
+      enum:
+      - admin
+      - operationsengineer
+      - taskuser
+      - analyst
+      - developer
+      - visitor
+      - modeler
+      type: string
     AuditDto:
       additionalProperties: false
       example:
@@ -702,7 +955,7 @@ components:
     BackupDto:
       additionalProperties: false
       example:
-        operateStatus: null
+        operateStatus: In progress
         created: created
         tasklistStatus: null
         name: name
@@ -719,17 +972,17 @@ components:
         name:
           type: string
         operateStatus:
-          $ref: '#/components/schemas/BackupStatus'
+          $ref: "#/components/schemas/BackupStatus"
         optimizeStatus:
-          $ref: '#/components/schemas/BackupStatus'
+          $ref: "#/components/schemas/BackupStatus"
         status:
-          $ref: '#/components/schemas/BackupStatus'
+          $ref: "#/components/schemas/BackupStatus"
         tasklistStatus:
-          $ref: '#/components/schemas/BackupStatus'
+          $ref: "#/components/schemas/BackupStatus"
         uuid:
           type: string
         zeebeStatus:
-          $ref: '#/components/schemas/BackupStatus'
+          $ref: "#/components/schemas/BackupStatus"
       required:
       - completed
       - created
@@ -748,6 +1001,62 @@ components:
       - Complete
       - "-"
       type: string
+    ByomClientDto:
+      additionalProperties: false
+      example:
+        lastUsed: 2000-01-23T04:56:07.000+00:00
+        createdByName: createdByName
+        createdBy: createdBy
+        created: 2000-01-23T04:56:07.000+00:00
+        name: name
+        uuid: uuid
+        username: username
+      properties:
+        created:
+          format: date-time
+          type: string
+        createdBy:
+          type: string
+        createdByName:
+          type: string
+        lastUsed:
+          format: date-time
+          type: string
+        name:
+          type: string
+        username:
+          type: string
+        uuid:
+          type: string
+      required:
+      - created
+      - createdBy
+      - createdByName
+      - lastUsed
+      - name
+      - username
+      - uuid
+      type: object
+    ByomStatus:
+      additionalProperties: false
+      example:
+        metricsEndpoint:
+          path: path
+          scheme: scheme
+          target: target
+        conditions:
+        - ""
+        - ""
+      properties:
+        conditions:
+          items: {}
+          type: array
+        metricsEndpoint:
+          $ref: "#/components/schemas/ByomStatus_metricsEndpoint"
+      required:
+      - conditions
+      - metricsEndpoint
+      type: object
     CamundaClusterStage:
       enum:
       - dev
@@ -777,6 +1086,7 @@ components:
         channel:
           name: name
           uuid: uuid
+        description: description
         backupRegion:
           name: name
           uuid: uuid
@@ -804,10 +1114,11 @@ components:
           name: name
           uuid: uuid
         status:
-          operateStatus: null
+          operateStatus: Creating
           ready: null
           tasklistStatus: null
           optimizeStatus: null
+          connectorsStatus: "{}"
           zeebeStatus: null
       properties:
         autoUpdate:
@@ -816,20 +1127,23 @@ components:
             If the cluster you want to create is running on a non-stable Channel passing this property will be ignored!
           type: boolean
         backupRegion:
-          $ref: '#/components/schemas/Cluster_backupRegion'
+          $ref: "#/components/schemas/Cluster_backupRegion"
         channel:
-          $ref: '#/components/schemas/Cluster_channel'
+          $ref: "#/components/schemas/Cluster_channel"
         created:
           format: date-time
           type: string
+        description:
+          description: Optional description for the cluster (max 150 characters).
+          type: string
         generation:
-          $ref: '#/components/schemas/Cluster_generation'
+          $ref: "#/components/schemas/Cluster_generation"
         ipallowlist:
           description: the IP Allowlist rules for your cluster - will only be returned
             if your organization has the feature enabled and the client you are using
             has the permission to see it.
           items:
-            $ref: '#/components/schemas/Cluster_ipallowlist_inner'
+            $ref: "#/components/schemas/Cluster_ipallowlist_inner"
           type: array
         ipwhitelist:
           description: |-
@@ -837,24 +1151,24 @@ components:
 
             the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
           items:
-            $ref: '#/components/schemas/Cluster_ipallowlist_inner'
+            $ref: "#/components/schemas/Cluster_ipallowlist_inner"
           type: array
         labels:
           items:
             type: string
           type: array
         links:
-          $ref: '#/components/schemas/Cluster_links'
+          $ref: "#/components/schemas/Cluster_links"
         name:
           type: string
         ownerId:
           type: string
         planType:
-          $ref: '#/components/schemas/Cluster_planType'
+          $ref: "#/components/schemas/Cluster_planType"
         region:
-          $ref: '#/components/schemas/Cluster_region'
+          $ref: "#/components/schemas/Cluster_region"
         status:
-          $ref: '#/components/schemas/Cluster_status'
+          $ref: "#/components/schemas/Cluster_status"
         uuid:
           description: The ID used in all further API operations referencing your
             cluster.
@@ -927,6 +1241,7 @@ components:
       - Software
       - Hardware
       - Provider
+      - External
       type: string
     ClusterSecrets:
       additionalProperties:
@@ -946,17 +1261,6 @@ components:
       additionalProperties: false
       description: Used to create a cluster through this API. All necessary values
         can be retrieved from the <pre>/clusters/parameters</pre> endpoint.
-      example:
-        generationId: generationId
-        autoUpdate: true
-        encryption: null
-        regionId: regionId
-        hardwarePackages: 0.8008281904610115
-        name: name
-        planTypeId: planTypeId
-        backupRegionId: backupRegionId
-        channelId: channelId
-        stageLabel: null
       properties:
         autoUpdate:
           description: "If set to false, no automatic updates will be performed on\
@@ -969,8 +1273,11 @@ components:
         channelId:
           description: The channel (software spec) to use.
           type: string
+        description:
+          description: Optional description for the cluster (max 150 characters).
+          type: string
         encryption:
-          $ref: '#/components/schemas/ClusterEncryptionKey'
+          $ref: "#/components/schemas/ClusterEncryptionKey"
         generationId:
           description: The generation (software version) to use.
           type: string
@@ -989,7 +1296,7 @@ components:
           description: The data center to use.
           type: string
         stageLabel:
-          $ref: '#/components/schemas/CamundaClusterStage'
+          $ref: "#/components/schemas/CamundaClusterStage"
       required:
       - channelId
       - generationId
@@ -1060,7 +1367,7 @@ components:
         clientSecret:
           type: string
         links:
-          $ref: '#/components/schemas/CreatedClusterClient_links'
+          $ref: "#/components/schemas/CreatedClusterClient_links"
         name:
           type: string
         permissions:
@@ -1091,11 +1398,11 @@ components:
         orgId: orgId
       properties:
         cluster:
-          $ref: '#/components/schemas/GenerationUpgradeForClusterDto_cluster'
+          $ref: "#/components/schemas/GenerationUpgradeForClusterDto_cluster"
         newGeneration:
-          $ref: '#/components/schemas/GenerationUpgradeForClusterDto_cluster'
+          $ref: "#/components/schemas/GenerationUpgradeForClusterDto_cluster"
         oldGeneration:
-          $ref: '#/components/schemas/GenerationUpgradeForClusterDto_cluster'
+          $ref: "#/components/schemas/GenerationUpgradeForClusterDto_cluster"
         orgId:
           type: string
       required:
@@ -1115,7 +1422,7 @@ components:
       properties:
         ipallowlist:
           items:
-            $ref: '#/components/schemas/Cluster_ipallowlist_inner'
+            $ref: "#/components/schemas/Cluster_ipallowlist_inner"
           type: array
       required:
       - ipallowlist
@@ -1131,7 +1438,7 @@ components:
       properties:
         ipwhitelist:
           items:
-            $ref: '#/components/schemas/Cluster_ipallowlist_inner'
+            $ref: "#/components/schemas/Cluster_ipallowlist_inner"
           type: array
       required:
       - ipwhitelist
@@ -1141,8 +1448,8 @@ components:
       example:
         invitePending: true
         roles:
-        - null
-        - null
+        - member
+        - member
         name: name
         email: email
       properties:
@@ -1154,13 +1461,27 @@ components:
           type: string
         roles:
           items:
-            $ref: '#/components/schemas/OrganizationRole'
+            $ref: "#/components/schemas/OrganizationRole"
           type: array
       required:
       - email
       - invitePending
       - name
       - roles
+      type: object
+    MetaDto:
+      additionalProperties: false
+      example:
+        web-modeler:
+        - web-modeler
+        - web-modeler
+      properties:
+        web-modeler:
+          items:
+            type: string
+          type: array
+      required:
+      - web-modeler
       type: object
     OrganizationRole:
       enum:
@@ -1271,15 +1592,15 @@ components:
       properties:
         channels:
           items:
-            $ref: '#/components/schemas/Parameters_channels_inner'
+            $ref: "#/components/schemas/Parameters_channels_inner"
           type: array
         clusterPlanTypes:
           items:
-            $ref: '#/components/schemas/Parameters_channels_inner_allowedGenerations_inner'
+            $ref: "#/components/schemas/Parameters_channels_inner_allowedGenerations_inner"
           type: array
         regions:
           items:
-            $ref: '#/components/schemas/Parameters_regions_inner'
+            $ref: "#/components/schemas/Parameters_regions_inner"
           type: array
       required:
       - channels
@@ -1290,24 +1611,59 @@ components:
       additionalProperties: false
       example:
         orgRoles:
-        - null
-        - null
+        - admin
+        - admin
       properties:
         orgRoles:
           items:
-            $ref: '#/components/schemas/AssignableOrganizationRoleType'
+            $ref: "#/components/schemas/AssignableOrganizationRoleType"
           type: array
       required:
       - orgRoles
+      type: object
+    Record_string.never_:
+      description: Construct a type with a set of properties K of type T
+      properties: {}
+      type: object
+    SecureConnectivityDto:
+      additionalProperties: false
+      example:
+        connectivity:
+          private:
+            allowedPrincipals:
+            - allowedPrincipals
+            - allowedPrincipals
+            allowedRegions:
+            - allowedRegions
+            - allowedRegions
+          type: type
+        status:
+          privateEndpoint:
+            service: service
+            region: region
+            type: type
+            status: status
+      properties:
+        connectivity:
+          $ref: "#/components/schemas/SecureConnectivityDto_connectivity"
+        status:
+          $ref: "#/components/schemas/SecureConnectivityDto_status"
+      required:
+      - connectivity
+      - status
       type: object
     UpdateClusterBody:
       additionalProperties: false
       description: Used to update a cluster through this API.
       example:
         name: name
+        description: description
         numberOfAllocatedHwPackages: 0.8008281904610115
-        stageLabel: null
+        stageLabel: dev
       properties:
+        description:
+          description: Optional description for the cluster (max 150 characters).
+          type: string
         name:
           description: The name of your cluster.
           type: string
@@ -1317,7 +1673,7 @@ components:
           format: double
           type: number
         stageLabel:
-          $ref: '#/components/schemas/CamundaClusterStage'
+          $ref: "#/components/schemas/CamundaClusterStage"
       type: object
     UpdateSecretBody:
       additionalProperties: false
@@ -1329,6 +1685,13 @@ components:
       required:
       - secretValue
       type: object
+    CreateCluster_request:
+      allOf:
+      - $ref: "#/components/schemas/CreateClusterBody"
+      - properties:
+          identityBackendChecksEnabled:
+            type: boolean
+        type: object
     CreateCluster_200_response:
       example:
         clusterId: clusterId
@@ -1337,6 +1700,137 @@ components:
           type: string
       required:
       - clusterId
+      type: object
+    GetMonitoringClients_200_response_status:
+      anyOf:
+      - $ref: "#/components/schemas/ByomStatus"
+      - $ref: "#/components/schemas/Record_string.never_"
+    GetMonitoringClients_200_response:
+      example:
+        clients:
+        - lastUsed: 2000-01-23T04:56:07.000+00:00
+          createdByName: createdByName
+          createdBy: createdBy
+          created: 2000-01-23T04:56:07.000+00:00
+          name: name
+          uuid: uuid
+          username: username
+        - lastUsed: 2000-01-23T04:56:07.000+00:00
+          createdByName: createdByName
+          createdBy: createdBy
+          created: 2000-01-23T04:56:07.000+00:00
+          name: name
+          uuid: uuid
+          username: username
+        status:
+          metricsEndpoint:
+            path: path
+            scheme: scheme
+            target: target
+          conditions:
+          - ""
+          - ""
+      properties:
+        clients:
+          items:
+            $ref: "#/components/schemas/ByomClientDto"
+          type: array
+        status:
+          $ref: "#/components/schemas/GetMonitoringClients_200_response_status"
+      required:
+      - clients
+      - status
+      type: object
+    CreateMonitoringClient_request:
+      properties:
+        username:
+          type: string
+      required:
+      - username
+      type: object
+    CreateMonitoringClient_200_response:
+      allOf:
+      - $ref: "#/components/schemas/ByomClientDto"
+      - properties:
+          password:
+            type: string
+        required:
+        - password
+        type: object
+      example:
+        lastUsed: 2000-01-23T04:56:07.000+00:00
+        createdByName: createdByName
+        password: password
+        createdBy: createdBy
+        created: 2000-01-23T04:56:07.000+00:00
+        name: name
+        uuid: uuid
+        username: username
+    GetSecureConnectivityStatus_200_response_status:
+      anyOf:
+      - $ref: "#/components/schemas/SecureConnectivityDto"
+      - $ref: "#/components/schemas/Record_string.never_"
+    GetSecureConnectivityStatus_200_response:
+      example:
+        status:
+          connectivity:
+            private:
+              allowedPrincipals:
+              - allowedPrincipals
+              - allowedPrincipals
+              allowedRegions:
+              - allowedRegions
+              - allowedRegions
+            type: type
+          status:
+            privateEndpoint:
+              service: service
+              region: region
+              type: type
+              status: status
+      properties:
+        status:
+          $ref: "#/components/schemas/GetSecureConnectivityStatus_200_response_status"
+      required:
+      - status
+      type: object
+    ActivateSecureConnectivity_request:
+      example:
+        allowedPrincipals:
+        - allowedPrincipals
+        - allowedPrincipals
+        allowedRegions:
+        - allowedRegions
+        - allowedRegions
+      properties:
+        allowedPrincipals:
+          items:
+            type: string
+          type: array
+        allowedRegions:
+          items:
+            type: string
+          type: array
+      required:
+      - allowedPrincipals
+      - allowedRegions
+      type: object
+    ByomStatus_metricsEndpoint:
+      example:
+        path: path
+        scheme: scheme
+        target: target
+      properties:
+        path:
+          type: string
+        scheme:
+          type: string
+        target:
+          type: string
+      required:
+      - path
+      - scheme
+      - target
       type: object
     Cluster_backupRegion:
       description: The data center where your backups are stored. Only available if
@@ -1456,22 +1950,25 @@ components:
       description: A health indicator for your Camunda cluster. Each of the components
         have their own state. The combined state is in the field `ready`.
       example:
-        operateStatus: null
+        operateStatus: Creating
         ready: null
         tasklistStatus: null
         optimizeStatus: null
+        connectorsStatus: "{}"
         zeebeStatus: null
       properties:
+        connectorsStatus:
+          $ref: "#/components/schemas/ClusterStatus"
         operateStatus:
-          $ref: '#/components/schemas/ClusterComponentStatus'
+          $ref: "#/components/schemas/ClusterComponentStatus"
         optimizeStatus:
-          $ref: '#/components/schemas/ClusterComponentStatus'
+          $ref: "#/components/schemas/ClusterComponentStatus"
         ready:
-          $ref: '#/components/schemas/ClusterComponentStatus'
+          $ref: "#/components/schemas/ClusterComponentStatus"
         tasklistStatus:
-          $ref: '#/components/schemas/ClusterComponentStatus'
+          $ref: "#/components/schemas/ClusterComponentStatus"
         zeebeStatus:
-          $ref: '#/components/schemas/ClusterComponentStatus'
+          $ref: "#/components/schemas/ClusterComponentStatus"
       required:
       - ready
       type: object
@@ -1541,10 +2038,10 @@ components:
       properties:
         allowedGenerations:
           items:
-            $ref: '#/components/schemas/Parameters_channels_inner_allowedGenerations_inner'
+            $ref: "#/components/schemas/Parameters_channels_inner_allowedGenerations_inner"
           type: array
         defaultGeneration:
-          $ref: '#/components/schemas/Parameters_channels_inner_allowedGenerations_inner'
+          $ref: "#/components/schemas/Parameters_channels_inner_allowedGenerations_inner"
         name:
           type: string
         uuid:
@@ -1579,7 +2076,7 @@ components:
       properties:
         regions:
           items:
-            $ref: '#/components/schemas/Parameters_regions_inner_backups_inner_regions_inner'
+            $ref: "#/components/schemas/Parameters_regions_inner_backups_inner_regions_inner"
           type: array
         uuid:
           type: string
@@ -1608,7 +2105,7 @@ components:
       properties:
         backups:
           items:
-            $ref: '#/components/schemas/Parameters_regions_inner_backups_inner'
+            $ref: "#/components/schemas/Parameters_regions_inner_backups_inner"
           type: array
         name:
           type: string
@@ -1620,6 +2117,59 @@ components:
       - name
       - provider
       - uuid
+      type: object
+    SecureConnectivityDto_connectivity:
+      example:
+        private:
+          allowedPrincipals:
+          - allowedPrincipals
+          - allowedPrincipals
+          allowedRegions:
+          - allowedRegions
+          - allowedRegions
+        type: type
+      properties:
+        private:
+          $ref: "#/components/schemas/ActivateSecureConnectivity_request"
+        type:
+          type: string
+      required:
+      - private
+      - type
+      type: object
+    SecureConnectivityDto_status_privateEndpoint:
+      example:
+        service: service
+        region: region
+        type: type
+        status: status
+      properties:
+        region:
+          type: string
+        service:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+      required:
+      - region
+      - service
+      - status
+      - type
+      type: object
+    SecureConnectivityDto_status:
+      example:
+        privateEndpoint:
+          service: service
+          region: region
+          type: type
+          status: status
+      properties:
+        privateEndpoint:
+          $ref: "#/components/schemas/SecureConnectivityDto_status_privateEndpoint"
+      required:
+      - privateEndpoint
       type: object
   securitySchemes:
     bearer:

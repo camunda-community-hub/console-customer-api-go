@@ -23,6 +23,7 @@ const (
 	CLUSTERENCRYPTIONKEY_SOFTWARE ClusterEncryptionKey = "Software"
 	CLUSTERENCRYPTIONKEY_HARDWARE ClusterEncryptionKey = "Hardware"
 	CLUSTERENCRYPTIONKEY_PROVIDER ClusterEncryptionKey = "Provider"
+	CLUSTERENCRYPTIONKEY_EXTERNAL ClusterEncryptionKey = "External"
 )
 
 // All allowed values of ClusterEncryptionKey enum
@@ -30,6 +31,7 @@ var AllowedClusterEncryptionKeyEnumValues = []ClusterEncryptionKey{
 	"Software",
 	"Hardware",
 	"Provider",
+	"External",
 }
 
 func (v *ClusterEncryptionKey) UnmarshalJSON(src []byte) error {

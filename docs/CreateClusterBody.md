@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **AutoUpdate** | Pointer to **bool** | If set to false, no automatic updates will be performed on your cluster. | [optional] 
 **BackupRegionId** | Pointer to **string** | The backup region to choose. Only available if the Sales Plan supports this. (Enterprise) | [optional] 
 **ChannelId** | **string** | The channel (software spec) to use. | 
+**Description** | Pointer to **string** | Optional description for the cluster (max 150 characters). | [optional] 
 **Encryption** | Pointer to [**ClusterEncryptionKey**](ClusterEncryptionKey.md) |  | [optional] 
 **GenerationId** | **string** | The generation (software version) to use. | 
 **HardwarePackages** | Pointer to **float64** | Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types. | [optional] 
@@ -103,6 +104,31 @@ and a boolean to check if the value has been set.
 
 SetChannelId sets ChannelId field to given value.
 
+
+### GetDescription
+
+`func (o *CreateClusterBody) GetDescription() string`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *CreateClusterBody) GetDescriptionOk() (*string, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *CreateClusterBody) SetDescription(v string)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *CreateClusterBody) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
 
 ### GetEncryption
 

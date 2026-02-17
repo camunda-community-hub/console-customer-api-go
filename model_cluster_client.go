@@ -11,6 +11,7 @@ API version: 1.3.3
 package openapi
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -135,7 +136,7 @@ func (o ClusterClient) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ClusterClient) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterClient) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -147,7 +148,7 @@ func (o *ClusterClient) UnmarshalJSON(bytes []byte) (err error) {
 
 	allProperties := make(map[string]interface{})
 
-	err = json.Unmarshal(bytes, &allProperties)
+	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
 		return err
@@ -161,7 +162,9 @@ func (o *ClusterClient) UnmarshalJSON(bytes []byte) (err error) {
 
 	varClusterClient := _ClusterClient{}
 
-	err = json.Unmarshal(bytes, &varClusterClient)
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varClusterClient)
 
 	if err != nil {
 		return err

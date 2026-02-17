@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Description** | Pointer to **string** | Optional description for the cluster (max 150 characters). | [optional] 
 **Name** | Pointer to **string** | The name of your cluster. | [optional] 
 **NumberOfAllocatedHwPackages** | Pointer to **float64** | Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types. | [optional] 
 **StageLabel** | Pointer to [**CamundaClusterStage**](CamundaClusterStage.md) |  | [optional] 
@@ -26,6 +27,31 @@ will change when the set of required properties is changed
 NewUpdateClusterBodyWithDefaults instantiates a new UpdateClusterBody object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetDescription
+
+`func (o *UpdateClusterBody) GetDescription() string`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *UpdateClusterBody) GetDescriptionOk() (*string, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *UpdateClusterBody) SetDescription(v string)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *UpdateClusterBody) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
 
 ### GetName
 

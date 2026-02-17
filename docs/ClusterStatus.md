@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**ConnectorsStatus** | Pointer to [**ClusterStatus**](ClusterStatus.md) |  | [optional] 
 **OperateStatus** | Pointer to [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | [optional] 
 **OptimizeStatus** | Pointer to [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | [optional] 
 **Ready** | [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | 
@@ -28,6 +29,31 @@ will change when the set of required properties is changed
 NewClusterStatusWithDefaults instantiates a new ClusterStatus object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetConnectorsStatus
+
+`func (o *ClusterStatus) GetConnectorsStatus() ClusterStatus`
+
+GetConnectorsStatus returns the ConnectorsStatus field if non-nil, zero value otherwise.
+
+### GetConnectorsStatusOk
+
+`func (o *ClusterStatus) GetConnectorsStatusOk() (*ClusterStatus, bool)`
+
+GetConnectorsStatusOk returns a tuple with the ConnectorsStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetConnectorsStatus
+
+`func (o *ClusterStatus) SetConnectorsStatus(v ClusterStatus)`
+
+SetConnectorsStatus sets ConnectorsStatus field to given value.
+
+### HasConnectorsStatus
+
+`func (o *ClusterStatus) HasConnectorsStatus() bool`
+
+HasConnectorsStatus returns a boolean if a field has been set.
 
 ### GetOperateStatus
 

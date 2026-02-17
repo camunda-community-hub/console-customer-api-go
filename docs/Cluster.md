@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **BackupRegion** | Pointer to [**ClusterBackupRegion**](ClusterBackupRegion.md) |  | [optional] 
 **Channel** | [**ClusterChannel**](ClusterChannel.md) |  | 
 **Created** | **time.Time** |  | 
+**Description** | Pointer to **string** | Optional description for the cluster (max 150 characters). | [optional] 
 **Generation** | [**ClusterGeneration**](ClusterGeneration.md) |  | 
 **Ipallowlist** | Pointer to [**[]ClusterIpallowlistInner**](ClusterIpallowlistInner.md) | the IP Allowlist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
 **Ipwhitelist** | Pointer to [**[]ClusterIpallowlistInner**](ClusterIpallowlistInner.md) | DEPRECATED: this field is going to be removed in June 2025, please use ipallowlist instead  the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
@@ -123,6 +124,31 @@ and a boolean to check if the value has been set.
 
 SetCreated sets Created field to given value.
 
+
+### GetDescription
+
+`func (o *Cluster) GetDescription() string`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *Cluster) GetDescriptionOk() (*string, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *Cluster) SetDescription(v string)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *Cluster) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
 
 ### GetGeneration
 
