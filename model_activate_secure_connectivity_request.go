@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &ActivateSecureConnectivityRequest{}
 
 // ActivateSecureConnectivityRequest struct for ActivateSecureConnectivityRequest
 type ActivateSecureConnectivityRequest struct {
-	AllowedPrincipals []string `json:"allowedPrincipals"`
-	AllowedRegions    []string `json:"allowedRegions"`
+	AllowedPrincipals    []string `json:"allowedPrincipals"`
+	AllowedRegions       []string `json:"allowedRegions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ActivateSecureConnectivityRequest ActivateSecureConnectivityRequest
@@ -106,6 +106,11 @@ func (o ActivateSecureConnectivityRequest) ToMap() (map[string]interface{}, erro
 	toSerialize := map[string]interface{}{}
 	toSerialize["allowedPrincipals"] = o.AllowedPrincipals
 	toSerialize["allowedRegions"] = o.AllowedRegions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *ActivateSecureConnectivityRequest) UnmarshalJSON(data []byte) (err erro
 
 	varActivateSecureConnectivityRequest := _ActivateSecureConnectivityRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varActivateSecureConnectivityRequest)
+	err = json.Unmarshal(data, &varActivateSecureConnectivityRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ActivateSecureConnectivityRequest(varActivateSecureConnectivityRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "allowedPrincipals")
+		delete(additionalProperties, "allowedRegions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

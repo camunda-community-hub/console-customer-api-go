@@ -32,7 +32,6 @@
         ]
       },
       "AuditDto": {
-        "additionalProperties": false,
         "properties": {
           "audit": {
             "type": "string"
@@ -93,12 +92,18 @@
         "type": "object"
       },
       "BackupDto": {
-        "additionalProperties": false,
         "properties": {
           "completed": {
             "type": "string"
           },
           "created": {
+            "type": "string"
+          },
+          "generationName": {
+            "description": "Human-readable name of the Generation referenced by `generationUuid`.\nResolved server-side: the Generation entity is looked up by `generationUuid`\nand its `name` field is propagated here. Falls back to `'Unknown Generation'`\nif the generation can't be found (e.g. it was deleted). `undefined` when the\nbackup has no `generationUuid` at all (legacy backups).",
+            "type": "string"
+          },
+          "generationUuid": {
             "type": "string"
           },
           "name": {
@@ -146,7 +151,6 @@
         "type": "string"
       },
       "ByomClientDto": {
-        "additionalProperties": false,
         "properties": {
           "created": {
             "format": "date-time",
@@ -184,7 +188,6 @@
         "type": "object"
       },
       "ByomStatus": {
-        "additionalProperties": false,
         "properties": {
           "conditions": {
             "items": {},
@@ -227,7 +230,6 @@
         "type": "string"
       },
       "Cluster": {
-        "additionalProperties": false,
         "description": "Describing a Camunda cluster running in your organization. For reference, use the UUID.",
         "properties": {
           "autoUpdate": {
@@ -273,6 +275,27 @@
           "description": {
             "description": "Optional description for the cluster (max 150 characters).",
             "type": "string"
+          },
+          "encryption": {
+            "description": "Encryption configuration for the cluster.\n\n`type` matches what was selected at create-time (Software / Hardware /\nProvider / External). `primaryKeyArn` / `secondaryKeyArn` are populated\nonly for `External` (BYOK) clusters once keys have been configured via\n`PUT /clusters/{clusterUuid}/encryption`. `status` is only present when\n`type` is `External` and reflects the operator reconciliation state —\npoll for `Ready` to confirm BYOK is active.",
+            "properties": {
+              "primaryKeyArn": {
+                "type": "string"
+              },
+              "secondaryKeyArn": {
+                "type": "string"
+              },
+              "status": {
+                "$ref": "#/components/schemas/EncryptionStatus"
+              },
+              "type": {
+                "$ref": "#/components/schemas/ClusterEncryptionKey"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
           },
           "generation": {
             "description": "The version of Camunda running on your cluster.",
@@ -406,7 +429,7 @@
             "description": "A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.",
             "properties": {
               "connectorsStatus": {
-                "$ref": "#/components/schemas/ClusterStatus"
+                "$ref": "#/components/schemas/ClusterComponentStatus"
               },
               "operateStatus": {
                 "$ref": "#/components/schemas/ClusterComponentStatus"
@@ -450,7 +473,6 @@
         "type": "object"
       },
       "ClusterClient": {
-        "additionalProperties": false,
         "properties": {
           "clientId": {
             "type": "string"
@@ -480,7 +502,6 @@
         "type": "object"
       },
       "ClusterClientConnectionDetails": {
-        "additionalProperties": false,
         "properties": {
           "ZEEBE_ADDRESS": {
             "type": "string"
@@ -503,6 +524,19 @@
         ],
         "type": "object"
       },
+      "ClusterComponentStatus": {
+        "enum": [
+          "Creating",
+          "Healthy",
+          "Unhealthy",
+          "Updating",
+          "Resuming",
+          "Suspended",
+          "WaitingForInput",
+          "Maintenance"
+        ],
+        "type": "string"
+      },
       "ClusterEncryptionKey": {
         "enum": [
           "Software",
@@ -519,19 +553,7 @@
         "properties": {},
         "type": "object"
       },
-      "ClusterComponentStatus": {
-        "enum": [
-          "Creating",
-          "Healthy",
-          "Unhealthy",
-          "Updating",
-          "Resuming",
-          "Suspended"
-        ],
-        "type": "string"
-      },
       "CreateClusterBody": {
-        "additionalProperties": false,
         "description": "Used to create a cluster through this API. All necessary values can be retrieved from the <pre>/clusters/parameters</pre> endpoint.",
         "properties": {
           "autoUpdate": {
@@ -590,7 +612,6 @@
         "type": "object"
       },
       "CreateClusterClientBody": {
-        "additionalProperties": false,
         "description": "if no permissions are passed, the client will be created with all the permissions available at the time of creation",
         "properties": {
           "clientName": {
@@ -616,7 +637,6 @@
         "type": "object"
       },
       "CreateSecretBody": {
-        "additionalProperties": false,
         "properties": {
           "secretName": {
             "type": "string"
@@ -632,8 +652,10 @@
         "type": "object"
       },
       "CreatedClusterClient": {
-        "additionalProperties": false,
         "properties": {
+          "audience": {
+            "type": "string"
+          },
           "clientId": {
             "type": "string"
           },
@@ -688,8 +710,18 @@
         ],
         "type": "object"
       },
+      "EncryptionStatus": {
+        "enum": [
+          "Ready",
+          "ProviderError",
+          "ExternalEncryptionKeyNotReady",
+          "ExternalEncryptionKeyNotSupplied",
+          "CreationError",
+          "EncryptedStorageNotReady"
+        ],
+        "type": "string"
+      },
       "GenerationUpgradeForClusterDto": {
-        "additionalProperties": false,
         "properties": {
           "cluster": {
             "properties": {
@@ -749,7 +781,6 @@
         "type": "object"
       },
       "IpAllowListBody": {
-        "additionalProperties": false,
         "properties": {
           "ipallowlist": {
             "items": {
@@ -776,7 +807,6 @@
         "type": "object"
       },
       "IpWhiteListBody": {
-        "additionalProperties": false,
         "properties": {
           "ipwhitelist": {
             "items": {
@@ -803,7 +833,6 @@
         "type": "object"
       },
       "Member": {
-        "additionalProperties": false,
         "properties": {
           "email": {
             "type": "string"
@@ -830,7 +859,6 @@
         "type": "object"
       },
       "MetaDto": {
-        "additionalProperties": false,
         "properties": {
           "web-modeler": {
             "items": {
@@ -848,8 +876,6 @@
         "enum": [
           "member",
           "admin",
-          "organizationadmin",
-          "organizationowner",
           "owner",
           "supportagent",
           "operationsengineer",
@@ -904,7 +930,6 @@
         "type": "string"
       },
       "Parameters": {
-        "additionalProperties": false,
         "description": "Describes the different options to create a Camunda cluster.",
         "properties": {
           "channels": {
@@ -913,6 +938,14 @@
                 "allowedGenerations": {
                   "items": {
                     "properties": {
+                      "classification": {
+                        "enum": [
+                          "channel",
+                          "existingCluster",
+                          "orgUnlocked"
+                        ],
+                        "type": "string"
+                      },
                       "name": {
                         "type": "string"
                       },
@@ -1042,7 +1075,6 @@
         "type": "object"
       },
       "PostMemberBody": {
-        "additionalProperties": false,
         "properties": {
           "orgRoles": {
             "items": {
@@ -1061,53 +1093,150 @@
         "properties": {},
         "type": "object"
       },
-      "SecureConnectivityDto": {
-        "additionalProperties": false,
+      "RestoreDto": {
         "properties": {
-          "connectivity": {
+          "backupId": {
+            "type": "string"
+          },
+          "completionTimestamp": {
+            "type": "string"
+          },
+          "startTimestamp": {
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/components/schemas/RestoreState"
+          },
+          "uuid": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "uuid",
+          "backupId",
+          "state"
+        ],
+        "type": "object"
+      },
+      "RestoreState": {
+        "enum": [
+          "PENDING",
+          "VALIDATING",
+          "IN_PROGRESS",
+          "COMPLETED",
+          "FAILED",
+          "ABORTED"
+        ],
+        "type": "string"
+      },
+      "SecureConnectivityDto": {
+        "properties": {
+          "metadata": {
             "properties": {
-              "private": {
+              "labels": {
                 "properties": {
-                  "allowedPrincipals": {
-                    "items": {
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "allowedRegions": {
-                    "items": {
-                      "type": "string"
-                    },
-                    "type": "array"
+                  "orgId": {
+                    "type": "string"
                   }
                 },
                 "required": [
-                  "allowedPrincipals",
-                  "allowedRegions"
+                  "orgId"
                 ],
                 "type": "object"
               },
-              "type": {
+              "name": {
+                "type": "string"
+              },
+              "namespace": {
                 "type": "string"
               }
             },
             "required": [
-              "private",
-              "type"
+              "name",
+              "labels",
+              "namespace"
+            ],
+            "type": "object"
+          },
+          "spec": {
+            "properties": {
+              "allowedPrincipals": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "allowedRegions": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "cluster": {
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "allowedPrincipals",
+              "allowedRegions",
+              "cluster"
             ],
             "type": "object"
           },
           "status": {
             "properties": {
-              "privateEndpoint": {
+              "conditions": {
+                "items": {
+                  "properties": {
+                    "lastTransitionTime": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "observedGeneration": {
+                      "format": "double",
+                      "type": "number"
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "lastTransitionTime",
+                    "observedGeneration",
+                    "message",
+                    "reason",
+                    "status",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "endpoint": {
                 "properties": {
+                  "privateDnsName": {
+                    "type": "string"
+                  },
                   "region": {
                     "type": "string"
                   },
-                  "service": {
-                    "type": "string"
-                  },
-                  "status": {
+                  "serviceName": {
                     "type": "string"
                   },
                   "type": {
@@ -1115,28 +1244,71 @@
                   }
                 },
                 "required": [
-                  "status",
+                  "privateDnsName",
                   "type",
-                  "service",
+                  "serviceName",
                   "region"
                 ],
                 "type": "object"
-              }
+              },
+              "endpointConnectionCount": {
+                "format": "double",
+                "type": "number"
+              },
+              "endpointConnections": {
+                "items": {
+                  "properties": {
+                    "creationTimestamp": {
+                      "type": "string"
+                    },
+                    "endpointId": {
+                      "type": "string"
+                    },
+                    "owner": {
+                      "type": "string"
+                    },
+                    "serviceId": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "serviceId",
+                    "owner",
+                    "endpointId",
+                    "creationTimestamp"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "observedGeneration": {
+                "format": "double",
+                "type": "number"
+              },
+              "urls": {}
             },
             "required": [
-              "privateEndpoint"
+              "urls",
+              "observedGeneration",
+              "endpointConnectionCount",
+              "endpoint",
+              "conditions"
             ],
             "type": "object"
           }
         },
         "required": [
           "status",
-          "connectivity"
+          "metadata",
+          "spec"
         ],
         "type": "object"
       },
       "UpdateClusterBody": {
-        "additionalProperties": false,
         "description": "Used to update a cluster through this API.",
         "properties": {
           "description": {
@@ -1159,8 +1331,24 @@
         },
         "type": "object"
       },
+      "UpdateClusterEncryptionBody": {
+        "description": "Used to set or rotate the customer-managed encryption keys on a BYOK\n(encryption=External) cluster. Both ARNs must point to AWS KMS keys\nlocated in the cluster's primary and backup regions respectively. For\nsingle-region clusters, omit `secondaryEncryptionKeyId`.",
+        "properties": {
+          "primaryEncryptionKeyId": {
+            "description": "AWS KMS key ARN for the cluster's primary region. Single-region key\nARNs and multi-region key (`mrk-...`) ARNs are both accepted, as long\nas the ARN's region segment matches the cluster's region.",
+            "type": "string"
+          },
+          "secondaryEncryptionKeyId": {
+            "description": "AWS KMS key ARN for the cluster's backup region. Required when the\ncluster's backup configuration is dual-region; must be omitted for\nsingle-region clusters. Must differ from `primaryEncryptionKeyId`.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "primaryEncryptionKeyId"
+        ],
+        "type": "object"
+      },
       "UpdateSecretBody": {
-        "additionalProperties": false,
         "properties": {
           "secretValue": {
             "type": "string"
@@ -1571,6 +1759,107 @@
         ]
       }
     },
+    "/clusters/{clusterUuid}/backups/{backupId}/restore": {
+      "get": {
+        "description": "Returns the latest Restore record associated with the given backup. A\n`404` indicates that no restore has ever been triggered for this backup.",
+        "operationId": "GetRestore",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "backupId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreDto"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "403": {
+            "description": "Cluster is not yours"
+          },
+          "404": {
+            "description": "No restore found for this backup"
+          },
+          "501": {
+            "description": "Backup restore is not yet available in this environment"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "description": "Triggers a restore of the given backup onto the source cluster. The cluster\nis suspended automatically and unsuspended by the operator once the Restore\nis in flight.",
+        "operationId": "RestoreFromBackup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "backupId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreDto"
+                }
+              }
+            },
+            "description": "The created Restore record."
+          },
+          "403": {
+            "description": "Cluster is not yours"
+          },
+          "404": {
+            "description": "Cluster or backup not found"
+          },
+          "409": {
+            "description": "Backup cannot be restored (unknown generation or in-flight restore)"
+          },
+          "501": {
+            "description": "Backup restore is not yet available in this environment"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/clusters/{clusterUuid}/clients": {
       "get": {
         "operationId": "GetClients",
@@ -1739,6 +2028,61 @@
           },
           "412": {
             "description": "The cluster is not ready; try again later"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/clusters/{clusterUuid}/encryption": {
+      "put": {
+        "description": "Configures or rotates the customer-managed encryption keys on a BYOK\n(encryption=External) cluster.\n\nPreconditions:\n - the cluster was created with `encryption: 'External'` (otherwise 409)\n - the org is on the Enterprise plan and the cluster region is AWS\n   (otherwise 403)\n - both ARNs must be well-formed AWS KMS key ARNs with region segments\n   matching the cluster's primary / backup region (otherwise 400)\n - `secondaryEncryptionKeyId` is required for dual-region clusters and\n   must be omitted for single-region clusters (otherwise 400)",
+        "operationId": "UpdateClusterEncryption",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterUuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClusterEncryptionBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cluster"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Invalid ARN, region mismatch, or dual-region requirement violated"
+          },
+          "403": {
+            "description": "External encryption not available for this org/region"
+          },
+          "404": {
+            "description": "Cluster not found"
+          },
+          "409": {
+            "description": "Cluster is not configured for external encryption"
           }
         },
         "security": [
@@ -2205,7 +2549,7 @@
     },
     "/clusters/{clusterUuid}/secrets/{secretName}": {
       "delete": {
-        "description": "Irreversibly deletes a secret",
+        "description": "Irreversibly deletes a secret. Due to eventual consistency, the deleted secret may still\nappear in subsequent GET or list responses for a short period until the deletion is fully\npropagated across the system.",
         "operationId": "DeleteSecret",
         "parameters": [
           {
@@ -2564,6 +2908,7 @@
         ]
       },
       "post": {
+        "description": "Starting with Camunda 8.8, the roles \"operationsengineer\", \"taskuser\", \"developer\", and \"visitor\" are no longer recommended for use. Fine-grained permission management is handled in the Admin application for each cluster.",
         "operationId": "UpdateMembers",
         "parameters": [
           {

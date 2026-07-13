@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &ClusterRegion{}
 
 // ClusterRegion The data center where your Camunda cluster is running.
 type ClusterRegion struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Name                 string `json:"name"`
+	Uuid                 string `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ClusterRegion ClusterRegion
@@ -106,6 +106,11 @@ func (o ClusterRegion) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *ClusterRegion) UnmarshalJSON(data []byte) (err error) {
 
 	varClusterRegion := _ClusterRegion{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varClusterRegion)
+	err = json.Unmarshal(data, &varClusterRegion)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ClusterRegion(varClusterRegion)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

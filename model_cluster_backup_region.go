@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &ClusterBackupRegion{}
 
 // ClusterBackupRegion The data center where your backups are stored. Only available if the Sales Plan supports this. (Enterprise)
 type ClusterBackupRegion struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Name                 string `json:"name"`
+	Uuid                 string `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ClusterBackupRegion ClusterBackupRegion
@@ -106,6 +106,11 @@ func (o ClusterBackupRegion) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *ClusterBackupRegion) UnmarshalJSON(data []byte) (err error) {
 
 	varClusterBackupRegion := _ClusterBackupRegion{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varClusterBackupRegion)
+	err = json.Unmarshal(data, &varClusterBackupRegion)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ClusterBackupRegion(varClusterBackupRegion)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

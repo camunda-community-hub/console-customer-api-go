@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -22,13 +21,14 @@ var _ MappedNullable = &ByomClientDto{}
 
 // ByomClientDto struct for ByomClientDto
 type ByomClientDto struct {
-	Created       time.Time `json:"created"`
-	CreatedBy     string    `json:"createdBy"`
-	CreatedByName string    `json:"createdByName"`
-	LastUsed      time.Time `json:"lastUsed"`
-	Name          string    `json:"name"`
-	Username      string    `json:"username"`
-	Uuid          string    `json:"uuid"`
+	Created              time.Time `json:"created"`
+	CreatedBy            string    `json:"createdBy"`
+	CreatedByName        string    `json:"createdByName"`
+	LastUsed             time.Time `json:"lastUsed"`
+	Name                 string    `json:"name"`
+	Username             string    `json:"username"`
+	Uuid                 string    `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ByomClientDto ByomClientDto
@@ -242,6 +242,11 @@ func (o ByomClientDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["username"] = o.Username
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -275,15 +280,26 @@ func (o *ByomClientDto) UnmarshalJSON(data []byte) (err error) {
 
 	varByomClientDto := _ByomClientDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varByomClientDto)
+	err = json.Unmarshal(data, &varByomClientDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ByomClientDto(varByomClientDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "created")
+		delete(additionalProperties, "createdBy")
+		delete(additionalProperties, "createdByName")
+		delete(additionalProperties, "lastUsed")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "username")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -30,10 +30,13 @@ Method | HTTP request | Description
 [**GetMeta**](DefaultAPI.md#GetMeta) | **Get** /meta/ip-ranges | 
 [**GetMonitoringClients**](DefaultAPI.md#GetMonitoringClients) | **Get** /clusters/{clusterUuid}/monitoring/clients | 
 [**GetParameters**](DefaultAPI.md#GetParameters) | **Get** /clusters/parameters | 
+[**GetRestore**](DefaultAPI.md#GetRestore) | **Get** /clusters/{clusterUuid}/backups/{backupId}/restore | 
 [**GetSecrets**](DefaultAPI.md#GetSecrets) | **Get** /clusters/{clusterUuid}/secrets | 
 [**GetSecureConnectivityStatus**](DefaultAPI.md#GetSecureConnectivityStatus) | **Get** /clusters/{clusterUuid}/secure-connectivity | 
+[**RestoreFromBackup**](DefaultAPI.md#RestoreFromBackup) | **Post** /clusters/{clusterUuid}/backups/{backupId}/restore | 
 [**RotateMonitoringClientPassword**](DefaultAPI.md#RotateMonitoringClientPassword) | **Post** /clusters/{clusterUuid}/monitoring/clients/{clientUuid}/rotate | 
 [**UpdateCluster**](DefaultAPI.md#UpdateCluster) | **Patch** /clusters/{clusterUuid} | 
+[**UpdateClusterEncryption**](DefaultAPI.md#UpdateClusterEncryption) | **Put** /clusters/{clusterUuid}/encryption | 
 [**UpdateIpAllowlist**](DefaultAPI.md#UpdateIpAllowlist) | **Put** /clusters/{clusterUuid}/ipallowlist | 
 [**UpdateIpWhitelist**](DefaultAPI.md#UpdateIpWhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
 [**UpdateMembers**](DefaultAPI.md#UpdateMembers) | **Post** /members/{email} | 
@@ -1786,6 +1789,79 @@ Other parameters are passed through a pointer to a apiGetParametersRequest struc
 [[Back to README]](../README.md)
 
 
+## GetRestore
+
+> RestoreDto GetRestore(ctx, clusterUuid, backupId).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+	clusterUuid := "clusterUuid_example" // string | 
+	backupId := "backupId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.GetRestore(context.Background(), clusterUuid, backupId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetRestore``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetRestore`: RestoreDto
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetRestore`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+**backupId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRestoreRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**RestoreDto**](RestoreDto.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetSecrets
 
 > map[string]string GetSecrets(ctx, clusterUuid).Execute()
@@ -1909,6 +1985,79 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**GetSecureConnectivityStatus200Response**](GetSecureConnectivityStatus200Response.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RestoreFromBackup
+
+> RestoreDto RestoreFromBackup(ctx, clusterUuid, backupId).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+	clusterUuid := "clusterUuid_example" // string | 
+	backupId := "backupId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.RestoreFromBackup(context.Background(), clusterUuid, backupId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RestoreFromBackup``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RestoreFromBackup`: RestoreDto
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.RestoreFromBackup`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+**backupId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRestoreFromBackupRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**RestoreDto**](RestoreDto.md)
 
 ### Authorization
 
@@ -2067,6 +2216,78 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## UpdateClusterEncryption
+
+> Cluster UpdateClusterEncryption(ctx, clusterUuid).UpdateClusterEncryptionBody(updateClusterEncryptionBody).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+	clusterUuid := "clusterUuid_example" // string | 
+	updateClusterEncryptionBody := *openapiclient.NewUpdateClusterEncryptionBody("PrimaryEncryptionKeyId_example") // UpdateClusterEncryptionBody | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.UpdateClusterEncryption(context.Background(), clusterUuid).UpdateClusterEncryptionBody(updateClusterEncryptionBody).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UpdateClusterEncryption``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateClusterEncryption`: Cluster
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.UpdateClusterEncryption`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateClusterEncryptionRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **updateClusterEncryptionBody** | [**UpdateClusterEncryptionBody**](UpdateClusterEncryptionBody.md) |  | 
+
+### Return type
+
+[**Cluster**](Cluster.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## UpdateIpAllowlist
 
 > UpdateIpAllowlist(ctx, clusterUuid).IpAllowListBody(ipAllowListBody).Execute()
@@ -2210,6 +2431,8 @@ Name | Type | Description  | Notes
 ## UpdateMembers
 
 > UpdateMembers(ctx, email).PostMemberBody(postMemberBody).Execute()
+
+
 
 
 

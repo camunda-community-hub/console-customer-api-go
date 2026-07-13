@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -25,6 +24,7 @@ type ClusterClientConnectionDetails struct {
 	ZEEBE_AUTHORIZATION_SERVER_URL string `json:"ZEEBE_AUTHORIZATION_SERVER_URL"`
 	ZEEBE_CLIENT_ID                string `json:"ZEEBE_CLIENT_ID"`
 	Name                           string `json:"name"`
+	AdditionalProperties           map[string]interface{}
 }
 
 type _ClusterClientConnectionDetails ClusterClientConnectionDetails
@@ -160,6 +160,11 @@ func (o ClusterClientConnectionDetails) ToMap() (map[string]interface{}, error) 
 	toSerialize["ZEEBE_AUTHORIZATION_SERVER_URL"] = o.ZEEBE_AUTHORIZATION_SERVER_URL
 	toSerialize["ZEEBE_CLIENT_ID"] = o.ZEEBE_CLIENT_ID
 	toSerialize["name"] = o.Name
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -190,15 +195,23 @@ func (o *ClusterClientConnectionDetails) UnmarshalJSON(data []byte) (err error) 
 
 	varClusterClientConnectionDetails := _ClusterClientConnectionDetails{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varClusterClientConnectionDetails)
+	err = json.Unmarshal(data, &varClusterClientConnectionDetails)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ClusterClientConnectionDetails(varClusterClientConnectionDetails)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "ZEEBE_ADDRESS")
+		delete(additionalProperties, "ZEEBE_AUTHORIZATION_SERVER_URL")
+		delete(additionalProperties, "ZEEBE_CLIENT_ID")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

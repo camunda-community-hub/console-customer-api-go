@@ -5,14 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Channels** | [**[]ParametersChannelsInner**](ParametersChannelsInner.md) |  | 
-**ClusterPlanTypes** | [**[]ParametersChannelsInnerAllowedGenerationsInner**](ParametersChannelsInnerAllowedGenerationsInner.md) |  | 
+**ClusterPlanTypes** | [**[]ParametersChannelsInnerDefaultGeneration**](ParametersChannelsInnerDefaultGeneration.md) |  | 
 **Regions** | [**[]ParametersRegionsInner**](ParametersRegionsInner.md) |  | 
 
 ## Methods
 
 ### NewParameters
 
-`func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner, regions []ParametersRegionsInner, ) *Parameters`
+`func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerDefaultGeneration, regions []ParametersRegionsInner, ) *Parameters`
 
 NewParameters instantiates a new Parameters object
 This constructor will assign default values to properties that have it defined,
@@ -49,20 +49,20 @@ SetChannels sets Channels field to given value.
 
 ### GetClusterPlanTypes
 
-`func (o *Parameters) GetClusterPlanTypes() []ParametersChannelsInnerAllowedGenerationsInner`
+`func (o *Parameters) GetClusterPlanTypes() []ParametersChannelsInnerDefaultGeneration`
 
 GetClusterPlanTypes returns the ClusterPlanTypes field if non-nil, zero value otherwise.
 
 ### GetClusterPlanTypesOk
 
-`func (o *Parameters) GetClusterPlanTypesOk() (*[]ParametersChannelsInnerAllowedGenerationsInner, bool)`
+`func (o *Parameters) GetClusterPlanTypesOk() (*[]ParametersChannelsInnerDefaultGeneration, bool)`
 
 GetClusterPlanTypesOk returns a tuple with the ClusterPlanTypes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetClusterPlanTypes
 
-`func (o *Parameters) SetClusterPlanTypes(v []ParametersChannelsInnerAllowedGenerationsInner)`
+`func (o *Parameters) SetClusterPlanTypes(v []ParametersChannelsInnerDefaultGeneration)`
 
 SetClusterPlanTypes sets ClusterPlanTypes field to given value.
 

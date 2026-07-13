@@ -6,6 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Completed** | **string** |  | 
 **Created** | **string** |  | 
+**GenerationName** | Pointer to **string** | Human-readable name of the Generation referenced by &#x60;generationUuid&#x60;. Resolved server-side: the Generation entity is looked up by &#x60;generationUuid&#x60; and its &#x60;name&#x60; field is propagated here. Falls back to &#x60;&#39;Unknown Generation&#39;&#x60; if the generation can&#39;t be found (e.g. it was deleted). &#x60;undefined&#x60; when the backup has no &#x60;generationUuid&#x60; at all (legacy backups). | [optional] 
+**GenerationUuid** | Pointer to **string** |  | [optional] 
 **Name** | **string** |  | 
 **OperateStatus** | [**BackupStatus**](BackupStatus.md) |  | 
 **OptimizeStatus** | [**BackupStatus**](BackupStatus.md) |  | 
@@ -72,6 +74,56 @@ and a boolean to check if the value has been set.
 
 SetCreated sets Created field to given value.
 
+
+### GetGenerationName
+
+`func (o *BackupDto) GetGenerationName() string`
+
+GetGenerationName returns the GenerationName field if non-nil, zero value otherwise.
+
+### GetGenerationNameOk
+
+`func (o *BackupDto) GetGenerationNameOk() (*string, bool)`
+
+GetGenerationNameOk returns a tuple with the GenerationName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetGenerationName
+
+`func (o *BackupDto) SetGenerationName(v string)`
+
+SetGenerationName sets GenerationName field to given value.
+
+### HasGenerationName
+
+`func (o *BackupDto) HasGenerationName() bool`
+
+HasGenerationName returns a boolean if a field has been set.
+
+### GetGenerationUuid
+
+`func (o *BackupDto) GetGenerationUuid() string`
+
+GetGenerationUuid returns the GenerationUuid field if non-nil, zero value otherwise.
+
+### GetGenerationUuidOk
+
+`func (o *BackupDto) GetGenerationUuidOk() (*string, bool)`
+
+GetGenerationUuidOk returns a tuple with the GenerationUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetGenerationUuid
+
+`func (o *BackupDto) SetGenerationUuid(v string)`
+
+SetGenerationUuid sets GenerationUuid field to given value.
+
+### HasGenerationUuid
+
+`func (o *BackupDto) HasGenerationUuid() bool`
+
+HasGenerationUuid returns a boolean if a field has been set.
 
 ### GetName
 

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,10 +20,11 @@ var _ MappedNullable = &GenerationUpgradeForClusterDto{}
 
 // GenerationUpgradeForClusterDto struct for GenerationUpgradeForClusterDto
 type GenerationUpgradeForClusterDto struct {
-	Cluster       GenerationUpgradeForClusterDtoCluster `json:"cluster"`
-	NewGeneration GenerationUpgradeForClusterDtoCluster `json:"newGeneration"`
-	OldGeneration GenerationUpgradeForClusterDtoCluster `json:"oldGeneration"`
-	OrgId         string                                `json:"orgId"`
+	Cluster              GenerationUpgradeForClusterDtoCluster `json:"cluster"`
+	NewGeneration        GenerationUpgradeForClusterDtoCluster `json:"newGeneration"`
+	OldGeneration        GenerationUpgradeForClusterDtoCluster `json:"oldGeneration"`
+	OrgId                string                                `json:"orgId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GenerationUpgradeForClusterDto GenerationUpgradeForClusterDto
@@ -160,6 +160,11 @@ func (o GenerationUpgradeForClusterDto) ToMap() (map[string]interface{}, error) 
 	toSerialize["newGeneration"] = o.NewGeneration
 	toSerialize["oldGeneration"] = o.OldGeneration
 	toSerialize["orgId"] = o.OrgId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -190,15 +195,23 @@ func (o *GenerationUpgradeForClusterDto) UnmarshalJSON(data []byte) (err error) 
 
 	varGenerationUpgradeForClusterDto := _GenerationUpgradeForClusterDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGenerationUpgradeForClusterDto)
+	err = json.Unmarshal(data, &varGenerationUpgradeForClusterDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GenerationUpgradeForClusterDto(varGenerationUpgradeForClusterDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "cluster")
+		delete(additionalProperties, "newGeneration")
+		delete(additionalProperties, "oldGeneration")
+		delete(additionalProperties, "orgId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

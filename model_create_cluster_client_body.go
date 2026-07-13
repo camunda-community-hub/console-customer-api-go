@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &CreateClusterClientBody{}
 
 // CreateClusterClientBody if no permissions are passed, the client will be created with all the permissions available at the time of creation
 type CreateClusterClientBody struct {
-	ClientName  string   `json:"clientName"`
-	Permissions []string `json:"permissions,omitempty"`
+	ClientName           string   `json:"clientName"`
+	Permissions          []string `json:"permissions,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateClusterClientBody CreateClusterClientBody
@@ -115,6 +115,11 @@ func (o CreateClusterClientBody) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Permissions) {
 		toSerialize["permissions"] = o.Permissions
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -142,15 +147,21 @@ func (o *CreateClusterClientBody) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateClusterClientBody := _CreateClusterClientBody{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateClusterClientBody)
+	err = json.Unmarshal(data, &varCreateClusterClientBody)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateClusterClientBody(varCreateClusterClientBody)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "clientName")
+		delete(additionalProperties, "permissions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

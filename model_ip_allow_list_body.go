@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,8 @@ var _ MappedNullable = &IpAllowListBody{}
 
 // IpAllowListBody struct for IpAllowListBody
 type IpAllowListBody struct {
-	Ipallowlist []ClusterIpallowlistInner `json:"ipallowlist"`
+	Ipallowlist          []ClusterIpallowlistInner `json:"ipallowlist"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _IpAllowListBody IpAllowListBody
@@ -79,6 +79,11 @@ func (o IpAllowListBody) MarshalJSON() ([]byte, error) {
 func (o IpAllowListBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["ipallowlist"] = o.Ipallowlist
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *IpAllowListBody) UnmarshalJSON(data []byte) (err error) {
 
 	varIpAllowListBody := _IpAllowListBody{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varIpAllowListBody)
+	err = json.Unmarshal(data, &varIpAllowListBody)
 
 	if err != nil {
 		return err
 	}
 
 	*o = IpAllowListBody(varIpAllowListBody)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "ipallowlist")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

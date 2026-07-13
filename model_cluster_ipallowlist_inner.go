@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &ClusterIpallowlistInner{}
 
 // ClusterIpallowlistInner struct for ClusterIpallowlistInner
 type ClusterIpallowlistInner struct {
-	Description string `json:"description"`
-	Ip          string `json:"ip"`
+	Description          string `json:"description"`
+	Ip                   string `json:"ip"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ClusterIpallowlistInner ClusterIpallowlistInner
@@ -106,6 +106,11 @@ func (o ClusterIpallowlistInner) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["description"] = o.Description
 	toSerialize["ip"] = o.Ip
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *ClusterIpallowlistInner) UnmarshalJSON(data []byte) (err error) {
 
 	varClusterIpallowlistInner := _ClusterIpallowlistInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varClusterIpallowlistInner)
+	err = json.Unmarshal(data, &varClusterIpallowlistInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ClusterIpallowlistInner(varClusterIpallowlistInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "ip")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

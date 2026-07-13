@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,13 @@ var _ MappedNullable = &SecureConnectivityDtoStatus{}
 
 // SecureConnectivityDtoStatus struct for SecureConnectivityDtoStatus
 type SecureConnectivityDtoStatus struct {
-	PrivateEndpoint SecureConnectivityDtoStatusPrivateEndpoint `json:"privateEndpoint"`
+	Conditions              []SecureConnectivityDtoStatusConditionsInner          `json:"conditions"`
+	Endpoint                SecureConnectivityDtoStatusEndpoint                   `json:"endpoint"`
+	EndpointConnectionCount float64                                               `json:"endpointConnectionCount"`
+	EndpointConnections     []SecureConnectivityDtoStatusEndpointConnectionsInner `json:"endpointConnections,omitempty"`
+	ObservedGeneration      float64                                               `json:"observedGeneration"`
+	Urls                    interface{}                                           `json:"urls"`
+	AdditionalProperties    map[string]interface{}
 }
 
 type _SecureConnectivityDtoStatus SecureConnectivityDtoStatus
@@ -30,9 +35,13 @@ type _SecureConnectivityDtoStatus SecureConnectivityDtoStatus
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSecureConnectivityDtoStatus(privateEndpoint SecureConnectivityDtoStatusPrivateEndpoint) *SecureConnectivityDtoStatus {
+func NewSecureConnectivityDtoStatus(conditions []SecureConnectivityDtoStatusConditionsInner, endpoint SecureConnectivityDtoStatusEndpoint, endpointConnectionCount float64, observedGeneration float64, urls interface{}) *SecureConnectivityDtoStatus {
 	this := SecureConnectivityDtoStatus{}
-	this.PrivateEndpoint = privateEndpoint
+	this.Conditions = conditions
+	this.Endpoint = endpoint
+	this.EndpointConnectionCount = endpointConnectionCount
+	this.ObservedGeneration = observedGeneration
+	this.Urls = urls
 	return &this
 }
 
@@ -44,28 +53,158 @@ func NewSecureConnectivityDtoStatusWithDefaults() *SecureConnectivityDtoStatus {
 	return &this
 }
 
-// GetPrivateEndpoint returns the PrivateEndpoint field value
-func (o *SecureConnectivityDtoStatus) GetPrivateEndpoint() SecureConnectivityDtoStatusPrivateEndpoint {
+// GetConditions returns the Conditions field value
+func (o *SecureConnectivityDtoStatus) GetConditions() []SecureConnectivityDtoStatusConditionsInner {
 	if o == nil {
-		var ret SecureConnectivityDtoStatusPrivateEndpoint
+		var ret []SecureConnectivityDtoStatusConditionsInner
 		return ret
 	}
 
-	return o.PrivateEndpoint
+	return o.Conditions
 }
 
-// GetPrivateEndpointOk returns a tuple with the PrivateEndpoint field value
+// GetConditionsOk returns a tuple with the Conditions field value
 // and a boolean to check if the value has been set.
-func (o *SecureConnectivityDtoStatus) GetPrivateEndpointOk() (*SecureConnectivityDtoStatusPrivateEndpoint, bool) {
+func (o *SecureConnectivityDtoStatus) GetConditionsOk() ([]SecureConnectivityDtoStatusConditionsInner, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.PrivateEndpoint, true
+	return o.Conditions, true
 }
 
-// SetPrivateEndpoint sets field value
-func (o *SecureConnectivityDtoStatus) SetPrivateEndpoint(v SecureConnectivityDtoStatusPrivateEndpoint) {
-	o.PrivateEndpoint = v
+// SetConditions sets field value
+func (o *SecureConnectivityDtoStatus) SetConditions(v []SecureConnectivityDtoStatusConditionsInner) {
+	o.Conditions = v
+}
+
+// GetEndpoint returns the Endpoint field value
+func (o *SecureConnectivityDtoStatus) GetEndpoint() SecureConnectivityDtoStatusEndpoint {
+	if o == nil {
+		var ret SecureConnectivityDtoStatusEndpoint
+		return ret
+	}
+
+	return o.Endpoint
+}
+
+// GetEndpointOk returns a tuple with the Endpoint field value
+// and a boolean to check if the value has been set.
+func (o *SecureConnectivityDtoStatus) GetEndpointOk() (*SecureConnectivityDtoStatusEndpoint, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Endpoint, true
+}
+
+// SetEndpoint sets field value
+func (o *SecureConnectivityDtoStatus) SetEndpoint(v SecureConnectivityDtoStatusEndpoint) {
+	o.Endpoint = v
+}
+
+// GetEndpointConnectionCount returns the EndpointConnectionCount field value
+func (o *SecureConnectivityDtoStatus) GetEndpointConnectionCount() float64 {
+	if o == nil {
+		var ret float64
+		return ret
+	}
+
+	return o.EndpointConnectionCount
+}
+
+// GetEndpointConnectionCountOk returns a tuple with the EndpointConnectionCount field value
+// and a boolean to check if the value has been set.
+func (o *SecureConnectivityDtoStatus) GetEndpointConnectionCountOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.EndpointConnectionCount, true
+}
+
+// SetEndpointConnectionCount sets field value
+func (o *SecureConnectivityDtoStatus) SetEndpointConnectionCount(v float64) {
+	o.EndpointConnectionCount = v
+}
+
+// GetEndpointConnections returns the EndpointConnections field value if set, zero value otherwise.
+func (o *SecureConnectivityDtoStatus) GetEndpointConnections() []SecureConnectivityDtoStatusEndpointConnectionsInner {
+	if o == nil || IsNil(o.EndpointConnections) {
+		var ret []SecureConnectivityDtoStatusEndpointConnectionsInner
+		return ret
+	}
+	return o.EndpointConnections
+}
+
+// GetEndpointConnectionsOk returns a tuple with the EndpointConnections field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SecureConnectivityDtoStatus) GetEndpointConnectionsOk() ([]SecureConnectivityDtoStatusEndpointConnectionsInner, bool) {
+	if o == nil || IsNil(o.EndpointConnections) {
+		return nil, false
+	}
+	return o.EndpointConnections, true
+}
+
+// HasEndpointConnections returns a boolean if a field has been set.
+func (o *SecureConnectivityDtoStatus) HasEndpointConnections() bool {
+	if o != nil && !IsNil(o.EndpointConnections) {
+		return true
+	}
+
+	return false
+}
+
+// SetEndpointConnections gets a reference to the given []SecureConnectivityDtoStatusEndpointConnectionsInner and assigns it to the EndpointConnections field.
+func (o *SecureConnectivityDtoStatus) SetEndpointConnections(v []SecureConnectivityDtoStatusEndpointConnectionsInner) {
+	o.EndpointConnections = v
+}
+
+// GetObservedGeneration returns the ObservedGeneration field value
+func (o *SecureConnectivityDtoStatus) GetObservedGeneration() float64 {
+	if o == nil {
+		var ret float64
+		return ret
+	}
+
+	return o.ObservedGeneration
+}
+
+// GetObservedGenerationOk returns a tuple with the ObservedGeneration field value
+// and a boolean to check if the value has been set.
+func (o *SecureConnectivityDtoStatus) GetObservedGenerationOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ObservedGeneration, true
+}
+
+// SetObservedGeneration sets field value
+func (o *SecureConnectivityDtoStatus) SetObservedGeneration(v float64) {
+	o.ObservedGeneration = v
+}
+
+// GetUrls returns the Urls field value
+// If the value is explicit nil, the zero value for interface{} will be returned
+func (o *SecureConnectivityDtoStatus) GetUrls() interface{} {
+	if o == nil {
+		var ret interface{}
+		return ret
+	}
+
+	return o.Urls
+}
+
+// GetUrlsOk returns a tuple with the Urls field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SecureConnectivityDtoStatus) GetUrlsOk() (*interface{}, bool) {
+	if o == nil || IsNil(o.Urls) {
+		return nil, false
+	}
+	return &o.Urls, true
+}
+
+// SetUrls sets field value
+func (o *SecureConnectivityDtoStatus) SetUrls(v interface{}) {
+	o.Urls = v
 }
 
 func (o SecureConnectivityDtoStatus) MarshalJSON() ([]byte, error) {
@@ -78,7 +217,21 @@ func (o SecureConnectivityDtoStatus) MarshalJSON() ([]byte, error) {
 
 func (o SecureConnectivityDtoStatus) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["privateEndpoint"] = o.PrivateEndpoint
+	toSerialize["conditions"] = o.Conditions
+	toSerialize["endpoint"] = o.Endpoint
+	toSerialize["endpointConnectionCount"] = o.EndpointConnectionCount
+	if !IsNil(o.EndpointConnections) {
+		toSerialize["endpointConnections"] = o.EndpointConnections
+	}
+	toSerialize["observedGeneration"] = o.ObservedGeneration
+	if o.Urls != nil {
+		toSerialize["urls"] = o.Urls
+	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -87,7 +240,11 @@ func (o *SecureConnectivityDtoStatus) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"privateEndpoint",
+		"conditions",
+		"endpoint",
+		"endpointConnectionCount",
+		"observedGeneration",
+		"urls",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -106,15 +263,25 @@ func (o *SecureConnectivityDtoStatus) UnmarshalJSON(data []byte) (err error) {
 
 	varSecureConnectivityDtoStatus := _SecureConnectivityDtoStatus{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSecureConnectivityDtoStatus)
+	err = json.Unmarshal(data, &varSecureConnectivityDtoStatus)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SecureConnectivityDtoStatus(varSecureConnectivityDtoStatus)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "conditions")
+		delete(additionalProperties, "endpoint")
+		delete(additionalProperties, "endpointConnectionCount")
+		delete(additionalProperties, "endpointConnections")
+		delete(additionalProperties, "observedGeneration")
+		delete(additionalProperties, "urls")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

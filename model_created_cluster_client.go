@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,12 +20,14 @@ var _ MappedNullable = &CreatedClusterClient{}
 
 // CreatedClusterClient struct for CreatedClusterClient
 type CreatedClusterClient struct {
-	ClientId     string                     `json:"clientId"`
-	ClientSecret string                     `json:"clientSecret"`
-	Links        *CreatedClusterClientLinks `json:"links,omitempty"`
-	Name         string                     `json:"name"`
-	Permissions  []string                   `json:"permissions"`
-	Uuid         string                     `json:"uuid"`
+	Audience             *string                    `json:"audience,omitempty"`
+	ClientId             string                     `json:"clientId"`
+	ClientSecret         string                     `json:"clientSecret"`
+	Links                *CreatedClusterClientLinks `json:"links,omitempty"`
+	Name                 string                     `json:"name"`
+	Permissions          []string                   `json:"permissions"`
+	Uuid                 string                     `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreatedClusterClient CreatedClusterClient
@@ -51,6 +52,38 @@ func NewCreatedClusterClient(clientId string, clientSecret string, name string, 
 func NewCreatedClusterClientWithDefaults() *CreatedClusterClient {
 	this := CreatedClusterClient{}
 	return &this
+}
+
+// GetAudience returns the Audience field value if set, zero value otherwise.
+func (o *CreatedClusterClient) GetAudience() string {
+	if o == nil || IsNil(o.Audience) {
+		var ret string
+		return ret
+	}
+	return *o.Audience
+}
+
+// GetAudienceOk returns a tuple with the Audience field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreatedClusterClient) GetAudienceOk() (*string, bool) {
+	if o == nil || IsNil(o.Audience) {
+		return nil, false
+	}
+	return o.Audience, true
+}
+
+// HasAudience returns a boolean if a field has been set.
+func (o *CreatedClusterClient) HasAudience() bool {
+	if o != nil && !IsNil(o.Audience) {
+		return true
+	}
+
+	return false
+}
+
+// SetAudience gets a reference to the given string and assigns it to the Audience field.
+func (o *CreatedClusterClient) SetAudience(v string) {
+	o.Audience = &v
 }
 
 // GetClientId returns the ClientId field value
@@ -215,6 +248,9 @@ func (o CreatedClusterClient) MarshalJSON() ([]byte, error) {
 
 func (o CreatedClusterClient) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Audience) {
+		toSerialize["audience"] = o.Audience
+	}
 	toSerialize["clientId"] = o.ClientId
 	toSerialize["clientSecret"] = o.ClientSecret
 	if !IsNil(o.Links) {
@@ -223,6 +259,11 @@ func (o CreatedClusterClient) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["permissions"] = o.Permissions
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -254,15 +295,26 @@ func (o *CreatedClusterClient) UnmarshalJSON(data []byte) (err error) {
 
 	varCreatedClusterClient := _CreatedClusterClient{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreatedClusterClient)
+	err = json.Unmarshal(data, &varCreatedClusterClient)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreatedClusterClient(varCreatedClusterClient)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "audience")
+		delete(additionalProperties, "clientId")
+		delete(additionalProperties, "clientSecret")
+		delete(additionalProperties, "links")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "permissions")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &ClusterGeneration{}
 
 // ClusterGeneration The version of Camunda running on your cluster.
 type ClusterGeneration struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Name                 string `json:"name"`
+	Uuid                 string `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ClusterGeneration ClusterGeneration
@@ -106,6 +106,11 @@ func (o ClusterGeneration) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *ClusterGeneration) UnmarshalJSON(data []byte) (err error) {
 
 	varClusterGeneration := _ClusterGeneration{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varClusterGeneration)
+	err = json.Unmarshal(data, &varClusterGeneration)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ClusterGeneration(varClusterGeneration)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

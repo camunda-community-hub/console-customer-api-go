@@ -104,10 +104,13 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**GetMeta**](docs/DefaultAPI.md#getmeta) | **Get** /meta/ip-ranges | 
 *DefaultAPI* | [**GetMonitoringClients**](docs/DefaultAPI.md#getmonitoringclients) | **Get** /clusters/{clusterUuid}/monitoring/clients | 
 *DefaultAPI* | [**GetParameters**](docs/DefaultAPI.md#getparameters) | **Get** /clusters/parameters | 
+*DefaultAPI* | [**GetRestore**](docs/DefaultAPI.md#getrestore) | **Get** /clusters/{clusterUuid}/backups/{backupId}/restore | 
 *DefaultAPI* | [**GetSecrets**](docs/DefaultAPI.md#getsecrets) | **Get** /clusters/{clusterUuid}/secrets | 
 *DefaultAPI* | [**GetSecureConnectivityStatus**](docs/DefaultAPI.md#getsecureconnectivitystatus) | **Get** /clusters/{clusterUuid}/secure-connectivity | 
+*DefaultAPI* | [**RestoreFromBackup**](docs/DefaultAPI.md#restorefrombackup) | **Post** /clusters/{clusterUuid}/backups/{backupId}/restore | 
 *DefaultAPI* | [**RotateMonitoringClientPassword**](docs/DefaultAPI.md#rotatemonitoringclientpassword) | **Post** /clusters/{clusterUuid}/monitoring/clients/{clientUuid}/rotate | 
 *DefaultAPI* | [**UpdateCluster**](docs/DefaultAPI.md#updatecluster) | **Patch** /clusters/{clusterUuid} | 
+*DefaultAPI* | [**UpdateClusterEncryption**](docs/DefaultAPI.md#updateclusterencryption) | **Put** /clusters/{clusterUuid}/encryption | 
 *DefaultAPI* | [**UpdateIpAllowlist**](docs/DefaultAPI.md#updateipallowlist) | **Put** /clusters/{clusterUuid}/ipallowlist | 
 *DefaultAPI* | [**UpdateIpWhitelist**](docs/DefaultAPI.md#updateipwhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
 *DefaultAPI* | [**UpdateMembers**](docs/DefaultAPI.md#updatemembers) | **Post** /members/{email} | 
@@ -133,6 +136,7 @@ Class | Method | HTTP request | Description
  - [ClusterClient](docs/ClusterClient.md)
  - [ClusterClientConnectionDetails](docs/ClusterClientConnectionDetails.md)
  - [ClusterComponentStatus](docs/ClusterComponentStatus.md)
+ - [ClusterEncryption](docs/ClusterEncryption.md)
  - [ClusterEncryptionKey](docs/ClusterEncryptionKey.md)
  - [ClusterGeneration](docs/ClusterGeneration.md)
  - [ClusterIpallowlistInner](docs/ClusterIpallowlistInner.md)
@@ -149,6 +153,7 @@ Class | Method | HTTP request | Description
  - [CreateSecretBody](docs/CreateSecretBody.md)
  - [CreatedClusterClient](docs/CreatedClusterClient.md)
  - [CreatedClusterClientLinks](docs/CreatedClusterClientLinks.md)
+ - [EncryptionStatus](docs/EncryptionStatus.md)
  - [GenerationUpgradeForClusterDto](docs/GenerationUpgradeForClusterDto.md)
  - [GenerationUpgradeForClusterDtoCluster](docs/GenerationUpgradeForClusterDtoCluster.md)
  - [GetMonitoringClients200Response](docs/GetMonitoringClients200Response.md)
@@ -170,15 +175,24 @@ Class | Method | HTTP request | Description
  - [Parameters](docs/Parameters.md)
  - [ParametersChannelsInner](docs/ParametersChannelsInner.md)
  - [ParametersChannelsInnerAllowedGenerationsInner](docs/ParametersChannelsInnerAllowedGenerationsInner.md)
+ - [ParametersChannelsInnerDefaultGeneration](docs/ParametersChannelsInnerDefaultGeneration.md)
  - [ParametersRegionsInner](docs/ParametersRegionsInner.md)
  - [ParametersRegionsInnerBackupsInner](docs/ParametersRegionsInnerBackupsInner.md)
  - [ParametersRegionsInnerBackupsInnerRegionsInner](docs/ParametersRegionsInnerBackupsInnerRegionsInner.md)
  - [PostMemberBody](docs/PostMemberBody.md)
+ - [RestoreDto](docs/RestoreDto.md)
+ - [RestoreState](docs/RestoreState.md)
  - [SecureConnectivityDto](docs/SecureConnectivityDto.md)
- - [SecureConnectivityDtoConnectivity](docs/SecureConnectivityDtoConnectivity.md)
+ - [SecureConnectivityDtoMetadata](docs/SecureConnectivityDtoMetadata.md)
+ - [SecureConnectivityDtoMetadataLabels](docs/SecureConnectivityDtoMetadataLabels.md)
+ - [SecureConnectivityDtoSpec](docs/SecureConnectivityDtoSpec.md)
+ - [SecureConnectivityDtoSpecCluster](docs/SecureConnectivityDtoSpecCluster.md)
  - [SecureConnectivityDtoStatus](docs/SecureConnectivityDtoStatus.md)
- - [SecureConnectivityDtoStatusPrivateEndpoint](docs/SecureConnectivityDtoStatusPrivateEndpoint.md)
+ - [SecureConnectivityDtoStatusConditionsInner](docs/SecureConnectivityDtoStatusConditionsInner.md)
+ - [SecureConnectivityDtoStatusEndpoint](docs/SecureConnectivityDtoStatusEndpoint.md)
+ - [SecureConnectivityDtoStatusEndpointConnectionsInner](docs/SecureConnectivityDtoStatusEndpointConnectionsInner.md)
  - [UpdateClusterBody](docs/UpdateClusterBody.md)
+ - [UpdateClusterEncryptionBody](docs/UpdateClusterEncryptionBody.md)
  - [UpdateSecretBody](docs/UpdateSecretBody.md)
 
 

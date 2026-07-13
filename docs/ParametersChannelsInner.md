@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedGenerations** | [**[]ParametersChannelsInnerAllowedGenerationsInner**](ParametersChannelsInnerAllowedGenerationsInner.md) |  | 
-**DefaultGeneration** | [**ParametersChannelsInnerAllowedGenerationsInner**](ParametersChannelsInnerAllowedGenerationsInner.md) |  | 
+**DefaultGeneration** | [**ParametersChannelsInnerDefaultGeneration**](ParametersChannelsInnerDefaultGeneration.md) |  | 
 **Name** | **string** |  | 
 **Uuid** | **string** |  | 
 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewParametersChannelsInner
 
-`func NewParametersChannelsInner(allowedGenerations []ParametersChannelsInnerAllowedGenerationsInner, defaultGeneration ParametersChannelsInnerAllowedGenerationsInner, name string, uuid string, ) *ParametersChannelsInner`
+`func NewParametersChannelsInner(allowedGenerations []ParametersChannelsInnerAllowedGenerationsInner, defaultGeneration ParametersChannelsInnerDefaultGeneration, name string, uuid string, ) *ParametersChannelsInner`
 
 NewParametersChannelsInner instantiates a new ParametersChannelsInner object
 This constructor will assign default values to properties that have it defined,
@@ -50,20 +50,20 @@ SetAllowedGenerations sets AllowedGenerations field to given value.
 
 ### GetDefaultGeneration
 
-`func (o *ParametersChannelsInner) GetDefaultGeneration() ParametersChannelsInnerAllowedGenerationsInner`
+`func (o *ParametersChannelsInner) GetDefaultGeneration() ParametersChannelsInnerDefaultGeneration`
 
 GetDefaultGeneration returns the DefaultGeneration field if non-nil, zero value otherwise.
 
 ### GetDefaultGenerationOk
 
-`func (o *ParametersChannelsInner) GetDefaultGenerationOk() (*ParametersChannelsInnerAllowedGenerationsInner, bool)`
+`func (o *ParametersChannelsInner) GetDefaultGenerationOk() (*ParametersChannelsInnerDefaultGeneration, bool)`
 
 GetDefaultGenerationOk returns a tuple with the DefaultGeneration field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDefaultGeneration
 
-`func (o *ParametersChannelsInner) SetDefaultGeneration(v ParametersChannelsInnerAllowedGenerationsInner)`
+`func (o *ParametersChannelsInner) SetDefaultGeneration(v ParametersChannelsInnerDefaultGeneration)`
 
 SetDefaultGeneration sets DefaultGeneration field to given value.
 

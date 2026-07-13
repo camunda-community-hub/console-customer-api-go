@@ -20,12 +20,14 @@ type ClusterComponentStatus string
 
 // List of ClusterComponentStatus
 const (
-	CLUSTERCOMPONENTSTATUS_CREATING  ClusterComponentStatus = "Creating"
-	CLUSTERCOMPONENTSTATUS_HEALTHY   ClusterComponentStatus = "Healthy"
-	CLUSTERCOMPONENTSTATUS_UNHEALTHY ClusterComponentStatus = "Unhealthy"
-	CLUSTERCOMPONENTSTATUS_UPDATING  ClusterComponentStatus = "Updating"
-	CLUSTERCOMPONENTSTATUS_RESUMING  ClusterComponentStatus = "Resuming"
-	CLUSTERCOMPONENTSTATUS_SUSPENDED ClusterComponentStatus = "Suspended"
+	CLUSTERCOMPONENTSTATUS_CREATING          ClusterComponentStatus = "Creating"
+	CLUSTERCOMPONENTSTATUS_HEALTHY           ClusterComponentStatus = "Healthy"
+	CLUSTERCOMPONENTSTATUS_UNHEALTHY         ClusterComponentStatus = "Unhealthy"
+	CLUSTERCOMPONENTSTATUS_UPDATING          ClusterComponentStatus = "Updating"
+	CLUSTERCOMPONENTSTATUS_RESUMING          ClusterComponentStatus = "Resuming"
+	CLUSTERCOMPONENTSTATUS_SUSPENDED         ClusterComponentStatus = "Suspended"
+	CLUSTERCOMPONENTSTATUS_WAITING_FOR_INPUT ClusterComponentStatus = "WaitingForInput"
+	CLUSTERCOMPONENTSTATUS_MAINTENANCE       ClusterComponentStatus = "Maintenance"
 )
 
 // All allowed values of ClusterComponentStatus enum
@@ -36,6 +38,8 @@ var AllowedClusterComponentStatusEnumValues = []ClusterComponentStatus{
 	"Updating",
 	"Resuming",
 	"Suspended",
+	"WaitingForInput",
+	"Maintenance",
 }
 
 func (v *ClusterComponentStatus) UnmarshalJSON(src []byte) error {

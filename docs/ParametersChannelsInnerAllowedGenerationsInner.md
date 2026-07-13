@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Classification** | Pointer to **string** |  | [optional] 
 **Name** | **string** |  | 
 **Uuid** | **string** |  | 
 
@@ -25,6 +26,31 @@ will change when the set of required properties is changed
 NewParametersChannelsInnerAllowedGenerationsInnerWithDefaults instantiates a new ParametersChannelsInnerAllowedGenerationsInner object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetClassification
+
+`func (o *ParametersChannelsInnerAllowedGenerationsInner) GetClassification() string`
+
+GetClassification returns the Classification field if non-nil, zero value otherwise.
+
+### GetClassificationOk
+
+`func (o *ParametersChannelsInnerAllowedGenerationsInner) GetClassificationOk() (*string, bool)`
+
+GetClassificationOk returns a tuple with the Classification field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetClassification
+
+`func (o *ParametersChannelsInnerAllowedGenerationsInner) SetClassification(v string)`
+
+SetClassification sets Classification field to given value.
+
+### HasClassification
+
+`func (o *ParametersChannelsInnerAllowedGenerationsInner) HasClassification() bool`
+
+HasClassification returns a boolean if a field has been set.
 
 ### GetName
 
