@@ -8,5 +8,15 @@ gitRepoId: console-customer-api-go
 
 validateSpec: false
 
-# Prevent similar names to clash
-enumClassPrefix: true
+additionalProperties:
+  # Prevent similar names to clash
+  enumClassPrefix: true
+
+  # Treat an object with no `additionalProperties` as open, per the OAS/JSON Schema
+  # spec. The generator's default (true) treats it as closed, which makes it emit
+  # `decoder.DisallowUnknownFields()` on every model that has a required property --
+  # so any field Camunda adds to a response becomes a hard decode error. The API adds
+  # fields without bumping `info.version`, so the client must tolerate them.
+  # openapi-normalize.jq strips the explicit `additionalProperties: false` markers;
+  # this covers the schemas that never declared one.
+  disallowAdditionalPropertiesIfNotPresent: false
