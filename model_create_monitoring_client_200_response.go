@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -22,14 +21,15 @@ var _ MappedNullable = &CreateMonitoringClient200Response{}
 
 // CreateMonitoringClient200Response struct for CreateMonitoringClient200Response
 type CreateMonitoringClient200Response struct {
-	Created       time.Time `json:"created"`
-	CreatedBy     string    `json:"createdBy"`
-	CreatedByName string    `json:"createdByName"`
-	LastUsed      time.Time `json:"lastUsed"`
-	Name          string    `json:"name"`
-	Username      string    `json:"username"`
-	Uuid          string    `json:"uuid"`
-	Password      string    `json:"password"`
+	Created              time.Time `json:"created"`
+	CreatedBy            string    `json:"createdBy"`
+	CreatedByName        string    `json:"createdByName"`
+	LastUsed             time.Time `json:"lastUsed"`
+	Name                 string    `json:"name"`
+	Username             string    `json:"username"`
+	Uuid                 string    `json:"uuid"`
+	Password             string    `json:"password"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateMonitoringClient200Response CreateMonitoringClient200Response
@@ -269,6 +269,11 @@ func (o CreateMonitoringClient200Response) ToMap() (map[string]interface{}, erro
 	toSerialize["username"] = o.Username
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["password"] = o.Password
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -303,15 +308,27 @@ func (o *CreateMonitoringClient200Response) UnmarshalJSON(data []byte) (err erro
 
 	varCreateMonitoringClient200Response := _CreateMonitoringClient200Response{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateMonitoringClient200Response)
+	err = json.Unmarshal(data, &varCreateMonitoringClient200Response)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateMonitoringClient200Response(varCreateMonitoringClient200Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "created")
+		delete(additionalProperties, "createdBy")
+		delete(additionalProperties, "createdByName")
+		delete(additionalProperties, "lastUsed")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "username")
+		delete(additionalProperties, "uuid")
+		delete(additionalProperties, "password")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

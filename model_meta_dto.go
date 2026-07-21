@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,8 @@ var _ MappedNullable = &MetaDto{}
 
 // MetaDto struct for MetaDto
 type MetaDto struct {
-	WebModeler []string `json:"web-modeler"`
+	WebModeler           []string `json:"web-modeler"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MetaDto MetaDto
@@ -79,6 +79,11 @@ func (o MetaDto) MarshalJSON() ([]byte, error) {
 func (o MetaDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["web-modeler"] = o.WebModeler
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *MetaDto) UnmarshalJSON(data []byte) (err error) {
 
 	varMetaDto := _MetaDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMetaDto)
+	err = json.Unmarshal(data, &varMetaDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MetaDto(varMetaDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "web-modeler")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

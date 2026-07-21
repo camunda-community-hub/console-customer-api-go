@@ -19,14 +19,17 @@ var _ MappedNullable = &CreatedClusterClientLinks{}
 
 // CreatedClusterClientLinks struct for CreatedClusterClientLinks
 type CreatedClusterClientLinks struct {
-	Connectors *string `json:"connectors,omitempty"`
-	Console    *string `json:"console,omitempty"`
-	Oauth      *string `json:"oauth,omitempty"`
-	Operate    *string `json:"operate,omitempty"`
-	Optimize   *string `json:"optimize,omitempty"`
-	Tasklist   *string `json:"tasklist,omitempty"`
-	Zeebe      *string `json:"zeebe,omitempty"`
+	Connectors           *string `json:"connectors,omitempty"`
+	Console              *string `json:"console,omitempty"`
+	Oauth                *string `json:"oauth,omitempty"`
+	Operate              *string `json:"operate,omitempty"`
+	Optimize             *string `json:"optimize,omitempty"`
+	Tasklist             *string `json:"tasklist,omitempty"`
+	Zeebe                *string `json:"zeebe,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _CreatedClusterClientLinks CreatedClusterClientLinks
 
 // NewCreatedClusterClientLinks instantiates a new CreatedClusterClientLinks object
 // This constructor will assign default values to properties that have it defined,
@@ -300,7 +303,39 @@ func (o CreatedClusterClientLinks) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Zeebe) {
 		toSerialize["zeebe"] = o.Zeebe
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *CreatedClusterClientLinks) UnmarshalJSON(data []byte) (err error) {
+	varCreatedClusterClientLinks := _CreatedClusterClientLinks{}
+
+	err = json.Unmarshal(data, &varCreatedClusterClientLinks)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CreatedClusterClientLinks(varCreatedClusterClientLinks)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "connectors")
+		delete(additionalProperties, "console")
+		delete(additionalProperties, "oauth")
+		delete(additionalProperties, "operate")
+		delete(additionalProperties, "optimize")
+		delete(additionalProperties, "tasklist")
+		delete(additionalProperties, "zeebe")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCreatedClusterClientLinks struct {

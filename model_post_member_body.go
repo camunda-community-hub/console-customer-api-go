@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,8 @@ var _ MappedNullable = &PostMemberBody{}
 
 // PostMemberBody struct for PostMemberBody
 type PostMemberBody struct {
-	OrgRoles []AssignableOrganizationRoleType `json:"orgRoles"`
+	OrgRoles             []AssignableOrganizationRoleType `json:"orgRoles"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PostMemberBody PostMemberBody
@@ -79,6 +79,11 @@ func (o PostMemberBody) MarshalJSON() ([]byte, error) {
 func (o PostMemberBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["orgRoles"] = o.OrgRoles
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *PostMemberBody) UnmarshalJSON(data []byte) (err error) {
 
 	varPostMemberBody := _PostMemberBody{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPostMemberBody)
+	err = json.Unmarshal(data, &varPostMemberBody)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PostMemberBody(varPostMemberBody)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "orgRoles")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

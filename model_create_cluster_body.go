@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -39,8 +38,9 @@ type CreateClusterBody struct {
 	// The planType (hardware spec) to use.
 	PlanTypeId string `json:"planTypeId"`
 	// The data center to use.
-	RegionId   string               `json:"regionId"`
-	StageLabel *CamundaClusterStage `json:"stageLabel,omitempty"`
+	RegionId             string               `json:"regionId"`
+	StageLabel           *CamundaClusterStage `json:"stageLabel,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateClusterBody CreateClusterBody
@@ -412,6 +412,11 @@ func (o CreateClusterBody) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.StageLabel) {
 		toSerialize["stageLabel"] = o.StageLabel
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -443,15 +448,30 @@ func (o *CreateClusterBody) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateClusterBody := _CreateClusterBody{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateClusterBody)
+	err = json.Unmarshal(data, &varCreateClusterBody)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateClusterBody(varCreateClusterBody)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "autoUpdate")
+		delete(additionalProperties, "backupRegionId")
+		delete(additionalProperties, "channelId")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "encryption")
+		delete(additionalProperties, "generationId")
+		delete(additionalProperties, "hardwarePackages")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "planTypeId")
+		delete(additionalProperties, "regionId")
+		delete(additionalProperties, "stageLabel")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,10 @@ var _ MappedNullable = &SecureConnectivityDto{}
 
 // SecureConnectivityDto struct for SecureConnectivityDto
 type SecureConnectivityDto struct {
-	Connectivity SecureConnectivityDtoConnectivity `json:"connectivity"`
-	Status       SecureConnectivityDtoStatus       `json:"status"`
+	Metadata             SecureConnectivityDtoMetadata `json:"metadata"`
+	Spec                 SecureConnectivityDtoSpec     `json:"spec"`
+	Status               SecureConnectivityDtoStatus   `json:"status"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SecureConnectivityDto SecureConnectivityDto
@@ -31,9 +32,10 @@ type _SecureConnectivityDto SecureConnectivityDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSecureConnectivityDto(connectivity SecureConnectivityDtoConnectivity, status SecureConnectivityDtoStatus) *SecureConnectivityDto {
+func NewSecureConnectivityDto(metadata SecureConnectivityDtoMetadata, spec SecureConnectivityDtoSpec, status SecureConnectivityDtoStatus) *SecureConnectivityDto {
 	this := SecureConnectivityDto{}
-	this.Connectivity = connectivity
+	this.Metadata = metadata
+	this.Spec = spec
 	this.Status = status
 	return &this
 }
@@ -46,28 +48,52 @@ func NewSecureConnectivityDtoWithDefaults() *SecureConnectivityDto {
 	return &this
 }
 
-// GetConnectivity returns the Connectivity field value
-func (o *SecureConnectivityDto) GetConnectivity() SecureConnectivityDtoConnectivity {
+// GetMetadata returns the Metadata field value
+func (o *SecureConnectivityDto) GetMetadata() SecureConnectivityDtoMetadata {
 	if o == nil {
-		var ret SecureConnectivityDtoConnectivity
+		var ret SecureConnectivityDtoMetadata
 		return ret
 	}
 
-	return o.Connectivity
+	return o.Metadata
 }
 
-// GetConnectivityOk returns a tuple with the Connectivity field value
+// GetMetadataOk returns a tuple with the Metadata field value
 // and a boolean to check if the value has been set.
-func (o *SecureConnectivityDto) GetConnectivityOk() (*SecureConnectivityDtoConnectivity, bool) {
+func (o *SecureConnectivityDto) GetMetadataOk() (*SecureConnectivityDtoMetadata, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Connectivity, true
+	return &o.Metadata, true
 }
 
-// SetConnectivity sets field value
-func (o *SecureConnectivityDto) SetConnectivity(v SecureConnectivityDtoConnectivity) {
-	o.Connectivity = v
+// SetMetadata sets field value
+func (o *SecureConnectivityDto) SetMetadata(v SecureConnectivityDtoMetadata) {
+	o.Metadata = v
+}
+
+// GetSpec returns the Spec field value
+func (o *SecureConnectivityDto) GetSpec() SecureConnectivityDtoSpec {
+	if o == nil {
+		var ret SecureConnectivityDtoSpec
+		return ret
+	}
+
+	return o.Spec
+}
+
+// GetSpecOk returns a tuple with the Spec field value
+// and a boolean to check if the value has been set.
+func (o *SecureConnectivityDto) GetSpecOk() (*SecureConnectivityDtoSpec, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Spec, true
+}
+
+// SetSpec sets field value
+func (o *SecureConnectivityDto) SetSpec(v SecureConnectivityDtoSpec) {
+	o.Spec = v
 }
 
 // GetStatus returns the Status field value
@@ -104,8 +130,14 @@ func (o SecureConnectivityDto) MarshalJSON() ([]byte, error) {
 
 func (o SecureConnectivityDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["connectivity"] = o.Connectivity
+	toSerialize["metadata"] = o.Metadata
+	toSerialize["spec"] = o.Spec
 	toSerialize["status"] = o.Status
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -114,7 +146,8 @@ func (o *SecureConnectivityDto) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"connectivity",
+		"metadata",
+		"spec",
 		"status",
 	}
 
@@ -134,15 +167,22 @@ func (o *SecureConnectivityDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSecureConnectivityDto := _SecureConnectivityDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSecureConnectivityDto)
+	err = json.Unmarshal(data, &varSecureConnectivityDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SecureConnectivityDto(varSecureConnectivityDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "metadata")
+		delete(additionalProperties, "spec")
+		delete(additionalProperties, "status")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

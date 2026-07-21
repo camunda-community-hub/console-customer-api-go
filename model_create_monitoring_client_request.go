@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,8 @@ var _ MappedNullable = &CreateMonitoringClientRequest{}
 
 // CreateMonitoringClientRequest struct for CreateMonitoringClientRequest
 type CreateMonitoringClientRequest struct {
-	Username string `json:"username"`
+	Username             string `json:"username"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateMonitoringClientRequest CreateMonitoringClientRequest
@@ -79,6 +79,11 @@ func (o CreateMonitoringClientRequest) MarshalJSON() ([]byte, error) {
 func (o CreateMonitoringClientRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["username"] = o.Username
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *CreateMonitoringClientRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateMonitoringClientRequest := _CreateMonitoringClientRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateMonitoringClientRequest)
+	err = json.Unmarshal(data, &varCreateMonitoringClientRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateMonitoringClientRequest(varCreateMonitoringClientRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "username")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &ClusterChannel{}
 
 // ClusterChannel The software channel your cluster is running on.
 type ClusterChannel struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Name                 string `json:"name"`
+	Uuid                 string `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ClusterChannel ClusterChannel
@@ -106,6 +106,11 @@ func (o ClusterChannel) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *ClusterChannel) UnmarshalJSON(data []byte) (err error) {
 
 	varClusterChannel := _ClusterChannel{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varClusterChannel)
+	err = json.Unmarshal(data, &varClusterChannel)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ClusterChannel(varClusterChannel)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

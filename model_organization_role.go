@@ -22,8 +22,6 @@ type OrganizationRole string
 const (
 	ORGANIZATIONROLE_MEMBER             OrganizationRole = "member"
 	ORGANIZATIONROLE_ADMIN              OrganizationRole = "admin"
-	ORGANIZATIONROLE_ORGANIZATIONADMIN  OrganizationRole = "organizationadmin"
-	ORGANIZATIONROLE_ORGANIZATIONOWNER  OrganizationRole = "organizationowner"
 	ORGANIZATIONROLE_OWNER              OrganizationRole = "owner"
 	ORGANIZATIONROLE_SUPPORTAGENT       OrganizationRole = "supportagent"
 	ORGANIZATIONROLE_OPERATIONSENGINEER OrganizationRole = "operationsengineer"
@@ -38,8 +36,6 @@ const (
 var AllowedOrganizationRoleEnumValues = []OrganizationRole{
 	"member",
 	"admin",
-	"organizationadmin",
-	"organizationowner",
 	"owner",
 	"supportagent",
 	"operationsengineer",

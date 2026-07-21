@@ -1441,7 +1441,9 @@ func (r ApiDeleteSecretRequest) Execute() (*http.Response, error) {
 /*
 DeleteSecret Method for DeleteSecret
 
-Irreversibly deletes a secret
+Irreversibly deletes a secret. Due to eventual consistency, the deleted secret may still
+appear in subsequent GET or list responses for a short period until the deletion is fully
+propagated across the system.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param clusterUuid
@@ -2634,6 +2636,115 @@ func (a *DefaultAPIService) GetParametersExecute(r ApiGetParametersRequest) (*Pa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetRestoreRequest struct {
+	ctx         context.Context
+	ApiService  *DefaultAPIService
+	clusterUuid string
+	backupId    string
+}
+
+func (r ApiGetRestoreRequest) Execute() (*RestoreDto, *http.Response, error) {
+	return r.ApiService.GetRestoreExecute(r)
+}
+
+/*
+GetRestore Method for GetRestore
+
+Returns the latest Restore record associated with the given backup. A
+`404` indicates that no restore has ever been triggered for this backup.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@param backupId
+	@return ApiGetRestoreRequest
+*/
+func (a *DefaultAPIService) GetRestore(ctx context.Context, clusterUuid string, backupId string) ApiGetRestoreRequest {
+	return ApiGetRestoreRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+		backupId:    backupId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return RestoreDto
+func (a *DefaultAPIService) GetRestoreExecute(r ApiGetRestoreRequest) (*RestoreDto, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *RestoreDto
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetRestore")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}/backups/{backupId}/restore"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"backupId"+"}", url.PathEscape(parameterValueToString(r.backupId, "backupId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetSecretsRequest struct {
 	ctx         context.Context
 	ApiService  *DefaultAPIService
@@ -2781,6 +2892,116 @@ func (a *DefaultAPIService) GetSecureConnectivityStatusExecute(r ApiGetSecureCon
 
 	localVarPath := localBasePath + "/clusters/{clusterUuid}/secure-connectivity"
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRestoreFromBackupRequest struct {
+	ctx         context.Context
+	ApiService  *DefaultAPIService
+	clusterUuid string
+	backupId    string
+}
+
+func (r ApiRestoreFromBackupRequest) Execute() (*RestoreDto, *http.Response, error) {
+	return r.ApiService.RestoreFromBackupExecute(r)
+}
+
+/*
+RestoreFromBackup Method for RestoreFromBackup
+
+Triggers a restore of the given backup onto the source cluster. The cluster
+is suspended automatically and unsuspended by the operator once the Restore
+is in flight.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterUuid
+	@param backupId
+	@return ApiRestoreFromBackupRequest
+*/
+func (a *DefaultAPIService) RestoreFromBackup(ctx context.Context, clusterUuid string, backupId string) ApiRestoreFromBackupRequest {
+	return ApiRestoreFromBackupRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+		backupId:    backupId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return RestoreDto
+func (a *DefaultAPIService) RestoreFromBackupExecute(r ApiRestoreFromBackupRequest) (*RestoreDto, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *RestoreDto
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.RestoreFromBackup")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}/backups/{backupId}/restore"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"backupId"+"}", url.PathEscape(parameterValueToString(r.backupId, "backupId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -3051,6 +3272,135 @@ func (a *DefaultAPIService) UpdateClusterExecute(r ApiUpdateClusterRequest) (*ht
 	return localVarHTTPResponse, nil
 }
 
+type ApiUpdateClusterEncryptionRequest struct {
+	ctx                         context.Context
+	ApiService                  *DefaultAPIService
+	clusterUuid                 string
+	updateClusterEncryptionBody *UpdateClusterEncryptionBody
+}
+
+func (r ApiUpdateClusterEncryptionRequest) UpdateClusterEncryptionBody(updateClusterEncryptionBody UpdateClusterEncryptionBody) ApiUpdateClusterEncryptionRequest {
+	r.updateClusterEncryptionBody = &updateClusterEncryptionBody
+	return r
+}
+
+func (r ApiUpdateClusterEncryptionRequest) Execute() (*Cluster, *http.Response, error) {
+	return r.ApiService.UpdateClusterEncryptionExecute(r)
+}
+
+/*
+UpdateClusterEncryption Method for UpdateClusterEncryption
+
+Configures or rotates the customer-managed encryption keys on a BYOK
+(encryption=External) cluster.
+
+Preconditions:
+
+  - the cluster was created with `encryption: 'External'` (otherwise 409)
+
+  - the org is on the Enterprise plan and the cluster region is AWS
+    (otherwise 403)
+
+  - both ARNs must be well-formed AWS KMS key ARNs with region segments
+    matching the cluster's primary / backup region (otherwise 400)
+
+  - `secondaryEncryptionKeyId` is required for dual-region clusters and
+    must be omitted for single-region clusters (otherwise 400)
+
+    @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+    @param clusterUuid
+    @return ApiUpdateClusterEncryptionRequest
+*/
+func (a *DefaultAPIService) UpdateClusterEncryption(ctx context.Context, clusterUuid string) ApiUpdateClusterEncryptionRequest {
+	return ApiUpdateClusterEncryptionRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		clusterUuid: clusterUuid,
+	}
+}
+
+// Execute executes the request
+//
+//	@return Cluster
+func (a *DefaultAPIService) UpdateClusterEncryptionExecute(r ApiUpdateClusterEncryptionRequest) (*Cluster, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Cluster
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.UpdateClusterEncryption")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/clusters/{clusterUuid}/encryption"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterUuid"+"}", url.PathEscape(parameterValueToString(r.clusterUuid, "clusterUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.updateClusterEncryptionBody == nil {
+		return localVarReturnValue, nil, reportError("updateClusterEncryptionBody is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.updateClusterEncryptionBody
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUpdateIpAllowlistRequest struct {
 	ctx             context.Context
 	ApiService      *DefaultAPIService
@@ -3279,6 +3629,8 @@ func (r ApiUpdateMembersRequest) Execute() (*http.Response, error) {
 
 /*
 UpdateMembers Method for UpdateMembers
+
+Starting with Camunda 8.8, the roles "operationsengineer", "taskuser", "developer", and "visitor" are no longer recommended for use. Fine-grained permission management is handled in the Admin application for each cluster.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param email

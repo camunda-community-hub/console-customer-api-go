@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ConnectorsStatus** | Pointer to [**ClusterStatus**](ClusterStatus.md) |  | [optional] 
+**ConnectorsStatus** | Pointer to [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | [optional] 
 **OperateStatus** | Pointer to [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | [optional] 
 **OptimizeStatus** | Pointer to [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | [optional] 
 **Ready** | [**ClusterComponentStatus**](ClusterComponentStatus.md) |  | 
@@ -32,20 +32,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetConnectorsStatus
 
-`func (o *ClusterStatus) GetConnectorsStatus() ClusterStatus`
+`func (o *ClusterStatus) GetConnectorsStatus() ClusterComponentStatus`
 
 GetConnectorsStatus returns the ConnectorsStatus field if non-nil, zero value otherwise.
 
 ### GetConnectorsStatusOk
 
-`func (o *ClusterStatus) GetConnectorsStatusOk() (*ClusterStatus, bool)`
+`func (o *ClusterStatus) GetConnectorsStatusOk() (*ClusterComponentStatus, bool)`
 
 GetConnectorsStatusOk returns a tuple with the ConnectorsStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetConnectorsStatus
 
-`func (o *ClusterStatus) SetConnectorsStatus(v ClusterStatus)`
+`func (o *ClusterStatus) SetConnectorsStatus(v ClusterComponentStatus)`
 
 SetConnectorsStatus sets ConnectorsStatus field to given value.
 

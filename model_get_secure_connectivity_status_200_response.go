@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,8 @@ var _ MappedNullable = &GetSecureConnectivityStatus200Response{}
 
 // GetSecureConnectivityStatus200Response struct for GetSecureConnectivityStatus200Response
 type GetSecureConnectivityStatus200Response struct {
-	Status GetSecureConnectivityStatus200ResponseStatus `json:"status"`
+	Status               GetSecureConnectivityStatus200ResponseStatus `json:"status"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetSecureConnectivityStatus200Response GetSecureConnectivityStatus200Response
@@ -79,6 +79,11 @@ func (o GetSecureConnectivityStatus200Response) MarshalJSON() ([]byte, error) {
 func (o GetSecureConnectivityStatus200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["status"] = o.Status
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *GetSecureConnectivityStatus200Response) UnmarshalJSON(data []byte) (err
 
 	varGetSecureConnectivityStatus200Response := _GetSecureConnectivityStatus200Response{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetSecureConnectivityStatus200Response)
+	err = json.Unmarshal(data, &varGetSecureConnectivityStatus200Response)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetSecureConnectivityStatus200Response(varGetSecureConnectivityStatus200Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "status")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,10 +20,11 @@ var _ MappedNullable = &ParametersChannelsInner{}
 
 // ParametersChannelsInner struct for ParametersChannelsInner
 type ParametersChannelsInner struct {
-	AllowedGenerations []ParametersChannelsInnerAllowedGenerationsInner `json:"allowedGenerations"`
-	DefaultGeneration  ParametersChannelsInnerAllowedGenerationsInner   `json:"defaultGeneration"`
-	Name               string                                           `json:"name"`
-	Uuid               string                                           `json:"uuid"`
+	AllowedGenerations   []ParametersChannelsInnerAllowedGenerationsInner `json:"allowedGenerations"`
+	DefaultGeneration    ParametersChannelsInnerDefaultGeneration         `json:"defaultGeneration"`
+	Name                 string                                           `json:"name"`
+	Uuid                 string                                           `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ParametersChannelsInner ParametersChannelsInner
@@ -33,7 +33,7 @@ type _ParametersChannelsInner ParametersChannelsInner
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewParametersChannelsInner(allowedGenerations []ParametersChannelsInnerAllowedGenerationsInner, defaultGeneration ParametersChannelsInnerAllowedGenerationsInner, name string, uuid string) *ParametersChannelsInner {
+func NewParametersChannelsInner(allowedGenerations []ParametersChannelsInnerAllowedGenerationsInner, defaultGeneration ParametersChannelsInnerDefaultGeneration, name string, uuid string) *ParametersChannelsInner {
 	this := ParametersChannelsInner{}
 	this.AllowedGenerations = allowedGenerations
 	this.DefaultGeneration = defaultGeneration
@@ -75,9 +75,9 @@ func (o *ParametersChannelsInner) SetAllowedGenerations(v []ParametersChannelsIn
 }
 
 // GetDefaultGeneration returns the DefaultGeneration field value
-func (o *ParametersChannelsInner) GetDefaultGeneration() ParametersChannelsInnerAllowedGenerationsInner {
+func (o *ParametersChannelsInner) GetDefaultGeneration() ParametersChannelsInnerDefaultGeneration {
 	if o == nil {
-		var ret ParametersChannelsInnerAllowedGenerationsInner
+		var ret ParametersChannelsInnerDefaultGeneration
 		return ret
 	}
 
@@ -86,7 +86,7 @@ func (o *ParametersChannelsInner) GetDefaultGeneration() ParametersChannelsInner
 
 // GetDefaultGenerationOk returns a tuple with the DefaultGeneration field value
 // and a boolean to check if the value has been set.
-func (o *ParametersChannelsInner) GetDefaultGenerationOk() (*ParametersChannelsInnerAllowedGenerationsInner, bool) {
+func (o *ParametersChannelsInner) GetDefaultGenerationOk() (*ParametersChannelsInnerDefaultGeneration, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -94,7 +94,7 @@ func (o *ParametersChannelsInner) GetDefaultGenerationOk() (*ParametersChannelsI
 }
 
 // SetDefaultGeneration sets field value
-func (o *ParametersChannelsInner) SetDefaultGeneration(v ParametersChannelsInnerAllowedGenerationsInner) {
+func (o *ParametersChannelsInner) SetDefaultGeneration(v ParametersChannelsInnerDefaultGeneration) {
 	o.DefaultGeneration = v
 }
 
@@ -160,6 +160,11 @@ func (o ParametersChannelsInner) ToMap() (map[string]interface{}, error) {
 	toSerialize["defaultGeneration"] = o.DefaultGeneration
 	toSerialize["name"] = o.Name
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -190,15 +195,23 @@ func (o *ParametersChannelsInner) UnmarshalJSON(data []byte) (err error) {
 
 	varParametersChannelsInner := _ParametersChannelsInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varParametersChannelsInner)
+	err = json.Unmarshal(data, &varParametersChannelsInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ParametersChannelsInner(varParametersChannelsInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "allowedGenerations")
+		delete(additionalProperties, "defaultGeneration")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

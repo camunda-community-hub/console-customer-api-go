@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,15 +20,19 @@ var _ MappedNullable = &BackupDto{}
 
 // BackupDto struct for BackupDto
 type BackupDto struct {
-	Completed      string       `json:"completed"`
-	Created        string       `json:"created"`
-	Name           string       `json:"name"`
-	OperateStatus  BackupStatus `json:"operateStatus"`
-	OptimizeStatus BackupStatus `json:"optimizeStatus"`
-	Status         BackupStatus `json:"status"`
-	TasklistStatus BackupStatus `json:"tasklistStatus"`
-	Uuid           string       `json:"uuid"`
-	ZeebeStatus    BackupStatus `json:"zeebeStatus"`
+	Completed string `json:"completed"`
+	Created   string `json:"created"`
+	// Human-readable name of the Generation referenced by `generationUuid`. Resolved server-side: the Generation entity is looked up by `generationUuid` and its `name` field is propagated here. Falls back to `'Unknown Generation'` if the generation can't be found (e.g. it was deleted). `undefined` when the backup has no `generationUuid` at all (legacy backups).
+	GenerationName       *string      `json:"generationName,omitempty"`
+	GenerationUuid       *string      `json:"generationUuid,omitempty"`
+	Name                 string       `json:"name"`
+	OperateStatus        BackupStatus `json:"operateStatus"`
+	OptimizeStatus       BackupStatus `json:"optimizeStatus"`
+	Status               BackupStatus `json:"status"`
+	TasklistStatus       BackupStatus `json:"tasklistStatus"`
+	Uuid                 string       `json:"uuid"`
+	ZeebeStatus          BackupStatus `json:"zeebeStatus"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _BackupDto BackupDto
@@ -106,6 +109,70 @@ func (o *BackupDto) GetCreatedOk() (*string, bool) {
 // SetCreated sets field value
 func (o *BackupDto) SetCreated(v string) {
 	o.Created = v
+}
+
+// GetGenerationName returns the GenerationName field value if set, zero value otherwise.
+func (o *BackupDto) GetGenerationName() string {
+	if o == nil || IsNil(o.GenerationName) {
+		var ret string
+		return ret
+	}
+	return *o.GenerationName
+}
+
+// GetGenerationNameOk returns a tuple with the GenerationName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupDto) GetGenerationNameOk() (*string, bool) {
+	if o == nil || IsNil(o.GenerationName) {
+		return nil, false
+	}
+	return o.GenerationName, true
+}
+
+// HasGenerationName returns a boolean if a field has been set.
+func (o *BackupDto) HasGenerationName() bool {
+	if o != nil && !IsNil(o.GenerationName) {
+		return true
+	}
+
+	return false
+}
+
+// SetGenerationName gets a reference to the given string and assigns it to the GenerationName field.
+func (o *BackupDto) SetGenerationName(v string) {
+	o.GenerationName = &v
+}
+
+// GetGenerationUuid returns the GenerationUuid field value if set, zero value otherwise.
+func (o *BackupDto) GetGenerationUuid() string {
+	if o == nil || IsNil(o.GenerationUuid) {
+		var ret string
+		return ret
+	}
+	return *o.GenerationUuid
+}
+
+// GetGenerationUuidOk returns a tuple with the GenerationUuid field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupDto) GetGenerationUuidOk() (*string, bool) {
+	if o == nil || IsNil(o.GenerationUuid) {
+		return nil, false
+	}
+	return o.GenerationUuid, true
+}
+
+// HasGenerationUuid returns a boolean if a field has been set.
+func (o *BackupDto) HasGenerationUuid() bool {
+	if o != nil && !IsNil(o.GenerationUuid) {
+		return true
+	}
+
+	return false
+}
+
+// SetGenerationUuid gets a reference to the given string and assigns it to the GenerationUuid field.
+func (o *BackupDto) SetGenerationUuid(v string) {
+	o.GenerationUuid = &v
 }
 
 // GetName returns the Name field value
@@ -288,6 +355,12 @@ func (o BackupDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["completed"] = o.Completed
 	toSerialize["created"] = o.Created
+	if !IsNil(o.GenerationName) {
+		toSerialize["generationName"] = o.GenerationName
+	}
+	if !IsNil(o.GenerationUuid) {
+		toSerialize["generationUuid"] = o.GenerationUuid
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["operateStatus"] = o.OperateStatus
 	toSerialize["optimizeStatus"] = o.OptimizeStatus
@@ -295,6 +368,11 @@ func (o BackupDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["tasklistStatus"] = o.TasklistStatus
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["zeebeStatus"] = o.ZeebeStatus
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -330,15 +408,30 @@ func (o *BackupDto) UnmarshalJSON(data []byte) (err error) {
 
 	varBackupDto := _BackupDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varBackupDto)
+	err = json.Unmarshal(data, &varBackupDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = BackupDto(varBackupDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "completed")
+		delete(additionalProperties, "created")
+		delete(additionalProperties, "generationName")
+		delete(additionalProperties, "generationUuid")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "operateStatus")
+		delete(additionalProperties, "optimizeStatus")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "tasklistStatus")
+		delete(additionalProperties, "uuid")
+		delete(additionalProperties, "zeebeStatus")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

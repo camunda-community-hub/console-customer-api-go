@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -34,6 +33,7 @@ type AuditDto struct {
 	Service                  string   `json:"service"`
 	Timestamp                *float64 `json:"timestamp,omitempty"`
 	UserId                   string   `json:"userId"`
+	AdditionalProperties     map[string]interface{}
 }
 
 type _AuditDto AuditDto
@@ -457,6 +457,11 @@ func (o AuditDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["timestamp"] = o.Timestamp
 	}
 	toSerialize["userId"] = o.UserId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -490,15 +495,32 @@ func (o *AuditDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAuditDto := _AuditDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAuditDto)
+	err = json.Unmarshal(data, &varAuditDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AuditDto(varAuditDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "audit")
+		delete(additionalProperties, "auditType")
+		delete(additionalProperties, "entity")
+		delete(additionalProperties, "entityAttribute")
+		delete(additionalProperties, "entityAttributeValueFrom")
+		delete(additionalProperties, "entityAttributeValueTo")
+		delete(additionalProperties, "entityId")
+		delete(additionalProperties, "orgId")
+		delete(additionalProperties, "parentEntity")
+		delete(additionalProperties, "parentEntityId")
+		delete(additionalProperties, "service")
+		delete(additionalProperties, "timestamp")
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

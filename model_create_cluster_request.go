@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -42,6 +41,7 @@ type CreateClusterRequest struct {
 	RegionId                     string               `json:"regionId"`
 	StageLabel                   *CamundaClusterStage `json:"stageLabel,omitempty"`
 	IdentityBackendChecksEnabled *bool                `json:"identityBackendChecksEnabled,omitempty"`
+	AdditionalProperties         map[string]interface{}
 }
 
 type _CreateClusterRequest CreateClusterRequest
@@ -448,6 +448,11 @@ func (o CreateClusterRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.IdentityBackendChecksEnabled) {
 		toSerialize["identityBackendChecksEnabled"] = o.IdentityBackendChecksEnabled
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -479,15 +484,31 @@ func (o *CreateClusterRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateClusterRequest := _CreateClusterRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateClusterRequest)
+	err = json.Unmarshal(data, &varCreateClusterRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateClusterRequest(varCreateClusterRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "autoUpdate")
+		delete(additionalProperties, "backupRegionId")
+		delete(additionalProperties, "channelId")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "encryption")
+		delete(additionalProperties, "generationId")
+		delete(additionalProperties, "hardwarePackages")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "planTypeId")
+		delete(additionalProperties, "regionId")
+		delete(additionalProperties, "stageLabel")
+		delete(additionalProperties, "identityBackendChecksEnabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

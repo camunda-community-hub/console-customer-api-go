@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,10 +20,11 @@ var _ MappedNullable = &ParametersRegionsInner{}
 
 // ParametersRegionsInner struct for ParametersRegionsInner
 type ParametersRegionsInner struct {
-	Backups  []ParametersRegionsInnerBackupsInner `json:"backups,omitempty"`
-	Name     string                               `json:"name"`
-	Provider string                               `json:"provider"`
-	Uuid     string                               `json:"uuid"`
+	Backups              []ParametersRegionsInnerBackupsInner `json:"backups,omitempty"`
+	Name                 string                               `json:"name"`
+	Provider             string                               `json:"provider"`
+	Uuid                 string                               `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ParametersRegionsInner ParametersRegionsInner
@@ -169,6 +169,11 @@ func (o ParametersRegionsInner) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["provider"] = o.Provider
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -198,15 +203,23 @@ func (o *ParametersRegionsInner) UnmarshalJSON(data []byte) (err error) {
 
 	varParametersRegionsInner := _ParametersRegionsInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varParametersRegionsInner)
+	err = json.Unmarshal(data, &varParametersRegionsInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ParametersRegionsInner(varParametersRegionsInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "backups")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "provider")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

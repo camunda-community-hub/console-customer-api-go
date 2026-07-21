@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,9 +20,10 @@ var _ MappedNullable = &Parameters{}
 
 // Parameters Describes the different options to create a Camunda cluster.
 type Parameters struct {
-	Channels         []ParametersChannelsInner                        `json:"channels"`
-	ClusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner `json:"clusterPlanTypes"`
-	Regions          []ParametersRegionsInner                         `json:"regions"`
+	Channels             []ParametersChannelsInner                  `json:"channels"`
+	ClusterPlanTypes     []ParametersChannelsInnerDefaultGeneration `json:"clusterPlanTypes"`
+	Regions              []ParametersRegionsInner                   `json:"regions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Parameters Parameters
@@ -32,7 +32,7 @@ type _Parameters Parameters
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerAllowedGenerationsInner, regions []ParametersRegionsInner) *Parameters {
+func NewParameters(channels []ParametersChannelsInner, clusterPlanTypes []ParametersChannelsInnerDefaultGeneration, regions []ParametersRegionsInner) *Parameters {
 	this := Parameters{}
 	this.Channels = channels
 	this.ClusterPlanTypes = clusterPlanTypes
@@ -73,9 +73,9 @@ func (o *Parameters) SetChannels(v []ParametersChannelsInner) {
 }
 
 // GetClusterPlanTypes returns the ClusterPlanTypes field value
-func (o *Parameters) GetClusterPlanTypes() []ParametersChannelsInnerAllowedGenerationsInner {
+func (o *Parameters) GetClusterPlanTypes() []ParametersChannelsInnerDefaultGeneration {
 	if o == nil {
-		var ret []ParametersChannelsInnerAllowedGenerationsInner
+		var ret []ParametersChannelsInnerDefaultGeneration
 		return ret
 	}
 
@@ -84,7 +84,7 @@ func (o *Parameters) GetClusterPlanTypes() []ParametersChannelsInnerAllowedGener
 
 // GetClusterPlanTypesOk returns a tuple with the ClusterPlanTypes field value
 // and a boolean to check if the value has been set.
-func (o *Parameters) GetClusterPlanTypesOk() ([]ParametersChannelsInnerAllowedGenerationsInner, bool) {
+func (o *Parameters) GetClusterPlanTypesOk() ([]ParametersChannelsInnerDefaultGeneration, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -92,7 +92,7 @@ func (o *Parameters) GetClusterPlanTypesOk() ([]ParametersChannelsInnerAllowedGe
 }
 
 // SetClusterPlanTypes sets field value
-func (o *Parameters) SetClusterPlanTypes(v []ParametersChannelsInnerAllowedGenerationsInner) {
+func (o *Parameters) SetClusterPlanTypes(v []ParametersChannelsInnerDefaultGeneration) {
 	o.ClusterPlanTypes = v
 }
 
@@ -133,6 +133,11 @@ func (o Parameters) ToMap() (map[string]interface{}, error) {
 	toSerialize["channels"] = o.Channels
 	toSerialize["clusterPlanTypes"] = o.ClusterPlanTypes
 	toSerialize["regions"] = o.Regions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -162,15 +167,22 @@ func (o *Parameters) UnmarshalJSON(data []byte) (err error) {
 
 	varParameters := _Parameters{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varParameters)
+	err = json.Unmarshal(data, &varParameters)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Parameters(varParameters)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "channels")
+		delete(additionalProperties, "clusterPlanTypes")
+		delete(additionalProperties, "regions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

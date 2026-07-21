@@ -26,7 +26,10 @@ type UpdateClusterBody struct {
 	// Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.
 	NumberOfAllocatedHwPackages *float64             `json:"numberOfAllocatedHwPackages,omitempty"`
 	StageLabel                  *CamundaClusterStage `json:"stageLabel,omitempty"`
+	AdditionalProperties        map[string]interface{}
 }
+
+type _UpdateClusterBody UpdateClusterBody
 
 // NewUpdateClusterBody instantiates a new UpdateClusterBody object
 // This constructor will assign default values to properties that have it defined,
@@ -195,7 +198,36 @@ func (o UpdateClusterBody) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.StageLabel) {
 		toSerialize["stageLabel"] = o.StageLabel
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UpdateClusterBody) UnmarshalJSON(data []byte) (err error) {
+	varUpdateClusterBody := _UpdateClusterBody{}
+
+	err = json.Unmarshal(data, &varUpdateClusterBody)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UpdateClusterBody(varUpdateClusterBody)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "numberOfAllocatedHwPackages")
+		delete(additionalProperties, "stageLabel")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUpdateClusterBody struct {

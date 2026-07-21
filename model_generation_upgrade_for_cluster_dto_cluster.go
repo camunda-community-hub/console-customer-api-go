@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &GenerationUpgradeForClusterDtoCluster{}
 
 // GenerationUpgradeForClusterDtoCluster struct for GenerationUpgradeForClusterDtoCluster
 type GenerationUpgradeForClusterDtoCluster struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Id                   string `json:"id"`
+	Name                 string `json:"name"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GenerationUpgradeForClusterDtoCluster GenerationUpgradeForClusterDtoCluster
@@ -106,6 +106,11 @@ func (o GenerationUpgradeForClusterDtoCluster) ToMap() (map[string]interface{}, 
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["name"] = o.Name
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *GenerationUpgradeForClusterDtoCluster) UnmarshalJSON(data []byte) (err 
 
 	varGenerationUpgradeForClusterDtoCluster := _GenerationUpgradeForClusterDtoCluster{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGenerationUpgradeForClusterDtoCluster)
+	err = json.Unmarshal(data, &varGenerationUpgradeForClusterDtoCluster)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GenerationUpgradeForClusterDtoCluster(varGenerationUpgradeForClusterDtoCluster)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,10 @@ var _ MappedNullable = &ParametersChannelsInnerAllowedGenerationsInner{}
 
 // ParametersChannelsInnerAllowedGenerationsInner struct for ParametersChannelsInnerAllowedGenerationsInner
 type ParametersChannelsInnerAllowedGenerationsInner struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Classification       *string `json:"classification,omitempty"`
+	Name                 string  `json:"name"`
+	Uuid                 string  `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ParametersChannelsInnerAllowedGenerationsInner ParametersChannelsInnerAllowedGenerationsInner
@@ -44,6 +45,38 @@ func NewParametersChannelsInnerAllowedGenerationsInner(name string, uuid string)
 func NewParametersChannelsInnerAllowedGenerationsInnerWithDefaults() *ParametersChannelsInnerAllowedGenerationsInner {
 	this := ParametersChannelsInnerAllowedGenerationsInner{}
 	return &this
+}
+
+// GetClassification returns the Classification field value if set, zero value otherwise.
+func (o *ParametersChannelsInnerAllowedGenerationsInner) GetClassification() string {
+	if o == nil || IsNil(o.Classification) {
+		var ret string
+		return ret
+	}
+	return *o.Classification
+}
+
+// GetClassificationOk returns a tuple with the Classification field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParametersChannelsInnerAllowedGenerationsInner) GetClassificationOk() (*string, bool) {
+	if o == nil || IsNil(o.Classification) {
+		return nil, false
+	}
+	return o.Classification, true
+}
+
+// HasClassification returns a boolean if a field has been set.
+func (o *ParametersChannelsInnerAllowedGenerationsInner) HasClassification() bool {
+	if o != nil && !IsNil(o.Classification) {
+		return true
+	}
+
+	return false
+}
+
+// SetClassification gets a reference to the given string and assigns it to the Classification field.
+func (o *ParametersChannelsInnerAllowedGenerationsInner) SetClassification(v string) {
+	o.Classification = &v
 }
 
 // GetName returns the Name field value
@@ -104,8 +137,16 @@ func (o ParametersChannelsInnerAllowedGenerationsInner) MarshalJSON() ([]byte, e
 
 func (o ParametersChannelsInnerAllowedGenerationsInner) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Classification) {
+		toSerialize["classification"] = o.Classification
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +175,22 @@ func (o *ParametersChannelsInnerAllowedGenerationsInner) UnmarshalJSON(data []by
 
 	varParametersChannelsInnerAllowedGenerationsInner := _ParametersChannelsInnerAllowedGenerationsInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varParametersChannelsInnerAllowedGenerationsInner)
+	err = json.Unmarshal(data, &varParametersChannelsInnerAllowedGenerationsInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ParametersChannelsInnerAllowedGenerationsInner(varParametersChannelsInnerAllowedGenerationsInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "classification")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

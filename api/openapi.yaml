@@ -235,6 +235,81 @@ paths:
           description: Cluster is not yours
       security:
       - bearer: []
+  /clusters/{clusterUuid}/backups/{backupId}/restore:
+    get:
+      description: |-
+        Returns the latest Restore record associated with the given backup. A
+        `404` indicates that no restore has ever been triggered for this backup.
+      operationId: GetRestore
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: backupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestoreDto"
+          description: Ok
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: No restore found for this backup
+        "501":
+          description: Backup restore is not yet available in this environment
+      security:
+      - bearer: []
+    post:
+      description: |-
+        Triggers a restore of the given backup onto the source cluster. The cluster
+        is suspended automatically and unsuspended by the operator once the Restore
+        is in flight.
+      operationId: RestoreFromBackup
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: backupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestoreDto"
+          description: The created Restore record.
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster or backup not found
+        "409":
+          description: Backup cannot be restored (unknown generation or in-flight
+            restore)
+        "501":
+          description: Backup restore is not yet available in this environment
+      security:
+      - bearer: []
   /clusters/{clusterUuid}/clients:
     get:
       operationId: GetClients
@@ -352,6 +427,52 @@ paths:
           description: Cluster or client not found
         "412":
           description: The cluster is not ready; try again later
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/encryption:
+    put:
+      description: |-
+        Configures or rotates the customer-managed encryption keys on a BYOK
+        (encryption=External) cluster.
+
+        Preconditions:
+         - the cluster was created with `encryption: 'External'` (otherwise 409)
+         - the org is on the Enterprise plan and the cluster region is AWS
+           (otherwise 403)
+         - both ARNs must be well-formed AWS KMS key ARNs with region segments
+           matching the cluster's primary / backup region (otherwise 400)
+         - `secondaryEncryptionKeyId` is required for dual-region clusters and
+           must be omitted for single-region clusters (otherwise 400)
+      operationId: UpdateClusterEncryption
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateClusterEncryptionBody"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cluster"
+          description: Ok
+        "400":
+          description: "Invalid ARN, region mismatch, or dual-region requirement violated"
+        "403":
+          description: External encryption not available for this org/region
+        "404":
+          description: Cluster not found
+        "409":
+          description: Cluster is not configured for external encryption
       security:
       - bearer: []
   /clusters/{clusterUuid}/ipallowlist:
@@ -620,7 +741,10 @@ paths:
       - bearer: []
   /clusters/{clusterUuid}/secrets/{secretName}:
     delete:
-      description: Irreversibly deletes a secret
+      description: |-
+        Irreversibly deletes a secret. Due to eventual consistency, the deleted secret may still
+        appear in subsequent GET or list responses for a short period until the deletion is fully
+        propagated across the system.
       operationId: DeleteSecret
       parameters:
       - explode: false
@@ -835,6 +959,10 @@ paths:
       security:
       - bearer: []
     post:
+      description: "Starting with Camunda 8.8, the roles \"operationsengineer\", \"\
+        taskuser\", \"developer\", and \"visitor\" are no longer recommended for use.\
+        \ Fine-grained permission management is handled in the Admin application for\
+        \ each cluster."
       operationId: UpdateMembers
       parameters:
       - explode: false
@@ -895,7 +1023,6 @@ components:
       - modeler
       type: string
     AuditDto:
-      additionalProperties: false
       example:
         entityAttributeValueFrom: entityAttributeValueFrom
         parentEntity: parentEntity
@@ -953,9 +1080,10 @@ components:
       - userId
       type: object
     BackupDto:
-      additionalProperties: false
       example:
+        generationName: generationName
         operateStatus: In progress
+        generationUuid: generationUuid
         created: created
         tasklistStatus: null
         name: name
@@ -968,6 +1096,16 @@ components:
         completed:
           type: string
         created:
+          type: string
+        generationName:
+          description: |-
+            Human-readable name of the Generation referenced by `generationUuid`.
+            Resolved server-side: the Generation entity is looked up by `generationUuid`
+            and its `name` field is propagated here. Falls back to `'Unknown Generation'`
+            if the generation can't be found (e.g. it was deleted). `undefined` when the
+            backup has no `generationUuid` at all (legacy backups).
+          type: string
+        generationUuid:
           type: string
         name:
           type: string
@@ -1002,7 +1140,6 @@ components:
       - "-"
       type: string
     ByomClientDto:
-      additionalProperties: false
       example:
         lastUsed: 2000-01-23T04:56:07.000+00:00
         createdByName: createdByName
@@ -1038,7 +1175,6 @@ components:
       - uuid
       type: object
     ByomStatus:
-      additionalProperties: false
       example:
         metricsEndpoint:
           path: path
@@ -1066,7 +1202,6 @@ components:
       nullable: false
       type: string
     Cluster:
-      additionalProperties: false
       description: "Describing a Camunda cluster running in your organization. For\
         \ reference, use the UUID."
       example:
@@ -1095,6 +1230,11 @@ components:
         labels:
         - labels
         - labels
+        encryption:
+          secondaryKeyArn: secondaryKeyArn
+          primaryKeyArn: primaryKeyArn
+          type: Software
+          status: Ready
         name: name
         links:
           console: console
@@ -1114,11 +1254,11 @@ components:
           name: name
           uuid: uuid
         status:
-          operateStatus: Creating
+          operateStatus: null
           ready: null
           tasklistStatus: null
           optimizeStatus: null
-          connectorsStatus: "{}"
+          connectorsStatus: Creating
           zeebeStatus: null
       properties:
         autoUpdate:
@@ -1136,6 +1276,8 @@ components:
         description:
           description: Optional description for the cluster (max 150 characters).
           type: string
+        encryption:
+          $ref: "#/components/schemas/Cluster_encryption"
         generation:
           $ref: "#/components/schemas/Cluster_generation"
         ipallowlist:
@@ -1187,7 +1329,6 @@ components:
       - uuid
       type: object
     ClusterClient:
-      additionalProperties: false
       example:
         clientId: clientId
         permissions:
@@ -1215,7 +1356,6 @@ components:
       - permissions
       type: object
     ClusterClientConnectionDetails:
-      additionalProperties: false
       example:
         name: name
         ZEEBE_CLIENT_ID: ZEEBE_CLIENT_ID
@@ -1236,6 +1376,17 @@ components:
       - ZEEBE_CLIENT_ID
       - name
       type: object
+    ClusterComponentStatus:
+      enum:
+      - Creating
+      - Healthy
+      - Unhealthy
+      - Updating
+      - Resuming
+      - Suspended
+      - WaitingForInput
+      - Maintenance
+      type: string
     ClusterEncryptionKey:
       enum:
       - Software
@@ -1248,17 +1399,7 @@ components:
         type: string
       properties: {}
       type: object
-    ClusterComponentStatus:
-      enum:
-      - Creating
-      - Healthy
-      - Unhealthy
-      - Updating
-      - Resuming
-      - Suspended
-      type: string
     CreateClusterBody:
-      additionalProperties: false
       description: Used to create a cluster through this API. All necessary values
         can be retrieved from the <pre>/clusters/parameters</pre> endpoint.
       properties:
@@ -1305,7 +1446,6 @@ components:
       - regionId
       type: object
     CreateClusterClientBody:
-      additionalProperties: false
       description: "if no permissions are passed, the client will be created with\
         \ all the permissions available at the time of creation"
       example:
@@ -1330,7 +1470,6 @@ components:
       - clientName
       type: object
     CreateSecretBody:
-      additionalProperties: false
       example:
         secretName: secretName
         secretValue: secretValue
@@ -1344,8 +1483,8 @@ components:
       - secretValue
       type: object
     CreatedClusterClient:
-      additionalProperties: false
       example:
+        audience: audience
         clientId: clientId
         permissions:
         - permissions
@@ -1362,6 +1501,8 @@ components:
           oauth: oauth
         uuid: uuid
       properties:
+        audience:
+          type: string
         clientId:
           type: string
         clientSecret:
@@ -1383,8 +1524,16 @@ components:
       - permissions
       - uuid
       type: object
+    EncryptionStatus:
+      enum:
+      - Ready
+      - ProviderError
+      - ExternalEncryptionKeyNotReady
+      - ExternalEncryptionKeyNotSupplied
+      - CreationError
+      - EncryptedStorageNotReady
+      type: string
     GenerationUpgradeForClusterDto:
-      additionalProperties: false
       example:
         cluster:
           name: name
@@ -1412,7 +1561,6 @@ components:
       - orgId
       type: object
     IpAllowListBody:
-      additionalProperties: false
       example:
         ipallowlist:
         - ip: ip
@@ -1428,7 +1576,6 @@ components:
       - ipallowlist
       type: object
     IpWhiteListBody:
-      additionalProperties: false
       example:
         ipwhitelist:
         - ip: ip
@@ -1444,7 +1591,6 @@ components:
       - ipwhitelist
       type: object
     Member:
-      additionalProperties: false
       example:
         invitePending: true
         roles:
@@ -1470,7 +1616,6 @@ components:
       - roles
       type: object
     MetaDto:
-      additionalProperties: false
       example:
         web-modeler:
         - web-modeler
@@ -1487,8 +1632,6 @@ components:
       enum:
       - member
       - admin
-      - organizationadmin
-      - organizationowner
       - owner
       - supportagent
       - operationsengineer
@@ -1527,7 +1670,6 @@ components:
       - visitor
       type: string
     Parameters:
-      additionalProperties: false
       description: Describes the different options to create a Camunda cluster.
       example:
         regions:
@@ -1566,8 +1708,10 @@ components:
         channels:
         - allowedGenerations:
           - name: name
+            classification: channel
             uuid: uuid
           - name: name
+            classification: channel
             uuid: uuid
           defaultGeneration:
             name: name
@@ -1576,8 +1720,10 @@ components:
           uuid: uuid
         - allowedGenerations:
           - name: name
+            classification: channel
             uuid: uuid
           - name: name
+            classification: channel
             uuid: uuid
           defaultGeneration:
             name: name
@@ -1596,7 +1742,7 @@ components:
           type: array
         clusterPlanTypes:
           items:
-            $ref: "#/components/schemas/Parameters_channels_inner_allowedGenerations_inner"
+            $ref: "#/components/schemas/Parameters_channels_inner_defaultGeneration"
           type: array
         regions:
           items:
@@ -1608,7 +1754,6 @@ components:
       - regions
       type: object
     PostMemberBody:
-      additionalProperties: false
       example:
         orgRoles:
         - admin
@@ -1625,35 +1770,100 @@ components:
       description: Construct a type with a set of properties K of type T
       properties: {}
       type: object
-    SecureConnectivityDto:
-      additionalProperties: false
+    RestoreDto:
       example:
-        connectivity:
-          private:
-            allowedPrincipals:
-            - allowedPrincipals
-            - allowedPrincipals
-            allowedRegions:
-            - allowedRegions
-            - allowedRegions
-          type: type
-        status:
-          privateEndpoint:
-            service: service
-            region: region
-            type: type
-            status: status
+        completionTimestamp: completionTimestamp
+        backupId: backupId
+        state: PENDING
+        uuid: uuid
+        startTimestamp: startTimestamp
       properties:
-        connectivity:
-          $ref: "#/components/schemas/SecureConnectivityDto_connectivity"
+        backupId:
+          type: string
+        completionTimestamp:
+          type: string
+        startTimestamp:
+          type: string
+        state:
+          $ref: "#/components/schemas/RestoreState"
+        uuid:
+          type: string
+      required:
+      - backupId
+      - state
+      - uuid
+      type: object
+    RestoreState:
+      enum:
+      - PENDING
+      - VALIDATING
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - ABORTED
+      type: string
+    SecureConnectivityDto:
+      example:
+        metadata:
+          name: name
+          namespace: namespace
+          labels:
+            orgId: orgId
+        spec:
+          cluster:
+            id: id
+          allowedPrincipals:
+          - allowedPrincipals
+          - allowedPrincipals
+          allowedRegions:
+          - allowedRegions
+          - allowedRegions
+        status:
+          endpoint:
+            privateDnsName: privateDnsName
+            region: region
+            serviceName: serviceName
+            type: type
+          urls: ""
+          endpointConnectionCount: 6.027456183070403
+          conditions:
+          - reason: reason
+            lastTransitionTime: lastTransitionTime
+            message: message
+            type: type
+            observedGeneration: 0.8008281904610115
+            status: status
+          - reason: reason
+            lastTransitionTime: lastTransitionTime
+            message: message
+            type: type
+            observedGeneration: 0.8008281904610115
+            status: status
+          observedGeneration: 1.4658129805029452
+          endpointConnections:
+          - owner: owner
+            endpointId: endpointId
+            creationTimestamp: creationTimestamp
+            state: state
+            serviceId: serviceId
+          - owner: owner
+            endpointId: endpointId
+            creationTimestamp: creationTimestamp
+            state: state
+            serviceId: serviceId
+      properties:
+        metadata:
+          $ref: "#/components/schemas/SecureConnectivityDto_metadata"
+        spec:
+          $ref: "#/components/schemas/SecureConnectivityDto_spec"
         status:
           $ref: "#/components/schemas/SecureConnectivityDto_status"
       required:
-      - connectivity
+      - metadata
+      - spec
       - status
       type: object
     UpdateClusterBody:
-      additionalProperties: false
       description: Used to update a cluster through this API.
       example:
         name: name
@@ -1675,8 +1885,32 @@ components:
         stageLabel:
           $ref: "#/components/schemas/CamundaClusterStage"
       type: object
+    UpdateClusterEncryptionBody:
+      description: |-
+        Used to set or rotate the customer-managed encryption keys on a BYOK
+        (encryption=External) cluster. Both ARNs must point to AWS KMS keys
+        located in the cluster's primary and backup regions respectively. For
+        single-region clusters, omit `secondaryEncryptionKeyId`.
+      example:
+        primaryEncryptionKeyId: primaryEncryptionKeyId
+        secondaryEncryptionKeyId: secondaryEncryptionKeyId
+      properties:
+        primaryEncryptionKeyId:
+          description: |-
+            AWS KMS key ARN for the cluster's primary region. Single-region key
+            ARNs and multi-region key (`mrk-...`) ARNs are both accepted, as long
+            as the ARN's region segment matches the cluster's region.
+          type: string
+        secondaryEncryptionKeyId:
+          description: |-
+            AWS KMS key ARN for the cluster's backup region. Required when the
+            cluster's backup configuration is dual-region; must be omitted for
+            single-region clusters. Must differ from `primaryEncryptionKeyId`.
+          type: string
+      required:
+      - primaryEncryptionKeyId
+      type: object
     UpdateSecretBody:
-      additionalProperties: false
       example:
         secretValue: secretValue
       properties:
@@ -1773,21 +2007,53 @@ components:
     GetSecureConnectivityStatus_200_response:
       example:
         status:
-          connectivity:
-            private:
-              allowedPrincipals:
-              - allowedPrincipals
-              - allowedPrincipals
-              allowedRegions:
-              - allowedRegions
-              - allowedRegions
-            type: type
+          metadata:
+            name: name
+            namespace: namespace
+            labels:
+              orgId: orgId
+          spec:
+            cluster:
+              id: id
+            allowedPrincipals:
+            - allowedPrincipals
+            - allowedPrincipals
+            allowedRegions:
+            - allowedRegions
+            - allowedRegions
           status:
-            privateEndpoint:
-              service: service
+            endpoint:
+              privateDnsName: privateDnsName
               region: region
+              serviceName: serviceName
               type: type
+            urls: ""
+            endpointConnectionCount: 6.027456183070403
+            conditions:
+            - reason: reason
+              lastTransitionTime: lastTransitionTime
+              message: message
+              type: type
+              observedGeneration: 0.8008281904610115
               status: status
+            - reason: reason
+              lastTransitionTime: lastTransitionTime
+              message: message
+              type: type
+              observedGeneration: 0.8008281904610115
+              status: status
+            observedGeneration: 1.4658129805029452
+            endpointConnections:
+            - owner: owner
+              endpointId: endpointId
+              creationTimestamp: creationTimestamp
+              state: state
+              serviceId: serviceId
+            - owner: owner
+              endpointId: endpointId
+              creationTimestamp: creationTimestamp
+              state: state
+              serviceId: serviceId
       properties:
         status:
           $ref: "#/components/schemas/GetSecureConnectivityStatus_200_response_status"
@@ -1795,13 +2061,6 @@ components:
       - status
       type: object
     ActivateSecureConnectivity_request:
-      example:
-        allowedPrincipals:
-        - allowedPrincipals
-        - allowedPrincipals
-        allowedRegions:
-        - allowedRegions
-        - allowedRegions
       properties:
         allowedPrincipals:
           items:
@@ -1860,6 +2119,33 @@ components:
       required:
       - name
       - uuid
+      type: object
+    Cluster_encryption:
+      description: |-
+        Encryption configuration for the cluster.
+
+        `type` matches what was selected at create-time (Software / Hardware /
+        Provider / External). `primaryKeyArn` / `secondaryKeyArn` are populated
+        only for `External` (BYOK) clusters once keys have been configured via
+        `PUT /clusters/{clusterUuid}/encryption`. `status` is only present when
+        `type` is `External` and reflects the operator reconciliation state —
+        poll for `Ready` to confirm BYOK is active.
+      example:
+        secondaryKeyArn: secondaryKeyArn
+        primaryKeyArn: primaryKeyArn
+        type: Software
+        status: Ready
+      properties:
+        primaryKeyArn:
+          type: string
+        secondaryKeyArn:
+          type: string
+        status:
+          $ref: "#/components/schemas/EncryptionStatus"
+        type:
+          $ref: "#/components/schemas/ClusterEncryptionKey"
+      required:
+      - type
       type: object
     Cluster_generation:
       description: The version of Camunda running on your cluster.
@@ -1950,15 +2236,15 @@ components:
       description: A health indicator for your Camunda cluster. Each of the components
         have their own state. The combined state is in the field `ready`.
       example:
-        operateStatus: Creating
+        operateStatus: null
         ready: null
         tasklistStatus: null
         optimizeStatus: null
-        connectorsStatus: "{}"
+        connectorsStatus: Creating
         zeebeStatus: null
       properties:
         connectorsStatus:
-          $ref: "#/components/schemas/ClusterStatus"
+          $ref: "#/components/schemas/ClusterComponentStatus"
         operateStatus:
           $ref: "#/components/schemas/ClusterComponentStatus"
         optimizeStatus:
@@ -2013,6 +2299,26 @@ components:
     Parameters_channels_inner_allowedGenerations_inner:
       example:
         name: name
+        classification: channel
+        uuid: uuid
+      properties:
+        classification:
+          enum:
+          - channel
+          - existingCluster
+          - orgUnlocked
+          type: string
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
+    Parameters_channels_inner_defaultGeneration:
+      example:
+        name: name
         uuid: uuid
       properties:
         name:
@@ -2027,8 +2333,10 @@ components:
       example:
         allowedGenerations:
         - name: name
+          classification: channel
           uuid: uuid
         - name: name
+          classification: channel
           uuid: uuid
         defaultGeneration:
           name: name
@@ -2041,7 +2349,7 @@ components:
             $ref: "#/components/schemas/Parameters_channels_inner_allowedGenerations_inner"
           type: array
         defaultGeneration:
-          $ref: "#/components/schemas/Parameters_channels_inner_allowedGenerations_inner"
+          $ref: "#/components/schemas/Parameters_channels_inner_defaultGeneration"
         name:
           type: string
         uuid:
@@ -2118,58 +2426,202 @@ components:
       - provider
       - uuid
       type: object
-    SecureConnectivityDto_connectivity:
+    SecureConnectivityDto_metadata_labels:
       example:
-        private:
-          allowedPrincipals:
-          - allowedPrincipals
-          - allowedPrincipals
-          allowedRegions:
-          - allowedRegions
-          - allowedRegions
-        type: type
+        orgId: orgId
       properties:
-        private:
-          $ref: "#/components/schemas/ActivateSecureConnectivity_request"
-        type:
+        orgId:
           type: string
       required:
-      - private
-      - type
+      - orgId
       type: object
-    SecureConnectivityDto_status_privateEndpoint:
+    SecureConnectivityDto_metadata:
       example:
-        service: service
-        region: region
+        name: name
+        namespace: namespace
+        labels:
+          orgId: orgId
+      properties:
+        labels:
+          $ref: "#/components/schemas/SecureConnectivityDto_metadata_labels"
+        name:
+          type: string
+        namespace:
+          type: string
+      required:
+      - labels
+      - name
+      - namespace
+      type: object
+    SecureConnectivityDto_spec_cluster:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      type: object
+    SecureConnectivityDto_spec:
+      example:
+        cluster:
+          id: id
+        allowedPrincipals:
+        - allowedPrincipals
+        - allowedPrincipals
+        allowedRegions:
+        - allowedRegions
+        - allowedRegions
+      properties:
+        allowedPrincipals:
+          items:
+            type: string
+          type: array
+        allowedRegions:
+          items:
+            type: string
+          type: array
+        cluster:
+          $ref: "#/components/schemas/SecureConnectivityDto_spec_cluster"
+      required:
+      - allowedPrincipals
+      - allowedRegions
+      - cluster
+      type: object
+    SecureConnectivityDto_status_conditions_inner:
+      example:
+        reason: reason
+        lastTransitionTime: lastTransitionTime
+        message: message
         type: type
+        observedGeneration: 0.8008281904610115
         status: status
       properties:
-        region:
+        lastTransitionTime:
           type: string
-        service:
+        message:
+          type: string
+        observedGeneration:
+          format: double
+          type: number
+        reason:
           type: string
         status:
           type: string
         type:
           type: string
       required:
-      - region
-      - service
+      - lastTransitionTime
+      - message
+      - observedGeneration
+      - reason
       - status
       - type
       type: object
+    SecureConnectivityDto_status_endpoint:
+      example:
+        privateDnsName: privateDnsName
+        region: region
+        serviceName: serviceName
+        type: type
+      properties:
+        privateDnsName:
+          type: string
+        region:
+          type: string
+        serviceName:
+          type: string
+        type:
+          type: string
+      required:
+      - privateDnsName
+      - region
+      - serviceName
+      - type
+      type: object
+    SecureConnectivityDto_status_endpointConnections_inner:
+      example:
+        owner: owner
+        endpointId: endpointId
+        creationTimestamp: creationTimestamp
+        state: state
+        serviceId: serviceId
+      properties:
+        creationTimestamp:
+          type: string
+        endpointId:
+          type: string
+        owner:
+          type: string
+        serviceId:
+          type: string
+        state:
+          type: string
+      required:
+      - creationTimestamp
+      - endpointId
+      - owner
+      - serviceId
+      - state
+      type: object
     SecureConnectivityDto_status:
       example:
-        privateEndpoint:
-          service: service
+        endpoint:
+          privateDnsName: privateDnsName
           region: region
+          serviceName: serviceName
           type: type
+        urls: ""
+        endpointConnectionCount: 6.027456183070403
+        conditions:
+        - reason: reason
+          lastTransitionTime: lastTransitionTime
+          message: message
+          type: type
+          observedGeneration: 0.8008281904610115
           status: status
+        - reason: reason
+          lastTransitionTime: lastTransitionTime
+          message: message
+          type: type
+          observedGeneration: 0.8008281904610115
+          status: status
+        observedGeneration: 1.4658129805029452
+        endpointConnections:
+        - owner: owner
+          endpointId: endpointId
+          creationTimestamp: creationTimestamp
+          state: state
+          serviceId: serviceId
+        - owner: owner
+          endpointId: endpointId
+          creationTimestamp: creationTimestamp
+          state: state
+          serviceId: serviceId
       properties:
-        privateEndpoint:
-          $ref: "#/components/schemas/SecureConnectivityDto_status_privateEndpoint"
+        conditions:
+          items:
+            $ref: "#/components/schemas/SecureConnectivityDto_status_conditions_inner"
+          type: array
+        endpoint:
+          $ref: "#/components/schemas/SecureConnectivityDto_status_endpoint"
+        endpointConnectionCount:
+          format: double
+          type: number
+        endpointConnections:
+          items:
+            $ref: "#/components/schemas/SecureConnectivityDto_status_endpointConnections_inner"
+          type: array
+        observedGeneration:
+          format: double
+          type: number
+        urls: {}
       required:
-      - privateEndpoint
+      - conditions
+      - endpoint
+      - endpointConnectionCount
+      - observedGeneration
+      - urls
       type: object
   securitySchemes:
     bearer:

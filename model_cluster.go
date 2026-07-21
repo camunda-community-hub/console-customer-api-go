@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -28,8 +27,9 @@ type Cluster struct {
 	Channel      ClusterChannel       `json:"channel"`
 	Created      time.Time            `json:"created"`
 	// Optional description for the cluster (max 150 characters).
-	Description *string           `json:"description,omitempty"`
-	Generation  ClusterGeneration `json:"generation"`
+	Description *string            `json:"description,omitempty"`
+	Encryption  *ClusterEncryption `json:"encryption,omitempty"`
+	Generation  ClusterGeneration  `json:"generation"`
 	// the IP Allowlist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
 	Ipallowlist []ClusterIpallowlistInner `json:"ipallowlist,omitempty"`
 	// DEPRECATED: this field is going to be removed in June 2025, please use ipallowlist instead  the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
@@ -42,7 +42,8 @@ type Cluster struct {
 	Region      ClusterRegion             `json:"region"`
 	Status      ClusterStatus             `json:"status"`
 	// The ID used in all further API operations referencing your cluster.
-	Uuid string `json:"uuid"`
+	Uuid                 string `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Cluster Cluster
@@ -209,6 +210,38 @@ func (o *Cluster) HasDescription() bool {
 // SetDescription gets a reference to the given string and assigns it to the Description field.
 func (o *Cluster) SetDescription(v string) {
 	o.Description = &v
+}
+
+// GetEncryption returns the Encryption field value if set, zero value otherwise.
+func (o *Cluster) GetEncryption() ClusterEncryption {
+	if o == nil || IsNil(o.Encryption) {
+		var ret ClusterEncryption
+		return ret
+	}
+	return *o.Encryption
+}
+
+// GetEncryptionOk returns a tuple with the Encryption field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetEncryptionOk() (*ClusterEncryption, bool) {
+	if o == nil || IsNil(o.Encryption) {
+		return nil, false
+	}
+	return o.Encryption, true
+}
+
+// HasEncryption returns a boolean if a field has been set.
+func (o *Cluster) HasEncryption() bool {
+	if o != nil && !IsNil(o.Encryption) {
+		return true
+	}
+
+	return false
+}
+
+// SetEncryption gets a reference to the given ClusterEncryption and assigns it to the Encryption field.
+func (o *Cluster) SetEncryption(v ClusterEncryption) {
+	o.Encryption = &v
 }
 
 // GetGeneration returns the Generation field value
@@ -518,6 +551,9 @@ func (o Cluster) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}
+	if !IsNil(o.Encryption) {
+		toSerialize["encryption"] = o.Encryption
+	}
 	toSerialize["generation"] = o.Generation
 	if !IsNil(o.Ipallowlist) {
 		toSerialize["ipallowlist"] = o.Ipallowlist
@@ -535,6 +571,11 @@ func (o Cluster) ToMap() (map[string]interface{}, error) {
 	toSerialize["region"] = o.Region
 	toSerialize["status"] = o.Status
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -572,15 +613,36 @@ func (o *Cluster) UnmarshalJSON(data []byte) (err error) {
 
 	varCluster := _Cluster{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCluster)
+	err = json.Unmarshal(data, &varCluster)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Cluster(varCluster)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "autoUpdate")
+		delete(additionalProperties, "backupRegion")
+		delete(additionalProperties, "channel")
+		delete(additionalProperties, "created")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "encryption")
+		delete(additionalProperties, "generation")
+		delete(additionalProperties, "ipallowlist")
+		delete(additionalProperties, "ipwhitelist")
+		delete(additionalProperties, "labels")
+		delete(additionalProperties, "links")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "ownerId")
+		delete(additionalProperties, "planType")
+		delete(additionalProperties, "region")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &ByomStatus{}
 
 // ByomStatus struct for ByomStatus
 type ByomStatus struct {
-	Conditions      []interface{}             `json:"conditions"`
-	MetricsEndpoint ByomStatusMetricsEndpoint `json:"metricsEndpoint"`
+	Conditions           []interface{}             `json:"conditions"`
+	MetricsEndpoint      ByomStatusMetricsEndpoint `json:"metricsEndpoint"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ByomStatus ByomStatus
@@ -106,6 +106,11 @@ func (o ByomStatus) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["conditions"] = o.Conditions
 	toSerialize["metricsEndpoint"] = o.MetricsEndpoint
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *ByomStatus) UnmarshalJSON(data []byte) (err error) {
 
 	varByomStatus := _ByomStatus{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varByomStatus)
+	err = json.Unmarshal(data, &varByomStatus)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ByomStatus(varByomStatus)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "conditions")
+		delete(additionalProperties, "metricsEndpoint")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

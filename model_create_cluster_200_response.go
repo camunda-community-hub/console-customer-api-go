@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,8 @@ var _ MappedNullable = &CreateCluster200Response{}
 
 // CreateCluster200Response struct for CreateCluster200Response
 type CreateCluster200Response struct {
-	ClusterId string `json:"clusterId"`
+	ClusterId            string `json:"clusterId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateCluster200Response CreateCluster200Response
@@ -79,6 +79,11 @@ func (o CreateCluster200Response) MarshalJSON() ([]byte, error) {
 func (o CreateCluster200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["clusterId"] = o.ClusterId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *CreateCluster200Response) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateCluster200Response := _CreateCluster200Response{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateCluster200Response)
+	err = json.Unmarshal(data, &varCreateCluster200Response)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateCluster200Response(varCreateCluster200Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "clusterId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,8 @@ var _ MappedNullable = &UpdateSecretBody{}
 
 // UpdateSecretBody struct for UpdateSecretBody
 type UpdateSecretBody struct {
-	SecretValue string `json:"secretValue"`
+	SecretValue          string `json:"secretValue"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UpdateSecretBody UpdateSecretBody
@@ -79,6 +79,11 @@ func (o UpdateSecretBody) MarshalJSON() ([]byte, error) {
 func (o UpdateSecretBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["secretValue"] = o.SecretValue
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *UpdateSecretBody) UnmarshalJSON(data []byte) (err error) {
 
 	varUpdateSecretBody := _UpdateSecretBody{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUpdateSecretBody)
+	err = json.Unmarshal(data, &varUpdateSecretBody)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UpdateSecretBody(varUpdateSecretBody)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "secretValue")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

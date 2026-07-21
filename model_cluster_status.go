@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,12 +20,13 @@ var _ MappedNullable = &ClusterStatus{}
 
 // ClusterStatus A health indicator for your Camunda cluster. Each of the components have their own state. The combined state is in the field `ready`.
 type ClusterStatus struct {
-	ConnectorsStatus *ClusterStatus          `json:"connectorsStatus,omitempty"`
-	OperateStatus    *ClusterComponentStatus `json:"operateStatus,omitempty"`
-	OptimizeStatus   *ClusterComponentStatus `json:"optimizeStatus,omitempty"`
-	Ready            ClusterComponentStatus  `json:"ready"`
-	TasklistStatus   *ClusterComponentStatus `json:"tasklistStatus,omitempty"`
-	ZeebeStatus      *ClusterComponentStatus `json:"zeebeStatus,omitempty"`
+	ConnectorsStatus     *ClusterComponentStatus `json:"connectorsStatus,omitempty"`
+	OperateStatus        *ClusterComponentStatus `json:"operateStatus,omitempty"`
+	OptimizeStatus       *ClusterComponentStatus `json:"optimizeStatus,omitempty"`
+	Ready                ClusterComponentStatus  `json:"ready"`
+	TasklistStatus       *ClusterComponentStatus `json:"tasklistStatus,omitempty"`
+	ZeebeStatus          *ClusterComponentStatus `json:"zeebeStatus,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ClusterStatus ClusterStatus
@@ -50,9 +50,9 @@ func NewClusterStatusWithDefaults() *ClusterStatus {
 }
 
 // GetConnectorsStatus returns the ConnectorsStatus field value if set, zero value otherwise.
-func (o *ClusterStatus) GetConnectorsStatus() ClusterStatus {
+func (o *ClusterStatus) GetConnectorsStatus() ClusterComponentStatus {
 	if o == nil || IsNil(o.ConnectorsStatus) {
-		var ret ClusterStatus
+		var ret ClusterComponentStatus
 		return ret
 	}
 	return *o.ConnectorsStatus
@@ -60,7 +60,7 @@ func (o *ClusterStatus) GetConnectorsStatus() ClusterStatus {
 
 // GetConnectorsStatusOk returns a tuple with the ConnectorsStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterStatus) GetConnectorsStatusOk() (*ClusterStatus, bool) {
+func (o *ClusterStatus) GetConnectorsStatusOk() (*ClusterComponentStatus, bool) {
 	if o == nil || IsNil(o.ConnectorsStatus) {
 		return nil, false
 	}
@@ -76,8 +76,8 @@ func (o *ClusterStatus) HasConnectorsStatus() bool {
 	return false
 }
 
-// SetConnectorsStatus gets a reference to the given ClusterStatus and assigns it to the ConnectorsStatus field.
-func (o *ClusterStatus) SetConnectorsStatus(v ClusterStatus) {
+// SetConnectorsStatus gets a reference to the given ClusterComponentStatus and assigns it to the ConnectorsStatus field.
+func (o *ClusterStatus) SetConnectorsStatus(v ClusterComponentStatus) {
 	o.ConnectorsStatus = &v
 }
 
@@ -259,6 +259,11 @@ func (o ClusterStatus) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ZeebeStatus) {
 		toSerialize["zeebeStatus"] = o.ZeebeStatus
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -286,15 +291,25 @@ func (o *ClusterStatus) UnmarshalJSON(data []byte) (err error) {
 
 	varClusterStatus := _ClusterStatus{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varClusterStatus)
+	err = json.Unmarshal(data, &varClusterStatus)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ClusterStatus(varClusterStatus)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "connectorsStatus")
+		delete(additionalProperties, "operateStatus")
+		delete(additionalProperties, "optimizeStatus")
+		delete(additionalProperties, "ready")
+		delete(additionalProperties, "tasklistStatus")
+		delete(additionalProperties, "zeebeStatus")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

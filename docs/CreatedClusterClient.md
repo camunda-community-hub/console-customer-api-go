@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Audience** | Pointer to **string** |  | [optional] 
 **ClientId** | **string** |  | 
 **ClientSecret** | **string** |  | 
 **Links** | Pointer to [**CreatedClusterClientLinks**](CreatedClusterClientLinks.md) |  | [optional] 
@@ -29,6 +30,31 @@ will change when the set of required properties is changed
 NewCreatedClusterClientWithDefaults instantiates a new CreatedClusterClient object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetAudience
+
+`func (o *CreatedClusterClient) GetAudience() string`
+
+GetAudience returns the Audience field if non-nil, zero value otherwise.
+
+### GetAudienceOk
+
+`func (o *CreatedClusterClient) GetAudienceOk() (*string, bool)`
+
+GetAudienceOk returns a tuple with the Audience field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAudience
+
+`func (o *CreatedClusterClient) SetAudience(v string)`
+
+SetAudience sets Audience field to given value.
+
+### HasAudience
+
+`func (o *CreatedClusterClient) HasAudience() bool`
+
+HasAudience returns a boolean if a field has been set.
 
 ### GetClientId
 

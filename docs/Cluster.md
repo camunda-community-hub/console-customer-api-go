@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **Channel** | [**ClusterChannel**](ClusterChannel.md) |  | 
 **Created** | **time.Time** |  | 
 **Description** | Pointer to **string** | Optional description for the cluster (max 150 characters). | [optional] 
+**Encryption** | Pointer to [**ClusterEncryption**](ClusterEncryption.md) |  | [optional] 
 **Generation** | [**ClusterGeneration**](ClusterGeneration.md) |  | 
 **Ipallowlist** | Pointer to [**[]ClusterIpallowlistInner**](ClusterIpallowlistInner.md) | the IP Allowlist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
 **Ipwhitelist** | Pointer to [**[]ClusterIpallowlistInner**](ClusterIpallowlistInner.md) | DEPRECATED: this field is going to be removed in June 2025, please use ipallowlist instead  the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
@@ -149,6 +150,31 @@ SetDescription sets Description field to given value.
 `func (o *Cluster) HasDescription() bool`
 
 HasDescription returns a boolean if a field has been set.
+
+### GetEncryption
+
+`func (o *Cluster) GetEncryption() ClusterEncryption`
+
+GetEncryption returns the Encryption field if non-nil, zero value otherwise.
+
+### GetEncryptionOk
+
+`func (o *Cluster) GetEncryptionOk() (*ClusterEncryption, bool)`
+
+GetEncryptionOk returns a tuple with the Encryption field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEncryption
+
+`func (o *Cluster) SetEncryption(v ClusterEncryption)`
+
+SetEncryption sets Encryption field to given value.
+
+### HasEncryption
+
+`func (o *Cluster) HasEncryption() bool`
+
+HasEncryption returns a boolean if a field has been set.
 
 ### GetGeneration
 

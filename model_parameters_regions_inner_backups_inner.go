@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,8 +20,9 @@ var _ MappedNullable = &ParametersRegionsInnerBackupsInner{}
 
 // ParametersRegionsInnerBackupsInner struct for ParametersRegionsInnerBackupsInner
 type ParametersRegionsInnerBackupsInner struct {
-	Regions []ParametersRegionsInnerBackupsInnerRegionsInner `json:"regions"`
-	Uuid    string                                           `json:"uuid"`
+	Regions              []ParametersRegionsInnerBackupsInnerRegionsInner `json:"regions"`
+	Uuid                 string                                           `json:"uuid"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ParametersRegionsInnerBackupsInner ParametersRegionsInnerBackupsInner
@@ -106,6 +106,11 @@ func (o ParametersRegionsInnerBackupsInner) ToMap() (map[string]interface{}, err
 	toSerialize := map[string]interface{}{}
 	toSerialize["regions"] = o.Regions
 	toSerialize["uuid"] = o.Uuid
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *ParametersRegionsInnerBackupsInner) UnmarshalJSON(data []byte) (err err
 
 	varParametersRegionsInnerBackupsInner := _ParametersRegionsInnerBackupsInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varParametersRegionsInnerBackupsInner)
+	err = json.Unmarshal(data, &varParametersRegionsInnerBackupsInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ParametersRegionsInnerBackupsInner(varParametersRegionsInnerBackupsInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "regions")
+		delete(additionalProperties, "uuid")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

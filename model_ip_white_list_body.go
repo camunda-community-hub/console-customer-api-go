@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,7 +20,8 @@ var _ MappedNullable = &IpWhiteListBody{}
 
 // IpWhiteListBody struct for IpWhiteListBody
 type IpWhiteListBody struct {
-	Ipwhitelist []ClusterIpallowlistInner `json:"ipwhitelist"`
+	Ipwhitelist          []ClusterIpallowlistInner `json:"ipwhitelist"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _IpWhiteListBody IpWhiteListBody
@@ -79,6 +79,11 @@ func (o IpWhiteListBody) MarshalJSON() ([]byte, error) {
 func (o IpWhiteListBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["ipwhitelist"] = o.Ipwhitelist
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *IpWhiteListBody) UnmarshalJSON(data []byte) (err error) {
 
 	varIpWhiteListBody := _IpWhiteListBody{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varIpWhiteListBody)
+	err = json.Unmarshal(data, &varIpWhiteListBody)
 
 	if err != nil {
 		return err
 	}
 
 	*o = IpWhiteListBody(varIpWhiteListBody)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "ipwhitelist")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

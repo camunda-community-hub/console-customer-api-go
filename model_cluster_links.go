@@ -19,15 +19,18 @@ var _ MappedNullable = &ClusterLinks{}
 
 // ClusterLinks Endpoints for the components running in your Camunda cluster.
 type ClusterLinks struct {
-	Connectors *string `json:"connectors,omitempty"`
-	Console    *string `json:"console,omitempty"`
-	Identity   *string `json:"identity,omitempty"`
-	Oauth      *string `json:"oauth,omitempty"`
-	Operate    *string `json:"operate,omitempty"`
-	Optimize   *string `json:"optimize,omitempty"`
-	Tasklist   *string `json:"tasklist,omitempty"`
-	Zeebe      *string `json:"zeebe,omitempty"`
+	Connectors           *string `json:"connectors,omitempty"`
+	Console              *string `json:"console,omitempty"`
+	Identity             *string `json:"identity,omitempty"`
+	Oauth                *string `json:"oauth,omitempty"`
+	Operate              *string `json:"operate,omitempty"`
+	Optimize             *string `json:"optimize,omitempty"`
+	Tasklist             *string `json:"tasklist,omitempty"`
+	Zeebe                *string `json:"zeebe,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ClusterLinks ClusterLinks
 
 // NewClusterLinks instantiates a new ClusterLinks object
 // This constructor will assign default values to properties that have it defined,
@@ -336,7 +339,40 @@ func (o ClusterLinks) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Zeebe) {
 		toSerialize["zeebe"] = o.Zeebe
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ClusterLinks) UnmarshalJSON(data []byte) (err error) {
+	varClusterLinks := _ClusterLinks{}
+
+	err = json.Unmarshal(data, &varClusterLinks)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ClusterLinks(varClusterLinks)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "connectors")
+		delete(additionalProperties, "console")
+		delete(additionalProperties, "identity")
+		delete(additionalProperties, "oauth")
+		delete(additionalProperties, "operate")
+		delete(additionalProperties, "optimize")
+		delete(additionalProperties, "tasklist")
+		delete(additionalProperties, "zeebe")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableClusterLinks struct {

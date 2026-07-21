@@ -4,14 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Connectivity** | [**SecureConnectivityDtoConnectivity**](SecureConnectivityDtoConnectivity.md) |  | 
+**Metadata** | [**SecureConnectivityDtoMetadata**](SecureConnectivityDtoMetadata.md) |  | 
+**Spec** | [**SecureConnectivityDtoSpec**](SecureConnectivityDtoSpec.md) |  | 
 **Status** | [**SecureConnectivityDtoStatus**](SecureConnectivityDtoStatus.md) |  | 
 
 ## Methods
 
 ### NewGetSecureConnectivityStatus200ResponseStatus
 
-`func NewGetSecureConnectivityStatus200ResponseStatus(connectivity SecureConnectivityDtoConnectivity, status SecureConnectivityDtoStatus, ) *GetSecureConnectivityStatus200ResponseStatus`
+`func NewGetSecureConnectivityStatus200ResponseStatus(metadata SecureConnectivityDtoMetadata, spec SecureConnectivityDtoSpec, status SecureConnectivityDtoStatus, ) *GetSecureConnectivityStatus200ResponseStatus`
 
 NewGetSecureConnectivityStatus200ResponseStatus instantiates a new GetSecureConnectivityStatus200ResponseStatus object
 This constructor will assign default values to properties that have it defined,
@@ -26,24 +27,44 @@ NewGetSecureConnectivityStatus200ResponseStatusWithDefaults instantiates a new G
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetConnectivity
+### GetMetadata
 
-`func (o *GetSecureConnectivityStatus200ResponseStatus) GetConnectivity() SecureConnectivityDtoConnectivity`
+`func (o *GetSecureConnectivityStatus200ResponseStatus) GetMetadata() SecureConnectivityDtoMetadata`
 
-GetConnectivity returns the Connectivity field if non-nil, zero value otherwise.
+GetMetadata returns the Metadata field if non-nil, zero value otherwise.
 
-### GetConnectivityOk
+### GetMetadataOk
 
-`func (o *GetSecureConnectivityStatus200ResponseStatus) GetConnectivityOk() (*SecureConnectivityDtoConnectivity, bool)`
+`func (o *GetSecureConnectivityStatus200ResponseStatus) GetMetadataOk() (*SecureConnectivityDtoMetadata, bool)`
 
-GetConnectivityOk returns a tuple with the Connectivity field if it's non-nil, zero value otherwise
+GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetConnectivity
+### SetMetadata
 
-`func (o *GetSecureConnectivityStatus200ResponseStatus) SetConnectivity(v SecureConnectivityDtoConnectivity)`
+`func (o *GetSecureConnectivityStatus200ResponseStatus) SetMetadata(v SecureConnectivityDtoMetadata)`
 
-SetConnectivity sets Connectivity field to given value.
+SetMetadata sets Metadata field to given value.
+
+
+### GetSpec
+
+`func (o *GetSecureConnectivityStatus200ResponseStatus) GetSpec() SecureConnectivityDtoSpec`
+
+GetSpec returns the Spec field if non-nil, zero value otherwise.
+
+### GetSpecOk
+
+`func (o *GetSecureConnectivityStatus200ResponseStatus) GetSpecOk() (*SecureConnectivityDtoSpec, bool)`
+
+GetSpecOk returns a tuple with the Spec field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSpec
+
+`func (o *GetSecureConnectivityStatus200ResponseStatus) SetSpec(v SecureConnectivityDtoSpec)`
+
+SetSpec sets Spec field to given value.
 
 
 ### GetStatus

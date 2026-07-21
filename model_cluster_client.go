@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,9 +20,10 @@ var _ MappedNullable = &ClusterClient{}
 
 // ClusterClient struct for ClusterClient
 type ClusterClient struct {
-	ClientId    string   `json:"clientId"`
-	Name        string   `json:"name"`
-	Permissions []string `json:"permissions"`
+	ClientId             string   `json:"clientId"`
+	Name                 string   `json:"name"`
+	Permissions          []string `json:"permissions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ClusterClient ClusterClient
@@ -133,6 +133,11 @@ func (o ClusterClient) ToMap() (map[string]interface{}, error) {
 	toSerialize["clientId"] = o.ClientId
 	toSerialize["name"] = o.Name
 	toSerialize["permissions"] = o.Permissions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -162,15 +167,22 @@ func (o *ClusterClient) UnmarshalJSON(data []byte) (err error) {
 
 	varClusterClient := _ClusterClient{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varClusterClient)
+	err = json.Unmarshal(data, &varClusterClient)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ClusterClient(varClusterClient)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "clientId")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "permissions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 1.3.3
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -21,10 +20,11 @@ var _ MappedNullable = &Member{}
 
 // Member struct for Member
 type Member struct {
-	Email         string             `json:"email"`
-	InvitePending bool               `json:"invitePending"`
-	Name          string             `json:"name"`
-	Roles         []OrganizationRole `json:"roles"`
+	Email                string             `json:"email"`
+	InvitePending        bool               `json:"invitePending"`
+	Name                 string             `json:"name"`
+	Roles                []OrganizationRole `json:"roles"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Member Member
@@ -160,6 +160,11 @@ func (o Member) ToMap() (map[string]interface{}, error) {
 	toSerialize["invitePending"] = o.InvitePending
 	toSerialize["name"] = o.Name
 	toSerialize["roles"] = o.Roles
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -190,15 +195,23 @@ func (o *Member) UnmarshalJSON(data []byte) (err error) {
 
 	varMember := _Member{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMember)
+	err = json.Unmarshal(data, &varMember)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Member(varMember)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "invitePending")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "roles")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }
