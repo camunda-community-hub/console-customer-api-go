@@ -23,8 +23,10 @@ type BackupDto struct {
 	Completed string `json:"completed"`
 	Created   string `json:"created"`
 	// Human-readable name of the Generation referenced by `generationUuid`. Resolved server-side: the Generation entity is looked up by `generationUuid` and its `name` field is propagated here. Falls back to `'Unknown Generation'` if the generation can't be found (e.g. it was deleted). `undefined` when the backup has no `generationUuid` at all (legacy backups).
-	GenerationName       *string      `json:"generationName,omitempty"`
-	GenerationUuid       *string      `json:"generationUuid,omitempty"`
+	GenerationName *string `json:"generationName,omitempty"`
+	GenerationUuid *string `json:"generationUuid,omitempty"`
+	// Link to the incident Slack channel, from the `incident-link` annotation on the Backup CR. Only set on internal (incident) backups.
+	IncidentLink         *string      `json:"incidentLink,omitempty"`
 	Name                 string       `json:"name"`
 	OperateStatus        BackupStatus `json:"operateStatus"`
 	OptimizeStatus       BackupStatus `json:"optimizeStatus"`
@@ -173,6 +175,38 @@ func (o *BackupDto) HasGenerationUuid() bool {
 // SetGenerationUuid gets a reference to the given string and assigns it to the GenerationUuid field.
 func (o *BackupDto) SetGenerationUuid(v string) {
 	o.GenerationUuid = &v
+}
+
+// GetIncidentLink returns the IncidentLink field value if set, zero value otherwise.
+func (o *BackupDto) GetIncidentLink() string {
+	if o == nil || IsNil(o.IncidentLink) {
+		var ret string
+		return ret
+	}
+	return *o.IncidentLink
+}
+
+// GetIncidentLinkOk returns a tuple with the IncidentLink field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupDto) GetIncidentLinkOk() (*string, bool) {
+	if o == nil || IsNil(o.IncidentLink) {
+		return nil, false
+	}
+	return o.IncidentLink, true
+}
+
+// HasIncidentLink returns a boolean if a field has been set.
+func (o *BackupDto) HasIncidentLink() bool {
+	if o != nil && !IsNil(o.IncidentLink) {
+		return true
+	}
+
+	return false
+}
+
+// SetIncidentLink gets a reference to the given string and assigns it to the IncidentLink field.
+func (o *BackupDto) SetIncidentLink(v string) {
+	o.IncidentLink = &v
 }
 
 // GetName returns the Name field value
@@ -361,6 +395,9 @@ func (o BackupDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.GenerationUuid) {
 		toSerialize["generationUuid"] = o.GenerationUuid
 	}
+	if !IsNil(o.IncidentLink) {
+		toSerialize["incidentLink"] = o.IncidentLink
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["operateStatus"] = o.OperateStatus
 	toSerialize["optimizeStatus"] = o.OptimizeStatus
@@ -423,6 +460,7 @@ func (o *BackupDto) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "created")
 		delete(additionalProperties, "generationName")
 		delete(additionalProperties, "generationUuid")
+		delete(additionalProperties, "incidentLink")
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "operateStatus")
 		delete(additionalProperties, "optimizeStatus")

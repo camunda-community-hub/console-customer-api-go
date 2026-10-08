@@ -92,6 +92,7 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**DeleteCluster**](docs/DefaultAPI.md#deletecluster) | **Delete** /clusters/{clusterUuid} | 
 *DefaultAPI* | [**DeleteMember**](docs/DefaultAPI.md#deletemember) | **Delete** /members/{email} | 
 *DefaultAPI* | [**DeleteMonitoringClient**](docs/DefaultAPI.md#deletemonitoringclient) | **Delete** /clusters/{clusterUuid}/monitoring/clients/{clientUuid} | 
+*DefaultAPI* | [**DeleteSchedule**](docs/DefaultAPI.md#deleteschedule) | **Delete** /clusters/{clusterUuid}/backups/schedule | 
 *DefaultAPI* | [**DeleteSecret**](docs/DefaultAPI.md#deletesecret) | **Delete** /clusters/{clusterUuid}/secrets/{secretName} | 
 *DefaultAPI* | [**GetBackups**](docs/DefaultAPI.md#getbackups) | **Get** /clusters/{clusterUuid}/backups | 
 *DefaultAPI* | [**GetClient**](docs/DefaultAPI.md#getclient) | **Get** /clusters/{clusterUuid}/clients/{clientId} | 
@@ -105,15 +106,18 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**GetMonitoringClients**](docs/DefaultAPI.md#getmonitoringclients) | **Get** /clusters/{clusterUuid}/monitoring/clients | 
 *DefaultAPI* | [**GetParameters**](docs/DefaultAPI.md#getparameters) | **Get** /clusters/parameters | 
 *DefaultAPI* | [**GetRestore**](docs/DefaultAPI.md#getrestore) | **Get** /clusters/{clusterUuid}/backups/{backupId}/restore | 
+*DefaultAPI* | [**GetSchedule**](docs/DefaultAPI.md#getschedule) | **Get** /clusters/{clusterUuid}/backups/schedule | 
 *DefaultAPI* | [**GetSecrets**](docs/DefaultAPI.md#getsecrets) | **Get** /clusters/{clusterUuid}/secrets | 
 *DefaultAPI* | [**GetSecureConnectivityStatus**](docs/DefaultAPI.md#getsecureconnectivitystatus) | **Get** /clusters/{clusterUuid}/secure-connectivity | 
 *DefaultAPI* | [**RestoreFromBackup**](docs/DefaultAPI.md#restorefrombackup) | **Post** /clusters/{clusterUuid}/backups/{backupId}/restore | 
 *DefaultAPI* | [**RotateMonitoringClientPassword**](docs/DefaultAPI.md#rotatemonitoringclientpassword) | **Post** /clusters/{clusterUuid}/monitoring/clients/{clientUuid}/rotate | 
+*DefaultAPI* | [**TriggerFailover**](docs/DefaultAPI.md#triggerfailover) | **Post** /clusters/{clusterUuid}/failover | 
 *DefaultAPI* | [**UpdateCluster**](docs/DefaultAPI.md#updatecluster) | **Patch** /clusters/{clusterUuid} | 
 *DefaultAPI* | [**UpdateClusterEncryption**](docs/DefaultAPI.md#updateclusterencryption) | **Put** /clusters/{clusterUuid}/encryption | 
 *DefaultAPI* | [**UpdateIpAllowlist**](docs/DefaultAPI.md#updateipallowlist) | **Put** /clusters/{clusterUuid}/ipallowlist | 
 *DefaultAPI* | [**UpdateIpWhitelist**](docs/DefaultAPI.md#updateipwhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
 *DefaultAPI* | [**UpdateMembers**](docs/DefaultAPI.md#updatemembers) | **Post** /members/{email} | 
+*DefaultAPI* | [**UpdateSchedule**](docs/DefaultAPI.md#updateschedule) | **Put** /clusters/{clusterUuid}/backups/schedule | 
 *DefaultAPI* | [**UpdateSecret**](docs/DefaultAPI.md#updatesecret) | **Put** /clusters/{clusterUuid}/secrets/{secretName} | 
 *DefaultAPI* | [**UpgradeCluster**](docs/DefaultAPI.md#upgradecluster) | **Put** /clusters/{clusterUuid}/upgrade | 
 *DefaultAPI* | [**Wake**](docs/DefaultAPI.md#wake) | **Put** /clusters/{clusterUuid}/wake | 
@@ -125,6 +129,8 @@ Class | Method | HTTP request | Description
  - [AssignableOrganizationRoleType](docs/AssignableOrganizationRoleType.md)
  - [AuditDto](docs/AuditDto.md)
  - [BackupDto](docs/BackupDto.md)
+ - [BackupScheduleBody](docs/BackupScheduleBody.md)
+ - [BackupScheduleDto](docs/BackupScheduleDto.md)
  - [BackupStatus](docs/BackupStatus.md)
  - [ByomClientDto](docs/ByomClientDto.md)
  - [ByomStatus](docs/ByomStatus.md)
@@ -154,6 +160,10 @@ Class | Method | HTTP request | Description
  - [CreatedClusterClient](docs/CreatedClusterClient.md)
  - [CreatedClusterClientLinks](docs/CreatedClusterClientLinks.md)
  - [EncryptionStatus](docs/EncryptionStatus.md)
+ - [FailoverResult](docs/FailoverResult.md)
+ - [FailoverResultResults](docs/FailoverResultResults.md)
+ - [FailoverResultResultsBackupClone](docs/FailoverResultResultsBackupClone.md)
+ - [FailoverResultResultsBackupCloneAnyOf](docs/FailoverResultResultsBackupCloneAnyOf.md)
  - [GenerationUpgradeForClusterDto](docs/GenerationUpgradeForClusterDto.md)
  - [GenerationUpgradeForClusterDtoCluster](docs/GenerationUpgradeForClusterDtoCluster.md)
  - [GetMonitoringClients200Response](docs/GetMonitoringClients200Response.md)
@@ -191,6 +201,7 @@ Class | Method | HTTP request | Description
  - [SecureConnectivityDtoStatusConditionsInner](docs/SecureConnectivityDtoStatusConditionsInner.md)
  - [SecureConnectivityDtoStatusEndpoint](docs/SecureConnectivityDtoStatusEndpoint.md)
  - [SecureConnectivityDtoStatusEndpointConnectionsInner](docs/SecureConnectivityDtoStatusEndpointConnectionsInner.md)
+ - [TriggerFailoverBody](docs/TriggerFailoverBody.md)
  - [UpdateClusterBody](docs/UpdateClusterBody.md)
  - [UpdateClusterEncryptionBody](docs/UpdateClusterEncryptionBody.md)
  - [UpdateSecretBody](docs/UpdateSecretBody.md)

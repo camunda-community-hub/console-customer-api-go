@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Created** | **string** |  | 
 **GenerationName** | Pointer to **string** | Human-readable name of the Generation referenced by &#x60;generationUuid&#x60;. Resolved server-side: the Generation entity is looked up by &#x60;generationUuid&#x60; and its &#x60;name&#x60; field is propagated here. Falls back to &#x60;&#39;Unknown Generation&#39;&#x60; if the generation can&#39;t be found (e.g. it was deleted). &#x60;undefined&#x60; when the backup has no &#x60;generationUuid&#x60; at all (legacy backups). | [optional] 
 **GenerationUuid** | Pointer to **string** |  | [optional] 
+**IncidentLink** | Pointer to **string** | Link to the incident Slack channel, from the &#x60;incident-link&#x60; annotation on the Backup CR. Only set on internal (incident) backups. | [optional] 
 **Name** | **string** |  | 
 **OperateStatus** | [**BackupStatus**](BackupStatus.md) |  | 
 **OptimizeStatus** | [**BackupStatus**](BackupStatus.md) |  | 
@@ -124,6 +125,31 @@ SetGenerationUuid sets GenerationUuid field to given value.
 `func (o *BackupDto) HasGenerationUuid() bool`
 
 HasGenerationUuid returns a boolean if a field has been set.
+
+### GetIncidentLink
+
+`func (o *BackupDto) GetIncidentLink() string`
+
+GetIncidentLink returns the IncidentLink field if non-nil, zero value otherwise.
+
+### GetIncidentLinkOk
+
+`func (o *BackupDto) GetIncidentLinkOk() (*string, bool)`
+
+GetIncidentLinkOk returns a tuple with the IncidentLink field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIncidentLink
+
+`func (o *BackupDto) SetIncidentLink(v string)`
+
+SetIncidentLink sets IncidentLink field to given value.
+
+### HasIncidentLink
+
+`func (o *BackupDto) HasIncidentLink() bool`
+
+HasIncidentLink returns a boolean if a field has been set.
 
 ### GetName
 

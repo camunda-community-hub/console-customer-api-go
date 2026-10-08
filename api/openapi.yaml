@@ -77,6 +77,8 @@ paths:
         "400":
           description: "Name is too long, invalid clusterPlanType, invalid region,\
             \ no reservations left, invalid channel, or invalid generation"
+        "503":
+          description: Cluster creation is not available
       security:
       - bearer: []
   /clusters/parameters:
@@ -205,6 +207,95 @@ paths:
           description: Cluster not found
       security:
       - bearer: []
+  /clusters/{clusterUuid}/backups/schedule:
+    delete:
+      description: |-
+        Removes the backup schedule of your Camunda cluster. Backups that were
+        already created are kept; only future scheduled runs stop. Removing a
+        schedule that does not exist succeeds, so this is safe to retry — but a
+        removal that genuinely failed reports an error rather than a success, so a
+        `204` means scheduled backups have actually stopped.
+      operationId: DeleteSchedule
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
+    get:
+      description: |-
+        Returns the backup schedule of your Camunda cluster. A `404` indicates that
+        no schedule is configured, meaning backups are only created on demand.
+      operationId: GetSchedule
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackupScheduleDto"
+          description: The cluster's backup schedule.
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: No backup schedule configured for this cluster
+      security:
+      - bearer: []
+    put:
+      description: |-
+        Creates or replaces the backup schedule of your Camunda cluster, so backups
+        are taken automatically instead of on demand. A cluster has at most one
+        schedule: an existing one is replaced rather than added to. Scheduled
+        backups are retained separately from manual ones — once the retention limit
+        is reached, the oldest scheduled backup is removed.
+      operationId: UpdateSchedule
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BackupScheduleBody"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackupScheduleDto"
+          description: The stored schedule.
+        "400":
+          description: The schedule is not a valid cron expression
+        "403":
+          description: Cluster is not yours
+        "404":
+          description: Cluster not found
+      security:
+      - bearer: []
   /clusters/{clusterUuid}/backups/{backupId}:
     delete:
       description: Irreversibly deletes a cluster
@@ -267,8 +358,6 @@ paths:
           description: Cluster is not yours
         "404":
           description: No restore found for this backup
-        "501":
-          description: Backup restore is not yet available in this environment
       security:
       - bearer: []
     post:
@@ -306,8 +395,6 @@ paths:
         "409":
           description: Backup cannot be restored (unknown generation or in-flight
             restore)
-        "501":
-          description: Backup restore is not yet available in this environment
       security:
       - bearer: []
   /clusters/{clusterUuid}/clients:
@@ -473,6 +560,94 @@ paths:
           description: Cluster not found
         "409":
           description: Cluster is not configured for external encryption
+      security:
+      - bearer: []
+  /clusters/{clusterUuid}/failover:
+    post:
+      description: |-
+        **Not enabled for all organizations.** Triggers a regional failover:
+        creates a new cluster in the cluster's paired backup region from the
+        given backups, and restores `restoreBackupId` onto it immediately. The
+        source cluster is suspended as part of this operation and can never be
+        resumed once failover has been triggered.
+      operationId: TriggerFailover
+      parameters:
+      - explode: false
+        in: path
+        name: clusterUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TriggerFailoverBody"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                Example 1:
+                  value:
+                    newClusterId: a1e11a3e-6f1e-4c9b-8b0a-2e2f9c7a9b21
+                    results:
+                      backupClone: ok
+                      restore: ok
+              schema:
+                $ref: "#/components/schemas/FailoverResult"
+          description: |-
+            The id of the new failover cluster and the outcome of the
+            backup clone / restore operations.
+        "400":
+          content:
+            text/plain:
+              examples:
+                Example 1:
+                  value: restoreBackupId must be one of the backupIds
+              schema:
+                type: string
+          description: "backupIds/restoreBackupId missing, empty, or invalid"
+        "403":
+          content:
+            text/plain:
+              examples:
+                Example 1:
+                  value: You are not supposed to be here
+              schema:
+                type: string
+          description: Cluster is not yours
+        "404":
+          content:
+            text/plain:
+              examples:
+                Example 1:
+                  value: Backup 3fa85f64-5717-4562-b3fc-2c963f66afa6 not found
+              schema:
+                type: string
+          description: Cluster or one of the backupIds not found
+        "409":
+          content:
+            text/plain:
+              examples:
+                Example 1:
+                  value: Cluster has already been failed over
+              schema:
+                type: string
+          description: "Cluster already failed over, or not yet ready for failover\
+            \ (see message)"
+        "422":
+          content:
+            text/plain:
+              examples:
+                Example 1:
+                  value: Cluster is not a multi-region cluster
+              schema:
+                type: string
+          description: "Cluster is not multi-region, or its region pair doesn't support\
+            \ failover"
       security:
       - bearer: []
   /clusters/{clusterUuid}/ipallowlist:
@@ -736,7 +911,9 @@ paths:
         "404":
           description: Cluster not found
         "409":
-          description: Secret names must be unique
+          description: "Secret names must be unique, or another change to the secrets\
+            \ of this cluster is in progress. Try the request again in the second\
+            \ case."
       security:
       - bearer: []
   /clusters/{clusterUuid}/secrets/{secretName}:
@@ -766,6 +943,9 @@ paths:
           description: No content
         "403":
           description: Cluster is not yours
+        "409":
+          description: Another change to the secrets of this cluster is in progress.
+            Try the request again.
       security:
       - bearer: []
     put:
@@ -799,6 +979,9 @@ paths:
           description: Cluster is not yours
         "404":
           description: Cluster not found
+        "409":
+          description: Another change to the secrets of this cluster is in progress.
+            Try the request again.
       security:
       - bearer: []
   /clusters/{clusterUuid}/secure-connectivity:
@@ -900,6 +1083,9 @@ paths:
           description: no upgrade available
         "404":
           description: ""
+        "409":
+          description: the upgrade gate blocks the upgrade. The body names the reason
+            and the next step.
         "412":
           description: cluster is not ready for upgrade
       security:
@@ -1089,6 +1275,7 @@ components:
         name: name
         optimizeStatus: null
         completed: completed
+        incidentLink: incidentLink
         uuid: uuid
         zeebeStatus: null
         status: null
@@ -1106,6 +1293,11 @@ components:
             backup has no `generationUuid` at all (legacy backups).
           type: string
         generationUuid:
+          type: string
+        incidentLink:
+          description: |-
+            Link to the incident Slack channel, from the `incident-link` annotation
+            on the Backup CR. Only set on internal (incident) backups.
           type: string
         name:
           type: string
@@ -1131,6 +1323,33 @@ components:
       - tasklistStatus
       - uuid
       - zeebeStatus
+      type: object
+    BackupScheduleBody:
+      example:
+        schedule: schedule
+      properties:
+        schedule:
+          description: |-
+            Standard five-field cron expression in UTC
+            (`minute hour day-of-month month day-of-week`), for example `0 2 * * *`
+            for a daily backup at 02:00 UTC. Backups can be scheduled at most once
+            every 15 minutes — the same floor that applies to manual backups.
+          type: string
+      required:
+      - schedule
+      type: object
+    BackupScheduleDto:
+      example:
+        schedule: schedule
+        name: name
+      properties:
+        name:
+          type: string
+        schedule:
+          type: string
+      required:
+      - name
+      - schedule
       type: object
     BackupStatus:
       enum:
@@ -1533,6 +1752,22 @@ components:
       - CreationError
       - EncryptedStorageNotReady
       type: string
+    FailoverResult:
+      example:
+        newClusterId: newClusterId
+        results:
+          backupClone:
+            error: error
+          restore: null
+      properties:
+        newClusterId:
+          type: string
+        results:
+          $ref: "#/components/schemas/FailoverResult_results"
+      required:
+      - newClusterId
+      - results
+      type: object
     GenerationUpgradeForClusterDto:
       example:
         cluster:
@@ -1862,6 +2097,26 @@ components:
       - metadata
       - spec
       - status
+      type: object
+    TriggerFailoverBody:
+      example:
+        restoreBackupId: restoreBackupId
+        backupIds:
+        - backupIds
+        - backupIds
+      properties:
+        backupIds:
+          description: One or more backups to clone into the failover cluster.
+          items:
+            type: string
+          type: array
+        restoreBackupId:
+          description: The backup to restore onto the new cluster immediately. Must
+            be one of `backupIds`.
+          type: string
+      required:
+      - backupIds
+      - restoreBackupId
       type: object
     UpdateClusterBody:
       description: Used to update a cluster through this API.
@@ -2282,6 +2537,35 @@ components:
           type: string
         zeebe:
           type: string
+      type: object
+    FailoverResult_results_backupClone_anyOf:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      required:
+      - error
+      type: object
+    FailoverResult_results_backupClone:
+      anyOf:
+      - $ref: "#/components/schemas/FailoverResult_results_backupClone_anyOf"
+      - enum:
+        - ok
+        type: string
+    FailoverResult_results:
+      example:
+        backupClone:
+          error: error
+        restore: null
+      properties:
+        backupClone:
+          $ref: "#/components/schemas/FailoverResult_results_backupClone"
+        restore:
+          $ref: "#/components/schemas/FailoverResult_results_backupClone"
+      required:
+      - backupClone
+      - restore
       type: object
     GenerationUpgradeForClusterDto_cluster:
       example:

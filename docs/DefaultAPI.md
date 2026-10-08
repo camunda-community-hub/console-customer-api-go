@@ -18,6 +18,7 @@ Method | HTTP request | Description
 [**DeleteCluster**](DefaultAPI.md#DeleteCluster) | **Delete** /clusters/{clusterUuid} | 
 [**DeleteMember**](DefaultAPI.md#DeleteMember) | **Delete** /members/{email} | 
 [**DeleteMonitoringClient**](DefaultAPI.md#DeleteMonitoringClient) | **Delete** /clusters/{clusterUuid}/monitoring/clients/{clientUuid} | 
+[**DeleteSchedule**](DefaultAPI.md#DeleteSchedule) | **Delete** /clusters/{clusterUuid}/backups/schedule | 
 [**DeleteSecret**](DefaultAPI.md#DeleteSecret) | **Delete** /clusters/{clusterUuid}/secrets/{secretName} | 
 [**GetBackups**](DefaultAPI.md#GetBackups) | **Get** /clusters/{clusterUuid}/backups | 
 [**GetClient**](DefaultAPI.md#GetClient) | **Get** /clusters/{clusterUuid}/clients/{clientId} | 
@@ -31,15 +32,18 @@ Method | HTTP request | Description
 [**GetMonitoringClients**](DefaultAPI.md#GetMonitoringClients) | **Get** /clusters/{clusterUuid}/monitoring/clients | 
 [**GetParameters**](DefaultAPI.md#GetParameters) | **Get** /clusters/parameters | 
 [**GetRestore**](DefaultAPI.md#GetRestore) | **Get** /clusters/{clusterUuid}/backups/{backupId}/restore | 
+[**GetSchedule**](DefaultAPI.md#GetSchedule) | **Get** /clusters/{clusterUuid}/backups/schedule | 
 [**GetSecrets**](DefaultAPI.md#GetSecrets) | **Get** /clusters/{clusterUuid}/secrets | 
 [**GetSecureConnectivityStatus**](DefaultAPI.md#GetSecureConnectivityStatus) | **Get** /clusters/{clusterUuid}/secure-connectivity | 
 [**RestoreFromBackup**](DefaultAPI.md#RestoreFromBackup) | **Post** /clusters/{clusterUuid}/backups/{backupId}/restore | 
 [**RotateMonitoringClientPassword**](DefaultAPI.md#RotateMonitoringClientPassword) | **Post** /clusters/{clusterUuid}/monitoring/clients/{clientUuid}/rotate | 
+[**TriggerFailover**](DefaultAPI.md#TriggerFailover) | **Post** /clusters/{clusterUuid}/failover | 
 [**UpdateCluster**](DefaultAPI.md#UpdateCluster) | **Patch** /clusters/{clusterUuid} | 
 [**UpdateClusterEncryption**](DefaultAPI.md#UpdateClusterEncryption) | **Put** /clusters/{clusterUuid}/encryption | 
 [**UpdateIpAllowlist**](DefaultAPI.md#UpdateIpAllowlist) | **Put** /clusters/{clusterUuid}/ipallowlist | 
 [**UpdateIpWhitelist**](DefaultAPI.md#UpdateIpWhitelist) | **Put** /clusters/{clusterUuid}/ipwhitelist | 
 [**UpdateMembers**](DefaultAPI.md#UpdateMembers) | **Post** /members/{email} | 
+[**UpdateSchedule**](DefaultAPI.md#UpdateSchedule) | **Put** /clusters/{clusterUuid}/backups/schedule | 
 [**UpdateSecret**](DefaultAPI.md#UpdateSecret) | **Put** /clusters/{clusterUuid}/secrets/{secretName} | 
 [**UpgradeCluster**](DefaultAPI.md#UpgradeCluster) | **Put** /clusters/{clusterUuid}/upgrade | 
 [**Wake**](DefaultAPI.md#Wake) | **Put** /clusters/{clusterUuid}/wake | 
@@ -1015,6 +1019,74 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## DeleteSchedule
+
+> DeleteSchedule(ctx, clusterUuid).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+	clusterUuid := "clusterUuid_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.DefaultAPI.DeleteSchedule(context.Background(), clusterUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DeleteSchedule``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteScheduleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## DeleteSecret
 
 > DeleteSecret(ctx, clusterUuid, secretName).Execute()
@@ -1862,6 +1934,76 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GetSchedule
+
+> BackupScheduleDto GetSchedule(ctx, clusterUuid).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+	clusterUuid := "clusterUuid_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.GetSchedule(context.Background(), clusterUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetSchedule``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetSchedule`: BackupScheduleDto
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetSchedule`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetScheduleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**BackupScheduleDto**](BackupScheduleDto.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetSecrets
 
 > map[string]string GetSecrets(ctx, clusterUuid).Execute()
@@ -2140,6 +2282,78 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TriggerFailover
+
+> FailoverResult TriggerFailover(ctx, clusterUuid).TriggerFailoverBody(triggerFailoverBody).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+	clusterUuid := "clusterUuid_example" // string | 
+	triggerFailoverBody := *openapiclient.NewTriggerFailoverBody([]string{"BackupIds_example"}, "RestoreBackupId_example") // TriggerFailoverBody | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.TriggerFailover(context.Background(), clusterUuid).TriggerFailoverBody(triggerFailoverBody).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.TriggerFailover``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TriggerFailover`: FailoverResult
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.TriggerFailover`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTriggerFailoverRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **triggerFailoverBody** | [**TriggerFailoverBody**](TriggerFailoverBody.md) |  | 
+
+### Return type
+
+[**FailoverResult**](FailoverResult.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json, text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -2492,6 +2706,78 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateSchedule
+
+> BackupScheduleDto UpdateSchedule(ctx, clusterUuid).BackupScheduleBody(backupScheduleBody).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/camunda-community-hub/console-customer-api-go"
+)
+
+func main() {
+	clusterUuid := "clusterUuid_example" // string | 
+	backupScheduleBody := *openapiclient.NewBackupScheduleBody("Schedule_example") // BackupScheduleBody | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.UpdateSchedule(context.Background(), clusterUuid).BackupScheduleBody(backupScheduleBody).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UpdateSchedule``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateSchedule`: BackupScheduleDto
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.UpdateSchedule`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**clusterUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateScheduleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **backupScheduleBody** | [**BackupScheduleBody**](BackupScheduleBody.md) |  | 
+
+### Return type
+
+[**BackupScheduleDto**](BackupScheduleDto.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
