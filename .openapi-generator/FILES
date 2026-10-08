@@ -1,6 +1,5 @@
 .gitignore
 .travis.yml
-README.md
 api/openapi.yaml
 api_default.go
 client.go
