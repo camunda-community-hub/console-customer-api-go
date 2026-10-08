@@ -1,0 +1,10 @@
+# Collapse generated files in GitHub diffs
+docs/*.md linguist-generated=true
+model_*.go linguist-generated=true
+api_default.go linguist-generated=true
+client.go linguist-generated=true
+configuration.go linguist-generated=true
+response.go linguist-generated=true
+utils.go linguist-generated=true
+api/openapi.yaml linguist-generated=true
+openapi.json linguist-generated=true

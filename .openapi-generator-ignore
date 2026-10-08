@@ -22,5 +22,10 @@
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
 
+# Not useful for this repo (CI is GitHub Actions; no manual push script)
+.travis.yml
+git_push.sh
+.gitignore
+
 # Hand-maintained (install instructions were stale generator boilerplate)
 README.md
