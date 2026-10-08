@@ -26,3 +26,6 @@
 .travis.yml
 git_push.sh
 .gitignore
+
+# Hand-maintained (install instructions were stale generator boilerplate)
+README.md

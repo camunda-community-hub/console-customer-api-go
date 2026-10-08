@@ -2,6 +2,9 @@ name: Update Code
 
 on:
   workflow_dispatch:
+  schedule:
+    # Weekly, Monday 06:00 UTC: pick up upstream spec changes.
+    - cron: "0 6 * * 1"
 
 jobs:
   update:
@@ -13,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Setup Go ${{ matrix.go-version }}
+      - name: Setup Go
         uses: actions/setup-go@v7
         with:
           go-version: "1.25"
@@ -28,7 +31,7 @@ jobs:
         run: git diff
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
         with:
           commit-message: Update auto-generated client
           committer: GitHub <noreply@github.com>
