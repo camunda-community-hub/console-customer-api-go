@@ -43,4 +43,8 @@ jobs:
       - name: Regenerate
         run: make clean generate
       - name: Check for drift
-        run: git diff --exit-code
+        run: |
+          git diff --exit-code
+          # git diff ignores untracked files, so also fail on files generation added.
+          git status --porcelain
+          test -z "$(git status --porcelain)"
