@@ -3,6 +3,9 @@ package openapi
 import (
 	"encoding/json"
 	"os"
+	"sort"
+	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -44,16 +47,6 @@ var specCorrections = []struct {
 			return countClosedObjects(s) == 0
 		},
 	},
-	{
-		name:        "relax Cluster.encryption",
-		stillNeeded: func(s map[string]interface{}) bool { return isRequired(s, "Cluster", "encryption") },
-		applied:     func(s map[string]interface{}) bool { return !isRequired(s, "Cluster", "encryption") },
-	},
-	{
-		name:        "relax CreatedClusterClient.audience",
-		stillNeeded: func(s map[string]interface{}) bool { return isRequired(s, "CreatedClusterClient", "audience") },
-		applied:     func(s map[string]interface{}) bool { return !isRequired(s, "CreatedClusterClient", "audience") },
-	},
 }
 
 func TestSpecCorrections(t *testing.T) {
@@ -70,6 +63,49 @@ func TestSpecCorrections(t *testing.T) {
 			}
 		})
 	}
+}
+
+// Spec correction 3 is a standing rule rather than a one-off fix, so it has no
+// "still needed" side: in response-only schemas, the corrected spec requires
+// exactly the fields in required-baseline.json, and every baseline entry must
+// still be required upstream.
+func TestRequiredBaseline(t *testing.T) {
+	upstream := loadSpec(t, "openapi.upstream.json")
+	corrected := loadSpec(t, "openapi.json")
+
+	var baseline map[string][]string
+	raw, err := os.ReadFile("required-baseline.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := json.Unmarshal(raw, &baseline); err != nil {
+		t.Fatalf("decode required-baseline.json: %v", err)
+	}
+
+	t.Run("corrected spec requires exactly the baseline", func(t *testing.T) {
+		got := requiredLocations(corrected)
+		for key, fields := range got {
+			if !sameFields(fields, baseline[key]) {
+				t.Errorf("%s: required %v, baseline %v", key, fields, baseline[key])
+			}
+		}
+		for key, fields := range baseline {
+			if _, ok := got[key]; !ok {
+				t.Errorf("%s: baseline %v, but nothing required", key, fields)
+			}
+		}
+	})
+
+	t.Run("baseline is still required upstream", func(t *testing.T) {
+		up := requiredLocations(upstream)
+		for key, fields := range baseline {
+			for _, f := range fields {
+				if !hasField(up[key], f) {
+					t.Errorf("%s: upstream no longer requires %q: remove it from required-baseline.json", key, f)
+				}
+			}
+		}
+	})
 }
 
 func loadSpec(t *testing.T, path string) map[string]interface{} {
@@ -89,17 +125,6 @@ func schemas(spec map[string]interface{}) map[string]interface{} {
 	components, _ := spec["components"].(map[string]interface{})
 	s, _ := components["schemas"].(map[string]interface{})
 	return s
-}
-
-func isRequired(spec map[string]interface{}, schema, field string) bool {
-	s, _ := schemas(spec)[schema].(map[string]interface{})
-	required, _ := s["required"].([]interface{})
-	for _, r := range required {
-		if r == field {
-			return true
-		}
-	}
-	return false
 }
 
 func countClosedObjects(node interface{}) int {
@@ -131,4 +156,116 @@ func countMatching(node interface{}, match func(map[string]interface{}) bool) in
 		}
 	}
 	return n
+}
+
+// requiredLocations mirrors required_locations in openapi-normalize.jq: the
+// required list of every object inside a response-only schema, keyed by its path
+// within components.schemas joined by "/".
+func requiredLocations(spec map[string]interface{}) map[string][]string {
+	out := map[string][]string{}
+	var walk func(key string, node interface{})
+	walk = func(key string, node interface{}) {
+		switch v := node.(type) {
+		case map[string]interface{}:
+			if required, ok := v["required"].([]interface{}); ok {
+				for _, r := range required {
+					out[key] = append(out[key], r.(string))
+				}
+			}
+			for k, child := range v {
+				walk(key+"/"+k, child)
+			}
+		case []interface{}:
+			for i, child := range v {
+				walk(key+"/"+strconv.Itoa(i), child)
+			}
+		}
+	}
+	for _, name := range responseOnlySchemas(spec) {
+		walk(name, schemas(spec)[name])
+	}
+	return out
+}
+
+// responseOnlySchemas are the schemas reachable from a response but not from a
+// request body.
+func responseOnlySchemas(spec map[string]interface{}) []string {
+	var responseRoots, requestRoots []string
+	paths, _ := spec["paths"].(map[string]interface{})
+	for _, item := range paths {
+		ops, _ := item.(map[string]interface{})
+		for _, op := range ops {
+			op, ok := op.(map[string]interface{})
+			if !ok {
+				continue
+			}
+			responseRoots = append(responseRoots, schemaRefs(op["responses"])...)
+			requestRoots = append(requestRoots, schemaRefs(op["requestBody"])...)
+		}
+	}
+	responses := reachableSchemas(spec, responseRoots)
+	requests := reachableSchemas(spec, requestRoots)
+	var only []string
+	for name := range responses {
+		if !requests[name] {
+			only = append(only, name)
+		}
+	}
+	sort.Strings(only)
+	return only
+}
+
+func reachableSchemas(spec map[string]interface{}, roots []string) map[string]bool {
+	seen := map[string]bool{}
+	todo := roots
+	for len(todo) > 0 {
+		name := todo[0]
+		todo = todo[1:]
+		if seen[name] {
+			continue
+		}
+		seen[name] = true
+		todo = append(todo, schemaRefs(schemas(spec)[name])...)
+	}
+	return seen
+}
+
+func schemaRefs(node interface{}) []string {
+	var refs []string
+	switch v := node.(type) {
+	case map[string]interface{}:
+		if ref, ok := v["$ref"].(string); ok {
+			refs = append(refs, strings.TrimPrefix(ref, "#/components/schemas/"))
+		}
+		for _, child := range v {
+			refs = append(refs, schemaRefs(child)...)
+		}
+	case []interface{}:
+		for _, child := range v {
+			refs = append(refs, schemaRefs(child)...)
+		}
+	}
+	return refs
+}
+
+func sameFields(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for _, f := range a {
+		if !hasField(b, f) {
+			return false
+		}
+	}
+	return true
+}
+
+// hasField is case-sensitive, unlike the generated contains in client.go.
+func hasField(fields []string, field string) bool {
+	for _, f := range fields {
+		if f == field {
+			return true
+		}
+	}
+	return false
 }

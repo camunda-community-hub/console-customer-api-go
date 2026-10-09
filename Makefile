@@ -17,8 +17,9 @@ fetch:
 
 # Camunda's published spec does not match what the API serves; openapi-normalize.jq
 # applies the spec corrections and documents why for each one.
-$(CORRECTED_SPEC_FILE): $(UPSTREAM_SPEC_FILE) openapi-normalize.jq
-	jq --sort-keys --from-file openapi-normalize.jq $(UPSTREAM_SPEC_FILE) > $@
+$(CORRECTED_SPEC_FILE): $(UPSTREAM_SPEC_FILE) openapi-normalize.jq required-baseline.json
+	jq --sort-keys --slurpfile baseline required-baseline.json \
+		--from-file openapi-normalize.jq $(UPSTREAM_SPEC_FILE) > $@
 
 clean:
 	cat .openapi-generator/FILES | xargs rm -f

@@ -46,21 +46,55 @@ def open_objects:
     else . end
   );
 
-# 3. Do not treat newly-introduced fields as required.
+# 3. Only fields in the required baseline are required in responses.
 #
 #    The same generated UnmarshalJSON that rejects unknown fields also rejects a
-#    *missing* required field. Camunda recently marked `Cluster.encryption` and
-#    `CreatedClusterClient.audience` required, but a spec that has already proven to
-#    drift from the server is not a safe basis for a hard decode requirement -- if
-#    any cluster omits them, decoding fails exactly as before, just on a different
-#    field. Relaxing them costs nothing (they generate as pointers and are still
-#    fully readable) and keeps the New*() constructor signatures stable.
-def relax_required($schema; $field):
-  if .components.schemas[$schema].required
-  then .components.schemas[$schema].required -= [$field]
-  else . end;
+#    *missing* required field. A spec that has already proven to drift from the
+#    server is not a safe basis for a new hard decode requirement: when Camunda
+#    marked `Cluster.encryption` and `CreatedClusterClient.audience` required, any
+#    response omitting them would have failed to decode.
+#
+#    So in response-only schemas (and the objects nested in them), a field stays
+#    required only if upstream requires it AND required-baseline.json lists it.
+#    Anything upstream newly requires is relaxed: it generates as a pointer, still
+#    fully readable, and existing typed fields consumers rely on stay unchanged.
+#    Promote a field by adding it to the baseline. Request schemas are untouched,
+#    so the New*() constructors of request bodies follow the spec.
+#
+#    Baseline keys are the object's path inside components.schemas, joined by "/":
+#    "Cluster", "Cluster/properties/channel", "Cluster/properties/ipallowlist/items".
+
+def schema_refs:
+  [.. | objects | .["$ref"]? | strings | ltrimstr("#/components/schemas/")];
+
+# Names of the schemas reachable from the given roots, following $refs.
+def reachable_schemas($roots):
+  .components.schemas as $schemas
+  | {seen: [], todo: $roots}
+  | until(.todo == [];
+      (.todo - .seen) as $new
+      | .seen += $new
+      | .todo = ([$new[] | $schemas[.] | schema_refs[]] | unique))
+  | .seen | unique;
+
+def response_only_schemas:
+  reachable_schemas([.paths[][] | objects | .responses // {} | .[] | .content // {} | .[] | .schema | schema_refs[]] | unique)
+    - reachable_schemas([.paths[][] | objects | .requestBody // {} | .content // {} | .[] | .schema | schema_refs[]] | unique);
+
+# Every [key, path] of an object with a required list inside the response-only schemas.
+def required_locations:
+  response_only_schemas[] as $name
+  | .components.schemas[$name]
+  | path(.. | select(type == "object" and (.required | type) == "array")) as $p
+  | [([$name] + ($p | map(tostring)) | join("/")), (["components", "schemas", $name] + $p)];
+
+def apply_required_baseline($baseline):
+  reduce required_locations as [$key, $path] (.;
+    ($baseline[$key] // []) as $allowed
+    | ([getpath($path).required[] | select(. as $f | $allowed | index($f))]) as $kept
+    | if $kept == [] then delpaths([$path + ["required"]])
+      else setpath($path + ["required"]; $kept) end);
 
 rename_cluster_status_enum
 | open_objects
-| relax_required("Cluster"; "encryption")
-| relax_required("CreatedClusterClient"; "audience")
+| apply_required_baseline($baseline[0])

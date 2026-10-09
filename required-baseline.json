@@ -1,0 +1,240 @@
+{
+  "AuditDto": [
+    "service",
+    "orgId",
+    "audit",
+    "auditType",
+    "entity",
+    "entityId",
+    "userId"
+  ],
+  "BackupDto": [
+    "uuid",
+    "name",
+    "created",
+    "completed",
+    "status",
+    "zeebeStatus",
+    "tasklistStatus",
+    "operateStatus",
+    "optimizeStatus"
+  ],
+  "BackupScheduleDto": [
+    "name",
+    "schedule"
+  ],
+  "ByomClientDto": [
+    "uuid",
+    "name",
+    "username",
+    "created",
+    "lastUsed",
+    "createdBy",
+    "createdByName"
+  ],
+  "ByomStatus": [
+    "metricsEndpoint",
+    "conditions"
+  ],
+  "ByomStatus/properties/metricsEndpoint": [
+    "target",
+    "scheme",
+    "path"
+  ],
+  "Cluster": [
+    "uuid",
+    "name",
+    "ownerId",
+    "created",
+    "planType",
+    "region",
+    "generation",
+    "channel",
+    "autoUpdate",
+    "status",
+    "links"
+  ],
+  "Cluster/properties/backupRegion": [
+    "name",
+    "uuid"
+  ],
+  "Cluster/properties/channel": [
+    "name",
+    "uuid"
+  ],
+  "Cluster/properties/encryption": [
+    "type"
+  ],
+  "Cluster/properties/generation": [
+    "name",
+    "uuid"
+  ],
+  "Cluster/properties/ipallowlist/items": [
+    "description",
+    "ip"
+  ],
+  "Cluster/properties/ipwhitelist/items": [
+    "description",
+    "ip"
+  ],
+  "Cluster/properties/planType": [
+    "name",
+    "uuid"
+  ],
+  "Cluster/properties/region": [
+    "name",
+    "uuid"
+  ],
+  "Cluster/properties/status": [
+    "ready"
+  ],
+  "ClusterClient": [
+    "name",
+    "clientId",
+    "permissions"
+  ],
+  "ClusterClientConnectionDetails": [
+    "name",
+    "ZEEBE_ADDRESS",
+    "ZEEBE_CLIENT_ID",
+    "ZEEBE_AUTHORIZATION_SERVER_URL"
+  ],
+  "CreatedClusterClient": [
+    "name",
+    "uuid",
+    "clientId",
+    "clientSecret",
+    "permissions"
+  ],
+  "FailoverResult": [
+    "newClusterId",
+    "results"
+  ],
+  "FailoverResult/properties/results": [
+    "restore",
+    "backupClone"
+  ],
+  "FailoverResult/properties/results/properties/backupClone/anyOf/0": [
+    "error"
+  ],
+  "FailoverResult/properties/results/properties/restore/anyOf/0": [
+    "error"
+  ],
+  "GenerationUpgradeForClusterDto": [
+    "cluster",
+    "oldGeneration",
+    "newGeneration",
+    "orgId"
+  ],
+  "GenerationUpgradeForClusterDto/properties/cluster": [
+    "id",
+    "name"
+  ],
+  "GenerationUpgradeForClusterDto/properties/newGeneration": [
+    "id",
+    "name"
+  ],
+  "GenerationUpgradeForClusterDto/properties/oldGeneration": [
+    "id",
+    "name"
+  ],
+  "Member": [
+    "name",
+    "email",
+    "roles",
+    "invitePending"
+  ],
+  "MetaDto": [
+    "web-modeler"
+  ],
+  "Parameters": [
+    "channels",
+    "clusterPlanTypes",
+    "regions"
+  ],
+  "Parameters/properties/channels/items": [
+    "allowedGenerations",
+    "defaultGeneration",
+    "name",
+    "uuid"
+  ],
+  "Parameters/properties/channels/items/properties/allowedGenerations/items": [
+    "name",
+    "uuid"
+  ],
+  "Parameters/properties/channels/items/properties/defaultGeneration": [
+    "name",
+    "uuid"
+  ],
+  "Parameters/properties/clusterPlanTypes/items": [
+    "name",
+    "uuid"
+  ],
+  "Parameters/properties/regions/items": [
+    "provider",
+    "name",
+    "uuid"
+  ],
+  "Parameters/properties/regions/items/properties/backups/items": [
+    "regions",
+    "uuid"
+  ],
+  "Parameters/properties/regions/items/properties/backups/items/properties/regions/items": [
+    "label",
+    "id"
+  ],
+  "RestoreDto": [
+    "uuid",
+    "backupId",
+    "state"
+  ],
+  "SecureConnectivityDto": [
+    "status",
+    "metadata",
+    "spec"
+  ],
+  "SecureConnectivityDto/properties/metadata": [
+    "name",
+    "labels",
+    "namespace"
+  ],
+  "SecureConnectivityDto/properties/metadata/properties/labels": [
+    "orgId"
+  ],
+  "SecureConnectivityDto/properties/spec": [
+    "allowedPrincipals",
+    "allowedRegions",
+    "cluster"
+  ],
+  "SecureConnectivityDto/properties/spec/properties/cluster": [
+    "id"
+  ],
+  "SecureConnectivityDto/properties/status": [
+    "urls",
+    "observedGeneration",
+    "endpointConnectionCount",
+    "endpoint",
+    "conditions"
+  ],
+  "SecureConnectivityDto/properties/status/properties/conditions/items": [
+    "lastTransitionTime",
+    "observedGeneration",
+    "message",
+    "reason",
+    "status",
+    "type"
+  ],
+  "SecureConnectivityDto/properties/status/properties/endpoint": [
+    "privateDnsName",
+    "type",
+    "serviceName",
+    "region"
+  ],
+  "SecureConnectivityDto/properties/status/properties/endpointConnections/items": [
+    "state",
+    "serviceId",
+    "owner",
+    "endpointId",
+    "creationTimestamp"
+  ]
+}
