@@ -31,8 +31,7 @@ generate: $(CORRECTED_SPEC_FILE)
 		$(OPENAPI_GENERATOR_IMAGE) generate --config openapi-generator.yaml
 	go fmt .
 	# go.mod and go.sum are generator-owned (see .openapi-generator/FILES), so
-	# generation rewrites them and drops testify -- which test/ imports -- down to an
-	# indirect dependency. Restore the real dependency set.
+	# generation rewrites them. Restore the real dependency set.
 	go mod tidy
 
 test:
