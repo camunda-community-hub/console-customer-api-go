@@ -29,3 +29,6 @@ git_push.sh
 
 # Hand-maintained (install instructions were stale generator boilerplate)
 README.md
+
+# Generated API tests: every case is a t.Skip stub, and they pull in testify
+test/*
