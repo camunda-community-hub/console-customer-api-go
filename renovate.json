@@ -3,6 +3,9 @@
   "extends": [
     "config:recommended"
   ],
+  "gitIgnoredAuthors": [
+    "41898282+github-actions[bot]@users.noreply.github.com"
+  ],
   "customManagers": [
     {
       "description": "openapi-generator image pinned in the Makefile",
