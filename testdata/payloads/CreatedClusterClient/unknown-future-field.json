@@ -1,0 +1,8 @@
+{
+  "uuid": "client-uuid-1",
+  "name": "my-client",
+  "clientId": "abc123",
+  "clientSecret": "s3cr3t",
+  "permissions": ["Zeebe"],
+  "someFieldCamundaAddsNextQuarter": {"nested": true}
+}

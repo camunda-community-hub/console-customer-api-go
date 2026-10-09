@@ -1,0 +1,5 @@
+{
+  "clientId": "abc123",
+  "name": "my-client",
+  "permissions": ["Zeebe"]
+}

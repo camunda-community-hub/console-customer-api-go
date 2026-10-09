@@ -1,0 +1,14 @@
+{
+  "uuid": "1b0d1e0d-1111-2222-3333-444455556666",
+  "name": "test-cluster",
+  "ownerId": "owner-1",
+  "created": "2026-01-15T10:00:00.000Z",
+  "autoUpdate": true,
+  "channel": {"uuid": "ch-1", "name": "Stable"},
+  "generation": {"uuid": "gen-1", "name": "8.6.0"},
+  "region": {"uuid": "reg-1", "name": "Europe West 1"},
+  "planType": {"uuid": "plan-1", "name": "Professional"},
+  "links": {"zeebe": "grpc://zeebe", "operate": "https://operate"},
+  "status": {"ready": "Healthy", "zeebeStatus": "Healthy", "connectorsStatus": "Healthy"},
+  "encryption": {"type": "Software", "status": "Ready"}
+}
