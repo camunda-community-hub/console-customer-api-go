@@ -1,4 +1,4 @@
-OPENAPI_GENERATOR_IMAGE = openapitools/openapi-generator-cli:v7.20.0
+OPENAPI_GENERATOR_IMAGE = openapitools/openapi-generator-cli:v7.26.0
 UPSTREAM_SPEC_FILE = openapi.upstream.json
 CORRECTED_SPEC_FILE = openapi.json
 UPSTREAM_SPEC_URL = https://console.cloud.camunda.io/customer-api/openapi/swagger.json
