@@ -11,6 +11,7 @@ jobs:
     name: Update
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
       pull-requests: write
     steps:
@@ -31,6 +32,7 @@ jobs:
         run: git diff
 
       - name: Create Pull Request
+        id: cpr
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           commit-message: Update auto-generated client
@@ -49,3 +51,11 @@ jobs:
           reviewers: |
             multani
             sijoma
+
+      # Events from GITHUB_TOKEN don't start workflows, so the PR would get no CI.
+      # workflow_dispatch is exempt, and its checks show on the PR's head commit.
+      - name: Run tests on the update PR
+        if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run test.yaml --ref update-client
