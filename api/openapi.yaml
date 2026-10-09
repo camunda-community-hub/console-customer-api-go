@@ -1210,19 +1210,19 @@ components:
       type: string
     AuditDto:
       example:
-        entityAttributeValueFrom: entityAttributeValueFrom
-        parentEntity: parentEntity
-        entityId: entityId
-        auditType: c
-        parentEntityId: parentEntityId
-        entityAttributeValueTo: entityAttributeValueTo
-        userId: userId
-        orgId: orgId
-        entityAttribute: entityAttribute
         audit: audit
-        service: service
+        auditType: c
         entity: entity
+        entityAttribute: entityAttribute
+        entityAttributeValueFrom: entityAttributeValueFrom
+        entityAttributeValueTo: entityAttributeValueTo
+        entityId: entityId
+        orgId: orgId
+        parentEntity: parentEntity
+        parentEntityId: parentEntityId
+        service: service
         timestamp: 0.8008281904610115
+        userId: userId
       properties:
         audit:
           type: string
@@ -1267,18 +1267,18 @@ components:
       type: object
     BackupDto:
       example:
-        generationName: generationName
-        operateStatus: In progress
-        generationUuid: generationUuid
-        created: created
-        tasklistStatus: null
-        name: name
-        optimizeStatus: null
         completed: completed
+        created: created
+        generationName: generationName
+        generationUuid: generationUuid
         incidentLink: incidentLink
+        name: name
+        operateStatus: In progress
+        optimizeStatus: null
+        status: null
+        tasklistStatus: null
         uuid: uuid
         zeebeStatus: null
-        status: null
       properties:
         completed:
           type: string
@@ -1340,8 +1340,8 @@ components:
       type: object
     BackupScheduleDto:
       example:
-        schedule: schedule
         name: name
+        schedule: schedule
       properties:
         name:
           type: string
@@ -1360,13 +1360,13 @@ components:
       type: string
     ByomClientDto:
       example:
-        lastUsed: 2000-01-23T04:56:07.000+00:00
-        createdByName: createdByName
-        createdBy: createdBy
         created: 2000-01-23T04:56:07.000+00:00
+        createdBy: createdBy
+        createdByName: createdByName
+        lastUsed: 2000-01-23T04:56:07.000+00:00
         name: name
-        uuid: uuid
         username: username
+        uuid: uuid
       properties:
         created:
           format: date-time
@@ -1395,13 +1395,13 @@ components:
       type: object
     ByomStatus:
       example:
+        conditions:
+        - ""
+        - ""
         metricsEndpoint:
           path: path
           scheme: scheme
           target: target
-        conditions:
-        - ""
-        - ""
       properties:
         conditions:
           items: {}
@@ -1424,61 +1424,61 @@ components:
       description: "Describing a Camunda cluster running in your organization. For\
         \ reference, use the UUID."
       example:
-        generation:
-          name: name
-          uuid: uuid
         autoUpdate: true
-        planType:
-          name: name
-          uuid: uuid
-        created: 2000-01-23T04:56:07.000+00:00
-        ipallowlist:
-        - ip: ip
-          description: description
-        - ip: ip
-          description: description
-        channel:
-          name: name
-          uuid: uuid
-        description: description
         backupRegion:
           name: name
           uuid: uuid
-        ownerId: ownerId
-        uuid: uuid
+        channel:
+          name: name
+          uuid: uuid
+        created: 2000-01-23T04:56:07.000+00:00
+        description: description
+        encryption:
+          primaryKeyArn: primaryKeyArn
+          secondaryKeyArn: secondaryKeyArn
+          status: Ready
+          type: Software
+        generation:
+          name: name
+          uuid: uuid
+        ipallowlist:
+        - description: description
+          ip: ip
+        - description: description
+          ip: ip
+        ipwhitelist:
+        - description: description
+          ip: ip
+        - description: description
+          ip: ip
         labels:
         - labels
         - labels
-        encryption:
-          secondaryKeyArn: secondaryKeyArn
-          primaryKeyArn: primaryKeyArn
-          type: Software
-          status: Ready
-        name: name
         links:
-          console: console
           connectors: connectors
+          console: console
+          identity: identity
+          oauth: oauth
           operate: operate
           optimize: optimize
-          identity: identity
           tasklist: tasklist
           zeebe: zeebe
-          oauth: oauth
-        ipwhitelist:
-        - ip: ip
-          description: description
-        - ip: ip
-          description: description
+        name: name
+        ownerId: ownerId
+        planType:
+          name: name
+          uuid: uuid
         region:
           name: name
           uuid: uuid
         status:
+          connectorsStatus: Creating
           operateStatus: null
+          optimizeStatus: null
           ready: null
           tasklistStatus: null
-          optimizeStatus: null
-          connectorsStatus: Creating
           zeebeStatus: null
+        uuid: uuid
       properties:
         autoUpdate:
           description: |-
@@ -1550,10 +1550,10 @@ components:
     ClusterClient:
       example:
         clientId: clientId
+        name: name
         permissions:
         - Zeebe
         - Zeebe
-        name: name
       properties:
         clientId:
           type: string
@@ -1576,10 +1576,10 @@ components:
       type: object
     ClusterClientConnectionDetails:
       example:
-        name: name
-        ZEEBE_CLIENT_ID: ZEEBE_CLIENT_ID
         ZEEBE_ADDRESS: ZEEBE_ADDRESS
         ZEEBE_AUTHORIZATION_SERVER_URL: ZEEBE_AUTHORIZATION_SERVER_URL
+        ZEEBE_CLIENT_ID: ZEEBE_CLIENT_ID
+        name: name
       properties:
         ZEEBE_ADDRESS:
           type: string
@@ -1705,19 +1705,19 @@ components:
       example:
         audience: audience
         clientId: clientId
-        permissions:
-        - permissions
-        - permissions
-        name: name
         clientSecret: clientSecret
         links:
-          console: console
           connectors: connectors
+          console: console
+          oauth: oauth
           operate: operate
           optimize: optimize
           tasklist: tasklist
           zeebe: zeebe
-          oauth: oauth
+        name: name
+        permissions:
+        - permissions
+        - permissions
         uuid: uuid
       properties:
         audience:
@@ -1771,14 +1771,14 @@ components:
     GenerationUpgradeForClusterDto:
       example:
         cluster:
-          name: name
           id: id
+          name: name
         newGeneration:
-          name: name
           id: id
+          name: name
         oldGeneration:
-          name: name
           id: id
+          name: name
         orgId: orgId
       properties:
         cluster:
@@ -1798,10 +1798,10 @@ components:
     IpAllowListBody:
       example:
         ipallowlist:
-        - ip: ip
-          description: description
-        - ip: ip
-          description: description
+        - description: description
+          ip: ip
+        - description: description
+          ip: ip
       properties:
         ipallowlist:
           items:
@@ -1813,10 +1813,10 @@ components:
     IpWhiteListBody:
       example:
         ipwhitelist:
-        - ip: ip
-          description: description
-        - ip: ip
-          description: description
+        - description: description
+          ip: ip
+        - description: description
+          ip: ip
       properties:
         ipwhitelist:
           items:
@@ -1827,12 +1827,12 @@ components:
       type: object
     Member:
       example:
+        email: email
         invitePending: true
+        name: name
         roles:
         - member
         - member
-        name: name
-        email: email
       properties:
         email:
           type: string
@@ -1907,46 +1907,13 @@ components:
     Parameters:
       description: Describes the different options to create a Camunda cluster.
       example:
-        regions:
-        - provider: provider
-          name: name
-          uuid: uuid
-          backups:
-          - regions:
-            - id: id
-              label: label
-            - id: id
-              label: label
-            uuid: uuid
-          - regions:
-            - id: id
-              label: label
-            - id: id
-              label: label
-            uuid: uuid
-        - provider: provider
-          name: name
-          uuid: uuid
-          backups:
-          - regions:
-            - id: id
-              label: label
-            - id: id
-              label: label
-            uuid: uuid
-          - regions:
-            - id: id
-              label: label
-            - id: id
-              label: label
-            uuid: uuid
         channels:
         - allowedGenerations:
-          - name: name
-            classification: channel
+          - classification: channel
+            name: name
             uuid: uuid
-          - name: name
-            classification: channel
+          - classification: channel
+            name: name
             uuid: uuid
           defaultGeneration:
             name: name
@@ -1954,11 +1921,11 @@ components:
           name: name
           uuid: uuid
         - allowedGenerations:
-          - name: name
-            classification: channel
+          - classification: channel
+            name: name
             uuid: uuid
-          - name: name
-            classification: channel
+          - classification: channel
+            name: name
             uuid: uuid
           defaultGeneration:
             name: name
@@ -1969,6 +1936,39 @@ components:
         - name: name
           uuid: uuid
         - name: name
+          uuid: uuid
+        regions:
+        - backups:
+          - regions:
+            - id: id
+              label: label
+            - id: id
+              label: label
+            uuid: uuid
+          - regions:
+            - id: id
+              label: label
+            - id: id
+              label: label
+            uuid: uuid
+          name: name
+          provider: provider
+          uuid: uuid
+        - backups:
+          - regions:
+            - id: id
+              label: label
+            - id: id
+              label: label
+            uuid: uuid
+          - regions:
+            - id: id
+              label: label
+            - id: id
+              label: label
+            uuid: uuid
+          name: name
+          provider: provider
           uuid: uuid
       properties:
         channels:
@@ -2007,11 +2007,11 @@ components:
       type: object
     RestoreDto:
       example:
-        completionTimestamp: completionTimestamp
         backupId: backupId
+        completionTimestamp: completionTimestamp
+        startTimestamp: startTimestamp
         state: PENDING
         uuid: uuid
-        startTimestamp: startTimestamp
       properties:
         backupId:
           type: string
@@ -2040,52 +2040,52 @@ components:
     SecureConnectivityDto:
       example:
         metadata:
-          name: name
-          namespace: namespace
           labels:
             orgId: orgId
+          name: name
+          namespace: namespace
         spec:
-          cluster:
-            id: id
           allowedPrincipals:
           - allowedPrincipals
           - allowedPrincipals
           allowedRegions:
           - allowedRegions
           - allowedRegions
+          cluster:
+            id: id
         status:
+          conditions:
+          - lastTransitionTime: lastTransitionTime
+            message: message
+            observedGeneration: 0.8008281904610115
+            reason: reason
+            status: status
+            type: type
+          - lastTransitionTime: lastTransitionTime
+            message: message
+            observedGeneration: 0.8008281904610115
+            reason: reason
+            status: status
+            type: type
           endpoint:
             privateDnsName: privateDnsName
             region: region
             serviceName: serviceName
             type: type
-          urls: ""
           endpointConnectionCount: 6.027456183070403
-          conditions:
-          - reason: reason
-            lastTransitionTime: lastTransitionTime
-            message: message
-            type: type
-            observedGeneration: 0.8008281904610115
-            status: status
-          - reason: reason
-            lastTransitionTime: lastTransitionTime
-            message: message
-            type: type
-            observedGeneration: 0.8008281904610115
-            status: status
-          observedGeneration: 1.4658129805029452
           endpointConnections:
-          - owner: owner
+          - creationTimestamp: creationTimestamp
             endpointId: endpointId
-            creationTimestamp: creationTimestamp
-            state: state
+            owner: owner
             serviceId: serviceId
-          - owner: owner
+            state: state
+          - creationTimestamp: creationTimestamp
             endpointId: endpointId
-            creationTimestamp: creationTimestamp
-            state: state
+            owner: owner
             serviceId: serviceId
+            state: state
+          observedGeneration: 1.4658129805029452
+          urls: ""
       properties:
         metadata:
           $ref: "#/components/schemas/SecureConnectivityDto_metadata"
@@ -2100,10 +2100,10 @@ components:
       type: object
     TriggerFailoverBody:
       example:
-        restoreBackupId: restoreBackupId
         backupIds:
         - backupIds
         - backupIds
+        restoreBackupId: restoreBackupId
       properties:
         backupIds:
           description: One or more backups to clone into the failover cluster.
@@ -2121,8 +2121,8 @@ components:
     UpdateClusterBody:
       description: Used to update a cluster through this API.
       example:
-        name: name
         description: description
+        name: name
         numberOfAllocatedHwPackages: 0.8008281904610115
         stageLabel: dev
       properties:
@@ -2197,28 +2197,28 @@ components:
     GetMonitoringClients_200_response:
       example:
         clients:
-        - lastUsed: 2000-01-23T04:56:07.000+00:00
-          createdByName: createdByName
+        - created: 2000-01-23T04:56:07.000+00:00
           createdBy: createdBy
-          created: 2000-01-23T04:56:07.000+00:00
-          name: name
-          uuid: uuid
-          username: username
-        - lastUsed: 2000-01-23T04:56:07.000+00:00
           createdByName: createdByName
-          createdBy: createdBy
-          created: 2000-01-23T04:56:07.000+00:00
+          lastUsed: 2000-01-23T04:56:07.000+00:00
           name: name
-          uuid: uuid
           username: username
+          uuid: uuid
+        - created: 2000-01-23T04:56:07.000+00:00
+          createdBy: createdBy
+          createdByName: createdByName
+          lastUsed: 2000-01-23T04:56:07.000+00:00
+          name: name
+          username: username
+          uuid: uuid
         status:
+          conditions:
+          - ""
+          - ""
           metricsEndpoint:
             path: path
             scheme: scheme
             target: target
-          conditions:
-          - ""
-          - ""
       properties:
         clients:
           items:
@@ -2247,14 +2247,14 @@ components:
         - password
         type: object
       example:
-        lastUsed: 2000-01-23T04:56:07.000+00:00
-        createdByName: createdByName
-        password: password
-        createdBy: createdBy
         created: 2000-01-23T04:56:07.000+00:00
+        createdBy: createdBy
+        createdByName: createdByName
+        lastUsed: 2000-01-23T04:56:07.000+00:00
         name: name
-        uuid: uuid
         username: username
+        uuid: uuid
+        password: password
     GetSecureConnectivityStatus_200_response_status:
       anyOf:
       - $ref: "#/components/schemas/SecureConnectivityDto"
@@ -2263,52 +2263,52 @@ components:
       example:
         status:
           metadata:
-            name: name
-            namespace: namespace
             labels:
               orgId: orgId
+            name: name
+            namespace: namespace
           spec:
-            cluster:
-              id: id
             allowedPrincipals:
             - allowedPrincipals
             - allowedPrincipals
             allowedRegions:
             - allowedRegions
             - allowedRegions
+            cluster:
+              id: id
           status:
+            conditions:
+            - lastTransitionTime: lastTransitionTime
+              message: message
+              observedGeneration: 0.8008281904610115
+              reason: reason
+              status: status
+              type: type
+            - lastTransitionTime: lastTransitionTime
+              message: message
+              observedGeneration: 0.8008281904610115
+              reason: reason
+              status: status
+              type: type
             endpoint:
               privateDnsName: privateDnsName
               region: region
               serviceName: serviceName
               type: type
-            urls: ""
             endpointConnectionCount: 6.027456183070403
-            conditions:
-            - reason: reason
-              lastTransitionTime: lastTransitionTime
-              message: message
-              type: type
-              observedGeneration: 0.8008281904610115
-              status: status
-            - reason: reason
-              lastTransitionTime: lastTransitionTime
-              message: message
-              type: type
-              observedGeneration: 0.8008281904610115
-              status: status
-            observedGeneration: 1.4658129805029452
             endpointConnections:
-            - owner: owner
+            - creationTimestamp: creationTimestamp
               endpointId: endpointId
-              creationTimestamp: creationTimestamp
-              state: state
+              owner: owner
               serviceId: serviceId
-            - owner: owner
+              state: state
+            - creationTimestamp: creationTimestamp
               endpointId: endpointId
-              creationTimestamp: creationTimestamp
-              state: state
+              owner: owner
               serviceId: serviceId
+              state: state
+            observedGeneration: 1.4658129805029452
+            urls: ""
       properties:
         status:
           $ref: "#/components/schemas/GetSecureConnectivityStatus_200_response_status"
@@ -2386,10 +2386,10 @@ components:
         `type` is `External` and reflects the operator reconciliation state —
         poll for `Ready` to confirm BYOK is active.
       example:
-        secondaryKeyArn: secondaryKeyArn
         primaryKeyArn: primaryKeyArn
-        type: Software
+        secondaryKeyArn: secondaryKeyArn
         status: Ready
+        type: Software
       properties:
         primaryKeyArn:
           type: string
@@ -2418,8 +2418,8 @@ components:
       type: object
     Cluster_ipallowlist_inner:
       example:
-        ip: ip
         description: description
+        ip: ip
       properties:
         description:
           type: string
@@ -2432,14 +2432,14 @@ components:
     Cluster_links:
       description: Endpoints for the components running in your Camunda cluster.
       example:
-        console: console
         connectors: connectors
+        console: console
+        identity: identity
+        oauth: oauth
         operate: operate
         optimize: optimize
-        identity: identity
         tasklist: tasklist
         zeebe: zeebe
-        oauth: oauth
       properties:
         connectors:
           type: string
@@ -2491,11 +2491,11 @@ components:
       description: A health indicator for your Camunda cluster. Each of the components
         have their own state. The combined state is in the field `ready`.
       example:
+        connectorsStatus: Creating
         operateStatus: null
+        optimizeStatus: null
         ready: null
         tasklistStatus: null
-        optimizeStatus: null
-        connectorsStatus: Creating
         zeebeStatus: null
       properties:
         connectorsStatus:
@@ -2515,13 +2515,13 @@ components:
       type: object
     CreatedClusterClient_links:
       example:
-        console: console
         connectors: connectors
+        console: console
+        oauth: oauth
         operate: operate
         optimize: optimize
         tasklist: tasklist
         zeebe: zeebe
-        oauth: oauth
       properties:
         connectors:
           type: string
@@ -2569,8 +2569,8 @@ components:
       type: object
     GenerationUpgradeForClusterDto_cluster:
       example:
-        name: name
         id: id
+        name: name
       properties:
         id:
           type: string
@@ -2582,8 +2582,8 @@ components:
       type: object
     Parameters_channels_inner_allowedGenerations_inner:
       example:
-        name: name
         classification: channel
+        name: name
         uuid: uuid
       properties:
         classification:
@@ -2616,11 +2616,11 @@ components:
     Parameters_channels_inner:
       example:
         allowedGenerations:
-        - name: name
-          classification: channel
+        - classification: channel
+          name: name
           uuid: uuid
-        - name: name
-          classification: channel
+        - classification: channel
+          name: name
           uuid: uuid
         defaultGeneration:
           name: name
@@ -2678,9 +2678,6 @@ components:
       type: object
     Parameters_regions_inner:
       example:
-        provider: provider
-        name: name
-        uuid: uuid
         backups:
         - regions:
           - id: id
@@ -2694,6 +2691,9 @@ components:
           - id: id
             label: label
           uuid: uuid
+        name: name
+        provider: provider
+        uuid: uuid
       properties:
         backups:
           items:
@@ -2721,10 +2721,10 @@ components:
       type: object
     SecureConnectivityDto_metadata:
       example:
-        name: name
-        namespace: namespace
         labels:
           orgId: orgId
+        name: name
+        namespace: namespace
       properties:
         labels:
           $ref: "#/components/schemas/SecureConnectivityDto_metadata_labels"
@@ -2748,14 +2748,14 @@ components:
       type: object
     SecureConnectivityDto_spec:
       example:
-        cluster:
-          id: id
         allowedPrincipals:
         - allowedPrincipals
         - allowedPrincipals
         allowedRegions:
         - allowedRegions
         - allowedRegions
+        cluster:
+          id: id
       properties:
         allowedPrincipals:
           items:
@@ -2774,12 +2774,12 @@ components:
       type: object
     SecureConnectivityDto_status_conditions_inner:
       example:
-        reason: reason
         lastTransitionTime: lastTransitionTime
         message: message
-        type: type
         observedGeneration: 0.8008281904610115
+        reason: reason
         status: status
+        type: type
       properties:
         lastTransitionTime:
           type: string
@@ -2825,11 +2825,11 @@ components:
       type: object
     SecureConnectivityDto_status_endpointConnections_inner:
       example:
-        owner: owner
-        endpointId: endpointId
         creationTimestamp: creationTimestamp
-        state: state
+        endpointId: endpointId
+        owner: owner
         serviceId: serviceId
+        state: state
       properties:
         creationTimestamp:
           type: string
@@ -2850,38 +2850,38 @@ components:
       type: object
     SecureConnectivityDto_status:
       example:
+        conditions:
+        - lastTransitionTime: lastTransitionTime
+          message: message
+          observedGeneration: 0.8008281904610115
+          reason: reason
+          status: status
+          type: type
+        - lastTransitionTime: lastTransitionTime
+          message: message
+          observedGeneration: 0.8008281904610115
+          reason: reason
+          status: status
+          type: type
         endpoint:
           privateDnsName: privateDnsName
           region: region
           serviceName: serviceName
           type: type
-        urls: ""
         endpointConnectionCount: 6.027456183070403
-        conditions:
-        - reason: reason
-          lastTransitionTime: lastTransitionTime
-          message: message
-          type: type
-          observedGeneration: 0.8008281904610115
-          status: status
-        - reason: reason
-          lastTransitionTime: lastTransitionTime
-          message: message
-          type: type
-          observedGeneration: 0.8008281904610115
-          status: status
-        observedGeneration: 1.4658129805029452
         endpointConnections:
-        - owner: owner
+        - creationTimestamp: creationTimestamp
           endpointId: endpointId
-          creationTimestamp: creationTimestamp
-          state: state
+          owner: owner
           serviceId: serviceId
-        - owner: owner
+          state: state
+        - creationTimestamp: creationTimestamp
           endpointId: endpointId
-          creationTimestamp: creationTimestamp
-          state: state
+          owner: owner
           serviceId: serviceId
+          state: state
+        observedGeneration: 1.4658129805029452
+        urls: ""
       properties:
         conditions:
           items:
