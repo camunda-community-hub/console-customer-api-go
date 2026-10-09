@@ -25,6 +25,18 @@ jobs:
       - name: Regenerate code
         run: make all
 
+      # HEAD still holds the previous upstream spec; compare it to the fresh fetch.
+      - name: Summarize upstream changes
+        id: changes
+        run: |
+          git show HEAD:openapi.upstream.json > "$RUNNER_TEMP/old.json"
+          {
+            echo 'summary<<SPEC_CHANGES_EOF'
+            jq -rn --slurpfile old "$RUNNER_TEMP/old.json" --slurpfile new openapi.upstream.json \
+              -f scripts/spec-changes.jq
+            echo 'SPEC_CHANGES_EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - name: Status
         run: git status --short
 
@@ -42,9 +54,11 @@ jobs:
           delete-branch: true
           title: Update auto-generated client
           body: |
-            The upstream OpenAPI spec has changed!
+            The upstream OpenAPI spec has changed. This regenerates the client from it.
 
-            This regenerates a new version of the client, based on the latest OpenAPI spec.
+            ${{ steps.changes.outputs.summary }}
+
+            If a spec correction test fails, upstream fixed that defect: delete the correction from `openapi-normalize.jq`, or remove the stale entry from `required-baseline.json`.
           assignees: |
             multani
             sijoma
