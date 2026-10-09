@@ -1,0 +1,58 @@
+name: Regenerate Renovate branch
+
+# Renovate bumps OPENAPI_GENERATOR_IMAGE (and other dependencies) but cannot run
+# the generator, so the drift check fails on its PRs. Regenerate on its branch and
+# push the result.
+on:
+  push:
+    branches:
+      - "renovate/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regenerate:
+    name: Regenerate
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version: "1.27"
+
+      # Same steps as the drift check in test.yaml, without fetching the spec.
+      - name: Regenerate
+        run: |
+          make --always-make openapi.json
+          make clean generate
+
+      - name: Status
+        id: status
+        run: |
+          git status --short
+          if [ -n "$(git status --porcelain)" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+
+      # renovate.json lists this author in gitIgnoredAuthors, so Renovate keeps
+      # rebasing and updating the branch after this commit.
+      - name: Commit and push
+        if: steps.status.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "chore: regenerate client"
+          git push
+
+      # Pushes made with GITHUB_TOKEN don't start workflows, so the new commit would
+      # get no CI. workflow_dispatch is exempt, and its checks show on the PR.
+      - name: Run tests on the regenerated commit
+        if: steps.status.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run test.yaml --ref "$GITHUB_REF_NAME"
