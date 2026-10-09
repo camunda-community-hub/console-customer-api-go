@@ -3,7 +3,15 @@ name: Test
 on:
   push:
     branches:
-      - "**"
+      - main
+  # Fork PRs don't trigger push in this repo, so they need pull_request.
+  pull_request:
+  # The weekly update PR is opened with GITHUB_TOKEN, whose events don't start
+  # workflows; update-code.yaml dispatches this workflow on its branch instead.
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -12,9 +20,10 @@ jobs:
     strategy:
       matrix:
         go-version:
+          # Minimum from go.mod, plus the two supported Go releases.
           - "1.23"
-          - "1.24"
-          - "1.25"
+          - oldstable
+          - stable
 
     steps:
       - uses: actions/checkout@v7
