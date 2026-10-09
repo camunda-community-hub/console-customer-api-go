@@ -1,10 +1,12 @@
-# Normalizes Camunda's published OpenAPI spec before code generation.
+# Applies the spec corrections: turns the upstream spec (openapi.upstream.json)
+# into the corrected spec (openapi.json) that the generator reads. See GLOSSARY.md.
+# spec_correction_test.go checks each correction is applied and still needed.
 #
 # Camunda's spec does not match what the Console API actually serves: it ships
 # additive changes without bumping `info.version`, and it declares response
-# objects as closed even though the server sends fields the spec omits. Two
+# objects as closed even though the server sends fields the spec omits. Three
 # corrections are applied here so the generated Go client can decode real
-# responses. Both are deliberate deviations from the published spec -- see the
+# responses. All are deliberate deviations from the published spec -- see the
 # rationale on each.
 
 # 1. `ClusterStatus` is a string enum ("Healthy", "Unhealthy", ...). The status

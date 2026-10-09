@@ -34,8 +34,12 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version: "1.27"
-      # Regenerate from the committed openapi.json (no network fetch of the live
-      # spec) and fail if the result differs from what is checked in.
+      # Re-apply the spec corrections to the committed upstream spec and regenerate
+      # (no network fetch), then fail if the result differs from what is checked in.
+      # --always-make: checkout mtimes are arbitrary, so never trust openapi.json as
+      # up to date.
+      - name: Re-apply spec corrections
+        run: make --always-make openapi.json
       - name: Regenerate
         run: make clean generate
       - name: Check for drift
