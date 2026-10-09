@@ -1,23 +1,29 @@
 OPENAPI_GENERATOR_IMAGE = openapitools/openapi-generator-cli:v7.20.0
-OPENAPI_SPEC_FILE = openapi.json
-OPENAPI_SPEC_URL = https://console.cloud.camunda.io/customer-api/openapi/swagger.json
+UPSTREAM_SPEC_FILE = openapi.upstream.json
+CORRECTED_SPEC_FILE = openapi.json
+UPSTREAM_SPEC_URL = https://console.cloud.camunda.io/customer-api/openapi/swagger.json
 
-.PHONY: all $(OPENAPI_SPEC_FILE) clean generate test
+.PHONY: all fetch clean generate test
 
 all:
-	$(MAKE) $(OPENAPI_SPEC_FILE) clean generate
+	$(MAKE) fetch clean generate
+
+# The only network step: store the upstream spec as published, keys sorted so
+# diffs stay stable but otherwise untouched.
+fetch:
+	curl --fail --silent --show-error $(UPSTREAM_SPEC_URL) \
+		| jq --sort-keys . \
+		> $(UPSTREAM_SPEC_FILE)
 
 # Camunda's published spec does not match what the API serves; openapi-normalize.jq
-# corrects it before generation and documents why for each change.
-$(OPENAPI_SPEC_FILE):
-	curl --fail --silent --show-error $(OPENAPI_SPEC_URL) \
-		| jq --sort-keys --from-file openapi-normalize.jq \
-		> $@
+# applies the spec corrections and documents why for each one.
+$(CORRECTED_SPEC_FILE): $(UPSTREAM_SPEC_FILE) openapi-normalize.jq
+	jq --sort-keys --from-file openapi-normalize.jq $(UPSTREAM_SPEC_FILE) > $@
 
 clean:
 	cat .openapi-generator/FILES | xargs rm -f
 
-generate:
+generate: $(CORRECTED_SPEC_FILE)
 	docker run --rm \
 		--user $(shell id -u) \
 		-v ${PWD}:/local \
