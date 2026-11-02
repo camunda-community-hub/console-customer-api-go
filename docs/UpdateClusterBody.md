@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Description** | Pointer to **string** | Optional description for the cluster (max 150 characters). | [optional] 
 **Name** | Pointer to **string** | The name of your cluster. | [optional] 
-**NumberOfAllocatedHwPackages** | Pointer to **float64** | Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types. | [optional] 
+**NumberOfAllocatedHwPackages** | Pointer to **float64** | Optional number of hardware packages, defaults to 1. Only available on request and for Advanced offering cluster types. | [optional] 
 **StageLabel** | Pointer to [**CamundaClusterStage**](CamundaClusterStage.md) |  | [optional] 
 
 ## Methods

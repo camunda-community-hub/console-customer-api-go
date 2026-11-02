@@ -330,7 +330,7 @@ Name | Type | Description  | Notes
 
 ## CreateCluster
 
-> CreateCluster200Response CreateCluster(ctx).CreateClusterRequest(createClusterRequest).Execute()
+> CreateCluster200Response CreateCluster(ctx).CreateClusterBody(createClusterBody).Execute()
 
 
 
@@ -347,11 +347,11 @@ import (
 )
 
 func main() {
-	createClusterRequest := *openapiclient.NewCreateClusterRequest("ChannelId_example", "GenerationId_example", "Name_example", "PlanTypeId_example", "RegionId_example") // CreateClusterRequest | 
+	createClusterBody := *openapiclient.NewCreateClusterBody("ChannelId_example", "GenerationId_example", "Name_example", "PlanTypeId_example", "RegionId_example") // CreateClusterBody | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.CreateCluster(context.Background()).CreateClusterRequest(createClusterRequest).Execute()
+	resp, r, err := apiClient.DefaultAPI.CreateCluster(context.Background()).CreateClusterBody(createClusterBody).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.CreateCluster``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -372,7 +372,7 @@ Other parameters are passed through a pointer to a apiCreateClusterRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createClusterRequest** | [**CreateClusterRequest**](CreateClusterRequest.md) |  | 
+ **createClusterBody** | [**CreateClusterBody**](CreateClusterBody.md) |  | 
 
 ### Return type
 

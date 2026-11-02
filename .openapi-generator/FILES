@@ -30,7 +30,6 @@ docs/ClusterStatus.md
 docs/CreateCluster200Response.md
 docs/CreateClusterBody.md
 docs/CreateClusterClientBody.md
-docs/CreateClusterRequest.md
 docs/CreateMonitoringClient200Response.md
 docs/CreateMonitoringClientRequest.md
 docs/CreateSecretBody.md
@@ -113,7 +112,6 @@ model_cluster_status.go
 model_create_cluster_200_response.go
 model_create_cluster_body.go
 model_create_cluster_client_body.go
-model_create_cluster_request.go
 model_create_monitoring_client_200_response.go
 model_create_monitoring_client_request.go
 model_create_secret_body.go
