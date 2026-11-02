@@ -4,16 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AutoUpdate** | Pointer to **bool** | If set to false, no automatic updates will be performed on your cluster. | [optional] 
-**BackupRegionId** | Pointer to **string** | The backup region to choose. Only available if the Sales Plan supports this. (Enterprise) | [optional] 
-**ChannelId** | **string** | The channel (software spec) to use. | 
-**Description** | Pointer to **string** | Optional description for the cluster (max 150 characters). | [optional] 
+**AutoUpdate** | Pointer to **bool** | Default is true. If you send false, your cluster gets no automatic updates. This setting has an effect only on the Stable channel. | [optional] 
+**BackupRegionId** | Pointer to **string** | The backup region. Send the &#x60;uuid&#x60; of an entry of &#x60;backups&#x60; of the selected region. Only if your plan includes backups. | [optional] 
+**ChannelId** | **string** | The channel (software spec). Send the &#x60;uuid&#x60; of an entry of &#x60;channels&#x60;. | 
+**Description** | Pointer to **string** | Optional description for the cluster. Maximum 150 characters. | [optional] 
 **Encryption** | Pointer to [**ClusterEncryptionKey**](ClusterEncryptionKey.md) |  | [optional] 
-**GenerationId** | **string** | The generation (software version) to use. | 
-**HardwarePackages** | Pointer to **float64** | Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types. | [optional] 
-**Name** | **string** | The name of your new cluster. | 
-**PlanTypeId** | **string** | The planType (hardware spec) to use. | 
-**RegionId** | **string** | The data center to use. | 
+**GenerationId** | **string** | The generation (software version). Send the &#x60;uuid&#x60; of an entry of &#x60;allowedGenerations&#x60; of the selected channel. The &#x60;defaultGeneration&#x60; of the channel is the default choice. | 
+**HardwarePackages** | Pointer to **float64** | Optional number of hardware packages. Default is 1. A higher number is only available on request and for plan types that support hardware packages. | [optional] 
+**IdentityBackendChecksEnabled** | Pointer to **bool** | Optional. Default is false. If you send true, the cluster uses Identity Based Authorizations. | [optional] 
+**Name** | **string** | The name of your new cluster. Maximum 50 characters. | 
+**PlanTypeId** | **string** | The plan type (hardware spec). Send the &#x60;uuid&#x60; of an entry of &#x60;clusterPlanTypes&#x60;. | 
+**RegionId** | **string** | The data center. Send the &#x60;uuid&#x60; of an entry of &#x60;regions&#x60;. | 
 **StageLabel** | Pointer to [**CamundaClusterStage**](CamundaClusterStage.md) |  | [optional] 
 
 ## Methods
@@ -199,6 +200,31 @@ SetHardwarePackages sets HardwarePackages field to given value.
 `func (o *CreateClusterBody) HasHardwarePackages() bool`
 
 HasHardwarePackages returns a boolean if a field has been set.
+
+### GetIdentityBackendChecksEnabled
+
+`func (o *CreateClusterBody) GetIdentityBackendChecksEnabled() bool`
+
+GetIdentityBackendChecksEnabled returns the IdentityBackendChecksEnabled field if non-nil, zero value otherwise.
+
+### GetIdentityBackendChecksEnabledOk
+
+`func (o *CreateClusterBody) GetIdentityBackendChecksEnabledOk() (*bool, bool)`
+
+GetIdentityBackendChecksEnabledOk returns a tuple with the IdentityBackendChecksEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIdentityBackendChecksEnabled
+
+`func (o *CreateClusterBody) SetIdentityBackendChecksEnabled(v bool)`
+
+SetIdentityBackendChecksEnabled sets IdentityBackendChecksEnabled field to given value.
+
+### HasIdentityBackendChecksEnabled
+
+`func (o *CreateClusterBody) HasIdentityBackendChecksEnabled() bool`
+
+HasIdentityBackendChecksEnabled returns a boolean if a field has been set.
 
 ### GetName
 

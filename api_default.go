@@ -435,13 +435,13 @@ func (a *DefaultAPIService) CreateClientExecute(r ApiCreateClientRequest) (*Crea
 }
 
 type ApiCreateClusterRequest struct {
-	ctx                  context.Context
-	ApiService           *DefaultAPIService
-	createClusterRequest *CreateClusterRequest
+	ctx               context.Context
+	ApiService        *DefaultAPIService
+	createClusterBody *CreateClusterBody
 }
 
-func (r ApiCreateClusterRequest) CreateClusterRequest(createClusterRequest CreateClusterRequest) ApiCreateClusterRequest {
-	r.createClusterRequest = &createClusterRequest
+func (r ApiCreateClusterRequest) CreateClusterBody(createClusterBody CreateClusterBody) ApiCreateClusterRequest {
+	r.createClusterBody = &createClusterBody
 	return r
 }
 
@@ -483,8 +483,8 @@ func (a *DefaultAPIService) CreateClusterExecute(r ApiCreateClusterRequest) (*Cr
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.createClusterRequest == nil {
-		return localVarReturnValue, nil, reportError("createClusterRequest is required and must be specified")
+	if r.createClusterBody == nil {
+		return localVarReturnValue, nil, reportError("createClusterBody is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -505,7 +505,7 @@ func (a *DefaultAPIService) CreateClusterExecute(r ApiCreateClusterRequest) (*Cr
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.createClusterRequest
+	localVarPostBody = r.createClusterBody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
