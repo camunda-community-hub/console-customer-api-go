@@ -4,11 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Created** | **time.Time** |  | 
-**CreatedBy** | **string** |  | 
-**CreatedByName** | **string** |  | 
-**LastUsed** | **time.Time** |  | 
-**Name** | **string** |  | 
+**Created** | **NullableTime** |  | 
+**CreatedBy** | **NullableString** |  | 
+**CreatedByName** | Pointer to **string** |  | [optional] 
+**LastUsed** | Pointer to **NullableTime** |  | [optional] 
 **Username** | **string** |  | 
 **Uuid** | **string** |  | 
 
@@ -16,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewByomClientDto
 
-`func NewByomClientDto(created time.Time, createdBy string, createdByName string, lastUsed time.Time, name string, username string, uuid string, ) *ByomClientDto`
+`func NewByomClientDto(created NullableTime, createdBy NullableString, username string, uuid string, ) *ByomClientDto`
 
 NewByomClientDto instantiates a new ByomClientDto object
 This constructor will assign default values to properties that have it defined,
@@ -51,6 +50,16 @@ and a boolean to check if the value has been set.
 SetCreated sets Created field to given value.
 
 
+### SetCreatedNil
+
+`func (o *ByomClientDto) SetCreatedNil(b bool)`
+
+ SetCreatedNil sets the value for Created to be an explicit nil
+
+### UnsetCreated
+`func (o *ByomClientDto) UnsetCreated()`
+
+UnsetCreated ensures that no value is present for Created, not even an explicit nil
 ### GetCreatedBy
 
 `func (o *ByomClientDto) GetCreatedBy() string`
@@ -71,6 +80,16 @@ and a boolean to check if the value has been set.
 SetCreatedBy sets CreatedBy field to given value.
 
 
+### SetCreatedByNil
+
+`func (o *ByomClientDto) SetCreatedByNil(b bool)`
+
+ SetCreatedByNil sets the value for CreatedBy to be an explicit nil
+
+### UnsetCreatedBy
+`func (o *ByomClientDto) UnsetCreatedBy()`
+
+UnsetCreatedBy ensures that no value is present for CreatedBy, not even an explicit nil
 ### GetCreatedByName
 
 `func (o *ByomClientDto) GetCreatedByName() string`
@@ -90,6 +109,11 @@ and a boolean to check if the value has been set.
 
 SetCreatedByName sets CreatedByName field to given value.
 
+### HasCreatedByName
+
+`func (o *ByomClientDto) HasCreatedByName() bool`
+
+HasCreatedByName returns a boolean if a field has been set.
 
 ### GetLastUsed
 
@@ -110,27 +134,22 @@ and a boolean to check if the value has been set.
 
 SetLastUsed sets LastUsed field to given value.
 
+### HasLastUsed
 
-### GetName
+`func (o *ByomClientDto) HasLastUsed() bool`
 
-`func (o *ByomClientDto) GetName() string`
+HasLastUsed returns a boolean if a field has been set.
 
-GetName returns the Name field if non-nil, zero value otherwise.
+### SetLastUsedNil
 
-### GetNameOk
+`func (o *ByomClientDto) SetLastUsedNil(b bool)`
 
-`func (o *ByomClientDto) GetNameOk() (*string, bool)`
+ SetLastUsedNil sets the value for LastUsed to be an explicit nil
 
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
+### UnsetLastUsed
+`func (o *ByomClientDto) UnsetLastUsed()`
 
-### SetName
-
-`func (o *ByomClientDto) SetName(v string)`
-
-SetName sets Name field to given value.
-
-
+UnsetLastUsed ensures that no value is present for LastUsed, not even an explicit nil
 ### GetUsername
 
 `func (o *ByomClientDto) GetUsername() string`

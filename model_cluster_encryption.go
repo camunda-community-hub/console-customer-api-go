@@ -18,10 +18,12 @@ import (
 // checks if the ClusterEncryption type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ClusterEncryption{}
 
-// ClusterEncryption Encryption configuration for the cluster.  `type` matches what was selected at create-time (Software / Hardware / Provider / External). `primaryKeyArn` / `secondaryKeyArn` are populated only for `External` (BYOK) clusters once keys have been configured via `PUT /clusters/{clusterUuid}/encryption`. `status` is only present when `type` is `External` and reflects the operator reconciliation state — poll for `Ready` to confirm BYOK is active.
+// ClusterEncryption Encryption configuration for the cluster.  `type` matches what was selected at create-time (Software / Hardware / Provider / External). `primaryKeyArn` / `secondaryKeyArn` are populated only for `External` (BYOK) clusters once keys have been configured via `PUT /clusters/{clusterUuid}/encryption`. `status` is only present when `type` is `External` and reflects the operator reconciliation state — poll for `Ready` to confirm BYOK is active.  `primaryKeyStatus` / `secondaryKeyStatus` are the status of each key and every grant on it, with the reason when Camunda cannot use the key. They are present only for `External` clusters, once the cluster reports them. `secondaryKeyStatus` is present only when `secondaryKeyArn` is.
 type ClusterEncryption struct {
 	PrimaryKeyArn        *string              `json:"primaryKeyArn,omitempty"`
+	PrimaryKeyStatus     *EncryptionKeyStatus `json:"primaryKeyStatus,omitempty"`
 	SecondaryKeyArn      *string              `json:"secondaryKeyArn,omitempty"`
+	SecondaryKeyStatus   *EncryptionKeyStatus `json:"secondaryKeyStatus,omitempty"`
 	Status               *EncryptionStatus    `json:"status,omitempty"`
 	Type                 ClusterEncryptionKey `json:"type"`
 	AdditionalProperties map[string]interface{}
@@ -79,6 +81,38 @@ func (o *ClusterEncryption) SetPrimaryKeyArn(v string) {
 	o.PrimaryKeyArn = &v
 }
 
+// GetPrimaryKeyStatus returns the PrimaryKeyStatus field value if set, zero value otherwise.
+func (o *ClusterEncryption) GetPrimaryKeyStatus() EncryptionKeyStatus {
+	if o == nil || IsNil(o.PrimaryKeyStatus) {
+		var ret EncryptionKeyStatus
+		return ret
+	}
+	return *o.PrimaryKeyStatus
+}
+
+// GetPrimaryKeyStatusOk returns a tuple with the PrimaryKeyStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterEncryption) GetPrimaryKeyStatusOk() (*EncryptionKeyStatus, bool) {
+	if o == nil || IsNil(o.PrimaryKeyStatus) {
+		return nil, false
+	}
+	return o.PrimaryKeyStatus, true
+}
+
+// HasPrimaryKeyStatus returns a boolean if a field has been set.
+func (o *ClusterEncryption) HasPrimaryKeyStatus() bool {
+	if o != nil && !IsNil(o.PrimaryKeyStatus) {
+		return true
+	}
+
+	return false
+}
+
+// SetPrimaryKeyStatus gets a reference to the given EncryptionKeyStatus and assigns it to the PrimaryKeyStatus field.
+func (o *ClusterEncryption) SetPrimaryKeyStatus(v EncryptionKeyStatus) {
+	o.PrimaryKeyStatus = &v
+}
+
 // GetSecondaryKeyArn returns the SecondaryKeyArn field value if set, zero value otherwise.
 func (o *ClusterEncryption) GetSecondaryKeyArn() string {
 	if o == nil || IsNil(o.SecondaryKeyArn) {
@@ -109,6 +143,38 @@ func (o *ClusterEncryption) HasSecondaryKeyArn() bool {
 // SetSecondaryKeyArn gets a reference to the given string and assigns it to the SecondaryKeyArn field.
 func (o *ClusterEncryption) SetSecondaryKeyArn(v string) {
 	o.SecondaryKeyArn = &v
+}
+
+// GetSecondaryKeyStatus returns the SecondaryKeyStatus field value if set, zero value otherwise.
+func (o *ClusterEncryption) GetSecondaryKeyStatus() EncryptionKeyStatus {
+	if o == nil || IsNil(o.SecondaryKeyStatus) {
+		var ret EncryptionKeyStatus
+		return ret
+	}
+	return *o.SecondaryKeyStatus
+}
+
+// GetSecondaryKeyStatusOk returns a tuple with the SecondaryKeyStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterEncryption) GetSecondaryKeyStatusOk() (*EncryptionKeyStatus, bool) {
+	if o == nil || IsNil(o.SecondaryKeyStatus) {
+		return nil, false
+	}
+	return o.SecondaryKeyStatus, true
+}
+
+// HasSecondaryKeyStatus returns a boolean if a field has been set.
+func (o *ClusterEncryption) HasSecondaryKeyStatus() bool {
+	if o != nil && !IsNil(o.SecondaryKeyStatus) {
+		return true
+	}
+
+	return false
+}
+
+// SetSecondaryKeyStatus gets a reference to the given EncryptionKeyStatus and assigns it to the SecondaryKeyStatus field.
+func (o *ClusterEncryption) SetSecondaryKeyStatus(v EncryptionKeyStatus) {
+	o.SecondaryKeyStatus = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
@@ -180,8 +246,14 @@ func (o ClusterEncryption) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PrimaryKeyArn) {
 		toSerialize["primaryKeyArn"] = o.PrimaryKeyArn
 	}
+	if !IsNil(o.PrimaryKeyStatus) {
+		toSerialize["primaryKeyStatus"] = o.PrimaryKeyStatus
+	}
 	if !IsNil(o.SecondaryKeyArn) {
 		toSerialize["secondaryKeyArn"] = o.SecondaryKeyArn
+	}
+	if !IsNil(o.SecondaryKeyStatus) {
+		toSerialize["secondaryKeyStatus"] = o.SecondaryKeyStatus
 	}
 	if !IsNil(o.Status) {
 		toSerialize["status"] = o.Status
@@ -231,7 +303,9 @@ func (o *ClusterEncryption) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "primaryKeyArn")
+		delete(additionalProperties, "primaryKeyStatus")
 		delete(additionalProperties, "secondaryKeyArn")
+		delete(additionalProperties, "secondaryKeyStatus")
 		delete(additionalProperties, "status")
 		delete(additionalProperties, "type")
 		o.AdditionalProperties = additionalProperties

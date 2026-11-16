@@ -27,7 +27,7 @@ type Cluster struct {
 	Channel      ClusterChannel       `json:"channel"`
 	Created      time.Time            `json:"created"`
 	// Optional description for the cluster (max 150 characters).
-	Description *string            `json:"description,omitempty"`
+	Description NullableString     `json:"description,omitempty"`
 	Encryption  *ClusterEncryption `json:"encryption,omitempty"`
 	Generation  ClusterGeneration  `json:"generation"`
 	// the IP Allowlist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
@@ -180,36 +180,47 @@ func (o *Cluster) SetCreated(v time.Time) {
 	o.Created = v
 }
 
-// GetDescription returns the Description field value if set, zero value otherwise.
+// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Cluster) GetDescription() string {
-	if o == nil || IsNil(o.Description) {
+	if o == nil || IsNil(o.Description.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Description
+	return *o.Description.Get()
 }
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Cluster) GetDescriptionOk() (*string, bool) {
-	if o == nil || IsNil(o.Description) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Description, true
+	return o.Description.Get(), o.Description.IsSet()
 }
 
 // HasDescription returns a boolean if a field has been set.
 func (o *Cluster) HasDescription() bool {
-	if o != nil && !IsNil(o.Description) {
+	if o != nil && o.Description.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
+// SetDescription gets a reference to the given NullableString and assigns it to the Description field.
 func (o *Cluster) SetDescription(v string) {
-	o.Description = &v
+	o.Description.Set(&v)
+}
+
+// SetDescriptionNil sets the value for Description to be an explicit nil
+func (o *Cluster) SetDescriptionNil() {
+	o.Description.Set(nil)
+}
+
+// UnsetDescription ensures that no value is present for Description, not even an explicit nil
+func (o *Cluster) UnsetDescription() {
+	o.Description.Unset()
 }
 
 // GetEncryption returns the Encryption field value if set, zero value otherwise.
@@ -268,9 +279,9 @@ func (o *Cluster) SetGeneration(v ClusterGeneration) {
 	o.Generation = v
 }
 
-// GetIpallowlist returns the Ipallowlist field value if set, zero value otherwise.
+// GetIpallowlist returns the Ipallowlist field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Cluster) GetIpallowlist() []ClusterIpallowlistInner {
-	if o == nil || IsNil(o.Ipallowlist) {
+	if o == nil {
 		var ret []ClusterIpallowlistInner
 		return ret
 	}
@@ -279,6 +290,7 @@ func (o *Cluster) GetIpallowlist() []ClusterIpallowlistInner {
 
 // GetIpallowlistOk returns a tuple with the Ipallowlist field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Cluster) GetIpallowlistOk() ([]ClusterIpallowlistInner, bool) {
 	if o == nil || IsNil(o.Ipallowlist) {
 		return nil, false
@@ -300,9 +312,9 @@ func (o *Cluster) SetIpallowlist(v []ClusterIpallowlistInner) {
 	o.Ipallowlist = v
 }
 
-// GetIpwhitelist returns the Ipwhitelist field value if set, zero value otherwise.
+// GetIpwhitelist returns the Ipwhitelist field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Cluster) GetIpwhitelist() []ClusterIpallowlistInner {
-	if o == nil || IsNil(o.Ipwhitelist) {
+	if o == nil {
 		var ret []ClusterIpallowlistInner
 		return ret
 	}
@@ -311,6 +323,7 @@ func (o *Cluster) GetIpwhitelist() []ClusterIpallowlistInner {
 
 // GetIpwhitelistOk returns a tuple with the Ipwhitelist field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Cluster) GetIpwhitelistOk() ([]ClusterIpallowlistInner, bool) {
 	if o == nil || IsNil(o.Ipwhitelist) {
 		return nil, false
@@ -548,17 +561,17 @@ func (o Cluster) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["channel"] = o.Channel
 	toSerialize["created"] = o.Created
-	if !IsNil(o.Description) {
-		toSerialize["description"] = o.Description
+	if o.Description.IsSet() {
+		toSerialize["description"] = o.Description.Get()
 	}
 	if !IsNil(o.Encryption) {
 		toSerialize["encryption"] = o.Encryption
 	}
 	toSerialize["generation"] = o.Generation
-	if !IsNil(o.Ipallowlist) {
+	if o.Ipallowlist != nil {
 		toSerialize["ipallowlist"] = o.Ipallowlist
 	}
-	if !IsNil(o.Ipwhitelist) {
+	if o.Ipwhitelist != nil {
 		toSerialize["ipwhitelist"] = o.Ipwhitelist
 	}
 	if !IsNil(o.Labels) {

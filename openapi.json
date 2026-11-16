@@ -49,12 +49,15 @@
             "type": "string"
           },
           "entityAttribute": {
+            "nullable": true,
             "type": "string"
           },
           "entityAttributeValueFrom": {
+            "nullable": true,
             "type": "string"
           },
           "entityAttributeValueTo": {
+            "nullable": true,
             "type": "string"
           },
           "entityId": {
@@ -64,9 +67,11 @@
             "type": "string"
           },
           "parentEntity": {
+            "nullable": true,
             "type": "string"
           },
           "parentEntityId": {
+            "nullable": true,
             "type": "string"
           },
           "service": {
@@ -185,9 +190,11 @@
         "properties": {
           "created": {
             "format": "date-time",
+            "nullable": true,
             "type": "string"
           },
           "createdBy": {
+            "nullable": true,
             "type": "string"
           },
           "createdByName": {
@@ -195,9 +202,7 @@
           },
           "lastUsed": {
             "format": "date-time",
-            "type": "string"
-          },
-          "name": {
+            "nullable": true,
             "type": "string"
           },
           "username": {
@@ -209,12 +214,9 @@
         },
         "required": [
           "uuid",
-          "name",
           "username",
           "created",
-          "lastUsed",
-          "createdBy",
-          "createdByName"
+          "createdBy"
         ],
         "type": "object"
       },
@@ -305,16 +307,23 @@
           },
           "description": {
             "description": "Optional description for the cluster (max 150 characters).",
+            "nullable": true,
             "type": "string"
           },
           "encryption": {
-            "description": "Encryption configuration for the cluster.\n\n`type` matches what was selected at create-time (Software / Hardware /\nProvider / External). `primaryKeyArn` / `secondaryKeyArn` are populated\nonly for `External` (BYOK) clusters once keys have been configured via\n`PUT /clusters/{clusterUuid}/encryption`. `status` is only present when\n`type` is `External` and reflects the operator reconciliation state —\npoll for `Ready` to confirm BYOK is active.",
+            "description": "Encryption configuration for the cluster.\n\n`type` matches what was selected at create-time (Software / Hardware /\nProvider / External). `primaryKeyArn` / `secondaryKeyArn` are populated\nonly for `External` (BYOK) clusters once keys have been configured via\n`PUT /clusters/{clusterUuid}/encryption`. `status` is only present when\n`type` is `External` and reflects the operator reconciliation state —\npoll for `Ready` to confirm BYOK is active.\n\n`primaryKeyStatus` / `secondaryKeyStatus` are the status of each key and\nevery grant on it, with the reason when Camunda cannot use the key. They\nare present only for `External` clusters, once the cluster reports them.\n`secondaryKeyStatus` is present only when `secondaryKeyArn` is.",
             "properties": {
               "primaryKeyArn": {
                 "type": "string"
               },
+              "primaryKeyStatus": {
+                "$ref": "#/components/schemas/EncryptionKeyStatus"
+              },
               "secondaryKeyArn": {
                 "type": "string"
+              },
+              "secondaryKeyStatus": {
+                "$ref": "#/components/schemas/EncryptionKeyStatus"
               },
               "status": {
                 "$ref": "#/components/schemas/EncryptionStatus"
@@ -361,6 +370,7 @@
               ],
               "type": "object"
             },
+            "nullable": true,
             "type": "array"
           },
           "ipwhitelist": {
@@ -380,6 +390,7 @@
               ],
               "type": "object"
             },
+            "nullable": true,
             "type": "array"
           },
           "labels": {
@@ -451,7 +462,6 @@
               }
             },
             "required": [
-              "name",
               "uuid"
             ],
             "type": "object"
@@ -588,49 +598,53 @@
         "description": "Used to create a cluster through this API. All necessary values can be retrieved from the <pre>/clusters/parameters</pre> endpoint.",
         "properties": {
           "autoUpdate": {
-            "description": "If set to false, no automatic updates will be performed on your cluster.",
+            "description": "Default is true. If you send false, your cluster gets no automatic updates. This setting has an effect only on the Stable channel.",
             "type": "boolean"
           },
           "backupRegionId": {
-            "description": "The backup region to choose. Only available if the Sales Plan supports this. (Enterprise)",
+            "description": "The backup region. Send the `uuid` of an entry of `backups` of the selected region. Only if your plan includes backups.",
             "type": "string"
           },
           "channelId": {
-            "description": "The channel (software spec) to use.",
+            "description": "The channel (software spec). Send the `uuid` of an entry of `channels`.",
             "type": "string"
           },
           "description": {
-            "description": "Optional description for the cluster (max 150 characters).",
+            "description": "Optional description for the cluster. Maximum 150 characters.",
             "type": "string"
           },
           "encryption": {
             "$ref": "#/components/schemas/ClusterEncryptionKey",
-            "description": "Optional encryption key, defaults to 'Provider'."
+            "description": "Optional encryption key. Allowed values are `Provider`, `Software`, `Hardware` and `External`. Default is `Provider`. `Software`, `Hardware` and `External` need an Enterprise organization. If not, the request fails with HTTP 403. `External` (bring your own key) also needs an AWS region."
           },
           "generationId": {
-            "description": "The generation (software version) to use.",
+            "description": "The generation (software version). Send the `uuid` of an entry of `allowedGenerations` of the selected channel. The `defaultGeneration` of the channel is the default choice.",
             "type": "string"
           },
           "hardwarePackages": {
-            "description": "Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.",
+            "description": "Optional number of hardware packages. Default is 1. A higher number is only available on request and for plan types that support hardware packages.",
             "format": "double",
             "type": "number"
           },
+          "identityBackendChecksEnabled": {
+            "description": "Optional. Default is false. If you send true, the cluster uses Identity Based Authorizations.",
+            "type": "boolean"
+          },
           "name": {
-            "description": "The name of your new cluster.",
+            "description": "The name of your new cluster. Maximum 50 characters.",
             "type": "string"
           },
           "planTypeId": {
-            "description": "The planType (hardware spec) to use.",
+            "description": "The plan type (hardware spec). Send the `uuid` of an entry of `clusterPlanTypes`.",
             "type": "string"
           },
           "regionId": {
-            "description": "The data center to use.",
+            "description": "The data center. Send the `uuid` of an entry of `regions`.",
             "type": "string"
           },
           "stageLabel": {
             "$ref": "#/components/schemas/CamundaClusterStage",
-            "description": "Optional stage label."
+            "description": "Optional stage label. Allowed values are `dev`, `test`, `stage` and `prod`. Other values cause HTTP 400."
           }
         },
         "required": [
@@ -741,12 +755,31 @@
         ],
         "type": "object"
       },
+      "EncryptionKeyStatus": {
+        "description": "The status of one external encryption key and every grant on it, as the\noperator reports it.",
+        "properties": {
+          "lastTransitionTime": {
+            "description": "When the reason last changed, in ISO 8601.",
+            "type": "string"
+          },
+          "message": {
+            "description": "The detail of the reason, for example the request that AWS KMS denied.",
+            "type": "string"
+          },
+          "reason": {
+            "description": "Why the key is or is not usable. Only `Ready` means that Camunda can use\nthe key and every grant on it. `KeyAccessDenied`, `KeyNotUsable` and\n`KeyNotEnabled` need an action on the key in AWS KMS. `Pending`,\n`ProviderUnavailable` and `InternalError` clear without an action. The\nreason can be a value that is not named here.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "EncryptionStatus": {
         "enum": [
           "Ready",
           "ProviderError",
           "ExternalEncryptionKeyNotReady",
           "ExternalEncryptionKeyNotSupplied",
+          "ExternalEncryptionKeyGrantNotReady",
           "CreationError",
           "EncryptedStorageNotReady"
         ],
@@ -1434,7 +1467,7 @@
             "type": "string"
           },
           "numberOfAllocatedHwPackages": {
-            "description": "Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.",
+            "description": "Optional number of hardware packages, defaults to 1. Only available on request and for Advanced offering cluster types.",
             "format": "double",
             "type": "number"
           },
@@ -1583,19 +1616,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CreateClusterBody"
-                  },
-                  {
-                    "properties": {
-                      "identityBackendChecksEnabled": {
-                        "type": "boolean"
-                      }
-                    },
-                    "type": "object"
-                  }
-                ]
+                "$ref": "#/components/schemas/CreateClusterBody"
               }
             }
           },

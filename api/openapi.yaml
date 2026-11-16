@@ -65,7 +65,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateCluster_request"
+              $ref: "#/components/schemas/CreateClusterBody"
         required: true
       responses:
         "200":
@@ -1236,18 +1236,23 @@ components:
         entity:
           type: string
         entityAttribute:
+          nullable: true
           type: string
         entityAttributeValueFrom:
+          nullable: true
           type: string
         entityAttributeValueTo:
+          nullable: true
           type: string
         entityId:
           type: string
         orgId:
           type: string
         parentEntity:
+          nullable: true
           type: string
         parentEntityId:
+          nullable: true
           type: string
         service:
           type: string
@@ -1364,21 +1369,21 @@ components:
         createdBy: createdBy
         createdByName: createdByName
         lastUsed: 2000-01-23T04:56:07.000+00:00
-        name: name
         username: username
         uuid: uuid
       properties:
         created:
           format: date-time
+          nullable: true
           type: string
         createdBy:
+          nullable: true
           type: string
         createdByName:
           type: string
         lastUsed:
           format: date-time
-          type: string
-        name:
+          nullable: true
           type: string
         username:
           type: string
@@ -1387,9 +1392,6 @@ components:
       required:
       - created
       - createdBy
-      - createdByName
-      - lastUsed
-      - name
       - username
       - uuid
       type: object
@@ -1435,7 +1437,15 @@ components:
         description: description
         encryption:
           primaryKeyArn: primaryKeyArn
+          primaryKeyStatus:
+            lastTransitionTime: lastTransitionTime
+            message: message
+            reason: reason
           secondaryKeyArn: secondaryKeyArn
+          secondaryKeyStatus:
+            lastTransitionTime: lastTransitionTime
+            message: message
+            reason: reason
           status: Ready
           type: Software
         generation:
@@ -1494,6 +1504,7 @@ components:
           type: string
         description:
           description: Optional description for the cluster (max 150 characters).
+          nullable: true
           type: string
         encryption:
           $ref: "#/components/schemas/Cluster_encryption"
@@ -1505,6 +1516,7 @@ components:
             has the permission to see it.
           items:
             $ref: "#/components/schemas/Cluster_ipallowlist_inner"
+          nullable: true
           type: array
         ipwhitelist:
           description: |-
@@ -1513,6 +1525,7 @@ components:
             the IP Whitelist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it.
           items:
             $ref: "#/components/schemas/Cluster_ipallowlist_inner"
+          nullable: true
           type: array
         labels:
           items:
@@ -1621,39 +1634,61 @@ components:
     CreateClusterBody:
       description: Used to create a cluster through this API. All necessary values
         can be retrieved from the <pre>/clusters/parameters</pre> endpoint.
+      example:
+        autoUpdate: true
+        backupRegionId: backupRegionId
+        channelId: channelId
+        description: description
+        encryption: Software
+        generationId: generationId
+        hardwarePackages: 0.8008281904610115
+        identityBackendChecksEnabled: true
+        name: name
+        planTypeId: planTypeId
+        regionId: regionId
+        stageLabel: dev
       properties:
         autoUpdate:
-          description: "If set to false, no automatic updates will be performed on\
-            \ your cluster."
+          description: "Default is true. If you send false, your cluster gets no automatic\
+            \ updates. This setting has an effect only on the Stable channel."
           type: boolean
         backupRegionId:
-          description: The backup region to choose. Only available if the Sales Plan
-            supports this. (Enterprise)
+          description: The backup region. Send the `uuid` of an entry of `backups`
+            of the selected region. Only if your plan includes backups.
           type: string
         channelId:
-          description: The channel (software spec) to use.
+          description: The channel (software spec). Send the `uuid` of an entry of
+            `channels`.
           type: string
         description:
-          description: Optional description for the cluster (max 150 characters).
+          description: Optional description for the cluster. Maximum 150 characters.
           type: string
         encryption:
           $ref: "#/components/schemas/ClusterEncryptionKey"
         generationId:
-          description: The generation (software version) to use.
+          description: The generation (software version). Send the `uuid` of an entry
+            of `allowedGenerations` of the selected channel. The `defaultGeneration`
+            of the channel is the default choice.
           type: string
         hardwarePackages:
-          description: "Optional number uf hardware packages, defaults to 1. Only\
-            \ availabe on request and for Advanced offering cluster types."
+          description: Optional number of hardware packages. Default is 1. A higher
+            number is only available on request and for plan types that support hardware
+            packages.
           format: double
           type: number
+        identityBackendChecksEnabled:
+          description: "Optional. Default is false. If you send true, the cluster\
+            \ uses Identity Based Authorizations."
+          type: boolean
         name:
-          description: The name of your new cluster.
+          description: The name of your new cluster. Maximum 50 characters.
           type: string
         planTypeId:
-          description: The planType (hardware spec) to use.
+          description: The plan type (hardware spec). Send the `uuid` of an entry
+            of `clusterPlanTypes`.
           type: string
         regionId:
-          description: The data center to use.
+          description: The data center. Send the `uuid` of an entry of `regions`.
           type: string
         stageLabel:
           $ref: "#/components/schemas/CamundaClusterStage"
@@ -1743,12 +1778,38 @@ components:
       - permissions
       - uuid
       type: object
+    EncryptionKeyStatus:
+      description: |-
+        The status of one external encryption key and every grant on it, as the
+        operator reports it.
+      example:
+        lastTransitionTime: lastTransitionTime
+        message: message
+        reason: reason
+      properties:
+        lastTransitionTime:
+          description: "When the reason last changed, in ISO 8601."
+          type: string
+        message:
+          description: "The detail of the reason, for example the request that AWS\
+            \ KMS denied."
+          type: string
+        reason:
+          description: |-
+            Why the key is or is not usable. Only `Ready` means that Camunda can use
+            the key and every grant on it. `KeyAccessDenied`, `KeyNotUsable` and
+            `KeyNotEnabled` need an action on the key in AWS KMS. `Pending`,
+            `ProviderUnavailable` and `InternalError` clear without an action. The
+            reason can be a value that is not named here.
+          type: string
+      type: object
     EncryptionStatus:
       enum:
       - Ready
       - ProviderError
       - ExternalEncryptionKeyNotReady
       - ExternalEncryptionKeyNotSupplied
+      - ExternalEncryptionKeyGrantNotReady
       - CreationError
       - EncryptedStorageNotReady
       type: string
@@ -2133,8 +2194,8 @@ components:
           description: The name of your cluster.
           type: string
         numberOfAllocatedHwPackages:
-          description: "Optional number uf hardware packages, defaults to 1. Only\
-            \ availabe on request and for Advanced offering cluster types."
+          description: "Optional number of hardware packages, defaults to 1. Only\
+            \ available on request and for Advanced offering cluster types."
           format: double
           type: number
         stageLabel:
@@ -2174,13 +2235,6 @@ components:
       required:
       - secretValue
       type: object
-    CreateCluster_request:
-      allOf:
-      - $ref: "#/components/schemas/CreateClusterBody"
-      - properties:
-          identityBackendChecksEnabled:
-            type: boolean
-        type: object
     CreateCluster_200_response:
       example:
         clusterId: clusterId
@@ -2201,14 +2255,12 @@ components:
           createdBy: createdBy
           createdByName: createdByName
           lastUsed: 2000-01-23T04:56:07.000+00:00
-          name: name
           username: username
           uuid: uuid
         - created: 2000-01-23T04:56:07.000+00:00
           createdBy: createdBy
           createdByName: createdByName
           lastUsed: 2000-01-23T04:56:07.000+00:00
-          name: name
           username: username
           uuid: uuid
         status:
@@ -2251,7 +2303,6 @@ components:
         createdBy: createdBy
         createdByName: createdByName
         lastUsed: 2000-01-23T04:56:07.000+00:00
-        name: name
         username: username
         uuid: uuid
         password: password
@@ -2385,16 +2436,33 @@ components:
         `PUT /clusters/{clusterUuid}/encryption`. `status` is only present when
         `type` is `External` and reflects the operator reconciliation state —
         poll for `Ready` to confirm BYOK is active.
+
+        `primaryKeyStatus` / `secondaryKeyStatus` are the status of each key and
+        every grant on it, with the reason when Camunda cannot use the key. They
+        are present only for `External` clusters, once the cluster reports them.
+        `secondaryKeyStatus` is present only when `secondaryKeyArn` is.
       example:
         primaryKeyArn: primaryKeyArn
+        primaryKeyStatus:
+          lastTransitionTime: lastTransitionTime
+          message: message
+          reason: reason
         secondaryKeyArn: secondaryKeyArn
+        secondaryKeyStatus:
+          lastTransitionTime: lastTransitionTime
+          message: message
+          reason: reason
         status: Ready
         type: Software
       properties:
         primaryKeyArn:
           type: string
+        primaryKeyStatus:
+          $ref: "#/components/schemas/EncryptionKeyStatus"
         secondaryKeyArn:
           type: string
+        secondaryKeyStatus:
+          $ref: "#/components/schemas/EncryptionKeyStatus"
         status:
           $ref: "#/components/schemas/EncryptionStatus"
         type:
@@ -2484,7 +2552,6 @@ components:
         uuid:
           type: string
       required:
-      - name
       - uuid
       type: object
     Cluster_status:

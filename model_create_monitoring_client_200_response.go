@@ -21,14 +21,13 @@ var _ MappedNullable = &CreateMonitoringClient200Response{}
 
 // CreateMonitoringClient200Response struct for CreateMonitoringClient200Response
 type CreateMonitoringClient200Response struct {
-	Created              time.Time `json:"created"`
-	CreatedBy            string    `json:"createdBy"`
-	CreatedByName        string    `json:"createdByName"`
-	LastUsed             time.Time `json:"lastUsed"`
-	Name                 string    `json:"name"`
-	Username             string    `json:"username"`
-	Uuid                 string    `json:"uuid"`
-	Password             string    `json:"password"`
+	Created              NullableTime   `json:"created"`
+	CreatedBy            NullableString `json:"createdBy"`
+	CreatedByName        *string        `json:"createdByName,omitempty"`
+	LastUsed             NullableTime   `json:"lastUsed,omitempty"`
+	Username             string         `json:"username"`
+	Uuid                 string         `json:"uuid"`
+	Password             string         `json:"password"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -38,13 +37,10 @@ type _CreateMonitoringClient200Response CreateMonitoringClient200Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateMonitoringClient200Response(created time.Time, createdBy string, createdByName string, lastUsed time.Time, name string, username string, uuid string, password string) *CreateMonitoringClient200Response {
+func NewCreateMonitoringClient200Response(created NullableTime, createdBy NullableString, username string, uuid string, password string) *CreateMonitoringClient200Response {
 	this := CreateMonitoringClient200Response{}
 	this.Created = created
 	this.CreatedBy = createdBy
-	this.CreatedByName = createdByName
-	this.LastUsed = lastUsed
-	this.Name = name
 	this.Username = username
 	this.Uuid = uuid
 	this.Password = password
@@ -60,123 +56,130 @@ func NewCreateMonitoringClient200ResponseWithDefaults() *CreateMonitoringClient2
 }
 
 // GetCreated returns the Created field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *CreateMonitoringClient200Response) GetCreated() time.Time {
-	if o == nil {
+	if o == nil || o.Created.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.Created
+	return *o.Created.Get()
 }
 
 // GetCreatedOk returns a tuple with the Created field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CreateMonitoringClient200Response) GetCreatedOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Created, true
+	return o.Created.Get(), o.Created.IsSet()
 }
 
 // SetCreated sets field value
 func (o *CreateMonitoringClient200Response) SetCreated(v time.Time) {
-	o.Created = v
+	o.Created.Set(&v)
 }
 
 // GetCreatedBy returns the CreatedBy field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *CreateMonitoringClient200Response) GetCreatedBy() string {
-	if o == nil {
+	if o == nil || o.CreatedBy.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.CreatedBy
+	return *o.CreatedBy.Get()
 }
 
 // GetCreatedByOk returns a tuple with the CreatedBy field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CreateMonitoringClient200Response) GetCreatedByOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CreatedBy, true
+	return o.CreatedBy.Get(), o.CreatedBy.IsSet()
 }
 
 // SetCreatedBy sets field value
 func (o *CreateMonitoringClient200Response) SetCreatedBy(v string) {
-	o.CreatedBy = v
+	o.CreatedBy.Set(&v)
 }
 
-// GetCreatedByName returns the CreatedByName field value
+// GetCreatedByName returns the CreatedByName field value if set, zero value otherwise.
 func (o *CreateMonitoringClient200Response) GetCreatedByName() string {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedByName) {
 		var ret string
 		return ret
 	}
-
-	return o.CreatedByName
+	return *o.CreatedByName
 }
 
-// GetCreatedByNameOk returns a tuple with the CreatedByName field value
+// GetCreatedByNameOk returns a tuple with the CreatedByName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateMonitoringClient200Response) GetCreatedByNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedByName) {
 		return nil, false
 	}
-	return &o.CreatedByName, true
+	return o.CreatedByName, true
 }
 
-// SetCreatedByName sets field value
+// HasCreatedByName returns a boolean if a field has been set.
+func (o *CreateMonitoringClient200Response) HasCreatedByName() bool {
+	if o != nil && !IsNil(o.CreatedByName) {
+		return true
+	}
+
+	return false
+}
+
+// SetCreatedByName gets a reference to the given string and assigns it to the CreatedByName field.
 func (o *CreateMonitoringClient200Response) SetCreatedByName(v string) {
-	o.CreatedByName = v
+	o.CreatedByName = &v
 }
 
-// GetLastUsed returns the LastUsed field value
+// GetLastUsed returns the LastUsed field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *CreateMonitoringClient200Response) GetLastUsed() time.Time {
-	if o == nil {
+	if o == nil || IsNil(o.LastUsed.Get()) {
 		var ret time.Time
 		return ret
 	}
-
-	return o.LastUsed
+	return *o.LastUsed.Get()
 }
 
-// GetLastUsedOk returns a tuple with the LastUsed field value
+// GetLastUsedOk returns a tuple with the LastUsed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CreateMonitoringClient200Response) GetLastUsedOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.LastUsed, true
+	return o.LastUsed.Get(), o.LastUsed.IsSet()
 }
 
-// SetLastUsed sets field value
+// HasLastUsed returns a boolean if a field has been set.
+func (o *CreateMonitoringClient200Response) HasLastUsed() bool {
+	if o != nil && o.LastUsed.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLastUsed gets a reference to the given NullableTime and assigns it to the LastUsed field.
 func (o *CreateMonitoringClient200Response) SetLastUsed(v time.Time) {
-	o.LastUsed = v
+	o.LastUsed.Set(&v)
 }
 
-// GetName returns the Name field value
-func (o *CreateMonitoringClient200Response) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Name
+// SetLastUsedNil sets the value for LastUsed to be an explicit nil
+func (o *CreateMonitoringClient200Response) SetLastUsedNil() {
+	o.LastUsed.Set(nil)
 }
 
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *CreateMonitoringClient200Response) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value
-func (o *CreateMonitoringClient200Response) SetName(v string) {
-	o.Name = v
+// UnsetLastUsed ensures that no value is present for LastUsed, not even an explicit nil
+func (o *CreateMonitoringClient200Response) UnsetLastUsed() {
+	o.LastUsed.Unset()
 }
 
 // GetUsername returns the Username field value
@@ -261,11 +264,14 @@ func (o CreateMonitoringClient200Response) MarshalJSON() ([]byte, error) {
 
 func (o CreateMonitoringClient200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created"] = o.Created
-	toSerialize["createdBy"] = o.CreatedBy
-	toSerialize["createdByName"] = o.CreatedByName
-	toSerialize["lastUsed"] = o.LastUsed
-	toSerialize["name"] = o.Name
+	toSerialize["created"] = o.Created.Get()
+	toSerialize["createdBy"] = o.CreatedBy.Get()
+	if !IsNil(o.CreatedByName) {
+		toSerialize["createdByName"] = o.CreatedByName
+	}
+	if o.LastUsed.IsSet() {
+		toSerialize["lastUsed"] = o.LastUsed.Get()
+	}
 	toSerialize["username"] = o.Username
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["password"] = o.Password
@@ -284,9 +290,6 @@ func (o *CreateMonitoringClient200Response) UnmarshalJSON(data []byte) (err erro
 	requiredProperties := []string{
 		"created",
 		"createdBy",
-		"createdByName",
-		"lastUsed",
-		"name",
 		"username",
 		"uuid",
 		"password",
@@ -323,7 +326,6 @@ func (o *CreateMonitoringClient200Response) UnmarshalJSON(data []byte) (err erro
 		delete(additionalProperties, "createdBy")
 		delete(additionalProperties, "createdByName")
 		delete(additionalProperties, "lastUsed")
-		delete(additionalProperties, "name")
 		delete(additionalProperties, "username")
 		delete(additionalProperties, "uuid")
 		delete(additionalProperties, "password")

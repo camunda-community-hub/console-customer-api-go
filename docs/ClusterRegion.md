@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
+**Name** | Pointer to **string** |  | [optional] 
 **Uuid** | **string** |  | 
 
 ## Methods
 
 ### NewClusterRegion
 
-`func NewClusterRegion(name string, uuid string, ) *ClusterRegion`
+`func NewClusterRegion(uuid string, ) *ClusterRegion`
 
 NewClusterRegion instantiates a new ClusterRegion object
 This constructor will assign default values to properties that have it defined,
@@ -45,6 +45,11 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+### HasName
+
+`func (o *ClusterRegion) HasName() bool`
+
+HasName returns a boolean if a field has been set.
 
 ### GetUuid
 

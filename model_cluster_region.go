@@ -20,8 +20,8 @@ var _ MappedNullable = &ClusterRegion{}
 
 // ClusterRegion The data center where your Camunda cluster is running.
 type ClusterRegion struct {
-	Name                 string `json:"name"`
-	Uuid                 string `json:"uuid"`
+	Name                 *string `json:"name,omitempty"`
+	Uuid                 string  `json:"uuid"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -31,9 +31,8 @@ type _ClusterRegion ClusterRegion
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewClusterRegion(name string, uuid string) *ClusterRegion {
+func NewClusterRegion(uuid string) *ClusterRegion {
 	this := ClusterRegion{}
-	this.Name = name
 	this.Uuid = uuid
 	return &this
 }
@@ -46,28 +45,36 @@ func NewClusterRegionWithDefaults() *ClusterRegion {
 	return &this
 }
 
-// GetName returns the Name field value
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *ClusterRegion) GetName() string {
-	if o == nil {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
-
-	return o.Name
+	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClusterRegion) GetNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.Name, true
 }
 
-// SetName sets field value
+// HasName returns a boolean if a field has been set.
+func (o *ClusterRegion) HasName() bool {
+	if o != nil && !IsNil(o.Name) {
+		return true
+	}
+
+	return false
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
 func (o *ClusterRegion) SetName(v string) {
-	o.Name = v
+	o.Name = &v
 }
 
 // GetUuid returns the Uuid field value
@@ -104,7 +111,9 @@ func (o ClusterRegion) MarshalJSON() ([]byte, error) {
 
 func (o ClusterRegion) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["name"] = o.Name
+	if !IsNil(o.Name) {
+		toSerialize["name"] = o.Name
+	}
 	toSerialize["uuid"] = o.Uuid
 
 	for key, value := range o.AdditionalProperties {
@@ -119,7 +128,6 @@ func (o *ClusterRegion) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"name",
 		"uuid",
 	}
 

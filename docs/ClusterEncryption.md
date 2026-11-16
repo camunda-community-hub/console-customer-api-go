@@ -5,7 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **PrimaryKeyArn** | Pointer to **string** |  | [optional] 
+**PrimaryKeyStatus** | Pointer to [**EncryptionKeyStatus**](EncryptionKeyStatus.md) |  | [optional] 
 **SecondaryKeyArn** | Pointer to **string** |  | [optional] 
+**SecondaryKeyStatus** | Pointer to [**EncryptionKeyStatus**](EncryptionKeyStatus.md) |  | [optional] 
 **Status** | Pointer to [**EncryptionStatus**](EncryptionStatus.md) |  | [optional] 
 **Type** | [**ClusterEncryptionKey**](ClusterEncryptionKey.md) |  | 
 
@@ -53,6 +55,31 @@ SetPrimaryKeyArn sets PrimaryKeyArn field to given value.
 
 HasPrimaryKeyArn returns a boolean if a field has been set.
 
+### GetPrimaryKeyStatus
+
+`func (o *ClusterEncryption) GetPrimaryKeyStatus() EncryptionKeyStatus`
+
+GetPrimaryKeyStatus returns the PrimaryKeyStatus field if non-nil, zero value otherwise.
+
+### GetPrimaryKeyStatusOk
+
+`func (o *ClusterEncryption) GetPrimaryKeyStatusOk() (*EncryptionKeyStatus, bool)`
+
+GetPrimaryKeyStatusOk returns a tuple with the PrimaryKeyStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPrimaryKeyStatus
+
+`func (o *ClusterEncryption) SetPrimaryKeyStatus(v EncryptionKeyStatus)`
+
+SetPrimaryKeyStatus sets PrimaryKeyStatus field to given value.
+
+### HasPrimaryKeyStatus
+
+`func (o *ClusterEncryption) HasPrimaryKeyStatus() bool`
+
+HasPrimaryKeyStatus returns a boolean if a field has been set.
+
 ### GetSecondaryKeyArn
 
 `func (o *ClusterEncryption) GetSecondaryKeyArn() string`
@@ -77,6 +104,31 @@ SetSecondaryKeyArn sets SecondaryKeyArn field to given value.
 `func (o *ClusterEncryption) HasSecondaryKeyArn() bool`
 
 HasSecondaryKeyArn returns a boolean if a field has been set.
+
+### GetSecondaryKeyStatus
+
+`func (o *ClusterEncryption) GetSecondaryKeyStatus() EncryptionKeyStatus`
+
+GetSecondaryKeyStatus returns the SecondaryKeyStatus field if non-nil, zero value otherwise.
+
+### GetSecondaryKeyStatusOk
+
+`func (o *ClusterEncryption) GetSecondaryKeyStatusOk() (*EncryptionKeyStatus, bool)`
+
+GetSecondaryKeyStatusOk returns a tuple with the SecondaryKeyStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSecondaryKeyStatus
+
+`func (o *ClusterEncryption) SetSecondaryKeyStatus(v EncryptionKeyStatus)`
+
+SetSecondaryKeyStatus sets SecondaryKeyStatus field to given value.
+
+### HasSecondaryKeyStatus
+
+`func (o *ClusterEncryption) HasSecondaryKeyStatus() bool`
+
+HasSecondaryKeyStatus returns a boolean if a field has been set.
 
 ### GetStatus
 

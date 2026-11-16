@@ -20,24 +20,26 @@ var _ MappedNullable = &CreateClusterBody{}
 
 // CreateClusterBody Used to create a cluster through this API. All necessary values can be retrieved from the <pre>/clusters/parameters</pre> endpoint.
 type CreateClusterBody struct {
-	// If set to false, no automatic updates will be performed on your cluster.
+	// Default is true. If you send false, your cluster gets no automatic updates. This setting has an effect only on the Stable channel.
 	AutoUpdate *bool `json:"autoUpdate,omitempty"`
-	// The backup region to choose. Only available if the Sales Plan supports this. (Enterprise)
+	// The backup region. Send the `uuid` of an entry of `backups` of the selected region. Only if your plan includes backups.
 	BackupRegionId *string `json:"backupRegionId,omitempty"`
-	// The channel (software spec) to use.
+	// The channel (software spec). Send the `uuid` of an entry of `channels`.
 	ChannelId string `json:"channelId"`
-	// Optional description for the cluster (max 150 characters).
+	// Optional description for the cluster. Maximum 150 characters.
 	Description *string               `json:"description,omitempty"`
 	Encryption  *ClusterEncryptionKey `json:"encryption,omitempty"`
-	// The generation (software version) to use.
+	// The generation (software version). Send the `uuid` of an entry of `allowedGenerations` of the selected channel. The `defaultGeneration` of the channel is the default choice.
 	GenerationId string `json:"generationId"`
-	// Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.
+	// Optional number of hardware packages. Default is 1. A higher number is only available on request and for plan types that support hardware packages.
 	HardwarePackages *float64 `json:"hardwarePackages,omitempty"`
-	// The name of your new cluster.
+	// Optional. Default is false. If you send true, the cluster uses Identity Based Authorizations.
+	IdentityBackendChecksEnabled *bool `json:"identityBackendChecksEnabled,omitempty"`
+	// The name of your new cluster. Maximum 50 characters.
 	Name string `json:"name"`
-	// The planType (hardware spec) to use.
+	// The plan type (hardware spec). Send the `uuid` of an entry of `clusterPlanTypes`.
 	PlanTypeId string `json:"planTypeId"`
-	// The data center to use.
+	// The data center. Send the `uuid` of an entry of `regions`.
 	RegionId             string               `json:"regionId"`
 	StageLabel           *CamundaClusterStage `json:"stageLabel,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -275,6 +277,38 @@ func (o *CreateClusterBody) SetHardwarePackages(v float64) {
 	o.HardwarePackages = &v
 }
 
+// GetIdentityBackendChecksEnabled returns the IdentityBackendChecksEnabled field value if set, zero value otherwise.
+func (o *CreateClusterBody) GetIdentityBackendChecksEnabled() bool {
+	if o == nil || IsNil(o.IdentityBackendChecksEnabled) {
+		var ret bool
+		return ret
+	}
+	return *o.IdentityBackendChecksEnabled
+}
+
+// GetIdentityBackendChecksEnabledOk returns a tuple with the IdentityBackendChecksEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateClusterBody) GetIdentityBackendChecksEnabledOk() (*bool, bool) {
+	if o == nil || IsNil(o.IdentityBackendChecksEnabled) {
+		return nil, false
+	}
+	return o.IdentityBackendChecksEnabled, true
+}
+
+// HasIdentityBackendChecksEnabled returns a boolean if a field has been set.
+func (o *CreateClusterBody) HasIdentityBackendChecksEnabled() bool {
+	if o != nil && !IsNil(o.IdentityBackendChecksEnabled) {
+		return true
+	}
+
+	return false
+}
+
+// SetIdentityBackendChecksEnabled gets a reference to the given bool and assigns it to the IdentityBackendChecksEnabled field.
+func (o *CreateClusterBody) SetIdentityBackendChecksEnabled(v bool) {
+	o.IdentityBackendChecksEnabled = &v
+}
+
 // GetName returns the Name field value
 func (o *CreateClusterBody) GetName() string {
 	if o == nil {
@@ -406,6 +440,9 @@ func (o CreateClusterBody) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.HardwarePackages) {
 		toSerialize["hardwarePackages"] = o.HardwarePackages
 	}
+	if !IsNil(o.IdentityBackendChecksEnabled) {
+		toSerialize["identityBackendChecksEnabled"] = o.IdentityBackendChecksEnabled
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["planTypeId"] = o.PlanTypeId
 	toSerialize["regionId"] = o.RegionId
@@ -466,6 +503,7 @@ func (o *CreateClusterBody) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "encryption")
 		delete(additionalProperties, "generationId")
 		delete(additionalProperties, "hardwarePackages")
+		delete(additionalProperties, "identityBackendChecksEnabled")
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "planTypeId")
 		delete(additionalProperties, "regionId")

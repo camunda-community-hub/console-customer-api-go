@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **BackupRegion** | Pointer to [**ClusterBackupRegion**](ClusterBackupRegion.md) |  | [optional] 
 **Channel** | [**ClusterChannel**](ClusterChannel.md) |  | 
 **Created** | **time.Time** |  | 
-**Description** | Pointer to **string** | Optional description for the cluster (max 150 characters). | [optional] 
+**Description** | Pointer to **NullableString** | Optional description for the cluster (max 150 characters). | [optional] 
 **Encryption** | Pointer to [**ClusterEncryption**](ClusterEncryption.md) |  | [optional] 
 **Generation** | [**ClusterGeneration**](ClusterGeneration.md) |  | 
 **Ipallowlist** | Pointer to [**[]ClusterIpallowlistInner**](ClusterIpallowlistInner.md) | the IP Allowlist rules for your cluster - will only be returned if your organization has the feature enabled and the client you are using has the permission to see it. | [optional] 
@@ -151,6 +151,16 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
+### SetDescriptionNil
+
+`func (o *Cluster) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *Cluster) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetEncryption
 
 `func (o *Cluster) GetEncryption() ClusterEncryption`
@@ -221,6 +231,16 @@ SetIpallowlist sets Ipallowlist field to given value.
 
 HasIpallowlist returns a boolean if a field has been set.
 
+### SetIpallowlistNil
+
+`func (o *Cluster) SetIpallowlistNil(b bool)`
+
+ SetIpallowlistNil sets the value for Ipallowlist to be an explicit nil
+
+### UnsetIpallowlist
+`func (o *Cluster) UnsetIpallowlist()`
+
+UnsetIpallowlist ensures that no value is present for Ipallowlist, not even an explicit nil
 ### GetIpwhitelist
 
 `func (o *Cluster) GetIpwhitelist() []ClusterIpallowlistInner`
@@ -246,6 +266,16 @@ SetIpwhitelist sets Ipwhitelist field to given value.
 
 HasIpwhitelist returns a boolean if a field has been set.
 
+### SetIpwhitelistNil
+
+`func (o *Cluster) SetIpwhitelistNil(b bool)`
+
+ SetIpwhitelistNil sets the value for Ipwhitelist to be an explicit nil
+
+### UnsetIpwhitelist
+`func (o *Cluster) UnsetIpwhitelist()`
+
+UnsetIpwhitelist ensures that no value is present for Ipwhitelist, not even an explicit nil
 ### GetLabels
 
 `func (o *Cluster) GetLabels() []string`

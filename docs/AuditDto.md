@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **Audit** | **string** |  | 
 **AuditType** | **string** |  | 
 **Entity** | **string** |  | 
-**EntityAttribute** | Pointer to **string** |  | [optional] 
-**EntityAttributeValueFrom** | Pointer to **string** |  | [optional] 
-**EntityAttributeValueTo** | Pointer to **string** |  | [optional] 
+**EntityAttribute** | Pointer to **NullableString** |  | [optional] 
+**EntityAttributeValueFrom** | Pointer to **NullableString** |  | [optional] 
+**EntityAttributeValueTo** | Pointer to **NullableString** |  | [optional] 
 **EntityId** | **string** |  | 
 **OrgId** | **string** |  | 
-**ParentEntity** | Pointer to **string** |  | [optional] 
-**ParentEntityId** | Pointer to **string** |  | [optional] 
+**ParentEntity** | Pointer to **NullableString** |  | [optional] 
+**ParentEntityId** | Pointer to **NullableString** |  | [optional] 
 **Service** | **string** |  | 
 **Timestamp** | Pointer to **float64** |  | [optional] 
 **UserId** | **string** |  | 
@@ -122,6 +122,16 @@ SetEntityAttribute sets EntityAttribute field to given value.
 
 HasEntityAttribute returns a boolean if a field has been set.
 
+### SetEntityAttributeNil
+
+`func (o *AuditDto) SetEntityAttributeNil(b bool)`
+
+ SetEntityAttributeNil sets the value for EntityAttribute to be an explicit nil
+
+### UnsetEntityAttribute
+`func (o *AuditDto) UnsetEntityAttribute()`
+
+UnsetEntityAttribute ensures that no value is present for EntityAttribute, not even an explicit nil
 ### GetEntityAttributeValueFrom
 
 `func (o *AuditDto) GetEntityAttributeValueFrom() string`
@@ -147,6 +157,16 @@ SetEntityAttributeValueFrom sets EntityAttributeValueFrom field to given value.
 
 HasEntityAttributeValueFrom returns a boolean if a field has been set.
 
+### SetEntityAttributeValueFromNil
+
+`func (o *AuditDto) SetEntityAttributeValueFromNil(b bool)`
+
+ SetEntityAttributeValueFromNil sets the value for EntityAttributeValueFrom to be an explicit nil
+
+### UnsetEntityAttributeValueFrom
+`func (o *AuditDto) UnsetEntityAttributeValueFrom()`
+
+UnsetEntityAttributeValueFrom ensures that no value is present for EntityAttributeValueFrom, not even an explicit nil
 ### GetEntityAttributeValueTo
 
 `func (o *AuditDto) GetEntityAttributeValueTo() string`
@@ -172,6 +192,16 @@ SetEntityAttributeValueTo sets EntityAttributeValueTo field to given value.
 
 HasEntityAttributeValueTo returns a boolean if a field has been set.
 
+### SetEntityAttributeValueToNil
+
+`func (o *AuditDto) SetEntityAttributeValueToNil(b bool)`
+
+ SetEntityAttributeValueToNil sets the value for EntityAttributeValueTo to be an explicit nil
+
+### UnsetEntityAttributeValueTo
+`func (o *AuditDto) UnsetEntityAttributeValueTo()`
+
+UnsetEntityAttributeValueTo ensures that no value is present for EntityAttributeValueTo, not even an explicit nil
 ### GetEntityId
 
 `func (o *AuditDto) GetEntityId() string`
@@ -237,6 +267,16 @@ SetParentEntity sets ParentEntity field to given value.
 
 HasParentEntity returns a boolean if a field has been set.
 
+### SetParentEntityNil
+
+`func (o *AuditDto) SetParentEntityNil(b bool)`
+
+ SetParentEntityNil sets the value for ParentEntity to be an explicit nil
+
+### UnsetParentEntity
+`func (o *AuditDto) UnsetParentEntity()`
+
+UnsetParentEntity ensures that no value is present for ParentEntity, not even an explicit nil
 ### GetParentEntityId
 
 `func (o *AuditDto) GetParentEntityId() string`
@@ -262,6 +302,16 @@ SetParentEntityId sets ParentEntityId field to given value.
 
 HasParentEntityId returns a boolean if a field has been set.
 
+### SetParentEntityIdNil
+
+`func (o *AuditDto) SetParentEntityIdNil(b bool)`
+
+ SetParentEntityIdNil sets the value for ParentEntityId to be an explicit nil
+
+### UnsetParentEntityId
+`func (o *AuditDto) UnsetParentEntityId()`
+
+UnsetParentEntityId ensures that no value is present for ParentEntityId, not even an explicit nil
 ### GetService
 
 `func (o *AuditDto) GetService() string`
