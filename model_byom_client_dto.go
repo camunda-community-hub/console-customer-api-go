@@ -21,13 +21,12 @@ var _ MappedNullable = &ByomClientDto{}
 
 // ByomClientDto struct for ByomClientDto
 type ByomClientDto struct {
-	Created              time.Time `json:"created"`
-	CreatedBy            string    `json:"createdBy"`
-	CreatedByName        string    `json:"createdByName"`
-	LastUsed             time.Time `json:"lastUsed"`
-	Name                 string    `json:"name"`
-	Username             string    `json:"username"`
-	Uuid                 string    `json:"uuid"`
+	Created              NullableTime   `json:"created"`
+	CreatedBy            NullableString `json:"createdBy"`
+	CreatedByName        *string        `json:"createdByName,omitempty"`
+	LastUsed             NullableTime   `json:"lastUsed,omitempty"`
+	Username             string         `json:"username"`
+	Uuid                 string         `json:"uuid"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -37,13 +36,10 @@ type _ByomClientDto ByomClientDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewByomClientDto(created time.Time, createdBy string, createdByName string, lastUsed time.Time, name string, username string, uuid string) *ByomClientDto {
+func NewByomClientDto(created NullableTime, createdBy NullableString, username string, uuid string) *ByomClientDto {
 	this := ByomClientDto{}
 	this.Created = created
 	this.CreatedBy = createdBy
-	this.CreatedByName = createdByName
-	this.LastUsed = lastUsed
-	this.Name = name
 	this.Username = username
 	this.Uuid = uuid
 	return &this
@@ -58,123 +54,130 @@ func NewByomClientDtoWithDefaults() *ByomClientDto {
 }
 
 // GetCreated returns the Created field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *ByomClientDto) GetCreated() time.Time {
-	if o == nil {
+	if o == nil || o.Created.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.Created
+	return *o.Created.Get()
 }
 
 // GetCreatedOk returns a tuple with the Created field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ByomClientDto) GetCreatedOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Created, true
+	return o.Created.Get(), o.Created.IsSet()
 }
 
 // SetCreated sets field value
 func (o *ByomClientDto) SetCreated(v time.Time) {
-	o.Created = v
+	o.Created.Set(&v)
 }
 
 // GetCreatedBy returns the CreatedBy field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *ByomClientDto) GetCreatedBy() string {
-	if o == nil {
+	if o == nil || o.CreatedBy.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.CreatedBy
+	return *o.CreatedBy.Get()
 }
 
 // GetCreatedByOk returns a tuple with the CreatedBy field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ByomClientDto) GetCreatedByOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CreatedBy, true
+	return o.CreatedBy.Get(), o.CreatedBy.IsSet()
 }
 
 // SetCreatedBy sets field value
 func (o *ByomClientDto) SetCreatedBy(v string) {
-	o.CreatedBy = v
+	o.CreatedBy.Set(&v)
 }
 
-// GetCreatedByName returns the CreatedByName field value
+// GetCreatedByName returns the CreatedByName field value if set, zero value otherwise.
 func (o *ByomClientDto) GetCreatedByName() string {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedByName) {
 		var ret string
 		return ret
 	}
-
-	return o.CreatedByName
+	return *o.CreatedByName
 }
 
-// GetCreatedByNameOk returns a tuple with the CreatedByName field value
+// GetCreatedByNameOk returns a tuple with the CreatedByName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ByomClientDto) GetCreatedByNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedByName) {
 		return nil, false
 	}
-	return &o.CreatedByName, true
+	return o.CreatedByName, true
 }
 
-// SetCreatedByName sets field value
+// HasCreatedByName returns a boolean if a field has been set.
+func (o *ByomClientDto) HasCreatedByName() bool {
+	if o != nil && !IsNil(o.CreatedByName) {
+		return true
+	}
+
+	return false
+}
+
+// SetCreatedByName gets a reference to the given string and assigns it to the CreatedByName field.
 func (o *ByomClientDto) SetCreatedByName(v string) {
-	o.CreatedByName = v
+	o.CreatedByName = &v
 }
 
-// GetLastUsed returns the LastUsed field value
+// GetLastUsed returns the LastUsed field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ByomClientDto) GetLastUsed() time.Time {
-	if o == nil {
+	if o == nil || IsNil(o.LastUsed.Get()) {
 		var ret time.Time
 		return ret
 	}
-
-	return o.LastUsed
+	return *o.LastUsed.Get()
 }
 
-// GetLastUsedOk returns a tuple with the LastUsed field value
+// GetLastUsedOk returns a tuple with the LastUsed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ByomClientDto) GetLastUsedOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.LastUsed, true
+	return o.LastUsed.Get(), o.LastUsed.IsSet()
 }
 
-// SetLastUsed sets field value
+// HasLastUsed returns a boolean if a field has been set.
+func (o *ByomClientDto) HasLastUsed() bool {
+	if o != nil && o.LastUsed.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLastUsed gets a reference to the given NullableTime and assigns it to the LastUsed field.
 func (o *ByomClientDto) SetLastUsed(v time.Time) {
-	o.LastUsed = v
+	o.LastUsed.Set(&v)
 }
 
-// GetName returns the Name field value
-func (o *ByomClientDto) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Name
+// SetLastUsedNil sets the value for LastUsed to be an explicit nil
+func (o *ByomClientDto) SetLastUsedNil() {
+	o.LastUsed.Set(nil)
 }
 
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *ByomClientDto) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value
-func (o *ByomClientDto) SetName(v string) {
-	o.Name = v
+// UnsetLastUsed ensures that no value is present for LastUsed, not even an explicit nil
+func (o *ByomClientDto) UnsetLastUsed() {
+	o.LastUsed.Unset()
 }
 
 // GetUsername returns the Username field value
@@ -235,11 +238,14 @@ func (o ByomClientDto) MarshalJSON() ([]byte, error) {
 
 func (o ByomClientDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created"] = o.Created
-	toSerialize["createdBy"] = o.CreatedBy
-	toSerialize["createdByName"] = o.CreatedByName
-	toSerialize["lastUsed"] = o.LastUsed
-	toSerialize["name"] = o.Name
+	toSerialize["created"] = o.Created.Get()
+	toSerialize["createdBy"] = o.CreatedBy.Get()
+	if !IsNil(o.CreatedByName) {
+		toSerialize["createdByName"] = o.CreatedByName
+	}
+	if o.LastUsed.IsSet() {
+		toSerialize["lastUsed"] = o.LastUsed.Get()
+	}
 	toSerialize["username"] = o.Username
 	toSerialize["uuid"] = o.Uuid
 
@@ -257,9 +263,6 @@ func (o *ByomClientDto) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"created",
 		"createdBy",
-		"createdByName",
-		"lastUsed",
-		"name",
 		"username",
 		"uuid",
 	}
@@ -295,7 +298,6 @@ func (o *ByomClientDto) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "createdBy")
 		delete(additionalProperties, "createdByName")
 		delete(additionalProperties, "lastUsed")
-		delete(additionalProperties, "name")
 		delete(additionalProperties, "username")
 		delete(additionalProperties, "uuid")
 		o.AdditionalProperties = additionalProperties

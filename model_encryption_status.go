@@ -20,12 +20,13 @@ type EncryptionStatus string
 
 // List of EncryptionStatus
 const (
-	ENCRYPTIONSTATUS_READY                                EncryptionStatus = "Ready"
-	ENCRYPTIONSTATUS_PROVIDER_ERROR                       EncryptionStatus = "ProviderError"
-	ENCRYPTIONSTATUS_EXTERNAL_ENCRYPTION_KEY_NOT_READY    EncryptionStatus = "ExternalEncryptionKeyNotReady"
-	ENCRYPTIONSTATUS_EXTERNAL_ENCRYPTION_KEY_NOT_SUPPLIED EncryptionStatus = "ExternalEncryptionKeyNotSupplied"
-	ENCRYPTIONSTATUS_CREATION_ERROR                       EncryptionStatus = "CreationError"
-	ENCRYPTIONSTATUS_ENCRYPTED_STORAGE_NOT_READY          EncryptionStatus = "EncryptedStorageNotReady"
+	ENCRYPTIONSTATUS_READY                                   EncryptionStatus = "Ready"
+	ENCRYPTIONSTATUS_PROVIDER_ERROR                          EncryptionStatus = "ProviderError"
+	ENCRYPTIONSTATUS_EXTERNAL_ENCRYPTION_KEY_NOT_READY       EncryptionStatus = "ExternalEncryptionKeyNotReady"
+	ENCRYPTIONSTATUS_EXTERNAL_ENCRYPTION_KEY_NOT_SUPPLIED    EncryptionStatus = "ExternalEncryptionKeyNotSupplied"
+	ENCRYPTIONSTATUS_EXTERNAL_ENCRYPTION_KEY_GRANT_NOT_READY EncryptionStatus = "ExternalEncryptionKeyGrantNotReady"
+	ENCRYPTIONSTATUS_CREATION_ERROR                          EncryptionStatus = "CreationError"
+	ENCRYPTIONSTATUS_ENCRYPTED_STORAGE_NOT_READY             EncryptionStatus = "EncryptedStorageNotReady"
 )
 
 // All allowed values of EncryptionStatus enum
@@ -34,6 +35,7 @@ var AllowedEncryptionStatusEnumValues = []EncryptionStatus{
 	"ProviderError",
 	"ExternalEncryptionKeyNotReady",
 	"ExternalEncryptionKeyNotSupplied",
+	"ExternalEncryptionKeyGrantNotReady",
 	"CreationError",
 	"EncryptedStorageNotReady",
 }

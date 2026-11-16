@@ -23,7 +23,7 @@ type UpdateClusterBody struct {
 	Description *string `json:"description,omitempty"`
 	// The name of your cluster.
 	Name *string `json:"name,omitempty"`
-	// Optional number uf hardware packages, defaults to 1. Only availabe on request and for Advanced offering cluster types.
+	// Optional number of hardware packages, defaults to 1. Only available on request and for Advanced offering cluster types.
 	NumberOfAllocatedHwPackages *float64             `json:"numberOfAllocatedHwPackages,omitempty"`
 	StageLabel                  *CamundaClusterStage `json:"stageLabel,omitempty"`
 	AdditionalProperties        map[string]interface{}

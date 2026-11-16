@@ -20,19 +20,19 @@ var _ MappedNullable = &AuditDto{}
 
 // AuditDto struct for AuditDto
 type AuditDto struct {
-	Audit                    string   `json:"audit"`
-	AuditType                string   `json:"auditType"`
-	Entity                   string   `json:"entity"`
-	EntityAttribute          *string  `json:"entityAttribute,omitempty"`
-	EntityAttributeValueFrom *string  `json:"entityAttributeValueFrom,omitempty"`
-	EntityAttributeValueTo   *string  `json:"entityAttributeValueTo,omitempty"`
-	EntityId                 string   `json:"entityId"`
-	OrgId                    string   `json:"orgId"`
-	ParentEntity             *string  `json:"parentEntity,omitempty"`
-	ParentEntityId           *string  `json:"parentEntityId,omitempty"`
-	Service                  string   `json:"service"`
-	Timestamp                *float64 `json:"timestamp,omitempty"`
-	UserId                   string   `json:"userId"`
+	Audit                    string         `json:"audit"`
+	AuditType                string         `json:"auditType"`
+	Entity                   string         `json:"entity"`
+	EntityAttribute          NullableString `json:"entityAttribute,omitempty"`
+	EntityAttributeValueFrom NullableString `json:"entityAttributeValueFrom,omitempty"`
+	EntityAttributeValueTo   NullableString `json:"entityAttributeValueTo,omitempty"`
+	EntityId                 string         `json:"entityId"`
+	OrgId                    string         `json:"orgId"`
+	ParentEntity             NullableString `json:"parentEntity,omitempty"`
+	ParentEntityId           NullableString `json:"parentEntityId,omitempty"`
+	Service                  string         `json:"service"`
+	Timestamp                *float64       `json:"timestamp,omitempty"`
+	UserId                   string         `json:"userId"`
 	AdditionalProperties     map[string]interface{}
 }
 
@@ -134,100 +134,133 @@ func (o *AuditDto) SetEntity(v string) {
 	o.Entity = v
 }
 
-// GetEntityAttribute returns the EntityAttribute field value if set, zero value otherwise.
+// GetEntityAttribute returns the EntityAttribute field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AuditDto) GetEntityAttribute() string {
-	if o == nil || IsNil(o.EntityAttribute) {
+	if o == nil || IsNil(o.EntityAttribute.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.EntityAttribute
+	return *o.EntityAttribute.Get()
 }
 
 // GetEntityAttributeOk returns a tuple with the EntityAttribute field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AuditDto) GetEntityAttributeOk() (*string, bool) {
-	if o == nil || IsNil(o.EntityAttribute) {
+	if o == nil {
 		return nil, false
 	}
-	return o.EntityAttribute, true
+	return o.EntityAttribute.Get(), o.EntityAttribute.IsSet()
 }
 
 // HasEntityAttribute returns a boolean if a field has been set.
 func (o *AuditDto) HasEntityAttribute() bool {
-	if o != nil && !IsNil(o.EntityAttribute) {
+	if o != nil && o.EntityAttribute.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetEntityAttribute gets a reference to the given string and assigns it to the EntityAttribute field.
+// SetEntityAttribute gets a reference to the given NullableString and assigns it to the EntityAttribute field.
 func (o *AuditDto) SetEntityAttribute(v string) {
-	o.EntityAttribute = &v
+	o.EntityAttribute.Set(&v)
 }
 
-// GetEntityAttributeValueFrom returns the EntityAttributeValueFrom field value if set, zero value otherwise.
+// SetEntityAttributeNil sets the value for EntityAttribute to be an explicit nil
+func (o *AuditDto) SetEntityAttributeNil() {
+	o.EntityAttribute.Set(nil)
+}
+
+// UnsetEntityAttribute ensures that no value is present for EntityAttribute, not even an explicit nil
+func (o *AuditDto) UnsetEntityAttribute() {
+	o.EntityAttribute.Unset()
+}
+
+// GetEntityAttributeValueFrom returns the EntityAttributeValueFrom field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AuditDto) GetEntityAttributeValueFrom() string {
-	if o == nil || IsNil(o.EntityAttributeValueFrom) {
+	if o == nil || IsNil(o.EntityAttributeValueFrom.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.EntityAttributeValueFrom
+	return *o.EntityAttributeValueFrom.Get()
 }
 
 // GetEntityAttributeValueFromOk returns a tuple with the EntityAttributeValueFrom field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AuditDto) GetEntityAttributeValueFromOk() (*string, bool) {
-	if o == nil || IsNil(o.EntityAttributeValueFrom) {
+	if o == nil {
 		return nil, false
 	}
-	return o.EntityAttributeValueFrom, true
+	return o.EntityAttributeValueFrom.Get(), o.EntityAttributeValueFrom.IsSet()
 }
 
 // HasEntityAttributeValueFrom returns a boolean if a field has been set.
 func (o *AuditDto) HasEntityAttributeValueFrom() bool {
-	if o != nil && !IsNil(o.EntityAttributeValueFrom) {
+	if o != nil && o.EntityAttributeValueFrom.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetEntityAttributeValueFrom gets a reference to the given string and assigns it to the EntityAttributeValueFrom field.
+// SetEntityAttributeValueFrom gets a reference to the given NullableString and assigns it to the EntityAttributeValueFrom field.
 func (o *AuditDto) SetEntityAttributeValueFrom(v string) {
-	o.EntityAttributeValueFrom = &v
+	o.EntityAttributeValueFrom.Set(&v)
 }
 
-// GetEntityAttributeValueTo returns the EntityAttributeValueTo field value if set, zero value otherwise.
+// SetEntityAttributeValueFromNil sets the value for EntityAttributeValueFrom to be an explicit nil
+func (o *AuditDto) SetEntityAttributeValueFromNil() {
+	o.EntityAttributeValueFrom.Set(nil)
+}
+
+// UnsetEntityAttributeValueFrom ensures that no value is present for EntityAttributeValueFrom, not even an explicit nil
+func (o *AuditDto) UnsetEntityAttributeValueFrom() {
+	o.EntityAttributeValueFrom.Unset()
+}
+
+// GetEntityAttributeValueTo returns the EntityAttributeValueTo field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AuditDto) GetEntityAttributeValueTo() string {
-	if o == nil || IsNil(o.EntityAttributeValueTo) {
+	if o == nil || IsNil(o.EntityAttributeValueTo.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.EntityAttributeValueTo
+	return *o.EntityAttributeValueTo.Get()
 }
 
 // GetEntityAttributeValueToOk returns a tuple with the EntityAttributeValueTo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AuditDto) GetEntityAttributeValueToOk() (*string, bool) {
-	if o == nil || IsNil(o.EntityAttributeValueTo) {
+	if o == nil {
 		return nil, false
 	}
-	return o.EntityAttributeValueTo, true
+	return o.EntityAttributeValueTo.Get(), o.EntityAttributeValueTo.IsSet()
 }
 
 // HasEntityAttributeValueTo returns a boolean if a field has been set.
 func (o *AuditDto) HasEntityAttributeValueTo() bool {
-	if o != nil && !IsNil(o.EntityAttributeValueTo) {
+	if o != nil && o.EntityAttributeValueTo.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetEntityAttributeValueTo gets a reference to the given string and assigns it to the EntityAttributeValueTo field.
+// SetEntityAttributeValueTo gets a reference to the given NullableString and assigns it to the EntityAttributeValueTo field.
 func (o *AuditDto) SetEntityAttributeValueTo(v string) {
-	o.EntityAttributeValueTo = &v
+	o.EntityAttributeValueTo.Set(&v)
+}
+
+// SetEntityAttributeValueToNil sets the value for EntityAttributeValueTo to be an explicit nil
+func (o *AuditDto) SetEntityAttributeValueToNil() {
+	o.EntityAttributeValueTo.Set(nil)
+}
+
+// UnsetEntityAttributeValueTo ensures that no value is present for EntityAttributeValueTo, not even an explicit nil
+func (o *AuditDto) UnsetEntityAttributeValueTo() {
+	o.EntityAttributeValueTo.Unset()
 }
 
 // GetEntityId returns the EntityId field value
@@ -278,68 +311,90 @@ func (o *AuditDto) SetOrgId(v string) {
 	o.OrgId = v
 }
 
-// GetParentEntity returns the ParentEntity field value if set, zero value otherwise.
+// GetParentEntity returns the ParentEntity field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AuditDto) GetParentEntity() string {
-	if o == nil || IsNil(o.ParentEntity) {
+	if o == nil || IsNil(o.ParentEntity.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ParentEntity
+	return *o.ParentEntity.Get()
 }
 
 // GetParentEntityOk returns a tuple with the ParentEntity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AuditDto) GetParentEntityOk() (*string, bool) {
-	if o == nil || IsNil(o.ParentEntity) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ParentEntity, true
+	return o.ParentEntity.Get(), o.ParentEntity.IsSet()
 }
 
 // HasParentEntity returns a boolean if a field has been set.
 func (o *AuditDto) HasParentEntity() bool {
-	if o != nil && !IsNil(o.ParentEntity) {
+	if o != nil && o.ParentEntity.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetParentEntity gets a reference to the given string and assigns it to the ParentEntity field.
+// SetParentEntity gets a reference to the given NullableString and assigns it to the ParentEntity field.
 func (o *AuditDto) SetParentEntity(v string) {
-	o.ParentEntity = &v
+	o.ParentEntity.Set(&v)
 }
 
-// GetParentEntityId returns the ParentEntityId field value if set, zero value otherwise.
+// SetParentEntityNil sets the value for ParentEntity to be an explicit nil
+func (o *AuditDto) SetParentEntityNil() {
+	o.ParentEntity.Set(nil)
+}
+
+// UnsetParentEntity ensures that no value is present for ParentEntity, not even an explicit nil
+func (o *AuditDto) UnsetParentEntity() {
+	o.ParentEntity.Unset()
+}
+
+// GetParentEntityId returns the ParentEntityId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AuditDto) GetParentEntityId() string {
-	if o == nil || IsNil(o.ParentEntityId) {
+	if o == nil || IsNil(o.ParentEntityId.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ParentEntityId
+	return *o.ParentEntityId.Get()
 }
 
 // GetParentEntityIdOk returns a tuple with the ParentEntityId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AuditDto) GetParentEntityIdOk() (*string, bool) {
-	if o == nil || IsNil(o.ParentEntityId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ParentEntityId, true
+	return o.ParentEntityId.Get(), o.ParentEntityId.IsSet()
 }
 
 // HasParentEntityId returns a boolean if a field has been set.
 func (o *AuditDto) HasParentEntityId() bool {
-	if o != nil && !IsNil(o.ParentEntityId) {
+	if o != nil && o.ParentEntityId.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetParentEntityId gets a reference to the given string and assigns it to the ParentEntityId field.
+// SetParentEntityId gets a reference to the given NullableString and assigns it to the ParentEntityId field.
 func (o *AuditDto) SetParentEntityId(v string) {
-	o.ParentEntityId = &v
+	o.ParentEntityId.Set(&v)
+}
+
+// SetParentEntityIdNil sets the value for ParentEntityId to be an explicit nil
+func (o *AuditDto) SetParentEntityIdNil() {
+	o.ParentEntityId.Set(nil)
+}
+
+// UnsetParentEntityId ensures that no value is present for ParentEntityId, not even an explicit nil
+func (o *AuditDto) UnsetParentEntityId() {
+	o.ParentEntityId.Unset()
 }
 
 // GetService returns the Service field value
@@ -435,22 +490,22 @@ func (o AuditDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["audit"] = o.Audit
 	toSerialize["auditType"] = o.AuditType
 	toSerialize["entity"] = o.Entity
-	if !IsNil(o.EntityAttribute) {
-		toSerialize["entityAttribute"] = o.EntityAttribute
+	if o.EntityAttribute.IsSet() {
+		toSerialize["entityAttribute"] = o.EntityAttribute.Get()
 	}
-	if !IsNil(o.EntityAttributeValueFrom) {
-		toSerialize["entityAttributeValueFrom"] = o.EntityAttributeValueFrom
+	if o.EntityAttributeValueFrom.IsSet() {
+		toSerialize["entityAttributeValueFrom"] = o.EntityAttributeValueFrom.Get()
 	}
-	if !IsNil(o.EntityAttributeValueTo) {
-		toSerialize["entityAttributeValueTo"] = o.EntityAttributeValueTo
+	if o.EntityAttributeValueTo.IsSet() {
+		toSerialize["entityAttributeValueTo"] = o.EntityAttributeValueTo.Get()
 	}
 	toSerialize["entityId"] = o.EntityId
 	toSerialize["orgId"] = o.OrgId
-	if !IsNil(o.ParentEntity) {
-		toSerialize["parentEntity"] = o.ParentEntity
+	if o.ParentEntity.IsSet() {
+		toSerialize["parentEntity"] = o.ParentEntity.Get()
 	}
-	if !IsNil(o.ParentEntityId) {
-		toSerialize["parentEntityId"] = o.ParentEntityId
+	if o.ParentEntityId.IsSet() {
+		toSerialize["parentEntityId"] = o.ParentEntityId.Get()
 	}
 	toSerialize["service"] = o.Service
 	if !IsNil(o.Timestamp) {

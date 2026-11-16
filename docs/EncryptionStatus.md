@@ -11,6 +11,8 @@
 
 * `EXTERNAL_ENCRYPTION_KEY_NOT_SUPPLIED` (value: `"ExternalEncryptionKeyNotSupplied"`)
 
+* `EXTERNAL_ENCRYPTION_KEY_GRANT_NOT_READY` (value: `"ExternalEncryptionKeyGrantNotReady"`)
+
 * `CREATION_ERROR` (value: `"CreationError"`)
 
 * `ENCRYPTED_STORAGE_NOT_READY` (value: `"EncryptedStorageNotReady"`)
